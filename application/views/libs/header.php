@@ -7,44 +7,12 @@
                 <div class="cashier-header-content flex items-center justify-between custom-height-70">
                     <div class="cashier-header-breadcrumb">
                         <h5 class="text-[20px] text-heading font-bold mb-1 leading-none">
-                            Dashboard
+                            <a href="home">FAST AGRI</a>
                         </h5>
-                        <ul>
-                            <li class="text-[14px] text-bodyText font-normal inline-block mr-2">
-                                Home
-                            </li>
-                            <li class="text-[12px] text-bodyText font-normal inline-block mr-2 translate-y-0">
-                                <i class="far fa-chevron-right"></i>
-                            </li>
-                            <li class="text-[14px] text-bodyText font-normal inline-block mr-2">
-                                Dashboard
-                            </li>
-                        </ul>
+
                     </div>
                     <div class="flex items-center">
-                        <div
-                            class="cashier-header-shortmenu pr-5 maxSm:pr-4 items-center flex flex-col justify-center custom-height-70">
-                            <a id="shortmenu" href="javascript:void(0)"
-                                class="h-10 w-10 leading-[38px] border border-grayBorder border-solid text-center inline-block rounded-[3px] text-bodyText short">
-                                <i class="fal fa-plus"></i>
-                            </a>
-                            <div class="cashier-quick-dropdown cashier-quick-menu-dropdown">
-                                <ul>
-                                    <li><a href="createbank.html">Add Bank</a></li>
-                                    <li>
-                                        <a href="balancetransfer.html">Create Transfer</a>
-                                    </li>
-                                    <li>
-                                        <a href="createledger.html">Create Ledger</a>
-                                    </li>
-                                    <li><a href="addbill.html">Add Vendor Bill</a></li>
-                                    <li>
-                                        <a href="customerbill.html">Add Customer Bill</a>
-                                    </li>
-                                    <li><a href="adduser.html">Add User</a></li>
-                                </ul>
-                            </div>
-                        </div>
+
                         <div id="sidebarToggle" class="cashier-header-bar-responsive cursor-pointer mr-5">
                             <svg xmlns="http://www.w3.org/2000/svg" width="23.094" height="16.166"
                                 viewBox="0 0 23.094 16.166">
@@ -55,151 +23,8 @@
                         </div>
                         <div
                             class="cashier-header-notify-wrapper px-5 flex items-center border-l border-solid border-grayBorder custom-height-70 pr-0">
-                            <div class="cashier-header-notification pr-5 relative">
-                                <a id="notifydropdown" href="javascript:void(0)" class="noti">
-                                    <svg id="bell" xmlns="http://www.w3.org/2000/svg" width="20.338" height="22.469"
-                                        viewBox="0 0 20.338 22.469">
-                                        <path id="Path_47" data-name="Path 47"
-                                            d="M42.168,14.7a.583.583,0,0,1-.583-.583V10a7.27,7.27,0,0,0-5.1-6.928,2.295,2.295,0,1,0-4.322,0A7.269,7.269,0,0,0,27.072,10v4.116a.583.583,0,0,1-.583.583,2.33,2.33,0,0,0,0,4.66h5.435a2.484,2.484,0,1,0,4.808,0h5.435a2.33,2.33,0,0,0,0-4.66ZM33.357,2.3a.972.972,0,1,1,1.809.5,7.237,7.237,0,0,0-1.672,0,.965.965,0,0,1-.137-.5ZM35.49,19.985a1.161,1.161,0,1,1-2.137-.628h1.953A1.153,1.153,0,0,1,35.49,19.985Zm6.678-1.951H26.49a1.006,1.006,0,0,1,0-2.013A1.908,1.908,0,0,0,28.4,14.115V10a5.933,5.933,0,0,1,11.866,0v4.116a1.908,1.908,0,0,0,1.906,1.906,1.006,1.006,0,0,1,0,2.013Z"
-                                            transform="translate(-24.16 0)" fill="#616161"></path>
-                                    </svg>
-                                </a>
-                                <div class="cashier-notify-dropdown cashier-notification-dropdown">
-                                    <div
-                                        class="cashier-notify-dropdown-wrapper px-4 border border-grayBorder border-solid">
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="message.html"><img src="assets/img/user/user-1.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="message.html">Alex Send you Message</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 02:26 PM</span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="message.html"><img src="assets/img/user/user-2.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="message.html">Peter Send you Message</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 08:36 PM</span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="message.html"><img src="assets/img/user/user-3.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="message.html">Resport created successfully</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 04:45 PM</span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="message.html"><img src="assets/img/user/user-4.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="message.html">Jhon Send you Message</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 07:30 AM</span>
-                                            </div>
-                                        </div>
-                                        <div class="cashier-notify-dropdown-list py-4 flex items-center justify-center">
-                                            <a href="message.html" class="text-[14px] text-bodyText inline-block">See
-                                                all
-                                                <i class="fa-light fa-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cashier-header-email pr-5 relative">
-                                <a id="emaildropdown" href="javascript:void(0)" class="emai">
-                                    <svg id="Layer_3" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg"
-                                        width="20.796" height="16.637" viewBox="0 0 20.796 16.637">
-                                        <path id="Path_49" data-name="Path 49"
-                                            d="M19.239,4H3.557A2.56,2.56,0,0,0,1,6.557V18.08a2.56,2.56,0,0,0,2.557,2.557H19.239A2.56,2.56,0,0,0,21.8,18.08V6.557A2.56,2.56,0,0,0,19.239,4ZM3.557,5.386H19.239A1.172,1.172,0,0,1,20.41,6.557v.53L11.4,12.881,2.386,7.088v-.53A1.172,1.172,0,0,1,3.557,5.386ZM19.239,19.251H3.557A1.172,1.172,0,0,1,2.386,18.08V8.736l8.637,5.552a.693.693,0,0,0,.75,0L20.41,8.736V18.08a1.172,1.172,0,0,1-1.171,1.171Z"
-                                            transform="translate(-1 -4)" fill="#616161"></path>
-                                    </svg>
-                                </a>
-                                <div class="cashier-notify-dropdown cashier-email-dropdown">
-                                    <div
-                                        class="cashier-notify-dropdown-wrapper px-4 border border-grayBorder border-solid">
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="email.html"><img src="assets/img/user/user-1.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="email.html">Alex Send you Message</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 02:26 PM</span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="email.html"><img src="assets/img/user/user-2.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="email.html">Peter Send you Message</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 08:36 PM</span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="email.html"><img src="assets/img/user/user-3.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="email.html">Resport created successfully</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 04:45 PM</span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="cashier-notify-dropdown-list py-4 flex items-center border-b border-grayBorder border-solid">
-                                            <div class="cashier-notify-img">
-                                                <a href="email.html"><img src="assets/img/user/user-4.png"
-                                                        alt="img not found"></a>
-                                            </div>
-                                            <div class="cashier-notify-text">
-                                                <h6>
-                                                    <a href="email.html">Jhon Send you Message</a>
-                                                </h6>
-                                                <span>31 Dec 2021 - 07:30 AM</span>
-                                            </div>
-                                        </div>
-                                        <div class="cashier-notify-dropdown-list py-4 flex items-center justify-center">
-                                            <a href="email.html" class="text-[14px] text-bodyText inline-block">See all
-                                                <i class="fa-light fa-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
                             <div id="langdropdown" class="cashier-header-language flex items-center relative">
                                 <div class="cashier-header-language-content">
                                     <ul>
@@ -242,67 +67,8 @@
                                                 </svg>Edit Profile
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="rolepermission.html">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16.665"
-                                                    viewBox="0 0 17 16.665">
-                                                    <g id="setting-lines" transform="translate(0 -4.503)">
-                                                        <path id="Path_5791" data-name="Path 5791"
-                                                            d="M3.633,53.587H.5a.5.5,0,0,1,0-1H3.633a.5.5,0,0,1,0,1Z"
-                                                            transform="translate(0 -46.294)" fill="#616161"></path>
-                                                        <path id="Path_5792" data-name="Path 5792"
-                                                            d="M86.426,9.083a2.29,2.29,0,1,1,2.29-2.29A2.293,2.293,0,0,1,86.426,9.083Zm0-3.58a1.29,1.29,0,1,0,1.29,1.29A1.292,1.292,0,0,0,86.426,5.5Z"
-                                                            transform="translate(-81.003)" fill="#616161"></path>
-                                                        <path id="Path_5793" data-name="Path 5793"
-                                                            d="M236.978,53.587h-7.473a.5.5,0,1,1,0-1h7.473a.5.5,0,0,1,0,1Z"
-                                                            transform="translate(-220.478 -46.294)" fill="#616161">
-                                                        </path>
-                                                        <path id="Path_5794" data-name="Path 5794"
-                                                            d="M266.719,171.354a2.29,2.29,0,1,1,2.29-2.29A2.293,2.293,0,0,1,266.719,171.354Zm0-3.58a1.29,1.29,0,1,0,1.29,1.29A1.292,1.292,0,0,0,266.719,167.774Z"
-                                                            transform="translate(-254.583 -156.229)" fill="#616161">
-                                                        </path>
-                                                        <path id="Path_5795" data-name="Path 5795"
-                                                            d="M8.532,215.85H.5a.5.5,0,0,1,0-1H8.532a.5.5,0,0,1,0,1Z"
-                                                            transform="translate(0 -202.515)" fill="#616161"></path>
-                                                        <path id="Path_5796" data-name="Path 5796"
-                                                            d="M363.66,215.85h-2.573a.5.5,0,0,1,0-1h2.573a.5.5,0,0,1,0,1Z"
-                                                            transform="translate(-347.16 -202.515)" fill="#616161">
-                                                        </path>
-                                                        <path id="Path_5797" data-name="Path 5797"
-                                                            d="M71.4,333.618a2.29,2.29,0,1,1,2.29-2.29A2.293,2.293,0,0,1,71.4,333.618Zm0-3.58a1.29,1.29,0,1,0,1.29,1.29A1.292,1.292,0,0,0,71.4,330.037Z"
-                                                            transform="translate(-66.54 -312.45)" fill="#616161"></path>
-                                                        <path id="Path_5798" data-name="Path 5798"
-                                                            d="M222.511,378.114h-8.032a.5.5,0,1,1,0-1h8.032a.5.5,0,1,1,0,1Z"
-                                                            transform="translate(-206.011 -358.737)" fill="#616161">
-                                                        </path>
-                                                        <path id="Path_5799" data-name="Path 5799"
-                                                            d="M3.073,378.113H.5a.5.5,0,0,1,0-1H3.073a.5.5,0,0,1,0,1Z"
-                                                            transform="translate(0 -358.736)" fill="#616161"></path>
-                                                    </g>
-                                                </svg>Appearance
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" class="relative">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17"
-                                                    viewBox="0 0 17 17">
-                                                    <path id="world-wide-web"
-                                                        d="M16.529,11.3a8.5,8.5,0,0,0,0-5.593.612.612,0,0,0-.027-.077,8.5,8.5,0,0,0-16,0A.6.6,0,0,0,.475,5.7a8.5,8.5,0,0,0,0,5.593.612.612,0,0,0,.027.077,8.5,8.5,0,0,0,16,0A.607.607,0,0,0,16.529,11.3ZM8.5,15.782c-.324,0-.846-.586-1.282-1.895a13.344,13.344,0,0,1-.5-2.147h3.568a13.355,13.355,0,0,1-.5,2.147C9.348,15.2,8.826,15.782,8.5,15.782ZM6.57,10.521c-.059-.65-.09-1.327-.09-2.021s.031-1.371.09-2.021h3.863c.059.65.09,1.327.09,2.021s-.031,1.371-.09,2.021ZM1.22,8.5a7.261,7.261,0,0,1,.286-2.021H5.348c-.057.663-.086,1.343-.086,2.021s.029,1.358.086,2.021H1.506A7.261,7.261,0,0,1,1.22,8.5ZM8.5,1.218c.324,0,.846.586,1.282,1.895a13.345,13.345,0,0,1,.5,2.147H6.718a13.343,13.343,0,0,1,.5-2.147C7.656,1.8,8.178,1.218,8.5,1.218Zm3.154,5.261H15.5a7.294,7.294,0,0,1,0,4.042H11.656c.057-.663.086-1.343.086-2.021S11.713,7.142,11.656,6.479Zm3.366-1.218H11.516a11.694,11.694,0,0,0-1.11-3.789A7.313,7.313,0,0,1,15.022,5.261ZM6.6,1.472a11.694,11.694,0,0,0-1.11,3.789H1.982A7.314,7.314,0,0,1,6.6,1.472ZM1.982,11.74H5.488A11.7,11.7,0,0,0,6.6,15.529,7.313,7.313,0,0,1,1.982,11.74Zm8.424,3.789a11.694,11.694,0,0,0,1.11-3.789h3.506A7.313,7.313,0,0,1,10.406,15.529Z"
-                                                        transform="translate(-0.002)" fill="#616161"></path>
-                                                </svg>Language
-                                            </a>
-                                            <ul class="lang-sub-down">
-                                                <li>
-                                                    <a href="javascript:void(0)">English</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0)">Spanish</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0)">Chinese</a>
-                                                </li>
-                                            </ul>
-                                        </li>
+
+
                                         <li>
                                             <a href="index.html">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16.944"
