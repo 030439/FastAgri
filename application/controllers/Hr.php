@@ -13,12 +13,13 @@ class Hr extends CI_Controller {
 	{
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/add-employee"]);
 	}
-	public function category()
+	
+	public function issuelabour()
 	{
-		$this->load->view('layout/parts',['page'=>"pages/human-resource/category"]);
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour"]);
 	}
-	public function labourlist()
+	public function Advance()
 	{
-		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour-list"]);
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/advance"]);
 	}
 }

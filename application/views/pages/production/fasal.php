@@ -1,58 +1,63 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Add Vehical</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9">Add Fasal</h4>
     <div class="grid grid-cols-12 gap-x-5">
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
-            <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Vehical Name</h5>
-                <div class="cashier-input-field-style">
+
+
+        <div class="lg:col-span-3 md:col-span-5 col-span-12 flex items-center">
+
+            <div class="cashier-select-field  flex items-center flex-1">
+                <label class="text-[15px] text-heading font-semibold  mr-2" for="fasalInput">Fasal :</label>
+                <div class="cashier-input-field-style flex-1 mr-2">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder=" Vehical Name">
+                        <input id="fasalInput" type="text" placeholder="Fasal">
                     </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <div class="lg:col-span-6 md:col-span-6 col-span-12 flex items-center">
+
+            <div class="cashier-select-field  flex items-center flex-1">
+                <label class="text-[15px] text-heading font-semibold  mr-2" for="fasalInput">Packaging Unit :</label>
+                <div class="cashier-input-field-style flex-1 mr-2">
+                    <div class="single-input-field w-full">
+                        <input id="fasalInput" type="text" placeholder="Packaging Unit">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-span-12">
+                <div class="cashier-managesale-top-btn default-light-theme ">
+                    <button class="btn-primary ml-auto" type="submit" style="margin-bottom: 0;">Add Now</button>
                 </div>
             </div>
         </div>
 
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
-            <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Registration No</h5>
-                <div class="cashier-input-field-style">
-                    <div class="single-input-field w-full">
-                        <input type="text" placeholder="Registration No">
-                    </div>
-                </div>
-            </div>
-        </div>
 
-
-
-
-
-
-
-
-
-        <div class="col-span-12">
-            <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
-                <button class="btn-primary" type="submit">Add Now</button>
-            </div>
-        </div>
     </div>
 </div>
+
+
+
 
 <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
     <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
     <div class="cashier-managesale-top-btn default-light-theme mb-7">
-        <button class="mb-1" onclick="document.location='createbank.html'">
-            <i class="fa-light fa-plus"></i> Create Bank
+        <button class="mb-1" onclick="document.location='production/proready'">
+            <i class="fa-light fa-plus"></i>Add Product
         </button>
         <div class="mb-1 btn-primary button">
-            <i class="fa-light fa-folder-plus"></i>
-            <span class="cashier-input-field-style relative inline-block">
-                <span class="cashier-input-field-file">
-                    <input type="file" id="fileUpload">
-                    <label for="fileUpload">Import Product</label>
-                </span>
-            </span>
+            <button class="mb-1" onclick="document.location='production/prodetail'"
+                style="background:#6f4ef6; color:#fff;">
+                Detail Product
+            </button>
+
+
         </div>
     </div>
     <div class="cashier-table-header-search-area">
