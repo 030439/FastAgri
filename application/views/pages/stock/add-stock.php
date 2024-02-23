@@ -54,27 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
-            <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Name</h5>
-                <div class="cashier-select-field-style">
-                    <select class="block" style="display: none;">
-                        <option selected="" disabled="" value="default">Select Vendor</option>
-                        <option value="language-1">Jonathan Deo</option>
-                        <option value="language-2">Andrew Tye</option>
-                        <option value="language-3">Peter Parkar</option>
-                    </select>
-                    <div class="nice-select block" tabindex="0"><span class="current">Select Vendor</span>
-                        <ul class="list">
-                            <li data-value="default" class="option selected disabled focus">Select Vendor</li>
-                            <li data-value="language-1" class="option">Jonathan Deo</li>
-                            <li data-value="language-2" class="option">Andrew Tye</li>
-                            <li data-value="language-3" class="option">Peter Parkar</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
 
 
