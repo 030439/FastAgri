@@ -167,7 +167,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="has-arrow">
+                        <a href="Vehicle/add">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
 
                                 <path
@@ -175,12 +175,7 @@
                                 </path>
                             </svg>Vehicle
                         </a>
-                        <ul class="mm-collapse">
-                            <li><a href="Vehicle/add">Add Vehicle</a></li>
-                            <li><a href="Vehicle">List Vehicle</a></li>
-                            <li><a href="Vehicle/issuelist">Issued Vehicle List</a></li>
 
-                        </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="has-arrow">
@@ -192,17 +187,19 @@
                             </svg>Human Resource
                         </a>
                         <ul class="mm-collapse">
-                            <li><a href="hr/category">Category</a></li>
+
                             <li><a href="hr/add">Add employee</a></li>
                             <li><a href="hr">List employee</a></li>
-                            <li><a href="hr/labourlist">Issued Labour List</a></li>
-
+                            <li><a href="hr/issuelabour">Issued Labour </a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">PayRoll</a>
                                 <ul class="mm-collapse">
-                                    <li><a href="#">List PayRoll</a></li>
-                                    <li><a href="#">Advance Salary </a></li>
+                                    <li><a href="payroll/add">Add payroll</a></li>
+                                    <li><a href="payroll">Genterative List PayRoll</a></li>
                                 </ul>
                             </li>
+                            <li><a href="hr/Advance">Advance/Loan</a></li>
+
+
 
                         </ul>
                     </li>

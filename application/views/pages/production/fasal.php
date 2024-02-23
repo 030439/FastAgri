@@ -25,7 +25,7 @@
                 <label class="text-[15px] text-heading font-semibold  mr-2" for="fasalInput">Packaging Unit :</label>
                 <div class="cashier-input-field-style flex-1 mr-2">
                     <div class="single-input-field w-full">
-                        <input id="fasalInput" type="text" placeholder="Fasal">
+                        <input id="fasalInput" type="text" placeholder="Packaging Unit">
                     </div>
                 </div>
             </div>
