@@ -1,5 +1,6 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
     <h4 class="text-[20px] font-bold text-heading mb-9">Add Purchase</h4>
+    <form action="purchase/save" method="post">
     <div class="grid grid-cols-12 gap-x-5">
 
 
@@ -101,4 +102,5 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
