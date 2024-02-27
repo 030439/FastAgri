@@ -1,5 +1,6 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
     <h4 class="text-[20px] font-bold text-heading mb-9">Add Tunnels</h4>
+    <form action="tunnels/save" method="post">
     <div class="grid grid-cols-12 gap-x-5" style="align-items: center;">
         <div class="lg:col-span-4 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
@@ -86,13 +87,7 @@
             </div>
         </div>
 
-        <!-- <div class="cashier-header-shortmenu pr-5 maxSm:pr-4 items-center flex flex-col justify-center custom-height-70"
-            style="padding: 13px 0 0 0; cursor:pointer;">
-            <div
-                class=" h-10 w-10 leading-[38px] border border-grayBorder border-solid text-center inline-block rounded-[3px] text-bodyText short">
-                <i class="fal fa-plus"></i>
-            </div>
-        </div> -->
+       
 
         <!-- HTML -->
         <div class="cashier-header-shortmenu pr-5 maxSm:pr-4 items-center flex flex-col justify-center custom-height-70"
@@ -184,4 +179,5 @@
             </div>
         </div>
     </div>
+    </form>
 </div>

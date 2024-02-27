@@ -13,4 +13,7 @@ class Shareholders extends CI_Controller {
 	{
 		$this->load->view('layout/parts',['page'=>"pages/shareholders/add-shareholders"]);
 	}
+	public function save(){
+       
+    }
 }

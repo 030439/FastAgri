@@ -13,4 +13,7 @@ class Purchase extends CI_Controller {
 	{
 		$this->load->view('layout/parts',['page'=>"pages/purchase/add-purchase"]);
 	}
+	public function save(){
+       
+    }
 }

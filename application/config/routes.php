@@ -52,3 +52,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+//shareholder routes 
+
+$route['shareholders']="shareholders/index"; //shareholder list
+$route['shareholder/save']="shareholders/save"; //shareholder form data submission
+$route['shareholder/add']="shareholders/add"; //shareholder form view 
+// tunnels routes
+$route['tunnels']="tunnels/index"; //tunnels list
+$route['tunnels/save']="tunnels/save"; //tunnels form data submission
+
+// purchase routes
+$route['purchase/add']="purchase/add"; //purchase form view 
+$route['purchase']="purchase/index"; //purchase list
+$route['purchase/save']="purchase/save"; //purchase form data submission
+$route['purchase/add']="purchase/add"; //purchase form view 
