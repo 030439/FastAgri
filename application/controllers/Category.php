@@ -8,5 +8,9 @@ class Category extends CI_Controller
     {
         $this->load->view('layout/parts', ['page' => "pages/setup/category"]);
     }
+    public function unit()
+    {
+        $this->load->view('layout/parts', ['page' => "pages/setup/unit"]);
+    }
 
 }

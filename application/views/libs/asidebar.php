@@ -182,6 +182,7 @@
                         </a>
                         <ul class="mm-collapse">
                             <li><a href="category"> Employee Category</a></li>
+                            <li><a href="category/unit"> Unit</a></li>
 
 
                         </ul>
@@ -235,7 +236,7 @@
                         </a>
                         <ul class="mm-collapse">
                             <li><a href="createledger.html">CashBook</a></li>
-                            <li><a href="ledgerlist.html">Account Heads</a></li>
+                            <li><a href="AccountHeads">Account Heads</a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">Expenses</a>
                                 <ul class="mm-collapse">
                                     <li><a href="#">Add Expenses</a></li>
