@@ -372,4 +372,94 @@
             </div>
         </div>
 
+
+
+
+
     </div>
+
+
+    <div class="grid grid-cols-12 gap-x-5" style="align-items: center;">
+
+        <div class="lg:col-span-5 md:col-span-6 col-span-12" >
+                <div class="cashier-select-field ">
+
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input readonly type="text" style="text-align:center" placeholder="Total" style=" padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 md:col-span-6 col-span-12" style="grid-column: span 1 / span 6;">
+                <div class="cashier-select-field ">
+
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input readonly type="text" style="text-align:center" placeholder="bags" style=" padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 md:col-span-6 col-span-12" style="grid-column: span 1 / span 6;">
+                <div class="cashier-select-field ">
+
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input readonly type="text" style="text-align:center;background: #fff;
+    border: 0;cursor: default;" placeholder="" style=" padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="lg:col-span-1 md:col-span-6 col-span-12" style="grid-column: span 1 / span 6;">
+                <div class="cashier-select-field ">
+
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input readonly type="text"  placeholder="Amount" style=" padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-1 md:col-span-6 col-span-12" style="grid-column: span 1 / span 6;">
+                <div class="cashier-select-field ">
+
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input readonly type="text" style="text-align:center" placeholder="Feright" style=" padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="lg:col-span-1 md:col-span-6 col-span-12" style="grid-column: span 1 / span 6;">
+                <div class="cashier-select-field ">
+
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input readonly type="text" style="text-align:center" placeholder="Labour" style=" padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="lg:col-span-1 md:col-span-6 col-span-12" style="grid-column: span 1 / span 6;">
+                <div class="cashier-select-field ">
+
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input readonly type="text"  placeholder="Net Amount" style=" padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</div>
