@@ -19,7 +19,9 @@
   --clr-theme-themeWarn: #DF7272;
   --clr-theme-themePerple: #866AD4;
 }
-
+.error-message{
+  color:red !important;
+}
 html, body {
   height: 100%;
 }

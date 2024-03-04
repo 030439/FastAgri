@@ -53,10 +53,12 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 //shareholder routes 
-
-$route['shareholders']="shareholders/index"; //shareholder list
-$route['shareholder/save']="shareholders/save"; //shareholder form data submission
+$route['shareholders']="shareholders/index"; //shareholder list/read
 $route['shareholder/add']="shareholders/add"; //shareholder form view 
+$route['shareholder/create']="shareholders/create"; //shareholder form data submission
+$route['shareholder/edit/(:num)'] = 'shareholders/edit/$1'; //form for edit 
+$route['shareholder/update'] = 'shareholders/update'; //data update
+// $route['shareholder/delete/(:num)'] = 'shareholders/delete/$1'; //data delete
 // tunnels routes
 $route['tunnels']="tunnels/index"; //tunnels list
 $route['tunnels/save']="tunnels/save"; //tunnels form data submission
@@ -66,3 +68,5 @@ $route['purchase/add']="purchase/add"; //purchase form view
 $route['purchase']="purchase/index"; //purchase list
 $route['purchase/save']="purchase/save"; //purchase form data submission
 $route['purchase/add']="purchase/add"; //purchase form view 
+ //Unit Curd
+ $route['unit/create']="Unit/create"; //purchase form view 
