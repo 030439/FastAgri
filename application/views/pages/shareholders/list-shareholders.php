@@ -2,18 +2,10 @@
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
         <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
         <div class="cashier-managesale-top-btn default-light-theme mb-7">
-            <button class="mb-1" onclick="document.location='createbank.html'">
-                <i class="fa-light fa-plus"></i> Create Bank
+            <button class="mb-1" onclick="document.location='shareholder/create'">
+                <i class="fa-light fa-plus"></i> Add Shareholder
             </button>
-            <div class="mb-1 btn-primary button">
-                <i class="fa-light fa-folder-plus"></i>
-                <span class="cashier-input-field-style relative inline-block">
-                    <span class="cashier-input-field-file">
-                        <input type="file" id="fileUpload">
-                        <label for="fileUpload">Import Product</label>
-                    </span>
-                </span>
-            </div>
+           
         </div>
         <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
@@ -123,20 +115,21 @@
                             <h5> Name</h5>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                            <h5>Phone</h5>
+                            <h5>Phone No</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-totalB">
+                            <h5></h5>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                            <h5>Address</h5>
+                            <h5>CNIC  </h5>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <h5>Phone </h5>
+                        <div class="cashier-salereturns-table-totalB">
+                            <h5>Address</h5>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
                             <h5>Capital Amount</h5>
                         </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <h5>Initial Balance</h5>
-                        </div>
+                       
                         <div class="cashier-salereturns-table-remarkB">
                             <h5>Status</h5>
                         </div>
@@ -158,25 +151,26 @@
                                 <span><?php print_r($d->Name);?></span>
                             </div>
                             <div class="cashier-salereturns-table-referenceB">
-                                <span>Canterbury</span>
+                            <span><?php print_r($d->phone);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-referenceB">
+                            <span></span>
                             </div>
                             <div class="cashier-salereturns-table-customerB">
-                                <span>56456596545</span>
+                            <span><?php print_r($d->cnic);?></span>
                             </div>
                             <div class="cashier-salereturns-table-warehouseB">
-                                <span>BDevs Technology</span>
+                            <span><?php print_r($d->address);?></span>
                             </div>
                             <div class="cashier-salereturns-table-billerB">
-                                <span>+02 585 369 202</span>
+                            <span><?php print_r($d->capital_amount);?></span>
                             </div>
-                            <div class="cashier-salereturns-table-totalB">
-                                <span>$58,45,255</span>
-                            </div>
+                        
                             <div class="cashier-salereturns-table-remarkB">
                                 <span>
                                     <span
                                         class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                        Completed</span>
+                                        Active</span>
                                 </span>
                             </div>
                             <div class="cashier-salereturns-table-actionB">
