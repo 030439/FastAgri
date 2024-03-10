@@ -26,7 +26,7 @@
                         <input type="text" name="phone" placeholder="(+2) 455 025 327">
                         <?php if (form_error('phone')): ?>
                         <div class="error-message" ><?= form_error('phone'); ?></div>
-                    <?php endif ?>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,10 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="Address">
+                        <input type="text" name="address" placeholder="Address">
+                        <?php if (form_error('address')): ?>
+                        <div class="error-message" ><?= form_error('address'); ?></div>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>
@@ -48,7 +51,10 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC Number</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="41111-1111111-1">
+                        <input type="text" name="cnic" placeholder="41111-1111111-1">
+                        <?php if (form_error('cnic')): ?>
+                        <div class="error-message" ><?= form_error('cnic'); ?></div>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>
@@ -59,7 +65,10 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Capital Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="5000">
+                        <input type="text" name="capital_amount" placeholder="5000">
+                        <?php if (form_error('capital_amount')): ?>
+                        <div class="error-message" ><?= form_error('capital_amount'); ?></div>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>

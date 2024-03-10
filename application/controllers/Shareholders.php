@@ -11,10 +11,9 @@ class Shareholders extends CI_Controller {
     }
 	public function index()
 	{
-		$data['shareholder'] = $this->ShareHolder_model->getshareholders();
+		$data= $this->ShareHolder_model->getshareholders();
 
       
-        $data['shareholder'] = ($data['shareholder']);
    
 		$this->load->view('layout/parts',['page'=>"pages/shareholders/list-shareholders",'data'=>$data]);
 	}
@@ -37,7 +36,10 @@ class Shareholders extends CI_Controller {
 
     public function create() {
         $this->form_validation->set_rules('name', 'Name', 'required');
-        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('phone', 'Phone', 'required');
+        $this->form_validation->set_rules('address', 'Address', 'required');
+        $this->form_validation->set_rules('capital_amount', 'Capital Amount', 'required');
+        $this->form_validation->set_rules('cnic', 'CNIC', 'required');
         if ($this->form_validation->run() == FALSE) {
 			$this->load->view('layout/parts',['page'=>"pages/shareholders/add-shareholders"]);
         }
