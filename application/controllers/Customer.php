@@ -10,7 +10,8 @@ class Customer extends CI_Controller {
     }
 	public function index()
 	{
-		$this->load->view('layout/parts',['page'=>"pages/customer/list-customer"]);
+		$data= $this->Customer_model->getCustomers();
+		$this->load->view('layout/parts',['page'=>"pages/customer/list-customer",'data'=>$data]);
 	}
 	
 	public function add()
@@ -30,8 +31,7 @@ class Customer extends CI_Controller {
 		 else {
             // XSS cleaning for input data
             $data = $this->input->post(NULL, TRUE);
-			$data['id']=6;
-            $data = ($data);
+		
            $res= $this->Customer_model->createCustomer($data);
 		   $this->response($res,'customer',"Data Inserted Successfully");
         }

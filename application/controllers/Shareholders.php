@@ -46,8 +46,7 @@ class Shareholders extends CI_Controller {
 		 else {
             // XSS cleaning for input data
             $data = $this->input->post(NULL, TRUE);
-			$data['id']=6;
-            $data = ($data);
+		
            $res= $this->ShareHolder_model->createShareholder($data);
 		   $this->response($res,'shareholders',"Data Inserted Successfully");
         }

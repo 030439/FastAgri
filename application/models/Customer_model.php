@@ -7,26 +7,26 @@ class Customer_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
-    public function getshareholders() {
-        $shareholders = $this->db->get('shareholders')->result();
-        return $shareholders;
+    public function getCustomers() {
+        $customers = $this->db->get('customers')->result();
+        return $customers;
     }
 
     public function createCustomer($data) {
         return $this->db->insert('customers', $data);
     }
 
-    public function getshareholderById($id) {
-        $shareholder = $this->db->get_where('shareholders', ['id' => $id])->row();
-        return $shareholder;
+    public function getcustomerById($id) {
+        $customer = $this->db->get_where('customers', ['id' => $id])->row();
+        return $customer;
     }
 
-    public function updateShareHolder($id, $data) {
+    public function updatecustomer($id, $data) {
       $this->db->where('id', $id);
-       return  $this->db->update('shareholders', $data);
+       return  $this->db->update('customers', $data);
     }
 
-    public function deleteshareholder($id) {
-        return $this->db->delete('shareholders', ['id' => $id]);
+    public function deletecustomer($id) {
+        return $this->db->delete('customers', ['id' => $id]);
     }
 }
