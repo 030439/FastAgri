@@ -32,7 +32,7 @@ class Customer extends CI_Controller {
             $data = $this->input->post(NULL, TRUE);
 			$data['id']=6;
             $data = ($data);
-           $res= $this->ShareHolder_model->createShareholder($data);
+           $res= $this->Customer_model->createCustomer($data);
 		   $this->response($res,'customer',"Data Inserted Successfully");
         }
     }
