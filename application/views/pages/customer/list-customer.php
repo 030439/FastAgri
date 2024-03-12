@@ -14,6 +14,7 @@
                         <span>
                             <i class="fa-light fa-magnifying-glass"></i>
                         </span>
+                        
                     </div>
                 </div>
                 <div class="md:col-span-6 col-span-12">

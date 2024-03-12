@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-
+<!-- section -->
         <div class="lg:col-span-4 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Phone</h5>
