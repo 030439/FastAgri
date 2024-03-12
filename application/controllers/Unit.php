@@ -12,14 +12,15 @@ class Unit extends CI_Controller
     }
     public function index()
     {
-        $this->load->view('layout/parts', ['page' => "pages/setup/unit"]);
+        $data = $this->Setup_model->getunit();
+        $this->load->view('layout/parts', ['page' => "pages/setup/unit", 'data' => $data]);
     }
     public function create()
     {
         $this->form_validation->set_rules('Name', 'Name', 'required');
 
         if ($this->form_validation->run() == false) {
-            $this->load->view('layout/parts', ['page' => "pages/setup/unit"]);
+            $this->index();
         } else {
             // XSS cleaning for input data
             $data['Name'] = $this->input->post('Name');
@@ -32,6 +33,15 @@ class Unit extends CI_Controller
 
         }
     }
+    public function getall()
+    {
+
+        $data = $this->getunit();
+        print_r($data);
+        die;
+        $this->load->view('layout/parts', ['page' => "pages/setup/unit", 'data' => $data]);
+    }
+
     public function response($res, $route, $msg)
     {
         if ($res) {

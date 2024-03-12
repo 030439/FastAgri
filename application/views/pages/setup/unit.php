@@ -169,41 +169,45 @@
                         <h5>Action</h5>
                     </div>
                 </div>
-                <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                    <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                        <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
-                            class="checkme">
-                    </div>
-                    <div class="cashier-salereturns-table-dateB">
-                        <span>kg</span>
-                    </div>
 
-                    <div class="cashier-salereturns-table-remarkB">
-                        <span>
-                            <span
-                                class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                Completed</span>
-                        </span>
-                    </div>
-                    <div class="cashier-salereturns-table-actionB">
-                        <div class="dropdown">
-                            <button class="common-action-menu-style">Action
-                                <i class="fa-sharp fa-solid fa-caret-down"></i>
-                            </button>
-                            <div class="dropdown-list">
-                                <button class="dropdown-menu-item">
-                                    <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                    <span>Update</span>
-                                </button>
-                                <button class="dropdown-menu-item">
-                                    <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                    <span>Delete</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<?php if (!empty($data)):
+    foreach ($data as $d):
+    ?>
+		                <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
+		                    <div class="cashier-salereturns-table-checkboxB default-light-theme">
+		                        <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
+		                            class="checkme">
+		                    </div>
+		                    <div class="cashier-salereturns-table-dateB">
+		                        <span><?php echo $d->Name; ?></span>
+		                    </div>
 
+		                    <div class="cashier-salereturns-table-remarkB">
+		                        <span>
+		                            <span
+		                                class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
+		                                Completed</span>
+		                        </span>
+		                    </div>
+		                    <div class="cashier-salereturns-table-actionB">
+		                        <div class="dropdown">
+		                            <button class="common-action-menu-style">Action
+		                                <i class="fa-sharp fa-solid fa-caret-down"></i>
+		                            </button>
+		                            <div class="dropdown-list">
+		                                <button class="dropdown-menu-item">
+		                                    <img src="assets/img/icon/action-2.png" alt="icon not found">
+		                                    <span>Update</span>
+		                                </button>
+		                                <button class="dropdown-menu-item">
+		                                    <img src="assets/img/icon/action-6.png" alt="icon not found">
+		                                    <span>Delete</span>
+		                                </button>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		<?php endforeach;endif;?>
 
 
 
