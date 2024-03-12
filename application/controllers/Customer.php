@@ -15,7 +15,7 @@ class Customer extends CI_Controller {
 	}
 	
 	public function add()
-	{
+	{ 
 		$this->load->view('layout/parts',['page'=>"pages/customer/add-customer"]);
 	}
 	public function create() {
