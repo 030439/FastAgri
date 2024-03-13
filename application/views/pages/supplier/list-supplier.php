@@ -139,22 +139,19 @@
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <span>National Bank</span>
+                            <span><?php ShowVal($d->Name);?></span>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                            <span>Canterbury</span>
+                            <span><?php ShowVal($d->company_name);?></span>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                            <span>56456596545</span>
+                            <span><?php ShowVal($d->contact);?></span>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                            <span>BDevs Technology</span>
+                            <span><?php ShowVal($d->cnic);?></span>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                            <span>+02 585 369 202</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$58,45,255</span>
+                            <span><?php ShowVal($d->Address);?></span>
                         </div>
                         <div class="cashier-salereturns-table-remarkB">
                             <span>
