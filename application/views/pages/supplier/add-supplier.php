@@ -15,11 +15,22 @@
             </div>
             <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="text" placeholder="44444-3232323-1" name="cnic">
+                            <?php validator('cnic');?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-4 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Company</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Company" name="company">
-                            <?php validator('company');?>
+                            <input type="text" placeholder="Company" name="company_name">
+                            <?php validator('company_name');?>
                         </div>
                     </div>
                 </div>
@@ -40,8 +51,8 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Address" name="address">
-                            <?php validator('address');?>
+                            <input type="text" placeholder="Address" name="Address">
+                            <?php validator('Address');?>
                         </div>
                     </div>
                 </div>
