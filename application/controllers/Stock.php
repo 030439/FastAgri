@@ -21,12 +21,14 @@ class Stock extends CI_Controller {
 		$this->load->view('layout/parts',['page'=>"pages/stock/add-stock",'data'=>$data]);
 	}
     public function insertProduct() {
+		
         $this->form_validation->set_rules('Name', 'Name', 'required');
+		$this->form_validation->set_rules('company', 'Company', 'required');
         $this->form_validation->set_rules('unit_id', 'Unit ', 'required');
         $this->form_validation->set_rules('qunatity', 'quantity', 'required');
         $this->form_validation->set_rules('rate', 'Rate', 'required');
         if ($this->form_validation->run() == FALSE) {
-			$this->load->view('layout/parts',['page'=>"pages/shareholders/add-shareholders"]);
+			$this->add();
         }
 		 else {
             // XSS cleaning for input data
