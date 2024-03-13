@@ -16,8 +16,9 @@ class Setup_model extends CI_Model
 
     public function getunit()
     {
-        $unit = $this->db->get('units')->order('desc')->result();
+        $units = $this->db->order_by('id', 'desc')->get('units')->result();
 
-        return $unit;
+
+        return $units;
     }
 }

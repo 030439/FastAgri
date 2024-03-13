@@ -28,7 +28,18 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Unit</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="unit">
+                        <select class="block single-input-field w-full" name="unit" >
+                            <option  disabled="disabled">Select Unit</option>
+                            <?php 
+                                if(!empty($data)):
+                                foreach($data as $d):    
+                            ?>
+                            <option value="<?php echo $d->id?>"><?php echo $d->Name?></option>
+                            <?php 
+                                endforeach;
+                                endif;
+                            ?>
+                        </select>
                         </div>
                     </div>
                 </div>

@@ -11,19 +11,20 @@ class Stock extends CI_Controller {
 	public function index()
 	{
 		$data=$this->Setup_model->getunit();
+		print_r($data);die;
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-stock",'data'=>$data]);
 	}
 	
 	public function add()
 	{
-		$this->load->view('layout/parts',['page'=>"pages/stock/add-stock"]);
+		$data=$this->Setup_model->getunit();
+		$this->load->view('layout/parts',['page'=>"pages/stock/add-stock",'data'=>$data]);
 	}
     public function insertProduct() {
-        $this->form_validation->set_rules('name', 'Name', 'required');
-        $this->form_validation->set_rules('phone', 'Phone', 'required');
-        $this->form_validation->set_rules('address', 'Address', 'required');
-        $this->form_validation->set_rules('capital_amount', 'Capital Amount', 'required');
-        $this->form_validation->set_rules('cnic', 'CNIC', 'required');
+        $this->form_validation->set_rules('Name', 'Name', 'required');
+        $this->form_validation->set_rules('unit_id', 'Unit ', 'required');
+        $this->form_validation->set_rules('qunatity', 'quantity', 'required');
+        $this->form_validation->set_rules('rate', 'Rate', 'required');
         if ($this->form_validation->run() == FALSE) {
 			$this->load->view('layout/parts',['page'=>"pages/shareholders/add-shareholders"]);
         }

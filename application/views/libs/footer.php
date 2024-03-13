@@ -1,5 +1,5 @@
  <!-- pre loader area start -->
- <div id="loading">
+ <!-- <div id="loading">
      <div id="loading-center">
          <div id="loading-center-absolute">
              <div class="loading-icon text-center flex flex-col items-center justify-center">
@@ -8,7 +8,7 @@
              </div>
          </div>
      </div>
- </div>
+ </div> -->
  <!-- pre loader area end -->
 
 
