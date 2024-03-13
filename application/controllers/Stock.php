@@ -20,6 +20,11 @@ class Stock extends CI_Controller {
 		$data=$this->Setup_model->getunit();
 		$this->load->view('layout/parts',['page'=>"pages/stock/add-stock",'data'=>$data]);
 	}
+	public function addProduct()
+	{
+		$data=$this->Setup_model->getunit();
+		$this->load->view('layout/parts',['page'=>"pages/stock/add-product",'data'=>$data]);
+	}
     public function insertProduct() {
 		
         $this->form_validation->set_rules('Name', 'Name', 'required');
