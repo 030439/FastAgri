@@ -70,5 +70,7 @@ $route['purchase'] = "purchase/index"; //purchase list
 $route['purchase/save'] = "purchase/save"; //purchase form data submission
 $route['purchase/add'] = "purchase/add"; //purchase form view
 //Unit Curd
-$route['unit/create'] = "Unit/create"; //purchase form view
+$route['unit/create'] = "Unit/create"; //purchase form view 
 $route['units/list'] = "Unit/index"; //purchase form view
+//Stock
+$route['stock/add']='Stock/add';
