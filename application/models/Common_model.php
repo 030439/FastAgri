@@ -7,7 +7,7 @@ class Common_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
-    public function getAll() {
+    public function getAll($table){
         $all = $this->db->get($table)->result();
         return $all;
     }

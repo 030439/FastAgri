@@ -27,7 +27,12 @@ if (!function_exists('response')) {
         redirect($route);
     }
 }
-
+if (!function_exists('ShowVal')) {
+    function ShowVal($data)
+    {
+        echo htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    }
+}
 
 
 ?>
