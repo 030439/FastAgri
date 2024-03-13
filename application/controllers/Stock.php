@@ -6,6 +6,7 @@ class Stock extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('Setup_model');
+		$this->load->model('Stock_model');
         $this->load->library('form_validation');
     }
 	public function index()
@@ -20,12 +21,31 @@ class Stock extends CI_Controller {
 		$data=$this->Setup_model->getunit();
 		$this->load->view('layout/parts',['page'=>"pages/stock/add-stock",'data'=>$data]);
 	}
+	public function productList(){
+		$data=$this->Stock_model->getProducts();
+	
+		$this->load->view('layout/parts',['page'=>"pages/stock/products",'data'=>$data]);
+	}
 	public function addProduct()
 	{
 		$data=$this->Setup_model->getunit();
 		$this->load->view('layout/parts',['page'=>"pages/stock/add-product",'data'=>$data]);
 	}
     public function insertProduct() {
+		
+        $this->form_validation->set_rules('Name', 'Name', 'required');
+        $this->form_validation->set_rules('unit_id', 'Unit ', 'required');
+        if ($this->form_validation->run() == FALSE) {
+			$this->addProduct();
+        }
+		 else {
+            $data = $this->input->post(NULL, TRUE);
+		
+           $res= $this->Stock_model->insertProduct($data);
+		   $this->response($res,'stock/products',"Data Inserted Successfully");
+        }
+    }
+	public function insertStock() {
 		
         $this->form_validation->set_rules('Name', 'Name', 'required');
 		$this->form_validation->set_rules('company', 'Company', 'required');
@@ -39,7 +59,7 @@ class Stock extends CI_Controller {
             // XSS cleaning for input data
             $data = $this->input->post(NULL, TRUE);
 		
-           $res= $this->ShareHolder_model->createShareholder($data);
+           $res= $this->Setup_model->createShareholder($data);
 		   $this->response($res,'shareholders',"Data Inserted Successfully");
         }
     }
@@ -75,12 +95,12 @@ class Stock extends CI_Controller {
             // XSS cleaning for input data
             $data = $this->input->post(NULL, TRUE);
 		
-           $res= $this->ShareHolder_model->createShareholder($data);
+           $res= $this->Setup_model->createShareholder($data);
 		   $this->response($res,'shareholders',"Data Inserted Successfully");
         }
     }
 	public function edit($id) {
-            $data = $this->ShareHolder_model->getshareholderById($id);
+            $data = $this->Setup_model->getshareholderById($id);
 			$this->load->view('layout/parts',['page'=>"pages/shareholders/edit",'edit'=>$data]);
        
     }
@@ -91,19 +111,19 @@ class Stock extends CI_Controller {
         $this->form_validation->set_rules('phone', 'phone', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $data = $this->ShareHolder_model->getshareholderById($id);
+            $data = $this->Setup_model->getshareholderById($id);
 			$this->load->view('layout/parts',['page'=>"pages/shareholders/edit",'edit'=>$data]);
         } else {
             // XSS cleaning for input data
             $data = $this->input->post(NULL, TRUE);
             $data = ($data);
-            $res=$this->ShareHolder_model->updateShareHolder($id, $data);
+            $res=$this->Setup_model->updateShareHolder($id, $data);
 			$this->response($res,'shareholders' ,"Data Update Successfully");
         }
     }
 
     public function delete($id) {
-        $this->ShareHolder_model->deleteshareholder($id);
+        $this->Setup_model->deleteshareholder($id);
         $this->session->set_flashdata('success_message', 'Record deleted successfully.');
         redirect('shareholder');
     }

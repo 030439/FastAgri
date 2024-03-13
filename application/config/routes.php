@@ -76,3 +76,4 @@ $route['units/list'] = "Unit/index"; //purchase form view
 $route['stock/add']='Stock/add';
 $route['stock/add-product']="Stock/addProduct";
 $route['product-insert']="Stock/insertProduct";
+$route['stock/products']="Stock/productList";
