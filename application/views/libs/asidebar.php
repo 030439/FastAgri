@@ -100,7 +100,7 @@
                             Stock
                         </a>
                         <ul class="mm-collapse">
-                        <li><a href="stock/add-product">Add Stock Product</a></li>
+                        <li><a href="stock/add-product">Add Product</a></li>
                             <li><a href="stock/add">Add Stock </a></li>
                             <li><a href="stock">List Stock Product</a></li>
                             <li><a href="stock/issue">Issue Stock</a></li>

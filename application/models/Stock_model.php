@@ -8,7 +8,11 @@ class Stock_model extends CI_Model {
         $this->load->library('form_validation');
     }
     public function getProducts() {
-        $products = $this->db->get('products')->result();
+        $this->db->select('products.*, units.Name as unit');
+        $this->db->from('products');
+        $this->db->join('units', 'products.unit_id = units.id', 'left');
+        $products = $this->db->get()->result();
+
         return $products;
     }
 
