@@ -64,6 +64,8 @@ $route['tunnels'] = "tunnels/index"; //tunnels list
 $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
 //Custmer routes
 $route['customer/create'] = 'customer/create';
+//supplier
+$route['insert-supplier']='Supplier/create';
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list
