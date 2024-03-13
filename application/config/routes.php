@@ -74,3 +74,4 @@ $route['unit/create'] = "Unit/create"; //purchase form view
 $route['units/list'] = "Unit/index"; //purchase form view
 //Stock
 $route['stock/add']='Stock/add';
+$route['product-insert']="Stock/insertProduct";
