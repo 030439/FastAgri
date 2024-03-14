@@ -11,9 +11,14 @@ class Supplier extends CI_Controller {
     }
 	
 	public function index()
-	{
-		$data=$this->Common_model->getAll('suppliers');
-		$this->load->view('layout/parts',['page'=>"pages/supplier/list-supplier",'data'=>$data]);
+	{ 
+		try {
+			$data=$this->Common_model->getAll('suppliers');
+			$this->load->view('layout/parts',['page'=>"pages/supplier/list-supplier",'data'=>$data]);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
 	}
 	
 	public function add()

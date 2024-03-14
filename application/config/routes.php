@@ -69,8 +69,7 @@ $route['insert-supplier']='Supplier/create';
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list
-$route['purchase/save'] = "purchase/save"; //purchase form data submission
-$route['purchase/add'] = "purchase/add"; //purchase form view
+$route['create-purchase'] = "purchase/save"; //purchase form data submission
 //Unit Curd
 $route['unit/create'] = "Unit/create"; //purchase form view 
 $route['units/list'] = "Unit/index"; //purchase form view

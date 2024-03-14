@@ -8,6 +8,7 @@ class Common_model extends CI_Model {
         $this->load->library('form_validation');
     }
     public function getAll($table){
+        $this->db->where('status', 1);
         $all = $this->db->get($table)->result();
         return $all;
     }
