@@ -6,6 +6,7 @@ class Purchase extends CI_Controller {
         parent::__construct();
         $this->load->model('Purchase_model');
 		$this->load->model('Common_model');
+		$this->load->model('Setup_model');
         $this->load->library('form_validation');
     }
 	
@@ -23,9 +24,8 @@ class Purchase extends CI_Controller {
 	public function add()
 	{
 		try{
-			$data['suppliers']=$this->Common_model->getAll('suppliers');
-			$data['products']=$this->Common_model->getAll('products');
-		    $this->load->view('layout/parts',['page'=>"pages/purchase/add-purchase","data"=>$data]);
+			$data=$this->Setup_model->getunit();
+		    $this->load->view('layout/parts',['page'=>"pages/stock/add-seed",'data'=>$data]);
 	    } catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
@@ -59,12 +59,12 @@ class Purchase extends CI_Controller {
         }
        
     }
-	public function cropAdd()
+	public function seedAdd()
 	{
 		try{
 			$data['suppliers']=$this->Common_model->getAll('suppliers');
 			$data['products']=$this->Common_model->getAll('products');
-		    $this->load->view('layout/parts',['page'=>"pages/purchase/add-fasal","data"=>$data]);
+		    $this->load->view('layout/parts',['page'=>"pages/stock/add-seed","data"=>$data]);
 	    } catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
