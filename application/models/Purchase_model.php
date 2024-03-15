@@ -39,9 +39,18 @@ class Purchase_model extends CI_Model
             $this->db->where('pid',$purchase['product_id']);
             $query = $this->db->get('stocks');
             $result = $query->row();
+            if(!empty($result)){
             $newQty=$result->qunatity+$purchase['RemainingQuantity'];
             $sql = "UPDATE stocks SET qunatity = ? WHERE id = ?";
             $this->db->query($sql, array($newQty, $result->id));
+            }else{
+                $stockRecord=['pid'=>$pid,'qunatity'=>$purchase['RemainingQuantity']];
+                 $this->db->insert('stocks', $stockRecord);
+            }
+            if($data['quality']){
+                $purchaseSeed=['pid'=>$pid,'qty'=>$purchase['RemainingQuantity'],'quality'=>$data['quality']];
+                  $this->db->insert('purchaseSeedDetail', $purchaseSeed);
+            }
         }
         $this->db->trans_complete(); // Complete Transaction
         
@@ -57,6 +66,68 @@ class Purchase_model extends CI_Model
     }
 
     public function getPurchaseDetails() {
+        $query = $this->db->query("
+            SELECT 
+                pd.id AS purchase_detail_id,
+                pd.product_id,
+                p.Name AS product_name,
+                pd.quantity AS purchased_quantity,
+                pq.product_id AS purchase_product_id,
+                pq.RemainingQuantity,
+                s.Name AS supplier_name,
+                s.company_name AS supplier_company,
+                pd.rate,
+                pd.amount,
+                pd.expenses,
+                pd.total_amount,
+                pd.Date AS purchase_date
+            FROM 
+                purchasesdetail pd
+            JOIN 
+                suppliers s ON pd.Supplier_id = s.id
+            JOIN 
+                products p ON pd.product_id = p.id
+            LEFT JOIN
+                purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id
+                
+            ORDER BY 
+                pd.id, pq.product_id
+        ");
+        $results = $query->result_array();
+        
+        $individual_records = [];
+        foreach ($results as $row) {
+            $product_ids = explode(',', $row['product_id']);
+            $purchased_quantities = explode(',', $row['purchased_quantity']);
+            $purchased_rates = explode(',', $row['rate']);
+    
+            foreach ($product_ids as $index => $product_id) {
+                $individual_records[] = array(
+                    'purchase_detail_id' => $row['purchase_detail_id'],
+                    'product_id' => $product_id,
+                    'product_name' => $row['product_name'],
+                    'purchased_quantity' => $purchased_quantities[$index],
+                    'purchase_product_id' => $row['purchase_product_id'],
+                    'RemainingQuantity' => $row['RemainingQuantity'],
+                    'supplier_name' => $row['supplier_name'],
+                    'supplier_company' => $row['supplier_company'],
+                    'rate' => $purchased_rates[$index],
+                    'amount' => $row['amount'],
+                    'expenses' => $row['expenses'],
+                    'total_amount' => $row['total_amount'],
+                    'purchase_date' => $row['purchase_date']
+                );
+                // print_r($purchased_quantities[$index]);
+                // echo "remaing";
+                // echo $row['RemainingQuantity'];
+                // echo "<br>";
+            }
+        }
+        // echo "<pre>";
+        // print_r($results);die;
+        return $individual_records;
+    }
+    public function getSeedDetails() {
         $query = $this->db->query("
             SELECT 
                 pd.id AS purchase_detail_id,

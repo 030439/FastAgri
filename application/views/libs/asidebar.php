@@ -86,6 +86,9 @@
                             <li>
                                 <a href="purchase-seed">Purchase Seed</a>
                             </li>
+                            <li>
+                                <a href="purchased/seed-list">Purchase Seed List</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -106,6 +109,7 @@
                             <li><a href="stock/add-product">Add Product</a></li>
                             <li><a href="stock/add">Add Stock </a></li>
                             <li><a href="stock">List Stock Product</a></li>
+                            <li><a href="stock/seeds">Seed List</a></li>
                             <li><a href="stock/issue">Issue Stock</a></li>
                             <li><a href="stock/listissue">List Issue Stock</a></li>
                         </ul>
