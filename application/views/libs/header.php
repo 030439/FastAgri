@@ -70,7 +70,7 @@
 
 
                                         <li>
-                                            <a href="index.html">
+                                            <a href="<?php echo base_url('auth/logout'); ?>">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16.944"
                                                     viewBox="0 0 17 16.944">
                                                     <g id="logout_1_" data-name="logout (1)"

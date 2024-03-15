@@ -34,5 +34,14 @@ if (!function_exists('ShowVal')) {
     }
 }
 
+function is_authorized() {
+    $CI = get_instance();
+    $CI->load->library('session'); 
+    if ($CI->session->userdata('user_id')) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 ?>
