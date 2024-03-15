@@ -79,13 +79,13 @@
                         <ul class="mm-collapse">
                             <li>
                                 <a href="purchase/add">Add Purchase</a>
-
                             </li>
                             <li>
                                 <a href="purchase">List Purchase</a>
-
                             </li>
-
+                            <li>
+                                <a href="purchase-seed">Purchase Seed</a>
+                            </li>
                         </ul>
                     </li>
 
