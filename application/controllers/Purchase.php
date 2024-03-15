@@ -12,6 +12,9 @@ class Purchase extends CI_Controller {
 	public function index()
 	{
 		try{
+			$res=$this->Purchase_model->getPurchaseDetails();
+			echo "<pre>";
+			print_r($res);die;
 			$this->load->view('layout/parts',['page'=>"pages/purchase/list-purchase"]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -45,7 +48,10 @@ class Purchase extends CI_Controller {
 				$data = $this->input->post(NULL, TRUE);
 			   $res= $this->Purchase_model->createPurchase($data);
 			   if($res){
-				response($res,'supplier/add',"Data Inserted Successfully");
+				response($res,'purchase',"Data Inserted Successfully");
+			   }
+			   else{
+				response($res,'purchase',"Something went Wrong");
 			   }
 			  
 			}
