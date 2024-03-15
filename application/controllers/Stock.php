@@ -44,6 +44,16 @@ class Stock extends CI_Controller {
 		   $this->response($res,'stock/products',"Data Inserted Successfully");
         }
     }
+    public function seedList()
+	{
+		try{
+            $data=$this->Stock_model->getSeed();
+            $this->load->view('layout/parts',['page'=>"pages/stock/list-seed",'data'=>$data]);
+	    } catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+	   }
+	}
     public function seedAdd()
 	{
 		try{

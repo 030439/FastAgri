@@ -22,6 +22,10 @@ class Stock_model extends CI_Model {
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
+    public function getSeed(){
+        $crops = $this->db->get('crops')->result();
+        return $crops;
+    }
 
     public function insertProduct($data) {
         return $this->db->insert('products', $data);
