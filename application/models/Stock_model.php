@@ -15,6 +15,13 @@ class Stock_model extends CI_Model {
 
         return $products;
     }
+    public function getStock(){
+        $this->db->select('stocks.*, products.Name as product');
+        $this->db->from('stocks');
+        $this->db->join('products', 'stocks.pid = products.id', 'left');
+        $stocks = $this->db->get()->result();
+        return $stocks; 
+    }
 
     public function insertProduct($data) {
         return $this->db->insert('products', $data);

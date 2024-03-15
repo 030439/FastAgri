@@ -11,8 +11,7 @@ class Stock extends CI_Controller {
     }
 	public function index()
 	{
-		$data=$this->Setup_model->getunit();
-		print_r($data);die;
+		$data=$this->Stock_model->getStock();
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-stock",'data'=>$data]);
 	}
 	
