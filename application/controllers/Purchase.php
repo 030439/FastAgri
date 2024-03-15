@@ -59,17 +59,6 @@ class Purchase extends CI_Controller {
         }
        
     }
-	public function seedAdd()
-	{
-		try{
-			$data['suppliers']=$this->Common_model->getAll('suppliers');
-			$data['products']=$this->Common_model->getAll('products');
-		    $this->load->view('layout/parts',['page'=>"pages/stock/add-seed","data"=>$data]);
-	    } catch (Exception $e) {
-			log_message('error', $e->getMessage());
-			show_error('An unexpected error occurred. Please try again later.');
-	   }
-	}
 	public function purchaseSeed()
 	{
 		try{

@@ -26,6 +26,12 @@ class Stock_model extends CI_Model {
     public function insertProduct($data) {
         return $this->db->insert('products', $data);
     }
+    public function insertSeed($data) {
+        $this->db->insert('products', $data);
+        $insert_id = $this->db->insert_id();
+        $cropArr=['pid'=>$insert_id,'FasalName'=>$data['Name']];
+        return $this->db->insert('crops', $cropArr);
+    }
 
     public function getshareholderById($id) {
         $shareholder = $this->db->get_where('shareholders', ['id' => $id])->row();
