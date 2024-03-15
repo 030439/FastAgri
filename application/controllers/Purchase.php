@@ -13,9 +13,7 @@ class Purchase extends CI_Controller {
 	{
 		try{
 			$res=$this->Purchase_model->getPurchaseDetails();
-			echo "<pre>";
-			print_r($res);die;
-			$this->load->view('layout/parts',['page'=>"pages/purchase/list-purchase"]);
+			$this->load->view('layout/parts',['page'=>"pages/purchase/list-purchase","data"=>$res]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');

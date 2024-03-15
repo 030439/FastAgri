@@ -78,17 +78,19 @@ class Purchase_model extends CI_Model
                 suppliers s ON pd.Supplier_id = s.id
             JOIN 
                 products p ON pd.product_id = p.id
-            LEFT JOIN 
-                purchaseqty pq ON pd.id = pq.purchase_id
+            LEFT JOIN
+                purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id
+                
             ORDER BY 
                 pd.id, pq.product_id
         ");
         $results = $query->result_array();
-    
+        
         $individual_records = [];
         foreach ($results as $row) {
             $product_ids = explode(',', $row['product_id']);
             $purchased_quantities = explode(',', $row['purchased_quantity']);
+            $purchased_rates = explode(',', $row['rate']);
     
             foreach ($product_ids as $index => $product_id) {
                 $individual_records[] = array(
@@ -100,15 +102,20 @@ class Purchase_model extends CI_Model
                     'RemainingQuantity' => $row['RemainingQuantity'],
                     'supplier_name' => $row['supplier_name'],
                     'supplier_company' => $row['supplier_company'],
-                    'rate' => $row['rate'],
+                    'rate' => $purchased_rates[$index],
                     'amount' => $row['amount'],
                     'expenses' => $row['expenses'],
                     'total_amount' => $row['total_amount'],
                     'purchase_date' => $row['purchase_date']
                 );
+                // print_r($purchased_quantities[$index]);
+                // echo "remaing";
+                // echo $row['RemainingQuantity'];
+                // echo "<br>";
             }
         }
-    
+        // echo "<pre>";
+        // print_r($results);die;
         return $individual_records;
     }
     
