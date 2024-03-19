@@ -1,16 +1,35 @@
- <!-- pre loader area start -->
- <!-- <div id="loading">
-     <div id="loading-center">
-         <div id="loading-center-absolute">
-             <div class="loading-icon text-center flex flex-col items-center justify-center">
-                 <img src="assets/img/logo/logo.png" alt="Cashiar" />
-                 <img class="loading-logo" src="assets/img/logo/preloader.svg" alt="img" />
-             </div>
-         </div>
-     </div>
- </div> -->
- <!-- pre loader area end -->
+<style>
 
+
+  .loader {
+    margin:200px 600px;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border: 8px solid #333;
+    border-radius: 50%;
+    border-top-color: #ff4500;
+    animation: spin 1s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+ <!-- pre loader area start -->
+ <div id="loading">
+ <div class=" loader">
+ </div>
+ <!-- pre loader area end -->
+ <style>
+    
+ </style>
+ <div class=""></div>
 
  <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
  <script src="assets/js/metisMenu.js"></script>

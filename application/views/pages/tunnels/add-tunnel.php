@@ -7,7 +7,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3"> Name</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="Name">
+                        <input type="text" placeholder="Name" name="name">
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Covered Area</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="1 acre">
+                        <input type="text" placeholder="1 acre" name="area">
                     </div>
                 </div>
             </div>
@@ -31,44 +31,30 @@
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Fasal</h5>
                 <div class="cashier-select-field-style">
-                    <select class="block" style="display: none;">
-                        <option selected="" disabled="" value="default">Fasal</option>
-                        <option value="language-1">Jonathan Deo</option>
-                        <option value="language-2">Andrew Tye</option>
-                        <option value="language-3">Peter Parkar</option>
-                    </select>
-                    <div class="nice-select block" tabindex="0"><span class="current">Fasal</span>
-                        <ul class="list">
-                            <li data-value="default" class="option selected disabled focus">Fasal</li>
-                            <li data-value="language-1" class="option">Jonathan Deo</li>
-                            <li data-value="language-2" class="option">Andrew Tye</li>
-                            <li data-value="language-3" class="option">Peter Parkar</li>
-                        </ul>
-                    </div>
+                <select class="block" style="display: none;" name="product">
+                        <option selected="selected" disabled="disabled">Select Product</option>
+                            <?php if(!empty($data['products'])):foreach($data['products'] as $product):?>
+                            <option value="<?php ShowVal($product->pid);?>"><?php ShowVal($product->FasalName);?></option>
+                            <?php endforeach; endif;?>
+                        </select>
+                        <?php validator('product[]')?>
                 </div>
             </div>
         </div>
 
 
 
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
+        <div class="lg:col-span-4 md:col-span-6 col-span-12" id="shareh">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">ShareHolders</h5>
                 <div class="cashier-select-field-style">
-                    <select class="block" style="display: none;">
-                        <option selected="" disabled="" value="default">ShareHolders</option>
-                        <option value="language-1">Jonathan Deo</option>
-                        <option value="language-2">Andrew Tye</option>
-                        <option value="language-3">Peter Parkar</option>
+                    <select class="block" style="display: none;" name="shareholder[]">
+                        <option selected="selected" disabled="disabled">Select shareholders</option>
+                        <?php if(!empty($data['shareholders'])):foreach($data['shareholders'] as $supplier):?>
+                        <option value="<?php ShowVal($supplier->id);?>"><?php ShowVal($supplier->Name);?></option>
+                        <?php endforeach; endif;?>
                     </select>
-                    <div class="nice-select block" tabindex="0"><span class="current">ShareHolders</span>
-                        <ul class="list">
-                            <li data-value="default" class="option selected disabled focus">SeShareHolders</li>
-                            <li data-value="language-1" class="option">Jonathan Deo</li>
-                            <li data-value="language-2" class="option">Andrew Tye</li>
-                            <li data-value="language-3" class="option">Peter Parkar</li>
-                        </ul>
-                    </div>
+                    <?php validator('shareholders')?>
                 </div>
             </div>
         </div>
@@ -76,12 +62,12 @@
 
 
 
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
+        <div class="lg:col-span-4 md:col-span-6 col-span-12" id="shareD">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Shares</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="shares">
+                        <input type="text" placeholder="shares" name="shares[]">
                     </div>
                 </div>
             </div>
@@ -103,44 +89,14 @@
             var clickableDiv = document.getElementById("clickableDiv");
 
             clickableDiv.addEventListener("click", function() {
-
+                var shareh=$("#shareh").html();
                 var shareholdersDiv = document.createElement("div");
                 shareholdersDiv.className = "lg:col-span-4 md:col-span-6 col-span-12";
-                shareholdersDiv.innerHTML = `
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">ShareHolders</h5>
-                    <div class="cashier-select-field-style">
-                        <select class="block" style="display: none;">
-                            <option selected="" disabled="" value="default">ShareHolders</option>
-                            <option value="language-1">Jonathan Deo</option>
-                            <option value="language-2">Andrew Tye</option>
-                            <option value="language-3">Peter Parkar</option>
-                        </select>
-                        <div class="nice-select block" tabindex="0">
-                            <span class="current">ShareHolders</span>
-                            <ul class="list">
-                                <li data-value="default" class="option selected disabled focus">ShareHolders</li>
-                                <li data-value="language-1" class="option">Jonathan Deo</li>
-                                <li data-value="language-2" class="option">Andrew Tye</li>
-                                <li data-value="language-3" class="option">Peter Parkar</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            `;
-
+                shareholdersDiv.innerHTML = shareh;
+               var shareD=$('#shareD').html();
                 var sharesDiv = document.createElement("div");
                 sharesDiv.className = "lg:col-span-4 md:col-span-6 col-span-12";
-                sharesDiv.innerHTML = `
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Shares</h5>
-                    <div class="cashier-input-field-style">
-                        <div class="single-input-field w-full">
-                            <input type="text" placeholder="shares">
-                        </div>
-                    </div>
-                </div>
-            `;
+                sharesDiv.innerHTML = shareD;
 
                 var deleteButton = document.createElement("div");
                 deleteButton.className =

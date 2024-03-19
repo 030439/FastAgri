@@ -13,16 +13,8 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
-
         <div class="lg:col-span-6 md:col-span-6 col-span-12 flex items-center">
-
-
-
             <div class="col-span-12">
                 <div class="cashier-managesale-top-btn default-light-theme ">
                     <button class="btn-primary ml-auto" type="submit" style="margin-bottom: 0;">Add Now</button>
