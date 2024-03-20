@@ -44,13 +44,13 @@ class Employee extends CI_Controller {
 	}
 	public function saveCategory(){
 		try {
-			$this->form_validation->set_rules('category', 'Category ', 'required');
+			$this->form_validation->set_rules('Name', 'Category ', 'required');
 			if ($this->form_validation->run() == FALSE) {
-				$this->add();
+                $this->load->view('layout/parts', ['page' => "pages/setup/category"]);
 			}
 			 else {
 				$data = $this->input->post(NULL, TRUE);
-			   $res= $this->Employee_model->createPurchase($data);
+			   $res= $this->Employee_model->saveCategory($data);
 			   if($res){
 				response($res,'category',"Data Inserted Successfully");
 			   }

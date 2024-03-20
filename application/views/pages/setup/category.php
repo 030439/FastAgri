@@ -2,13 +2,14 @@
     <h4 class="text-[20px] font-bold text-heading mb-9">Add Employyee Category</h4>
     <form action="save-category" method="post">
         <div class="grid grid-cols-12 gap-x-5">
-            <div class="lg:col-span-4 md:col-span-5 col-span-12 flex items-center">
+            <div class="lg:col-span-18 md:col-span-5 col-span-12 flex items-center">
 
                 <div class="cashier-select-field  flex items-center flex-1">
                     <label class="text-[15px] text-heading font-semibold  mr-2" for="fasalInput">Employyee Category :</label>
                     <div class="cashier-input-field-style flex-1 mr-2">
                         <div class="single-input-field w-full">
-                            <input id="" type="text" name='category' placeholder="Category">
+                            <input id="" type="text" name='Name' placeholder="Category">
+                            <?php validator('Name');?>
                         </div>
                     </div>
                 </div>
