@@ -35,10 +35,13 @@ class Purchase_model extends CI_Model
             $purchase['RemainingQuantity'] = $data['qty'][$key];
             $this->db->insert('purchaseqty', $purchase);
             $pqid =$this->db->insert_id();
-            $this->db->select('qunatity,id');
-            $this->db->where('pid',$purchase['product_id']);
-            $query = $this->db->get('stocks');
-            $result = $query->row();
+
+            $result=$this->checkRecord($purchase['product_id']);
+            // $this->db->select('qunatity,id');
+            // $this->db->where('pid',$purchase['product_id']);
+            // $query = $this->db->get('stocks');
+            // $result = $query->row();
+
             if(!empty($result)){
             $newQty=$result->qunatity+$purchase['RemainingQuantity'];
             $sql = "UPDATE stocks SET qunatity = ? WHERE id = ?";
@@ -64,7 +67,34 @@ class Purchase_model extends CI_Model
             return true;
         }   
     }
+public function checkRecord($pid){
+    $this->db->select('qunatity, id');
+$this->db->where('pid', $pid);
+$query = $this->db->get('stocks');
 
+if ($query->num_rows() > 0) {
+    // Record exists, fetch the data
+    $result = $query->row();
+    return $result;
+} else {
+    // Record doesn't exist, create it
+    $data = array(
+        'pid' => $pid,
+        // Add other columns and their values as needed
+    );
+    $this->db->insert('stocks', $data);
+
+    // Fetch the newly created record
+    $new_query = $this->db->get_where('stocks', array('pid' => $pid));
+    $new_result = $new_query->row();
+    return $new_result;
+    $quantity = $new_result->quantity;
+    $id = $new_result->id;
+}
+
+// Now you have either fetched an existing record or created a new one
+
+}
     public function getPurchaseDetails() {
         $query = $this->db->query("
             SELECT 
@@ -179,14 +209,8 @@ class Purchase_model extends CI_Model
                     'total_amount' => $row['total_amount'],
                     'purchase_date' => $row['purchase_date']
                 );
-                // print_r($purchased_quantities[$index]);
-                // echo "remaing";
-                // echo $row['RemainingQuantity'];
-                // echo "<br>";
             }
         }
-        // echo "<pre>";
-        // print_r($results);die;
         return $individual_records;
     }
     

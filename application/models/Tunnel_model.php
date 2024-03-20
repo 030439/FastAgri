@@ -17,6 +17,7 @@ class Tunnel_model extends CI_Model
             $res['product__id']=$data['product'];
             $res['share_id']=implode(',', $data['shares']);
             $res['sh_id']=implode(',', $data['shareholder']);
+            $res['cDate']=$data['cdate'];
            
         $this->db->insert(' tunnels', $res);
         $sid =$this->db->insert_id();
@@ -103,9 +104,9 @@ class Tunnel_model extends CI_Model
     }
     public function getunnels(){
         $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,,tunnels.cDate,
-         products.Name as product');
+        crops.FasalName as product,crops.SeedQuality as grade');
         $this->db->from('tunnels');
-        $this->db->join('products', 'tunnels.product__id = products.id', 'left');
+        $this->db->join('crops', 'tunnels.product__id = crops.pid', 'left');
         $this->db->where('tunnels.status', 1);
         $stocks = $this->db->get()->result();
         return $stocks; 

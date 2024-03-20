@@ -25,8 +25,9 @@ class Tunnels extends CI_Controller{
 			$this->form_validation->set_rules('shares[]', 'Shares', 'required');
 			$this->form_validation->set_rules('shareholder[]', 'Shareholder ', 'required');
 			$this->form_validation->set_rules('product', 'Product ', 'required');
-			$this->form_validation->set_rules('Address', 'Address ', 'required');
-			$this->form_validation->set_rules('cnic', 'CNIC ', 'required');
+			$this->form_validation->set_rules('area', 'Covered Area ', 'required');
+            $this->form_validation->set_rules('cdate', 'Croping Date ', 'required');
+			$this->form_validation->set_rules('name', 'Crop Name ', 'required');
 			if ($this->form_validation->run() == FALSE) {
 				$this->add();
 			}

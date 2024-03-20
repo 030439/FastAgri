@@ -2,23 +2,25 @@
     <h4 class="text-[20px] font-bold text-heading mb-9">Add Tunnels</h4>
     <form action="tunnels/save" method="post">
     <div class="grid grid-cols-12 gap-x-5" style="align-items: center;">
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
+        <div class="lg:col-span-3 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3"> Name</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
                         <input type="text" placeholder="Name" name="name">
+                        <?php validator('name')?>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
+        <div class="lg:col-span-3 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Covered Area</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="1 acre" name="area">
+                        <input type="number" min='0' placeholder="1 acre" name="area">
+                        <?php validator('area')?>
                     </div>
                 </div>
             </div>
@@ -27,22 +29,32 @@
 
 
 
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
+        <div class="lg:col-span-3 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Fasal</h5>
                 <div class="cashier-select-field-style">
-                <select class="block" style="display: none;" name="product">
+                <select class="block" name="product">
                         <option selected="selected" disabled="disabled">Select Product</option>
                             <?php if(!empty($data['products'])):foreach($data['products'] as $product):?>
-                            <option value="<?php ShowVal($product->pid);?>"><?php ShowVal($product->FasalName);?></option>
+                            <option value="<?php ShowVal($product->pid);?>"><?php ShowVal($product->FasalName); echo "-";?></option>
                             <?php endforeach; endif;?>
                         </select>
-                        <?php validator('product[]')?>
+                        <?php validator('product')?>
                 </div>
             </div>
         </div>
 
-
+        <div class="lg:col-span-3 md:col-span-6 col-span-12">
+            <div class="cashier-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Croping Date</h5>
+                <div class="cashier-input-field-style">
+                    <div class="single-input-field w-full">
+                        <input type="date" placeholder="date" name='cdate'>
+                        <?php validator('cdate')?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="lg:col-span-4 md:col-span-6 col-span-12" id="shareh">
             <div class="cashier-select-field mb-5">
@@ -54,7 +66,7 @@
                         <option value="<?php ShowVal($supplier->id);?>"><?php ShowVal($supplier->Name);?></option>
                         <?php endforeach; endif;?>
                     </select>
-                    <?php validator('shareholders')?>
+                    <?php validator('shareholder[]')?>
                 </div>
             </div>
         </div>
@@ -67,8 +79,8 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Shares</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="shares" name="shares[]">
-                        <?php validator('shares')?>
+                        <input type="number" min="0" placeholder="shares" name="shares[]">
+                        <?php validator('shares[]')?>
                     </div>
                 </div>
             </div>

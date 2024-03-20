@@ -2,18 +2,9 @@
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
         <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
         <div class="cashier-managesale-top-btn default-light-theme mb-7">
-            <button class="mb-1" onclick="document.location='createbank.html'">
-                <i class="fa-light fa-plus"></i> Create Bank
+            <button class="mb-1" onclick="document.location='tunnels/add'">
+                <i class="fa-light fa-plus"></i> Create Tunnel
             </button>
-            <div class="mb-1 btn-primary button">
-                <i class="fa-light fa-folder-plus"></i>
-                <span class="cashier-input-field-style relative inline-block">
-                    <span class="cashier-input-field-file">
-                        <input type="file" id="fileUpload">
-                        <label for="fileUpload">Import Product</label>
-                    </span>
-                </span>
-            </div>
         </div>
         <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
@@ -134,6 +125,9 @@
                         <div class="cashier-salereturns-table-remarkB">
                             <h5>Status</h5>
                         </div>
+                        <div class="cashier-salereturns-table-warehouseB">
+                            <h5>View  Datail</h5>
+                        </div>
                         <div class="cashier-salereturns-table-actionB">
                             <h5>Action</h5>
                         </div>
@@ -162,6 +156,11 @@
                                     class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
                                     Completed</span>
                             </span>
+                        </div>
+                        <div class="cashier-salereturns-table-warehouseB">
+                        <button class="mb-1" onclick="document.location='tunnels/detail?id=<?php echo $d->id?>'">
+                            <i class="fa-light fa-plus"></i> Create
+                        </button>
                         </div>
                         <div class="cashier-salereturns-table-actionB">
                             <div class="dropdown">

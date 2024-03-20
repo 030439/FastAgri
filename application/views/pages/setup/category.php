@@ -1,29 +1,30 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
     <h4 class="text-[20px] font-bold text-heading mb-9">Add Employyee Category</h4>
-    <div class="grid grid-cols-12 gap-x-5">
+    <form action="save-category" method="post">
+        <div class="grid grid-cols-12 gap-x-5">
+            <div class="lg:col-span-4 md:col-span-5 col-span-12 flex items-center">
 
-
-        <div class="lg:col-span-4 md:col-span-5 col-span-12 flex items-center">
-
-            <div class="cashier-select-field  flex items-center flex-1">
-                <label class="text-[15px] text-heading font-semibold  mr-2" for="fasalInput">Employyee Category :</label>
-                <div class="cashier-input-field-style flex-1 mr-2">
-                    <div class="single-input-field w-full">
-                        <input id="fasalInput" type="text" placeholder="Category">
+                <div class="cashier-select-field  flex items-center flex-1">
+                    <label class="text-[15px] text-heading font-semibold  mr-2" for="fasalInput">Employyee Category :</label>
+                    <div class="cashier-input-field-style flex-1 mr-2">
+                        <div class="single-input-field w-full">
+                            <input id="" type="text" name='category' placeholder="Category">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="lg:col-span-6 md:col-span-6 col-span-12 flex items-center">
-            <div class="col-span-12">
-                <div class="cashier-managesale-top-btn default-light-theme ">
-                    <button class="btn-primary ml-auto" type="submit" style="margin-bottom: 0;">Add Now</button>
+            <div class="lg:col-span-6 md:col-span-6 col-span-12 flex items-center">
+                <div class="col-span-12">
+                    <div class="cashier-managesale-top-btn default-light-theme ">
+                        <button class="btn-primary ml-auto" type="submit" style="margin-bottom: 0;">Add Now</button>
+                    </div>
                 </div>
             </div>
+
+
         </div>
+    </form>
 
-
-    </div>
 </div>
 
 

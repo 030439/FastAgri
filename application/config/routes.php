@@ -73,6 +73,7 @@ $route['create-purchase'] = "purchase/save"; //purchase form data submission
 $route['purchase-seed']='purchase/purchaseSeedFrom';
 $route['seed-purchase']='purchase/purchaseSeed';
 $route['purchased/seed-list']='purchase/purchasedSeedList';
+
 //Unit Curd
 $route['unit/create'] = "Unit/create"; //purchase form view 
 $route['units/list'] = "Unit/index"; //purchase form view
@@ -84,3 +85,5 @@ $route['stock/add-product']="Stock/addProduct";
 $route['product-insert']="Stock/insertProduct";
 $route['seed-insert']="Stock/insertSeed";
 $route['stock/products']="Stock/productList";
+//Employee 
+$route['save-category']='Employee/saveCategory';
