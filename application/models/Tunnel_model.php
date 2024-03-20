@@ -102,7 +102,7 @@ class Tunnel_model extends CI_Model
         return $individual_records;
     }
     public function getunnels(){
-        $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,,tunnels.Date,
+        $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,,tunnels.cDate,
          products.Name as product');
         $this->db->from('tunnels');
         $this->db->join('products', 'tunnels.product__id = products.id', 'left');
