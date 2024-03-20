@@ -101,74 +101,13 @@ class Tunnel_model extends CI_Model
         // print_r($results);die;
         return $individual_records;
     }
-    public function getSeedDetails() {
-        $query = $this->db->query("
-            SELECT 
-                pd.id AS purchase_detail_id,
-                pd.product_id,
-                p.Name AS product_name,
-                pd.quantity AS purchased_quantity,
-                pq.product_id AS purchase_product_id,
-                pq.RemainingQuantity,
-                s.Name AS supplier_name,
-                s.company_name AS supplier_company,
-                pd.rate,
-                pd.amount,
-                pd.expenses,
-                pd.total_amount,
-                pd.Date AS purchase_date
-            FROM 
-                purchasesdetail pd
-            JOIN 
-                suppliers s ON pd.Supplier_id = s.id
-            JOIN 
-                products p ON pd.product_id = p.id
-            LEFT JOIN
-                purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id
-                
-            ORDER BY 
-                pd.id, pq.product_id
-        ");
-        $results = $query->result_array();
-        
-        $individual_records = [];
-        foreach ($results as $row) {
-            $product_ids = explode(',', $row['product_id']);
-            $purchased_quantities = explode(',', $row['purchased_quantity']);
-            $purchased_rates = explode(',', $row['rate']);
-    
-            foreach ($product_ids as $index => $product_id) {
-                $individual_records[] = array(
-                    'purchase_detail_id' => $row['purchase_detail_id'],
-                    'product_id' => $product_id,
-                    'product_name' => $row['product_name'],
-                    'purchased_quantity' => $purchased_quantities[$index],
-                    'purchase_product_id' => $row['purchase_product_id'],
-                    'RemainingQuantity' => $row['RemainingQuantity'],
-                    'supplier_name' => $row['supplier_name'],
-                    'supplier_company' => $row['supplier_company'],
-                    'rate' => $purchased_rates[$index],
-                    'amount' => $row['amount'],
-                    'expenses' => $row['expenses'],
-                    'total_amount' => $row['total_amount'],
-                    'purchase_date' => $row['purchase_date']
-                );
-                // print_r($purchased_quantities[$index]);
-                // echo "remaing";
-                // echo $row['RemainingQuantity'];
-                // echo "<br>";
-            }
-        }
-        // echo "<pre>";
-        // print_r($results);die;
-        return $individual_records;
-    }
-    
-    public function getunit()
-    {
-        $units = $this->db->order_by('id', 'desc')->get('units')->result();
-
-
-        return $units;
+    public function getunnels(){
+        $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,,tunnels.Date,
+         products.Name as product');
+        $this->db->from('tunnels');
+        $this->db->join('products', 'tunnels.product__id = products.id', 'left');
+        $this->db->where('tunnels.status', 1);
+        $stocks = $this->db->get()->result();
+        return $stocks; 
     }
 }
