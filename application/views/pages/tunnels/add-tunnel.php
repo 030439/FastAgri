@@ -68,6 +68,7 @@
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
                         <input type="text" placeholder="shares" name="shares[]">
+                        <?php validator('shares')?>
                     </div>
                 </div>
             </div>
