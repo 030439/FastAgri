@@ -15,6 +15,10 @@ class Employee_model extends CI_Model {
         $customers = $this->db->get('employeecategory')->result();
         return $customers;
     }
+    public function getDesignation() {
+        $customers = $this->db->get('designation')->result();
+        return $customers;
+    }
 
 
     public function saveCategory($data) {

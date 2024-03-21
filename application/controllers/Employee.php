@@ -65,6 +65,10 @@ class Employee extends CI_Controller {
         }
        
     }
+	public function designation(){
+		$data=$this->Employee_model->getDesignation();
+        $this->load->view('layout/parts', ['page' => "pages/setup/desigantion",'data'=>$data]);
+	}
 	public function purchaseSeedFrom()
 	{
 		try{
