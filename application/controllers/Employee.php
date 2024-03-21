@@ -13,8 +13,8 @@ class Employee extends CI_Controller {
 	public function index()
 	{
 		try{
-			$res=$this->Purchase_model->getPurchaseDetails();
-			$this->load->view('layout/parts',['page'=>"pages/purchase/list-purchase","data"=>$res]);
+			$data=$this->Employee_model->getAll();
+			$this->load->view('layout/parts',['page'=>"pages/human-resource/list-employee",'data'=>$data]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
@@ -31,12 +31,13 @@ class Employee extends CI_Controller {
 		}
 	}
 	
+	
 	public function add()
 	{ 
 		try{
-			$data['suppliers']=$this->Common_model->getAll('suppliers');
-			$data['products']=$this->Common_model->getAll('products');
-		    $this->load->view('layout/parts',['page'=>"pages/purchase/add-purchase",'data'=>$data]);
+			$data['designation']=$this->Common_model->getAll('designation');
+			$data['category']=$this->Common_model->getAll('employeecategory');
+			$this->load->view('layout/parts',['page'=>"pages/human-resource/add-employee",'data'=>$data]);
 	    } catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
@@ -69,37 +70,53 @@ class Employee extends CI_Controller {
 		$data=$this->Employee_model->getDesignation();
         $this->load->view('layout/parts', ['page' => "pages/setup/desigantion",'data'=>$data]);
 	}
-	public function purchaseSeedFrom()
-	{
-		try{
-			$data['suppliers']=$this->Common_model->getAll('suppliers');
-			$data['products']=$this->Common_model->getAll('crops');
-		    $this->load->view('layout/parts',['page'=>"pages/purchase/add-fasal","data"=>$data]);
-	    } catch (Exception $e) {
-			log_message('error', $e->getMessage());
-			show_error('An unexpected error occurred. Please try again later.');
-	   }
-	}
-	public function purchaseSeed(){
+	public function Savedesignation(){
 		try {
-			$this->form_validation->set_rules('qty[]', 'Quantity', 'required');
-			$this->form_validation->set_rules('quality', 'Quality', 'required');
-			$this->form_validation->set_rules('product[]', 'Product ', 'required');
-			$this->form_validation->set_rules('rate[]', 'Rate ', 'required');
-			$this->form_validation->set_rules('supplier', 'Supplier ', 'required');
-			$this->form_validation->set_rules('pdate', 'Date ', 'required');
-			$this->form_validation->set_rules('charges', 'Charges ', 'required');
+			$this->form_validation->set_rules('name', 'Designation ', 'required');
 			if ($this->form_validation->run() == FALSE) {
-				$this->purchaseSeedFrom();
+                $this->load->view('layout/parts', ['page' => "pages/setup/desigantion"]);
 			}
 			 else {
 				$data = $this->input->post(NULL, TRUE);
-			   $res= $this->Purchase_model->createPurchase($data);
+			   $res= $this->Employee_model->saveDesignation($data);
 			   if($res){
-				response($res,'purchased/seed-list',"Data Inserted Successfully");
+				response($res,'designation',"Data Inserted Successfully");
 			   }
 			   else{
-				response($res,'purchased/seed-list',"Something went Wrong");
+				response($res,'designation',"Something went Wrong");
+			   }
+			  
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+       
+    }
+	public function saveEmployee(){
+		
+		try {
+			$this->form_validation->set_rules('Name', 'Name ', 'required');
+			$this->form_validation->set_rules('FatherName', 'Father Name ', 'required');
+			$this->form_validation->set_rules('Nic', 'CNIC ', 'required');
+			$this->form_validation->set_rules('Address', 'Address ', 'required');
+			$this->form_validation->set_rules('ContactNo', 'Contact ', 'required');
+			$this->form_validation->set_rules('employee_cat_id', 'Category ', 'required');
+			$this->form_validation->set_rules('designation_id', 'Designation ', 'required');
+			$this->form_validation->set_rules('BasicSalary', 'Basic Salary ', 'required');
+			$this->form_validation->set_rules('Allowances', 'Allowance ', 'required');
+			$this->form_validation->set_rules('Medical', 'Medical ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->add();
+			}
+			 else {
+				$data = $this->input->post(NULL, TRUE);
+			   $res= $this->Employee_model->saveEmployee($data);
+			   if($res){
+				response($res,'employees',"Data Inserted Successfully");
+			   }
+			   else{
+				response($res,'employees',"Something went Wrong");
 			   }
 			  
 			}

@@ -43,5 +43,10 @@ function is_authorized() {
         return false;
     }
 }
+function dd($data){
+    echo "<pre>";
+    print_r($data);
+    die;
+}
 
 ?>

@@ -22,13 +22,9 @@
   }
 </style>
  <!-- pre loader area start -->
- <div id="loading">
+ <!-- <div id="loading">
  <div class=" loader">
- </div>
- <!-- pre loader area end -->
- <style>
-    
- </style>
+ </div> -->
  <div class=""></div>
 
  <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>

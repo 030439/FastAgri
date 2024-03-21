@@ -86,5 +86,9 @@ $route['product-insert']="Stock/insertProduct";
 $route['seed-insert']="Stock/insertSeed";
 $route['stock/products']="Stock/productList";
 //Employee 
+$route['add-employee']='Employee/add';
 $route['designation']='Employee/designation';
+$route['save-designation']='Employee/Savedesignation';
 $route['save-category']='Employee/saveCategory';
+$route['save-employee']='Employee/saveEmployee';
+$route['employees']='Employee/index';

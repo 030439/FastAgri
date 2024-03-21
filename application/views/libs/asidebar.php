@@ -218,7 +218,7 @@
                         <ul class="mm-collapse">
 
                             <li><a href="hr/add">Add employee</a></li>
-                            <li><a href="hr">List employee</a></li>
+                            <li><a href="employees">List employee</a></li>
                             <li><a href="hr/issuelabour">Issued Labour </a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">PayRoll</a>
                                 <ul class="mm-collapse">
