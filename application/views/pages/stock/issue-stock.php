@@ -19,14 +19,6 @@
                         <option value="language-2">Andrew Tye</option>
                         <option value="language-3">Peter Parkar</option>
                     </select>
-                    <div class="nice-select block" tabindex="0"><span class="current">Tunnel Name</span>
-                        <ul class="list">
-                            <li data-value="default" class="option selected disabled focus">Select Tunnel Name</li>
-                            <li data-value="language-1" class="option">Jonathan Deo</li>
-                            <li data-value="language-2" class="option">Andrew Tye</li>
-                            <li data-value="language-3" class="option">Peter Parkar</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -36,18 +28,13 @@
                 <div class="cashier-select-field-style">
                     <select class="block" style="display: none;">
                         <option selected="" disabled="" value="default">Product</option>
-                        <option value="language-1">Jonathan Deo</option>
-                        <option value="language-2">Andrew Tye</option>
-                        <option value="language-3">Peter Parkar</option>
+                        <?php 
+                            if(!empty($data['products'])):
+                            foreach($data['products'] as $p):    
+                        ?> 
+                        <option value="<?php echo $p->id?>"><?=$p->Name;?></option>
+                        <?php endforeach; endif;?>
                     </select>
-                    <div class="nice-select block" tabindex="0"><span class="current">Product</span>
-                        <ul class="list">
-                            <li data-value="default" class="option selected disabled focus"> Product</li>
-                            <li data-value="language-1" class="option">Jonathan Deo</li>
-                            <li data-value="language-2" class="option">Andrew Tye</li>
-                            <li data-value="language-3" class="option">Peter Parkar</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -72,18 +59,13 @@
                 <div class="cashier-select-field-style">
                     <select class="block" style="display: none;">
                         <option selected="" disabled="" value="default">issued person name</option>
-                        <option value="language-1">Jonathan Deo</option>
-                        <option value="language-2">Andrew Tye</option>
-                        <option value="language-3">Peter Parkar</option>
+                        <?php 
+                            if(!empty($data['employees'])):
+                            foreach($data['employees'] as $e):    
+                        ?> 
+                        <option value="<?php echo $e->id?>"><?=$e->Name;?></option>
+                        <?php endforeach; endif;?>
                     </select>
-                    <div class="nice-select block" tabindex="0"><span class="current">issued person name</span>
-                        <ul class="list">
-                            <li data-value="default" class="option selected disabled focus"> issued person name</li>
-                            <li data-value="language-1" class="option">Jonathan Deo</li>
-                            <li data-value="language-2" class="option">Andrew Tye</li>
-                            <li data-value="language-3" class="option">Peter Parkar</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>

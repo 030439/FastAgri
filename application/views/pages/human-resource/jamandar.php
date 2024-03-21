@@ -143,7 +143,7 @@
                         <span><?php ShowVal($d->address);?></span>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                        <span><?php ShowVal($d->phone);?></span>
+                        <span><?php echo $d->contact;?></span>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
                         <span><?php ShowVal($d->cnic);?></span>

@@ -54,7 +54,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Contact</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Contact" name="contact">
+                            <input type="number" min="0" placeholder="Contact" name="contact">
                             <?php validator('contact')?>
                         </div>
                     </div>

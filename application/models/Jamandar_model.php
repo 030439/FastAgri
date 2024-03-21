@@ -7,8 +7,8 @@ class Jamandar_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
-    public function saveJamandar() {
-        $jamandar = $this->db->get('jamandars')->result();
+    public function saveJamandar($data) {
+        $jamandar =$this->db->insert('jamandars', $data);
         return $jamandar;
     }
 }

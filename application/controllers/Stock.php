@@ -6,6 +6,7 @@ class Stock extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('Setup_model');
+		$this->load->model('Common_model');
 		$this->load->model('Stock_model');
         $this->load->library('form_validation');
     }
@@ -98,7 +99,10 @@ class Stock extends CI_Controller {
     }
 	public function issue()
 	{
-		$this->load->view('layout/parts',['page'=>"pages/stock/issue-stock"]);
+		$data['employees']=$this->Common_model->getAll('employees');
+		$data['products']=$this->Common_model->getAll('products');
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$this->load->view('layout/parts',['page'=>"pages/stock/issue-stock",'data'=>$data]);
 	}
 	public function listissue()
 	{
@@ -160,5 +164,13 @@ class Stock extends CI_Controller {
         $this->session->set_flashdata('success_message', 'Record deleted successfully.');
         redirect('shareholder');
     }
+
+	// SELECT p.Name AS ProductName, 
+	// 	ps.qty AS RemainingQuality
+	// FROM purchasesdetail pd
+	// JOIN products p ON pd.product_id = p.id
+	// JOIN crops c ON c.pid = p.id
+	// LEFT JOIN purchaseseeddetail ps ON pd.id = ps.pid
+	// GROUP BY p.id
 
 } 
