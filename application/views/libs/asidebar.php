@@ -226,6 +226,12 @@
                                     <li><a href="payroll">Genterative List PayRoll</a></li>
                                 </ul>
                             </li>
+                             <li><a href="javascript:void(0)" class="has-arrow">jamandars</a>
+                                <ul class="mm-collapse">
+                                    <li><a href="jamandar/add">Add Jamandar</a></li>
+                                    <li><a href="add-jamandars">Jamandars List </a></li>
+                                </ul>
+                            </li>
                             <li><a href="hr/Advance">Advance/Loan</a></li>
 
 

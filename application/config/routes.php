@@ -92,3 +92,7 @@ $route['save-designation']='Employee/Savedesignation';
 $route['save-category']='Employee/saveCategory';
 $route['save-employee']='Employee/saveEmployee';
 $route['employees']='Employee/index';
+//Jammandar 
+$route['jamandars']='Jamandar/index';
+$route['add-jamandar']='Jamandar/add';
+$route['save-jamandar']='Jamandar/save';
