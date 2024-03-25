@@ -49,4 +49,31 @@
 <?php } ?>
 
 </script>
- 
+ <script>
+  $(document).ready(function(e){
+    $('#issue-stock-product').on('change', function(){  
+      $.ajax({
+        url: "getStockQty",
+        method: 'post',
+        data: {
+          id: $(this).val(),
+        },
+        success: function(result){
+          $("#issue-stock-product-qty").attr("title", result);
+          $('#issue-stock-product-qty').text("Remaining stock for this Product is :"+result);
+        }
+      });
+
+    });
+    $("#issue-quantity-val").on("keyup", function(){
+        var RemainingQty=parseInt($("#issue-stock-product-qty").attr('title'));
+        var inputValue = $(this).val(); // Get the value from the input field
+        var cint=parseInt(inputValue);
+          if(inputValue > RemainingQty){
+            $("#issue-stock-qty").text("Quantity is out of Stock: " + inputValue);
+          }else{
+            $("#issue-stock-qty").text('');
+          }
+    });
+  })
+ </script>

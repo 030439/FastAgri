@@ -35,7 +35,12 @@ class Tunnels extends CI_Controller{
 				$data = $this->input->post(NULL, TRUE);
 			
                 $res= $this->Tunnel_model->createTunnel($data);
-			   response($res,'tunnels',"Data Inserted Successfully");
+                if($res){
+                    response($res,'tunnels',"Data Inserted Successfully");
+                   }
+                   else{
+                    response($res,'tunnels',"Something went Wrong");
+                   }
 			}
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

@@ -12,6 +12,11 @@ class Common_model extends CI_Model {
         $all = $this->db->get($table)->result();
         return $all;
     }
+    public function getAllInArray($table){
+        $this->db->where('status', 1);
+        $all = $this->db->get($table)->result_array();
+        return $all;
+    }
 
     public function createRecord($data,$table) {
          $res=$this->db->insert($table, $data);

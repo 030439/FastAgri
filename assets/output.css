@@ -1700,3 +1700,11 @@ video {
   height:200px;
    overflow-y: scroll !important;
 }
+#issue-stock-qty{
+  text-align: center;
+  color: red;
+}
+#issue-stock-product-qty{
+  text-align: center;
+  color: #1bbc4e;
+}

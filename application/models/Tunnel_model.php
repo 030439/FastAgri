@@ -11,6 +11,12 @@ class Tunnel_model extends CI_Model
     }
     public function createTunnel($data)
     {
+        $existingTunnel = $this->db->get_where('tunnels', ['TName' => $data['name']])->row();
+        if ($existingTunnel) {
+            // Tunnel name already exists, return false
+            return false;
+        }
+
         $this->db->trans_start(); // Start Transaction
             $res['CoveredArea']=$data['area'];
             $res['TName']=$data['name'];
@@ -103,7 +109,7 @@ class Tunnel_model extends CI_Model
         return $individual_records;
     }
     public function getunnels(){
-        $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,,tunnels.cDate,
+        $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,tunnels.cDate,
         crops.FasalName as product,crops.SeedQuality as grade');
         $this->db->from('tunnels');
         $this->db->join('crops', 'tunnels.product__id = crops.pid', 'left');

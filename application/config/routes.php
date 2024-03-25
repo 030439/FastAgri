@@ -66,6 +66,7 @@ $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
 $route['customer/create'] = 'customer/create';
 //supplier
 $route['insert-supplier']='Supplier/create';
+$route['supplierExport']="Supplier/supplierExport";
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list
@@ -85,6 +86,7 @@ $route['stock/add-product']="Stock/addProduct";
 $route['product-insert']="Stock/insertProduct";
 $route['seed-insert']="Stock/insertSeed";
 $route['stock/products']="Stock/productList";
+$route['getStockQty']="Stock/getStockQty";
 //Employee 
 $route['add-employee']='Employee/add';
 $route['designation']='Employee/designation';

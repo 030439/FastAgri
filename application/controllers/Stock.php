@@ -100,13 +100,18 @@ class Stock extends CI_Controller {
 	public function issue()
 	{
 		$data['employees']=$this->Common_model->getAll('employees');
-		$data['products']=$this->Common_model->getAll('products');
+		$data['products']=$this->Stock_model->getStockProduct();
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/stock/issue-stock",'data'=>$data]);
 	}
 	public function listissue()
 	{
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock"]);
+	}
+	public function getStockQty(){
+		$id=$this->input->post('id');
+		$res=$this->Stock_model->getStockQty($id);
+		echo $res;
 	}
 	public function response($res,$route,$msg){
 		if($res){
@@ -165,12 +170,6 @@ class Stock extends CI_Controller {
         redirect('shareholder');
     }
 
-	// SELECT p.Name AS ProductName, 
-	// 	ps.qty AS RemainingQuality
-	// FROM purchasesdetail pd
-	// JOIN products p ON pd.product_id = p.id
-	// JOIN crops c ON c.pid = p.id
-	// LEFT JOIN purchaseseeddetail ps ON pd.id = ps.pid
-	// GROUP BY p.id
+	
 
 } 

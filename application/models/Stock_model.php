@@ -50,4 +50,28 @@ class Stock_model extends CI_Model {
     public function deleteshareholder($id) {
         return $this->db->delete('shareholders', ['id' => $id]);
     }
+
+    public function getStockProduct(){
+        
+    }
+    public function getStockQty($id){
+        $query = $this->db->query("
+            SELECT p.Name AS ProductName, 
+            ps.qty AS RemainingQuality
+            FROM purchasesdetail pd
+            JOIN products p ON pd.product_id = p.id
+            JOIN crops c ON c.pid = p.id
+            LEFT JOIN purchaseseeddetail ps ON pd.id = ps.pid
+            GROUP BY p.id
+            HAVING p.id = $id
+        ");
+
+        if ($query) {
+            $result = $query->result_array();
+            return $result[0]['RemainingQuality'];
+            // Process the result as needed
+        } else {
+            // Handle query execution failure
+        }
+    }
 }

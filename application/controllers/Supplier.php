@@ -20,7 +20,32 @@ class Supplier extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
-	
+	public function supplierExport(){
+		try {
+			/* file name */
+			$filename = 'users_' . date('Ymd') . '.csv';
+			header("Content-Description: File Transfer");
+			header("Content-Disposition: attachment; filename=$filename");
+			header("Content-Type: application/csv; ");
+		
+			/* get data */
+			$data = $this->Common_model->getAllInArray('suppliers');
+			
+			$file = fopen('php://output', 'w');
+			$header = array("id","Name", "Company", "Contact No", "CNIC", "Address");
+			fputcsv($file, $header);
+			foreach ($data as $line) {
+				fputcsv($file, $line);
+			}
+			fclose($file);
+			exit;
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+		
+		
+	}
 	public function add()
 	{
 		$this->load->view('layout/parts',['page'=>"pages/supplier/add-supplier"]);
