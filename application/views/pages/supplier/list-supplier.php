@@ -182,6 +182,8 @@
                         <?php endforeach;endif;?>
                     </div>
                 </div>
+                <table class="table table-striped table-bordered" id="index" >
+            </table>
             </div>
             <div class="cashier-pagination-area">
                 <div class="cashier-pagination-wrapper">
