@@ -52,7 +52,20 @@ class Stock_model extends CI_Model {
     }
 
     public function getStockProduct(){
-        
+        $query = $this->db->query("
+        SELECT p.id as id, p.Name AS ProductName, 
+        ps.qty AS RemainingQuality,
+        pd.rate
+        FROM purchasesdetail pd
+        JOIN products p ON pd.product_id = p.id
+        JOIN crops c ON c.pid = p.id
+        LEFT JOIN purchaseseeddetail ps ON pd.id = ps.pid
+        GROUP BY p.id
+    ");
+
+    if ($query) {
+        return $result = $query->result_array();
+    }
     }
     public function getStockQty($id){
         $query = $this->db->query("

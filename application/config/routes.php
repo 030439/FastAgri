@@ -67,6 +67,7 @@ $route['customer/create'] = 'customer/create';
 //supplier
 $route['insert-supplier']='Supplier/create';
 $route['supplierExport']="Supplier/supplierExport";
+$route['supplierFilter']="Supplier/supplierFilter";
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list

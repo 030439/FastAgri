@@ -9,9 +9,8 @@
                 </div>
                 <div class="cashier-header-profile-info pl-2.5 cursor-pointer">
                     <div>
-                        <a class="text-[15px] font-bold text-heading cursor-pointer" href="profile.html">Shane Watson
-                            <span
-                                class="text-[10px] font-bold leading-none pt-0.5 pb-[1px] px-1 border border-solid border-[#FFC403] text-[#FFC403] inline-block ml-2 uppercase rounded-[3px]">Pro</span></a>
+                        <a class="text-[15px] font-bold text-heading cursor-pointer" href="profile.html">Furqan 
+                        </a>
                     </div>
                     <span class="text-[13px] font-normal text-bodyText cursor-pointer">Admin User</span>
                 </div>

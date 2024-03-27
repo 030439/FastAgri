@@ -10,7 +10,7 @@
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
                 <div class="md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search relative maxSm:mb-4">
-                        <input type="text" placeholder="Search List">
+                        <input type="text" placeholder="Search List" id="dataFilter">
                         <span>
                             <i class="fa-light fa-magnifying-glass"></i>
                         </span>
@@ -132,53 +132,55 @@
                             <h5>Action</h5>
                         </div>
                     </div>
-                    <?php if(!empty($data)): foreach($data as $d):?>
-                        <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->Name);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span><?php ShowVal($d->company_name);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span><?php ShowVal($d->contact);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span><?php ShowVal($d->cnic);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span><?php ShowVal($d->Address);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Completed</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
+                    <div id="filteredData">
+                        <?php if(!empty($data)): foreach($data as $d):?>
+                            <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
+                            <div class="cashier-salereturns-table-checkboxB default-light-theme">
+                                <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
+                                    class="checkme">
+                            </div>
+                            <div class="cashier-salereturns-table-dateB">
+                                <span><?php ShowVal($d->Name);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-referenceB">
+                                <span><?php ShowVal($d->company_name);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-customerB">
+                                <span><?php ShowVal($d->contact);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-warehouseB">
+                                <span><?php ShowVal($d->cnic);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-billerB">
+                                <span><?php ShowVal($d->Address);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-remarkB">
+                                <span>
+                                    <span
+                                        class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
+                                        Completed</span>
+                                </span>
+                            </div>
+                            <div class="cashier-salereturns-table-actionB">
+                                <div class="dropdown">
+                                    <button class="common-action-menu-style">Action
+                                        <i class="fa-sharp fa-solid fa-caret-down"></i>
                                     </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
+                                    <div class="dropdown-list">
+                                        <button class="dropdown-menu-item">
+                                            <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                            <span>Update</span>
+                                        </button>
+                                        <button class="dropdown-menu-item">
+                                            <img src="assets/img/icon/action-6.png" alt="icon not found">
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <?php endforeach;endif;?>
                     </div>
-                    <?php endforeach;endif;?>
                 </div>
             </div>
             <div class="cashier-pagination-area">

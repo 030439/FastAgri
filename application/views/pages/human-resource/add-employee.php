@@ -32,7 +32,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="CNIC" name="Nic">
+                            <input type="number" placeholder="CNIC" name="Nic">
                             <?php validator('Nic')?>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Contact</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Contact" name="ContactNo">
+                            <input type="number" placeholder="Contact" name="ContactNo">
                             <?php validator('ContactNo')?>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Basic Salary</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Basic Salary" name="BasicSalary">
+                            <input type="number" placeholder="Basic Salary" name="BasicSalary">
                             <?php validator('BasicSalary')?>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">allowance</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="allowance" name="Allowances">
+                            <input type="number" placeholder="allowance" name="Allowances">
                             <?php validator('Allowances')?>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Medical</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Medical" name="Medical">
+                            <input type="number" placeholder="Medical" name="Medical">
                             <?php validator('Medical')?>
                         </div>
                     </div>

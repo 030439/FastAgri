@@ -49,6 +49,29 @@
 <?php } ?>
 
 </script>
+<script>
+    $(document).ready(function() {
+        $('#dataFilter').on('input', function() {
+            let filterValue = $(this).val().toLowerCase().trim();
+            filterData(filterValue);
+        });
+
+        function filterData(filterValue) {
+            $.ajax({
+                url: 'supplierFilter', // Backend script to handle filtering
+                method: 'POST',
+                data: { filterValue: filterValue },
+                success: function(response) {
+                    $('#filteredData').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
+</script>
+
  <script>
   $(document).ready(function(e){
     $('#issue-stock-product').on('change', function(){  

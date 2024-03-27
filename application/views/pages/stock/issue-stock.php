@@ -32,10 +32,12 @@
                     <select class="block" style="display: none;" id="issue-stock-product">
                         <option selected="" disabled="" value="default">Product</option>
                         <?php 
+                        
                             if(!empty($data['products'])):
+                                
                             foreach($data['products'] as $p):    
                         ?> 
-                        <option value="<?php echo $p->id?>"><?=$p->Name;?></option>
+                        <option value="<?php echo $p['id']?>"><?=$p['ProductName'].'-'.$p['rate'];?></option>
                         <?php endforeach; endif;?>
                     </select>
                     <p id="issue-stock-product-qty"></p>

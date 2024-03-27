@@ -28,7 +28,7 @@
                 <!-- copy right -->
                 <div class="cashier-copyright-area">
                     <div class="cashier-copyright text-center bg-themeBlue h-20 leading-[80px] mt-20">
-                        <span class="text-[15px] text-white font-normal">© Copyright by BDevs -2022-2023</span>
+                        <span class="text-[15px] text-white font-normal">© Copyright by Techs & Designs -2023-2024</span>
                     </div>
                 </div>
                 <!-- end copy right -->
