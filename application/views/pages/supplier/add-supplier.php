@@ -18,7 +18,8 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="44444-3232323-1" name="cnic">
+                            <input type="number" id="cnic" maxlength="15" name="cnic" pattern="\d{5}-\d{7}-\d{1}" placeholder="4111111111111">
+                            <p id="cnicValidationMessage"></p>
                             <?php validator('cnic');?>
                         </div>
                     </div>
@@ -40,7 +41,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Contact</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Contact" name="contact">
+                            <input type="number" placeholder="Contact" name="contact">
                             <?php validator('contact');?>
                         </div>
                     </div>

@@ -50,6 +50,8 @@ class Purchase extends CI_Controller {
 			$this->form_validation->set_rules('supplier', 'Supplier ', 'required');
 			$this->form_validation->set_rules('pdate', 'Date ', 'required');
 			$this->form_validation->set_rules('charges', 'Charges ', 'required');
+			$this->form_validation->set_rules('bno', 'Bill Number ', 'required');
+			$this->form_validation->set_rules('pa', 'Bill Number ', 'required');
 			if ($this->form_validation->run() == FALSE) {
 				$this->add();
 			}

@@ -36,4 +36,5 @@ class Common_model extends CI_Model {
     public function deletecustomer($id) {
         return $this->db->delete('customers', ['id' => $id]);
     }
+    
 }

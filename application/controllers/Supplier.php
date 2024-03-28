@@ -20,6 +20,7 @@ class Supplier extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+	
 	public function supplierExport(){
 		try {
 			/* file name */
@@ -83,7 +84,7 @@ class Supplier extends CI_Controller {
 				$data = $this->input->post(NULL, TRUE);
 			
 			   $res= $this->Common_model->createRecord($data,'suppliers');
-			   response($res,'supplier/add',"Data Inserted Successfully");
+			   response($res,'supplier',"Data Inserted Successfully");
 			}
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

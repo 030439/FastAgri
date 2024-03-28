@@ -29,7 +29,7 @@
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Product</h5>
                 <div class="cashier-select-field-style">
-                    <select class="block" style="display: none;" id="issue-stock-product">
+                    <select class="block"  id="issue-stock-product-with-price">
                         <option selected="" disabled="" value="default">Product</option>
                         <?php 
                         

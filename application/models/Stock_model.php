@@ -87,4 +87,64 @@ class Stock_model extends CI_Model {
             // Handle query execution failure
         }
     }
+    public function createAlgo(){
+        $query = $this->db->query("
+        SELECT product_id,fu_price,id from purchasesdetail  
+    ");
+
+    if ($query) {
+         $result = $query->result_array();
+        
+         foreach($result as $k=> $res){
+            echo "<pre>";
+            $product_ids=explode(",",$res['product_id']);
+            $fu_price=explode(",",$res['fu_price']);
+            
+            for($i=0;$i<count($product_ids);$i++){
+                // echo "<pre>";
+                // echo $product_ids[$i];
+                // echo "<br>";
+                // echo $fu_price[$i];
+                // echo "<br>__________";
+                
+            }
+        //   dd($product_ids);
+            // print_r(count($product_ids));
+            // $fu_price=explode(",",$res['fu_price']);
+         }
+         print_r($fu_price);
+         dd($product_ids);
+         dd("SDF");
+         foreach($result as $re){
+            $id=$re['purchase_id'];
+            $purchased = $this->db->query("
+            SELECT purchase_id,RemainingQuantity from purchaseqty
+            SELECT product_id,fu_price from purchasesdetail WHERE id=$id
+        ");
+        $pr = $purchased->result_array();
+        
+        // foreach($pr as $p){
+            
+        // }
+      
+         }
+         
+         $product_ids=explode(",",$pr[0]['product_id']);
+         $fu_price=explode(",",$pr[0]['fu_price']);
+
+         foreach ($product_ids as $index => $product_id) {
+            echo "<pre>";
+            print_r($product_id);
+            echo "<br>";
+            $final=$fu_price[$index];
+            print_r($final);
+            // $individual_records[] = array(
+            //     'purchase_detail_id' => $row['purchase_detail_id'],
+            //     'product_id' => $product_id,
+            //     'product_name' => $row['product_name']);
+            }
+
+         dd($product_id);
+    }
+    }
 }

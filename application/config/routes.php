@@ -65,6 +65,8 @@ $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 //supplier
+$route['fetch-suppliers']="Supplier/fetchAll";
+$route['createAlgo']="Stock/createAlgo";
 $route['insert-supplier']='Supplier/create';
 $route['supplierExport']="Supplier/supplierExport";
 $route['supplierFilter']="Supplier/supplierFilter";

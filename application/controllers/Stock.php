@@ -97,6 +97,9 @@ class Stock extends CI_Controller {
 		   $this->response($res,'shareholders',"Data Inserted Successfully");
         }
     }
+	public function createAlgo(){
+		$data=$this->Stock_model->createAlgo();
+	}
 	public function issue()
 	{
 		$data['employees']=$this->Common_model->getAll('employees');

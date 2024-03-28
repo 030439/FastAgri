@@ -6,3 +6,4 @@
 <link rel="stylesheet" href="assets/css/main.css" />
 <!-- <script src="assets/js/tailwind-config.js"></script> -->
 <link rel="stylesheet" href="assets/output.css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">

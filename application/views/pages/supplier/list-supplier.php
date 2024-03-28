@@ -1,9 +1,9 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
+        <h4 class="text-[20px] font-bold text-heading mb-9">Supplier List</h4>
         <div class="cashier-managesale-top-btn default-light-theme mb-7">
             <button class="mb-1" onclick="document.location='supplier/add'">
-                <i class="fa-light fa-plus"></i> Create Bank
+                <i class="fa-light fa-plus"></i> Create Supplier
             </button>
         </div>
         <div class="cashier-table-header-search-area">
@@ -125,6 +125,9 @@
                         <div class="cashier-salereturns-table-billerB">
                             <h5>Address</h5>
                         </div>
+                        <div class="cashier-salereturns-table-billerB">
+                            <h5>Balance</h5>
+                        </div>
                         <div class="cashier-salereturns-table-remarkB">
                             <h5>Status</h5>
                         </div>
@@ -154,6 +157,9 @@
                             <div class="cashier-salereturns-table-billerB">
                                 <span><?php ShowVal($d->Address);?></span>
                             </div>
+                            <div class="cashier-salereturns-table-billerB">
+                                <span>1000</span>
+                            </div>
                             <div class="cashier-salereturns-table-remarkB">
                                 <span>
                                     <span
@@ -182,8 +188,6 @@
                         <?php endforeach;endif;?>
                     </div>
                 </div>
-                <table class="table table-striped table-bordered" id="index" >
-            </table>
             </div>
             <div class="cashier-pagination-area">
                 <div class="cashier-pagination-wrapper">

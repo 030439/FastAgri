@@ -11,7 +11,7 @@ ready(() => {
 		language: {},
 		serverSide: true, // Enable server-side processing
 		ajax: {
-			url: "filtered", // Adjust the route based on your Laravel route
+			url: "fetch-suppliers", // Adjust the route based on your Laravel route
 			dataSrc: "data",
 			data: function (params) {
 				params.vendor = $("#selectVendor").val();
@@ -69,37 +69,14 @@ ready(() => {
 
 		/* columnDefs */
 		columns: [
-			{ title: "Ticket_Id", data: "Ticket_Id", visible: true },
-			{ title: "Time", data: "Time", visible: true },
-			{ title: "Action", data: "Action", visible: true },
-			{ title: "Type", data: "Type", visible: true },
-			{ title: "Type_Detail", data: "Type_Detail", visible: true },
-			{ title: "Account", data: "Account", visible: true },
-			{ title: "Parent", data: "Parent", visible: true },
-			{ title: "Amount", data: "Amount", visible: true },
-			{ title: "Script", data: "Script", visible: true },
-			{ title: "Price", data: "Price", visible: true },
-			{ title: "Close_Price", data: "Close_Price", visible: true },
-			{ title: "Total_PnL", data: "Total_PnL", visible: true },
-			{ title: "SL", data: "SL", visible: true },
-			{ title: "TP", data: "TP", visible: true },
-			{ title: "Open_Position", data: "Open_Position", visible: true },
-			{ title: "Open_Date", data: "Open_Date", visible: true },
-			{ title: "Time_Diff", data: "Time_Diff", visible: true },
-			{ title: "Created_By", data: "Created_By", visible: true },
-			{ title: "Comment", data: "Comment", visible: true },
-			{ title: "IP", data: "IP", visible: true },
-			{
-				title: "Script_Description",
-				data: "Script_Description",
-				visible: true,
-			},
-			{ title: "Expiry_Date", data: "Expiry_Date", visible: true },
-			{ title: "Method", data: "Method", visible: true },
-			{ title: "Contract_Size", data: "Contract_Size", visible: true },
+			{ title: "Name", data: "Name", visible: true },
+			{ title: "Company", data: "company_name", visible: true },
+			{ title: "Contact", data: "contact_no", visible: true },
+			{ title: "CNIC", data: "nic", visible: true },
+			{ title: "Address", data: "address", visible: true },
 			{
 				title: "button",
-				data: "Account",
+				data: "id",
 				visible: true,
 				render: function (data, type, row) {
 					// Assuming you want to create a button with a specific class

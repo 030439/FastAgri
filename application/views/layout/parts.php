@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="<?= base_url() ?>">
     <?php include(APPPATH . 'views/libs/css.php'); ?>
+    <!-- <script src="assets/js/supplier.js"></script> -->
     <title>Cashiar</title>
 </head>
 

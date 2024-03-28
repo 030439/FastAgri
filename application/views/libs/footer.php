@@ -35,8 +35,7 @@
  <script src="assets/js/main.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-<script src='https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-html5-2.3.3/b-print-2.3.3/fh-3.3.1/r-2.4.0/sb-1.4.0/datatables.min.js'>
-<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+
 <script type="text/javascript">
 
 <?php if($this->session->flashdata('success')){ ?>
@@ -51,6 +50,38 @@
 
 </script>
 <script>
+  const cnicInput = document.getElementById('cnic');
+  const cnicValidationMessage = document.getElementById('cnicValidationMessage');
+
+  cnicInput.addEventListener('input', function() {
+    let cnic = cnicInput.value.trim().replace(/-/g, ''); // Remove existing dashes
+    cnic = addDashes(cnic); // Add dashes back
+
+    if (isValidCNIC(cnic)) {
+      cnicValidationMessage.innerText = 'CNIC is valid.';
+    } else {
+      cnicValidationMessage.innerText = 'Invalid CNIC. Please enter a valid CNIC.';
+    }
+  });
+
+    function isValidCNIC(cnic) {
+      // CNIC validation logic
+      const cnicRegex = /^\d{5}-\d{7}-\d{1}$/;
+      return cnicRegex.test(cnic);
+    }
+
+    function addDashes(cnic) {
+      // Add dashes to CNIC number
+      const formattedCnic = [];
+      for (let i = 0; i < cnic.length; i++) {
+        formattedCnic.push(cnic[i]);
+        if ((i === 4 || i === 11) && cnic[i] !== '-') {
+          formattedCnic.push('-');
+        }
+      }
+      return formattedCnic.join('');
+    }
+
     $(document).ready(function() {
         $('#dataFilter').on('input', function() {
             let filterValue = $(this).val().toLowerCase().trim();
@@ -75,7 +106,7 @@
 
  <script>
   $(document).ready(function(e){
-    $('#issue-stock-product').on('change', function(){  
+    $('#issue-stock-product-with-price').on('change', function(){  
       $.ajax({
         url: "getStockQty",
         method: 'post',
@@ -101,3 +132,4 @@
     });
   })
  </script>
+ 

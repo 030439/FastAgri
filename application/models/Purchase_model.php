@@ -14,20 +14,34 @@ class Purchase_model extends CI_Model
         $this->db->trans_start(); // Start Transaction
 
         $total_amount = 0;
-        
+        $bno=$data['bno'];
+        $totalQty=0;
+        $c_=$data['charges'];
         foreach ($data['qty'] as $key => $quantity) {
+            $totalQty+=$quantity;
+            
+        }
+       
+        $perunitExpense=$c_/$totalQty;
+       $finalArr=array();
+        foreach ($data['qty'] as $key => $quantity) {
+           
+            $finalArr[$key]=round($perunitExpense + $data['rate'][$key],2); 
             $total_amount += $quantity * $data['rate'][$key];
         }
+        
+       $finaValue=implode(',',$finalArr);
         $pro= implode(',', $data['product']);
         $sup=$data['supplier'];
         $Q=implode(',', $data['qty']);
         $rate_ =implode(',', $data['rate']);
         $pdate= $data['pdate'];
-        $c_=$data['charges'];
-        $ex=$total_amount * $data['charges'];
-        $sql = 'INSERT INTO `purchasesdetail` (`product_id`, `Supplier_id`, `quantity`, `rate`, `amount`, `Date`, `expenses`, `total_amount`) 
-        VALUES ("'.$pro.'","'.$sup.'", "'.$Q.'", "'.$rate_.'","'.$total_amount.'","'.$pdate.'","'.$c_.'","'.$ex.'")';
-        $this->db->query($sql);
+        $ex= $data['gt'];
+        $paid=$data['pa'];
+        $sql = 'INSERT INTO `purchasesdetail` (`bno`,`product_id`, `Supplier_id`, `quantity`, `rate`, `fu_price`, `amount`, `paid_amount`,`Date`, `expenses`, `total_amount`) 
+        VALUES ("'.$bno.'","'.$pro.'","'.$sup.'", "'.$Q.'", "'.$rate_.'","'.$finaValue.'","'.$total_amount.'","'.$paid.'","'.$pdate.'","'.$c_.'","'.$ex.'")';
+      
+       $this->db->query($sql);
         $pid =$this->db->insert_id();
         foreach ($data['qty'] as $key => $quantity) {
             $purchase['purchase_id'] = $pid;
