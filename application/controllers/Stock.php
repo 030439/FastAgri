@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -103,13 +104,32 @@ class Stock extends CI_Controller {
 	public function issue()
 	{
 		$data['employees']=$this->Common_model->getAll('employees');
-		$data['products']=$this->Stock_model->getStockProduct();
+		$data['products']=$this->Common_model->getAll('products');//$this->Stock_model->getStockProduct();
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/stock/issue-stock",'data'=>$data]);
 	}
 	public function listissue()
 	{
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock"]);
+	}
+	public function getStockRate(){
+		$id=$this->input->post('id');
+		$res=$this->Stock_model->getStockRate($id);
+		if($res){
+			$html="";
+			$html.="<option selected='selected' disabled>Select price wise Stock </option>";
+			foreach($res as $e){
+				$stock=$e['stock'];
+				$price=$e['price'];
+				$html.="<option value='".$stock."'>".$price."</option>";
+			}
+			echo $html;
+		}
+		else{
+			$html.="<option></option>";
+			echo $html;
+		}
+
 	}
 	public function getStockQty(){
 		$id=$this->input->post('id');

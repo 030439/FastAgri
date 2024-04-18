@@ -87,6 +87,35 @@ class Stock_model extends CI_Model {
             // Handle query execution failure
         }
     }
+    public function getStockRate($pid){
+        $stockWithRate=array();
+        $query = $this->db->query("
+        SELECT id as rsid, purchase_id,RemainingQuantity From purchaseqty WHERE product_id=$pid AND  RemainingQuantity>0  order by id ASC
+       ");
+       if ($query) {
+        $result = $query->result_array();
+       }
+       foreach($result as $s=> $res){
+        $stockWithRate[$s]['stock']=$res['RemainingQuantity'];
+        $stockWithRate[$s]['rsid']=$res['rsid'];
+        $Pid=$res['purchase_id'];
+        $pd = $this->db->query("
+        SELECT product_id,fu_price from purchasesdetail  WHERE id=$Pid
+        ");
+        if ($pd) {
+            $purchaseDetails = $pd->result_array();
+            $products=explode(",",$purchaseDetails[0]['product_id']);
+            $fu_price=explode(",",$purchaseDetails[0]['fu_price']);
+            for($i=0;$i<count($products);$i++){
+                if($products[$i]==$pid){
+                    $stockWithRate[$s]['price']=$fu_price[$i];    
+                }
+            }
+        }
+       }
+       return $stockWithRate;
+       
+    }
     public function createAlgo(){
         $query = $this->db->query("
         SELECT product_id,fu_price,id from purchasesdetail  
@@ -102,9 +131,9 @@ class Stock_model extends CI_Model {
             
             for($i=0;$i<count($product_ids);$i++){
                 // echo "<pre>";
-                // echo $product_ids[$i];
-                // echo "<br>";
-                // echo $fu_price[$i];
+                echo $product_ids[$i];
+                echo "<br>---------";
+               echo $fu_price[$i];
                 // echo "<br>__________";
                 
             }
@@ -123,10 +152,6 @@ class Stock_model extends CI_Model {
         ");
         $pr = $purchased->result_array();
         
-        // foreach($pr as $p){
-            
-        // }
-      
          }
          
          $product_ids=explode(",",$pr[0]['product_id']);

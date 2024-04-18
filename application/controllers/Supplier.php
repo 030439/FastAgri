@@ -47,24 +47,12 @@ class Supplier extends CI_Controller {
 		
 		
 	}
-	public function supplierFilter(){
+
+	public function fetchAll(){
 		$data = $this->Common_model->getAll('suppliers');
 		$filterValue = $this->input->post('filterValue');
 
-		$filteredData = array_filter($data, function($item) use ($filterValue) {
-			return stripos($item->Name, $filterValue) !== false ||
-				   stripos($item->company_name, $filterValue) !== false ||
-				   stripos($item->contact, $filterValue) !== false ||
-				   stripos($item->cnic, $filterValue) !== false ||
-				   stripos($item->Address, $filterValue) !== false;
-		});
-	
-		foreach ($filteredData as $d) {
-			// Output filtered data using the same HTML structure as in your original code
-			echo '<div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">';
-			// Output your data elements here
-			echo '</div>';
-		}
+		
 	}
 	public function add()
 	{

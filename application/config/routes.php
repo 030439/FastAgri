@@ -89,6 +89,7 @@ $route['stock/add-product']="Stock/addProduct";
 $route['product-insert']="Stock/insertProduct";
 $route['seed-insert']="Stock/insertSeed";
 $route['stock/products']="Stock/productList";
+$route['getStockRate']="Stock/getStockRate";
 $route['getStockQty']="Stock/getStockQty";
 //Employee 
 $route['add-employee']='Employee/add';

@@ -106,18 +106,27 @@
 
  <script>
   $(document).ready(function(e){
-    $('#issue-stock-product-with-price').on('change', function(){  
-      $.ajax({
-        url: "getStockQty",
+    $('#issue-stock-product-with-price').on('change', function(){ 
+         $.ajax({
+        url: "getStockRate",
         method: 'post',
         data: {
           id: $(this).val(),
         },
         success: function(result){
-          $("#issue-stock-product-qty").attr("title", result);
-          $('#issue-stock-product-qty').text("Remaining stock for this Product is :"+result);
+         
+          $("#avaiable-stock-rates").html (result);
+           $('#avaiable-stock-rates').css('display', 'block');
+          // $('.nice-select').remove();
+
         }
       });
+    });
+   
+    $('#avaiable-stock-rates').on('change', function(){  
+      var Qty=$(this).val();
+      alert(Qty);
+      $('#issue-stock-product-qty').text("Remaining stock for this Product is :"+Qty);
 
     });
     $("#issue-quantity-val").on("keyup", function(){
