@@ -13,6 +13,7 @@ class Jamandar extends CI_Controller{
     }
     public function index(){
         $data=$this->Common_model->getAll('jamandars');
+        
         $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar",'data'=>$data]);
     }
 

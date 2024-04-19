@@ -190,6 +190,7 @@
                         <ul class="mm-collapse">
                             
                             <li><a href="units/list"> Unit</a></li>
+                            <li><a href="labour-rate"> Labour Rate</a></li>
 
 
                         </ul>

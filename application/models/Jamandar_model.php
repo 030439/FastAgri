@@ -11,4 +11,16 @@ class Jamandar_model extends CI_Model {
         $jamandar =$this->db->insert('jamandars', $data);
         return $jamandar;
     }
+    public function getRate(){
+        $rate = $this->db->get('labourrate')->result();
+        return $rate;
+    }
+    public function updateRate($data){
+        $rate = $this->db->get('labourrate')->result();
+        $amount=$data['rate'];
+        $last=$rate[0]->amount;
+        $sql = "UPDATE labourrate SET amount = ? ,last_amount= ?";
+        return $this->db->query($sql, array($amount, $last));
+
+    }
 }
