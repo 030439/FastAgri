@@ -107,4 +107,5 @@ $route['save-jamandar']='Jamandar/save';
 //labour
 $route['labour-rate']='hr/labourRate';
 $route['add-rate']='hr/updateRate';
-$route['labour-issue']='hr/updateRate';
+$route['labour-issue']='hr/labourIssue';
+$route['issued-labour-list']='hr/labourList';

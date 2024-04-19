@@ -77,9 +77,6 @@
                         </a>
                         <ul class="mm-collapse">
                             <li>
-                                <a href="purchase/add">Add Purchase</a>
-                            </li>
-                            <li>
                                 <a href="purchase">List Purchase</a>
                             </li>
                             <li>
@@ -230,8 +227,7 @@
                             </li>
                              <li><a href="javascript:void(0)" class="has-arrow">jamandars</a>
                                 <ul class="mm-collapse">
-                                    <li><a href="jamandar/add">Add Jamandar</a></li>
-                                    <li><a href="add-jamandars">Jamandars List </a></li>
+                                    <li><a href="jamandars">Jamandars List </a></li>
                                 </ul>
                             </li>
                             <li><a href="hr/Advance">Advance/Loan</a></li>
