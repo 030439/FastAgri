@@ -126,7 +126,7 @@
 
    
     $('#avaiable-stock-rates').on('change', function(){  
-      var Qty=$(this).val();
+      var Qty = $(this).find('option:selected').attr('title');
     $('#issue-stock-product-qty').text("Remaining stock for this Product is :"+Qty);
     $("#issue-stock-product-qty").attr("title", Qty);
 

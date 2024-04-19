@@ -22,6 +22,47 @@ class Stock_model extends CI_Model {
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
+    public function issueProduct($data){
+        $pqid=$data['pqid'];
+        $qty=$data['qty'];
+        $query = $this->db->query("SELECT * From purchaseqty WHERE purchase_id=$pqid");
+       if ($query) {
+        $result = $query->result();
+        $remaning=$result[0]->RemainingQuantity-$qty;
+        $this->db->query("Update purchaseqty SET RemainingQuantity=$remaning WHERE purchase_id=$pqid");
+       }
+       $new=['PqId'=>$pqid,
+             'empoyee_id'=>$data['person'],
+             'tunnel_id'=>$data['tunnel'],
+             'pid'=>$data['product'],
+             'Quantity'=>$qty,
+             'i_date'=>$data['issueDate']
+            ];
+        return $this->db->insert('issuestock', $new);
+    }
+    public function issueList(){
+        $query = $this->db->query("
+        SELECT 
+            i.`id` AS issue_stock_id,
+            i.`PqId`,
+            i.`Quantity`,
+            i.`i_date`,
+            p.`Name` AS product_name,
+            t.`TName`,
+            e.`Name` AS employee
+        FROM 
+        `issuestock` AS i
+        JOIN 
+        `products` AS p ON i.`pid` = p.`id`
+        JOIN 
+        `tunnels` AS t ON i.`tunnel_id` = t.`id`
+        JOIN 
+        `employees` AS e ON e.`id` = i.`empoyee_id`
+
+        ");
+        $result = $query->result();
+        return $result;
+    }
     public function getSeed(){
         $crops = $this->db->get('crops')->result();
         return $crops;
@@ -98,6 +139,7 @@ class Stock_model extends CI_Model {
        foreach($result as $s=> $res){
         $stockWithRate[$s]['stock']=$res['RemainingQuantity'];
         $stockWithRate[$s]['rsid']=$res['rsid'];
+        $stockWithRate[$s]['purchase_id']=$res['purchase_id'];
         $Pid=$res['purchase_id'];
         $pd = $this->db->query("
         SELECT product_id,fu_price from purchasesdetail  WHERE id=$Pid

@@ -108,9 +108,31 @@ class Stock extends CI_Controller {
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/stock/issue-stock",'data'=>$data]);
 	}
+	public function issueProduct(){
+		$data = $this->input->post(NULL, TRUE);
+		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
+        $this->form_validation->set_rules('issueDate', 'issueDate', 'required');
+		$this->form_validation->set_rules('product', 'product', 'required');
+        $this->form_validation->set_rules('pqid', 'pqid', 'required');
+		$this->form_validation->set_rules('qty', 'qty', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['employees']=$this->Common_model->getAll('employees');
+			$data['products']=$this->Common_model->getAll('products');//$this->Stock_model->getStockProduct();
+			$data['tunnels']=$this->Common_model->getAll('tunnels');
+			$this->load->view('layout/parts',['page'=>"pages/stock/issue-stock",'data'=>$data]);
+        } else {
+            // XSS cleaning for input data
+            $data = $this->input->post(NULL, TRUE);
+            $res=$this->Stock_model->issueProduct($data);
+			$this->response($res,'stock/listissue' ,"Data Update Successfully");
+        }
+	}
 	public function listissue()
 	{
-		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock"]);
+		$data['tunnels']=$this->Stock_model->issueList();
+		dd($data);
+		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock",'data'=>$data]);
 	}
 	public function getStockRate(){
 		$id=$this->input->post('id');
@@ -120,8 +142,9 @@ class Stock extends CI_Controller {
 			$html.="<option selected='selected' disabled>Select price wise Stock </option>";
 			foreach($res as $e){
 				$stock=$e['stock'];
+				$purchase_id=$e['purchase_id'];
 				$price=$e['price'];
-				$html.="<option value='".$stock."'>".$price."</option>";
+				$html.="<option title='".$stock."'  value='".$purchase_id."'>".$price."</option>";
 			}
 			echo $html;
 		}

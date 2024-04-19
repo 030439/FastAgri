@@ -6,7 +6,7 @@
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Tunnel Name</h5>
                     <div class="cashier-select-field-style">
-                        <select class="block" >
+                        <select class="block" name="tunnel" >
                             <option selected="" disabled="" value="default">Tunnel Name</option>
                             <?php 
                                 if(!empty($data['tunnels'])):
@@ -22,7 +22,7 @@
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">issued person name</h5>
                     <div class="cashier-select-field-style">
-                        <select class="block">
+                        <select class="block" name="person">
                             <option selected="" disabled="" value="default">issued person name</option>
                             <?php 
                                 if(!empty($data['employees'])):
@@ -39,7 +39,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Date</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="date" placeholder="Quantity" id="issue--val">
+                            <input type="date" name="issueDate" placeholder="Quantity" id="issue--val">
                             
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Product</h5>
                     <div class="cashier-select-field-style">
-                        <select class="block"  id="issue-stock-product-with-price">
+                        <select class="block" name="product"  id="issue-stock-product-with-price">
                             <option selected="" disabled="" value="default">Product</option>
                             <?php 
                             
@@ -68,7 +68,7 @@
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Avaiable Stock Rate</h5>
                     <div class="cashier-select-field-style">
-                        <select   id="avaiable-stock-rates">
+                        <select   id="avaiable-stock-rates" name="pqid">
                         </select>
                         <p id="issue-stock-product-qty" title=""></p>
                     </div>
@@ -79,7 +79,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Quantity</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" onkeyup="checkQty(this)" placeholder="Quantity">
+                            <input type="text" name="qty" onkeyup="checkQty(this)" placeholder="Quantity">
                             <p id="issue-stock-qty-" class="text-danger"></p>
                         </div>
                     </div>
