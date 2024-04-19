@@ -130,8 +130,7 @@ class Stock extends CI_Controller {
 	}
 	public function listissue()
 	{
-		$data['tunnels']=$this->Stock_model->issueList();
-		dd($data);
+		$data['stock']=$this->Stock_model->issueList();
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock",'data'=>$data]);
 	}
 	public function getStockRate(){
