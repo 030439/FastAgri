@@ -1,4 +1,5 @@
 <?php
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 if (!function_exists('validator')) {
     function validator($field)
     {
@@ -48,8 +49,31 @@ function dd($data){
     print_r($data);
     die;
 }
- function pqrate($pqid){
-    echo $pqid;
+
+if (!function_exists('pqrate')) {
+    function pqrate($pqid, $pid)
+   
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        $stockWithRate = array();
+        $query = $CI->db->query("SELECT * FROM purchasesdetail WHERE id = $pqid");
+
+        if ($query && $query->num_rows() > 0) {
+            $result = $query->row_array();
+            $products = explode(",", $result['product_id']);
+            $fprices = explode(",", $result['fu_price']);
+            foreach($products as $c=>$p){
+                if($p==$pid){
+                    echo $fprices[$c];
+                }
+            }
+            // Do something with $products or $result if needed
+        }
+        // Return any data if needed
+        echo 0;
+    }
 }
 
 ?>

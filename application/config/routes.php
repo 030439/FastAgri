@@ -104,3 +104,5 @@ $route['employees-listing']='Employee/listing';
 $route['jamandars']='Jamandar/index';
 $route['add-jamandar']='Jamandar/add';
 $route['save-jamandar']='Jamandar/save';
+//labour
+$route['labour-rate']='hr/labourRate';

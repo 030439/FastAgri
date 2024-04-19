@@ -45,6 +45,7 @@ class Stock_model extends CI_Model {
         SELECT 
             i.`id` AS issue_stock_id,
             i.`PqId`,
+            i.`pid`,
             i.`Quantity`,
             i.`i_date`,
             p.`Name` AS product_name,

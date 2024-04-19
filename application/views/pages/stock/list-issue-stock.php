@@ -152,7 +152,7 @@
                         <span><?php ShowVal($d->Quantity)?></span>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                        <span><?php pqrate($d->PqId)?></span>
+                        <span><?php pqrate($d->PqId,$d->pid)?></span>
                         </div>
                         <div class="cashier-salereturns-table-totalB">
                         <span><?php ShowVal($d->i_date)?></span>
