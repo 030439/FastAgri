@@ -33,6 +33,7 @@
  <script src="assets/js/swiper-bundle.min.js"></script>
  <script src="assets/js/apexcharts.js"></script>
  <script src="assets/js/main.js"></script>
+
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 
@@ -122,23 +123,38 @@
         }
       });
     });
+
    
     $('#avaiable-stock-rates').on('change', function(){  
       var Qty=$(this).val();
-      alert(Qty);
-      $('#issue-stock-product-qty').text("Remaining stock for this Product is :"+Qty);
+    $('#issue-stock-product-qty').text("Remaining stock for this Product is :"+Qty);
+    $("#issue-stock-product-qty").attr("title", Qty);
 
     });
-    $("#issue-quantity-val").on("keyup", function(){
-        var RemainingQty=parseInt($("#issue-stock-product-qty").attr('title'));
-        var inputValue = $(this).val(); // Get the value from the input field
+    // $("#issue-quantity-val").on("keyup", function(){
+    //     var RemainingQty=parseInt($("#issue-stock-product-qty").attr('title'));
+    //     alert(RemainingQty);
+    //     var inputValue = $(this).val(); // Get the value from the input field
+    //     var cint=parseInt(inputValue);
+    //       if(inputValue > RemainingQty){
+    //         $("#issue-stock-qty").text("Quantity is out of Stock: " + inputValue);
+    //       }else{
+    //         $("#issue-stock-qty").text('');
+    //       }
+    // });
+  })
+  function checkQty(v){
+    var RemainingQty=parseInt($("#issue-stock-product-qty").attr('title'));
+        var inputValue = $(v).val(); // Get the value from the input field
         var cint=parseInt(inputValue);
           if(inputValue > RemainingQty){
-            $("#issue-stock-qty").text("Quantity is out of Stock: " + inputValue);
+            $("#issue-stock-qty-").text("Quantity is out of Stock: 2");
+            $("#issue-stock-qty-").css("color", "red");
+            $("#issue-stock-btn").prop("disabled", true);
           }else{
-            $("#issue-stock-qty").text('');
+            $("#issue-stock-btn").prop("disabled", false);
+            $("#issue-stock-qty-").text('');
           }
-    });
-  })
+  }
  </script>
  

@@ -91,6 +91,7 @@ $route['seed-insert']="Stock/insertSeed";
 $route['stock/products']="Stock/productList";
 $route['getStockRate']="Stock/getStockRate";
 $route['getStockQty']="Stock/getStockQty";
+
 //Employee 
 $route['add-employee']='Employee/add';
 $route['designation']='Employee/designation';
@@ -98,6 +99,7 @@ $route['save-designation']='Employee/Savedesignation';
 $route['save-category']='Employee/saveCategory';
 $route['save-employee']='Employee/saveEmployee';
 $route['employees']='Employee/index';
+$route['employees-listing']='Employee/listing';
 //Jammandar 
 $route['jamandars']='Jamandar/index';
 $route['add-jamandar']='Jamandar/add';

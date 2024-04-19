@@ -8,7 +8,12 @@ class Employee_model extends CI_Model {
         $this->load->library('form_validation');
     }
 
-    public function getAll() {
+    public function count_records()
+    {
+        // Example query to count total records in your database table
+        return $this->db->count_all('employees');
+    }
+    public function getAll($limit, $offset) {
         $this->db->select('
         employees.id,employees.Name,employees.FatherName,
         employees.Nic,employees.Address,employees.ContactNo,
@@ -19,6 +24,7 @@ class Employee_model extends CI_Model {
         $this->db->from('employees');
         $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
         $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
+        $this->db->limit($limit, $offset);
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
@@ -32,6 +38,9 @@ class Employee_model extends CI_Model {
     }
     public function saveEmployee($data) {
         return $this->db->insert('employees', $data);
+    }
+    public function saveDesignation($data) {
+        return $this->db->insert('designation', $data);
     }
     public function saveCategory($data) {
         return $this->db->insert('employeecategory', $data);

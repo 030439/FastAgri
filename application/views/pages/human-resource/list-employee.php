@@ -136,7 +136,7 @@
                             <h5>Action</h5>
                         </div>
                     </div>
-                    <?php if(!empty($data)): foreach($data as $d):?>
+                    <?php if(!empty($data)): foreach($data['records'] as $d):?>
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                         <div class="cashier-salereturns-table-checkboxB default-light-theme">
                             <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
@@ -187,6 +187,7 @@
                         </div>
                     </div>
                     <?php endforeach;endif;?>
+                    <?php echo $this->pagination->create_links(); ?>
                 </div>
             </div>
             <div class="cashier-pagination-area">

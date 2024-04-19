@@ -11,6 +11,7 @@ class Hr extends CI_Controller {
 	
 	public function add()
 	{
+		
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/add-employee"]);
 	}
 	
