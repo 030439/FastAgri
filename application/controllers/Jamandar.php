@@ -12,7 +12,7 @@ class Jamandar extends CI_Controller{
         $this->load->library('form_validation');
     }
     public function index(){
-        $data=$this->Common_model->getAll('jamandars');
+        $data=$this->Jamandar_model->getAll();
         
         $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar",'data'=>$data]);
     }

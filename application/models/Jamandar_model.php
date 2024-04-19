@@ -7,6 +7,7 @@ class Jamandar_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
+
     public function saveJamandar($data) {
         if($jamandar =$this->db->insert('jamandars', $data)){
             $id =$this->db->insert_id();
@@ -18,9 +19,30 @@ class Jamandar_model extends CI_Model {
             ];
            return $this->db->insert('jamandartotal', $jrecord);
         }
-
         return false;
     }
+    
+    public function labourList(){
+        $query = $this->db->query("
+        SELECT 
+            i.`id` AS issue_stock_id,
+            i.`create_at`,
+            i.`total_amount`,
+            i.`rate`,
+            i.`lq`,
+            j.`name` AS jamander,
+            t.`TName`
+        FROM 
+        `issuelabour` AS i
+        JOIN 
+        `jamandars` AS j ON i.`jamandar` = j.`id`
+        JOIN 
+        `tunnels` AS t ON i.`tunnel` = t.`id`
+        ");
+        $result = $query->result();
+        return $result;
+    }
+
     public function getRate(){
         $rate = $this->db->get('labourrate')->result();
         return $rate;

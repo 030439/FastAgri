@@ -218,7 +218,7 @@
                             <li><a href="employees">List employee</a></li>
                             <li><a href="category"> Employee Category</a></li>
                             <li><a href="designation"> Employee Designation</a></li>
-                            <li><a href="hr/issuelabour">Issued Labour </a></li>
+                            <li><a href="issued-labour-list">Issued Labour List</a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">PayRoll</a>
                                 <ul class="mm-collapse">
                                     <li><a href="payroll/add">Add payroll</a></li>
