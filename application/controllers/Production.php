@@ -7,11 +7,13 @@ class Production extends CI_Controller {
         parent::__construct();
         $this->load->model('Common_model');
 		$this->load->model('Setup_model');
+		$this->load->model('Stock_model');
         $this->load->library('form_validation');
     }
 	public function index()
 	{
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$data['quality']=$this->Common_model->getAll('grades');
 		$data['units'] = $this->Setup_model->getunit();
 		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
 	}
@@ -21,7 +23,21 @@ class Production extends CI_Controller {
 		$this->load->view('layout/parts',['page'=>"pages/production/production-ready"]);
 	}
 	public function ready(){
-		
+		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
+		$this->form_validation->set_rules('units', 'units', 'required');
+		$this->form_validation->set_rules('quantity', 'quantity', 'required');
+		$this->form_validation->set_rules('quality', 'quality', 'required');
+        if ($this->form_validation->run() == false) {
+			$data['tunnels']=$this->Common_model->getAll('tunnels');
+			$data['quality']=$this->Common_model->getAll('grades');
+			$data['units'] = $this->Setup_model->getunit();
+			$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
+        } else {
+            // XSS cleaning for input data
+            $data = $this->input->post(NULL, TRUE);
+            $res = $this->Stock_model->readyProduct($data);
+                response($res, 'Production', '"Data Inserted Successfully'); 
+        }
 	}
 	public function prodetail()
 	{

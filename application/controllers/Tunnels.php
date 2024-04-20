@@ -51,7 +51,7 @@ class Tunnels extends CI_Controller{
         try{
                 $id = $this->input->post('id');
                 $res= $this->Tunnel_model->tunnelProduct($id);
-                echo $res;
+                echo $res->product;
 			}
         catch (Exception $e) {
             log_message('error', $e->getMessage());

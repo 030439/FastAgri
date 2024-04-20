@@ -125,6 +125,6 @@ class Tunnel_model extends CI_Model
         $this->db->where('tunnels.status', 1);
         $this->db->where('tunnels.id', $tunnel);
         $stocks = $this->db->get()->result();
-        return $stocks[0]->product; 
+        return $stocks[0]; 
     }
 }

@@ -45,7 +45,7 @@
     <form action="ready-product" method="post">
         <div class="grid grid-cols-12 gap-x-5">
             <!-- auto fill -->
-            <div class="lg:col-span-3 md:col-span-6 col-span-12">
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Supplier</h5>
                     <div class="cashier-select-field-style">
@@ -60,7 +60,7 @@
                 </div>
             </div> 
             <!-- auto fill -->
-            <div class="lg:col-span-3 md:col-span-6 col-span-12">
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Product</h5>
                     <div class="cashier-input-field-style">
@@ -71,7 +71,7 @@
                 </div>
             </div>
             <!-- auto fill -->
-            <div class="lg:col-span-3 md:col-span-6 col-span-12">
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Unit</h5>
                     <div class="cashier-select-field-style">
@@ -86,20 +86,40 @@
                 </div>
             </div>
             <!-- auto fill -->
-            <div class="lg:col-span-3 md:col-span-6 col-span-12">
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Quantity</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" min="0" placeholder="Quantity" name="quantity">
+                            <input type="number" min="0" placeholder="Quantity" name="quantity">
                             <?php validator('quantity')?>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-span-12">
-                <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
-                    <button class="btn-primary" type="submit">Add Now</button>
+            <!-- auto fill -->
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Quality</h5>
+                    <div class="cashier-select-field-style">
+                        <select class="block" style="display: none;" name="quality">
+                            <option selected="selected" disabled="disabled">Select Quality</option>
+                            <?php if(!empty($data['quality'])):foreach($data['quality'] as $quality):?>
+                            <option value="<?php ShowVal($quality->id);?>"><?php echo ($quality->Name);?></option>
+                            <?php endforeach; endif;?>
+                        </select>
+                        <?php validator('quality')?>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3"></h5>
+                    <div class="cashier-select-field-style" style="margin-top:25px !important">
+                        <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
+                            <button class="btn-primary" type="submit">Add Now</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

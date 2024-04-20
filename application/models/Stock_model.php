@@ -7,6 +7,9 @@ class Stock_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
+    public function readyProduct(){
+        
+    }
     public function getProducts() {
         $this->db->select('products.*, units.Name as unit');
         $this->db->from('products');
@@ -180,9 +183,6 @@ class Stock_model extends CI_Model {
                 // echo "<br>__________";
                 
             }
-        //   dd($product_ids);
-            // print_r(count($product_ids));
-            // $fu_price=explode(",",$res['fu_price']);
          }
          print_r($fu_price);
          dd($product_ids);
