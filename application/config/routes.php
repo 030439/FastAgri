@@ -112,3 +112,4 @@ $route['labour-issue']='hr/labourIssue';
 $route['issued-labour-list']='hr/labourList';
 //Production 
 $route['tunnelProduct']="tunnels/tunnelProduct";
+$route['ready-product']="Production/ready";
