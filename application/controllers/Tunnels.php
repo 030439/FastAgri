@@ -47,7 +47,17 @@ class Tunnels extends CI_Controller{
             show_error('An unexpected error occurred. Please try again later.');
         }
     }
-    
+    public function tunnelProduct(){
+        try{
+                $id = $this->input->post('id');
+                $res= $this->Tunnel_model->tunnelProduct($id);
+                echo $res;
+			}
+        catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+    }
     
     
 }

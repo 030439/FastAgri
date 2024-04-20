@@ -157,8 +157,8 @@
           }
   }
   function productionTunnel(ele){
-    var selectedValue = $(ele).val();
-  alert("Selected value: " + selectedValue);
+    var id = $(ele).val();
+    getProductByTunnel(id);
   }
   function getProductByTunnel(id){
     $.ajax({
@@ -168,7 +168,8 @@
           id: id,
         },
         success: function(result){
-          $("#production-product").html (result);
+          $("#production-product").val (result);
+          $('#production-product').prop('disabled', true);
         }
       });
   }
