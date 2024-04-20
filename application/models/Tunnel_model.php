@@ -118,7 +118,7 @@ class Tunnel_model extends CI_Model
         return $stocks; 
     }
     public function tunnelProduct($tunnel){
-        $this->db->select('tunnels.id,,
+        $this->db->select('tunnels.id,crops.pid as pid,
         crops.FasalName as product');
         $this->db->from('tunnels');
         $this->db->join('crops', 'tunnels.product__id = crops.pid', 'left');
@@ -126,5 +126,12 @@ class Tunnel_model extends CI_Model
         $this->db->where('tunnels.id', $tunnel);
         $stocks = $this->db->get()->result();
         return $stocks[0]; 
+    }
+    public function getCropId($fasal){
+        $this->db->select('crops.id');
+        $this->db->from('crops');
+        $this->db->where('FasalName', $fasal);
+        $stocks = $this->db->get()->result();
+        return $stocks[0]->id; 
     }
 }

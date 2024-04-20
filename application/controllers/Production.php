@@ -7,6 +7,7 @@ class Production extends CI_Controller {
         parent::__construct();
         $this->load->model('Common_model');
 		$this->load->model('Setup_model');
+		$this->load->model('Tunnel_model');
 		$this->load->model('Stock_model');
         $this->load->library('form_validation');
     }
@@ -15,6 +16,8 @@ class Production extends CI_Controller {
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$data['quality']=$this->Common_model->getAll('grades');
 		$data['units'] = $this->Setup_model->getunit();
+		$date=date('Y-m-d');
+		$data['production']=$this->Stock_model->getProduction($date);
 		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
 	}
 	
@@ -31,13 +34,26 @@ class Production extends CI_Controller {
 			$data['tunnels']=$this->Common_model->getAll('tunnels');
 			$data['quality']=$this->Common_model->getAll('grades');
 			$data['units'] = $this->Setup_model->getunit();
+			$date=date('Y-m-d');
+		    $data['production']=$this->Stock_model->getProduction($date);
 			$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
         } else {
             // XSS cleaning for input data
-            $data = $this->input->post(NULL, TRUE);
-            $res = $this->Stock_model->readyProduct($data);
+			$data = $this->input->post(NULL, TRUE);
+			$res=$this->Tunnel_model->tunnelProduct($data['tunnel']);
+			$arr=[
+				'TunnelId'  => $data['tunnel'],
+				'UnitId'    => $data['units'],
+				'CropId'    => $this->crop($res->product),
+				'GradeId'   => $data['quality'],
+				'Quantity'  => $data['quantity']
+  			];
+            $res = $this->Stock_model->readyProduct($arr);
                 response($res, 'Production', '"Data Inserted Successfully'); 
         }
+	}
+	public function crop($fasal){
+		return   $this->Tunnel_model->getCropId($fasal);
 	}
 	public function prodetail()
 	{

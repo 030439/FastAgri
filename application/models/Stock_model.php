@@ -7,8 +7,8 @@ class Stock_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
-    public function readyProduct(){
-        
+    public function readyProduct($data){
+        return $this->db->insert('productions', $data);
     }
     public function getProducts() {
         $this->db->select('products.*, units.Name as unit');
@@ -94,6 +94,30 @@ class Stock_model extends CI_Model {
 
     public function deleteshareholder($id) {
         return $this->db->delete('shareholders', ['id' => $id]);
+    }
+
+    public function getProduction($date){
+        $query = $this->db->query("
+        SELECT p.id as id, p.Quantity as qty,
+        pd.Name AS ProductName, 
+        t.TName AS tunnel, 
+        u.Name AS unit, 
+        g.Name AS grade 
+        FROM productions p 
+        JOIN tunnels t ON t.id = p.TunnelId 
+        JOIN units u ON u.id = p.UnitId 
+        JOIN crops c ON c.id = p.CropId 
+        JOIN products pd ON pd.id = c.pid 
+        JOIN grades g ON g.id = p.GradeId 
+        WHERE p.pdate='".$date."' order BY p.id
+    ");
+    $result = $query->result_array();
+    if($result){
+        return $result;
+    }
+    else{
+        dd("Something went Wrong");
+    }
     }
 
     public function getStockProduct(){
