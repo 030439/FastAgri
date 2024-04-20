@@ -21,6 +21,10 @@ class Production extends CI_Controller {
 		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
 	}
 	
+	public function sell(){
+
+	}
+
 	public function proready()
 	{
 		$this->load->view('layout/parts',['page'=>"pages/production/production-ready"]);

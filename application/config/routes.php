@@ -114,3 +114,4 @@ $route['issued-labour-list']='hr/labourList';
 $route['tunnelProduct']="tunnels/tunnelProduct";
 $route['ready-product']="Production/ready";
 $route['load-product/(:num)']="Production/load/$1";
+$route['ready-production-sell']="Production/sell";
