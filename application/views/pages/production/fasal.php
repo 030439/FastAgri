@@ -292,6 +292,10 @@
                                 <i class="fa-sharp fa-solid fa-caret-down"></i>
                             </button>
                             <div class="dropdown-list">
+                                <a class="dropdown-menu-item btn" href="load-product/<?php echo $pro['id']?>">
+                                    <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                    <span>Sell Out</span>
+                                </a>
                                 <button class="dropdown-menu-item">
                                     <img src="assets/img/icon/action-2.png" alt="icon not found">
                                     <span>Update</span>

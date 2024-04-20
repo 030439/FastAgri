@@ -48,7 +48,22 @@ class Production extends CI_Controller {
 				'GradeId'   => $data['quality'],
 				'Quantity'  => $data['quantity']
   			];
-            $res = $this->Stock_model->readyProduct($arr);
+			if($data['quality']==1){
+				$Qt=[
+					'tunnel'  => $data['tunnel'],
+					'pro'    => $this->crop($res->id),
+					'ACQ'  => $data['quantity']
+				  ];
+			}
+			else{
+				$Qt=[
+					'tunnel'  => $data['tunnel'],
+					'pro'    => $this->crop($res->id),
+					'BCQ'  => $data['quantity']
+				  ];
+			}
+			
+            $res = $this->Stock_model->readyProduct($arr,$Qt);
                 response($res, 'Production', '"Data Inserted Successfully'); 
         }
 	}

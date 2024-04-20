@@ -7,8 +7,13 @@ class Stock_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
-    public function readyProduct($data){
-        return $this->db->insert('productions', $data);
+    public function readyProduct($data,$st){
+        
+         if($this->db->insert('productions', $data)){
+            $this->db->where('tunnel', $st['tunnel']);
+            return $this->db->update('production_stock', $st);
+         }
+         return false;
     }
     public function getProducts() {
         $this->db->select('products.*, units.Name as unit');
