@@ -156,5 +156,21 @@
             $("#issue-stock-qty-").text('');
           }
   }
+  function productionTunnel(ele){
+    var selectedValue = $(ele).val();
+  alert("Selected value: " + selectedValue);
+  }
+  function getProductByTunnel(id){
+    $.ajax({
+        url: "tunnelProduct",
+        method: 'post',
+        data: {
+          id: id,
+        },
+        success: function(result){
+          $("#production-product").html (result);
+        }
+      });
+  }
  </script>
  

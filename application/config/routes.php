@@ -104,8 +104,11 @@ $route['employees-listing']='Employee/listing';
 $route['jamandars']='Jamandar/index';
 $route['add-jamandar']='Jamandar/add';
 $route['save-jamandar']='Jamandar/save';
+$route['jamandar-detail/(:num)']="Jamandar/detail/$1";
 //labour
 $route['labour-rate']='hr/labourRate';
 $route['add-rate']='hr/updateRate';
 $route['labour-issue']='hr/labourIssue';
 $route['issued-labour-list']='hr/labourList';
+//Production 
+$route['tunnelProduct']="tunnels/tunnelProduct";

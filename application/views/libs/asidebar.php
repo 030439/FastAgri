@@ -214,7 +214,7 @@
                         </a>
                         <ul class="mm-collapse">
 
-                            <li><a href="employee/add">Add employee</a></li>
+                            <!-- <li><a href="employee/add">Add employee</a></li> -->
                             <li><a href="employees">List employee</a></li>
                             <li><a href="category"> Employee Category</a></li>
                             <li><a href="designation"> Employee Designation</a></li>

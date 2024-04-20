@@ -1,9 +1,9 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Jammandar List</h4>
+        <h4 class="text-[20px] font-bold text-heading mb-9">Issued Labour List</h4>
         <div class="cashier-managesale-top-btn default-light-theme mb-7">
-            <button class="mb-1" onclick="document.location='add-jamandar'">
-                <i class="fa-light fa-plus"></i> Add Jammandar
+            <button class="mb-1" onclick="document.location='hr/issuelabour'">
+                <i class="fa-light fa-plus"></i> Issue Labour
             </button>
         </div>
         <div class="cashier-table-header-search-area">
@@ -111,27 +111,26 @@
                                 class="selectall">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <h5>Name</h5>
+                            <h5>Tunnel</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-referenceB">
+                            <h5>Jamandar</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-customerB">
+                            <h5>Labour Quantity</h5>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                            <h5>Address </h5>
+                            <h5>Rate </h5>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                            <h5>Phone</h5>
-                        </div>
-                        
-                        <div class="cashier-salereturns-table-totalB">
-                            <h5>Payable</h5>
+                            <h5>Total Amount</h5>
                         </div>
                         <div class="cashier-salereturns-table-totalB">
-                            <h5>Advance</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <h5>Remaining</h5>
+                            <h5>Date-Time</h5>
                         </div>
                        
                         <div class="cashier-salereturns-table-remarkB">
-                            <h5>Status</h5>
+                            
                         </div>
                         <div class="cashier-salereturns-table-actionB">
                             <h5>Action</h5>
@@ -144,30 +143,25 @@
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d->name);?></span>
+                        <span><?php ShowVal($d->TName);?></span>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                        <span><?php ShowVal($d->address);?></span>
+                        <span><?php ShowVal($d->jamander);?></span>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                        <span><?php echo $d->contact;?></span>
-                        </div>
-                        
-                        <div class="cashier-salereturns-table-warehouseB">
-                        <span><?php ShowVal($d->payable);?></span>
+                        <span><?php ShowVal($d->lq);?></span>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                        <span><?php ShowVal($d->advance);?></span>
+                        <span><?php ShowVal($d->rate);?></span>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                        <span><?php ShowVal($d->remaing);?></span>
+                        <div class="cashier-salereturns-table-billerB">
+                        <span><?php ShowVal($d->total_amount);?></span>
+                        </div>
+                        <div class="cashier-salereturns-table-billerB">
+                        <span><?php ShowVal($d->create_at);?></span>
                         </div>
                         <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Completed</span>
-                            </span>
+                            
                         </div>
                         <div class="cashier-salereturns-table-actionB">
                             <div class="dropdown">
@@ -175,10 +169,6 @@
                                     <i class="fa-sharp fa-solid fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-list">
-                                    <a class="btn dropdown-menu-item" href="jamandar-detail/<?= $d->id?>">
-                                        <i class="fa-eye fa-solid fa-caret-down"></i>
-                                        <span> Detail</span>
-                                    </a>
                                     <button class="dropdown-menu-item">
                                         <img src="assets/img/icon/action-2.png" alt="icon not found">
                                         <span>Update</span>

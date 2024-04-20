@@ -21,7 +21,25 @@ class Jamandar_model extends CI_Model {
         }
         return false;
     }
-    
+    public function getAll(){
+        $query = $this->db->query("
+        SELECT 
+            j.`id`,
+            j.`name`,
+            j.`address`,
+            j.`contact`,
+            j.`cnic`,
+            jt.`payable`,
+            jt.`advance`,
+            jt.`remaing`
+        FROM 
+        `jamandars` AS j
+        JOIN 
+        `jamandartotal` AS jt ON j.`id` = jt.`jamandar_id`
+        ");
+        $result = $query->result();
+        return $result; 
+    }
     public function labourList(){
         $query = $this->db->query("
         SELECT 
@@ -38,6 +56,27 @@ class Jamandar_model extends CI_Model {
         `jamandars` AS j ON i.`jamandar` = j.`id`
         JOIN 
         `tunnels` AS t ON i.`tunnel` = t.`id`
+        ");
+        $result = $query->result();
+        return $result;
+    }
+    public function labourListByJamandar($id){
+        $query = $this->db->query("
+        SELECT 
+            i.`id` AS issue_stock_id,
+            i.`create_at`,
+            i.`total_amount`,
+            i.`rate`,
+            i.`lq`,
+            j.`name` AS jamander,
+            t.`TName`
+        FROM 
+        `issuelabour` AS i
+        JOIN 
+        `jamandars` AS j ON i.`jamandar` = j.`id`
+        JOIN 
+        `tunnels` AS t ON i.`tunnel` = t.`id`
+        WHERE j.id=$id
         ");
         $result = $query->result();
         return $result;
