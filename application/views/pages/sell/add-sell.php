@@ -170,7 +170,9 @@
 
         <div class="lg:col-span-1 md:col-span-6 col-span-12" style="grid-column: span 1 / span 6;">
             <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Net Amount</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3" style="
+    white-space: nowrap;
+">Net Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
                         <input type="text" placeholder=" Amount" style=" padding: 3px;">

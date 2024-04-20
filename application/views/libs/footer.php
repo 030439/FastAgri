@@ -173,5 +173,36 @@
         }
       });
   }
+  function readySell(e){
+    var v=$(e).val();
+    var title=$(e).attr('title');
+    $.ajax({
+        url: "tunnelProduct",
+        method: 'post',
+        data: {
+          id: v,
+        },
+        success: function(result){
+          $("#productSelect-"+title).val (result);
+          $('#productSelect-'+title).prop('disabled', true);
+        }
+      });
+  }
+  function sellGrade(s){
+    var vg=$(s).val();
+    var titleg=$(s).attr('title');
+    var gt=$("#tunnelSelect-"+titleg).val();
+    $.ajax({
+        url: "readyQuantity",
+        method: 'post',
+        data: {
+          grade: v,tunnel:gt
+        },
+        success: function(result){
+          $("#productSelect-"+title).val (result);
+          $('#productSelect-'+title).prop('disabled', true);
+        }
+      });
+  }
  </script>
  

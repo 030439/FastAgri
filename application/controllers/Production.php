@@ -20,9 +20,11 @@ class Production extends CI_Controller {
 		$data['production']=$this->Stock_model->getProduction($date);
 		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
 	}
-	
-	public function sell(){
 
+	public function sell(){
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$data['quality']=$this->Common_model->getAll('grades');
+		$this->load->view('layout/parts',['page'=>"pages/sell/production-sell",'data'=>$data]);
 	}
 
 	public function proready()

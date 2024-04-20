@@ -115,3 +115,4 @@ $route['tunnelProduct']="tunnels/tunnelProduct";
 $route['ready-product']="Production/ready";
 $route['load-product/(:num)']="Production/load/$1";
 $route['ready-production-sell']="Production/sell";
+$route['readyQuantity']="Production/readyQuantity";
