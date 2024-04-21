@@ -47,7 +47,7 @@
             <!-- auto fill -->
             <div class="lg:col-span-2 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Supplier</h5>
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Tunnel</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" style="display: none;" name="tunnel"onchange="productionTunnel(this)" id="production-tunnel">
                             <option selected="selected" disabled="disabled">Select Supplier</option>

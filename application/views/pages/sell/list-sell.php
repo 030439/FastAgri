@@ -110,69 +110,71 @@
             </div>
         </div>
 
-        <div class="cashier-salereturns-table-area">
-            <div class="cashier-salereturns-table-innerC">
-                <div
-                    class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7">
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="b-check" name="b-check" data-checkbox-name="cbi"
-                                class="selectall">
-                        </div>
+        <div class="cashier-salereturns-table-area" >
+            <div class="cashier-salereturns-table-innerC" style="overflow-x:scroll !important; overflow-y:hidden" >
+                <div  class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7" style="margin-bottom:150px !important">
+                    <div  class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
+                        
                         <div class="cashier-salereturns-table-dateB">
-                            <h5>Bank Name</h5>
+                            <h5>Customer</h5>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                            <h5>Branch</h5>
+                            <h5>Tunnel</h5>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                            <h5>Account No</h5>
+                            <h5>Driver</h5>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                            <h5>Account Name</h5>
+                            <h5>Driver No</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-warehouseB">
+                            <h5>Vehicle No</h5>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                            <h5>Phone</h5>
+                            <h5>Labour</h5>
                         </div>
                         <div class="cashier-salereturns-table-totalB">
-                            <h5>Initial Balance</h5>
+                            <h5>Freight</h5>
                         </div>
                         <div class="cashier-salereturns-table-remarkB">
-                            <h5>Status</h5>
+                            <h5>Other Expense</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-remarkB">
+                            <h5>Total Amount</h5>
                         </div>
                         <div class="cashier-salereturns-table-actionB">
                             <h5>Action</h5>
                         </div>
                     </div>
+                    <?php if($data):foreach($data as $d):?>
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
-                                class="checkme">
+                       
+                        <div class="cashier-salereturns-table-dateB">
+                            <span><?php ShowVal($d['customer'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <span>National Bank</span>
+                        <span><?php ShowVal($d['tunnel'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                            <span>Canterbury</span>
+                        <span><?php ShowVal($d['driver'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                            <span>56456596545</span>
+                        <span><?php ShowVal($d['dno'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                            <span>BDevs Technology</span>
+                        <span><?php ShowVal($d['vno'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                            <span>+02 585 369 202</span>
+                        <span><?php ShowVal($d['labour'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-totalB">
-                            <span>$58,45,255</span>
+                        <span><?php ShowVal($d['freight'])?></span>
                         </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Completed</span>
-                            </span>
+                        <div class="cashier-salereturns-table-totalB">
+                        <span><?php ShowVal($d['expences'])?></span>
+                        </div>
+                        <div class="cashier-salereturns-table-totalB">
+                        <span><?php ShowVal($d['total_amount'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-actionB">
                             <div class="dropdown">
@@ -180,6 +182,10 @@
                                     <i class="fa-sharp fa-solid fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-list">
+                                    <a class="dropdown-menu-item btn" href="sell-detail/<?php echo $d['sid']?>">
+                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                        <span>Update</span>
+                                    </a>
                                     <button class="dropdown-menu-item">
                                         <img src="assets/img/icon/action-2.png" alt="icon not found">
                                         <span>Update</span>
@@ -192,487 +198,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_2" name="cbi" value="2" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Bank of Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>59895802131</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Theme Pure</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+02 989 225 202</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$54,20,582</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Completed</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_3" name="cbi" value="3" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Cryptocopy Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Bristol</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>99600847004</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Amazon</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+05 258 302 702</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$78,58,320</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeBlue">
-                                    Inactive</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_4" name="cbi" value="4" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Fadeweek Central Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Wycombe</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>20478962565</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Adidas</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+05 305 200 968</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$96,54,302</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Completed</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_5" name="cbi" value="5" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Eastern Bank Ltd.</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Derbyshire</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>98541752330</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Supperv</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+02 369 282 301</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$36,25,254</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeBlue">
-                                    Inactive</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_6" name="cbi" value="6" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Halifax Bank of Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>30176526632</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Trendy Wood</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+02 748 201 302</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$74,30,254</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Active</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_7" name="cbi" value="7" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Rosemary City Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Manchester</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>02045474846</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Royal Gravity</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+02 740 963 258</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$38,72,200</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Active</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_8" name="cbi" value="8" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Fadeweek Central Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Wycombe</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>20478962565</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Adidas</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+05 305 200 968</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$96,54,302</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Completed</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_9" name="cbi" value="9" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Eastern Bank Ltd.</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Derbyshire</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>98541752330</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Supperv</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+02 369 282 301</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$36,25,254</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeBlue">
-                                    Inactive</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_10" name="cbi" value="10" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Halifax Bank of Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>30176526632</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Trendy Wood</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+02 748 201 302</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$74,30,254</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Active</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_11" name="cbi" value="11" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span>Rosemary City Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span>Manchester</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span>02045474846</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span>Royal Gravity</span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span>+02 740 963 258</span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span>$38,72,200</span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span
-                                    class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                    Active</span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; endif;?>
                 </div>
             </div>
             <div class="cashier-pagination-area">

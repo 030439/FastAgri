@@ -8,11 +8,13 @@
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Customer</h5>
                     <div class="cashier-select-field-style">
-                        <select class="block" style="display: none;">
+                        <select class="block" style="display: none;" name="customer">
                             <option selected="" disabled="" value="default">Select Customer</option>
-                            <option value="language-1">Jonathan Deo</option>
-                            <option value="language-2">Andrew Tye</option>
-                            <option value="language-3">Peter Parkar</option>
+                            <?php
+                            if($data['customers']):foreach($data['customers'] as $customer):
+                            ?>
+                            <option value="<?php echo $customer->id?>"><?php echo $customer->Name?> </option>
+                            <?php endforeach; endif;?>
                         </select>
                     </div>
                 </div>
@@ -24,21 +26,62 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Select Date</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="date" placeholder="date">
+                            <input type="date" placeholder="date" name="rdate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Driver Name </h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="text" placeholder="Driver" name="driver">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Driver Number</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="number" placeholder="number" name="dnumber">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Vehicle No</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="number" placeholder="vehicle number" name="vno">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Frieght</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="number" placeholder="Kraya" name="frieght">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <h4 class="text-[20px] font-bold text-heading mb-9">Add Sell</h4>
+        <br/>
+<hr>
+<br/>
         <div class="grid grid-cols-12 gap-x-5" style="align-items: center;">
             <div class="lg:col-span-3 md:col-span-6 col-span-12" id="tunnelDiv">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Tunnel</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" name="tunnels[]" style="display: none;" title="0" id="tunnelSelect-0" onchange="readySell(this)">
-                            <option selected="" disabled=""  value="default">Select </option>
+                            <option value="0">Select Tunnel </option>
                             <?php
                             if($data['tunnels']):foreach($data['tunnels'] as $tunnel):
                             ?>
@@ -64,7 +107,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Grade</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" name="grades[]" onchange="sellGrade(this)" style="display: none;" title="0" id="gradeSelect-0">
-                            <option selected="" disabled="" value="default">Select </option>
+                            <option selected="" disabled="" value="0">Select Grade </option>
                             <option value="1">A</option>
                             <option value="2">B</option>
                         </select>
@@ -77,7 +120,8 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Bags</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text"  name="bags[]" placeholder="bags" title="0" id="bagsInput-0" style=" padding: 3px;">
+                            <input type="number" min="0"  name="bags[]" placeholder="bags" title="0" oninput="checkValue(this)" id="bagsInput-0" style=" padding: 3px;">
+                            <span id="bagsInputres-0"></span>
                         </div>
                     </div>
                 </div>
@@ -111,10 +155,19 @@
             productDiv.querySelector("input").id = "productSelect-" + counter;
             gradeDiv.querySelector("select").id = "gradeSelect-" + counter;
             bagsDiv.querySelector("input").id = "bagsInput-" + counter;
+            bagsDiv.querySelector("span").id="bagsInputres-"+counter;
+
             tunnelDiv.querySelector("select").title = counter;
             productDiv.querySelector("input").title = counter;
             gradeDiv.querySelector("select").title = counter;
             bagsDiv.querySelector("input").title = counter;
+
+                // tunnelDiv.querySelector("select").selectedIndex=0;
+                // tunnelDiv.querySelector("select").innerHTML="";
+                // tunnelDiv.getElementsByClassName("list").selectedIndex=0;
+                // productDiv.querySelector("input").value = "";
+                // gradeDiv.querySelector("select").value = "default";
+                // bagsDiv.querySelector("input").value = "";
 
             var deleteButton = document.createElement("div");
             deleteButton.className = "h-10 w-10 leading-[38px] border border-grayBorder border-solid text-center inline-block rounded-[3px] text-bodyText short";

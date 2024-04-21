@@ -192,17 +192,37 @@
     var vg=$(s).val();
     var titleg=$(s).attr('title');
     var gt=$("#tunnelSelect-"+titleg).val();
+    
+    if(gt==0){
+      alert("select tunnel First");
+      return false;
+    }
     $.ajax({
         url: "readyQuantity",
         method: 'post',
         data: {
-          grade: v,tunnel:gt
+          grade: vg,tunnel:gt
         },
         success: function(result){
-          $("#productSelect-"+title).val (result);
-          $('#productSelect-'+title).prop('disabled', true);
+          console.log(result);
+           $("#bagsInput-"+titleg).attr('data-tag',result);
+           $("#bagsInputres-"+titleg).text("Ready Quantity"+result);
+          // $('#productSelect-'+title).prop('disabled', true);
         }
       });
   }
+  function checkValue(input) {
+    var enteredValue = parseFloat(input.value);
+    var dataTagValue = parseFloat(input.getAttribute('data-tag'));
+    var title = parseFloat(input.getAttribute('title'));    
+    const resultElement = document.getElementById('result');
+    if (!isNaN(enteredValue) && enteredValue > dataTagValue) {
+      $("#bagsInputres-"+title).text("Out of Stock");
+      $("#bagsInputres-" + title).css('color', 'red');
+    } else {
+      $("#bagsInputres-"+title).text("Ready Quantity"+dataTagValue);
+      $("#bagsInputres-" + title).css('color', 'green');
+    }
+}
  </script>
  

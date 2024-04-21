@@ -116,3 +116,5 @@ $route['ready-product']="Production/ready";
 $route['load-product/(:num)']="Production/load/$1";
 $route['ready-production-sell']="Production/sell";
 $route['readyQuantity']="Production/readyQuantity";
+$route['load-for-sell']="Sell/loadForSale";
+$route['sell-detail/(:num)']="Sell/detail/$1";

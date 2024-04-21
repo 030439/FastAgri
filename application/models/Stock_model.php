@@ -15,6 +15,101 @@ class Stock_model extends CI_Model {
          }
          return false;
     }
+    public function sellList(){
+        $query = $this->db->query("
+        SELECT 
+            s.`id` AS sid,
+            s.`selldate`,
+            s.`driver`,
+            s.`dno`,
+            s.`vno`,
+            s.`freight`,
+            s.`labour`,
+            s.`total_amount`,
+            s.`expences`,
+            c.`Name` as customer,
+            t.`TName` as tunnel
+        FROM 
+        `sells` AS s
+        JOIN 
+        `customers` AS c ON c.`id` = s.`customer`
+        JOIN 
+        `selldetails` AS sd ON sd.`SellId` = s.`id`
+        JOIN 
+        `tunnels` AS t ON t.`id` = sd.`tunnel`
+        ");
+        $result = $query->result_array();
+        return $result;
+    }
+    public function loadForSale($data){
+        $exe=false;
+        $sell=[
+            'customer' => $data['customer'],
+            'driver' => $data['driver'],
+            'dno' => $data['dnumber'],
+            'vno' => $data['vno'],
+            'freight' => $data['frieght'],
+            'selldate' => $data['rdate'],
+        ];
+       $this->db->insert('sells', $sell);
+       $sid = $this->db->insert_id();
+        if($sid>0){
+            foreach($data['tunnels'] as $c=> $tunnel){
+                $exe=false;
+                $gd=$data['grades'][$c];
+                $bg=$data['bags'][$c];
+                    $sd=[
+                        'SellId'=> $sid,
+                        'CustomerId'=>$data['customer'],
+                        'tunnel'=>$tunnel,
+                        'ProductionId'=>1,
+                        'GradeId'=>$gd,
+                        'Quantity' =>$bg,  
+                    ];
+                $executed=$this->db->insert('selldetails', $sd);
+                if($executed){
+                    $this->reduceProductionStock($tunnel,$gd,$bg);
+                    $exe=true;
+                }
+            }
+        }
+        if($exe){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public function reduceProductionStock($tunnel,$g,$bg){
+        $this->db->select('production_stock.*');
+        $this->db->from('production_stock');
+        $this->db->where('tunnel',$tunnel);
+        $quantity = $this->db->get()->result();
+        if($g==1){
+             $new=$quantity[0]->ACQ-$bg;
+             $data=[
+                'ACQ'=>$new
+             ];
+        }
+        else{
+             $new=$quantity[0]->BCQ-$bg;
+             $data=[
+                'ACQ'=>$new
+             ];
+        }
+        $this->db->where('tunnel', $tunnel);
+       return  $this->db->update('production_stock', $data);
+    }
+    public function readyQuantity($g,$t){
+        $this->db->select('production_stock.*');
+        $this->db->from('production_stock');
+        $this->db->where('tunnel',$t);
+        $quantity = $this->db->get()->result();
+        if($g==1){
+            return $quantity[0]->ACQ;
+        }
+        return $quantity[0]->BCQ;
+    }
     public function getProducts() {
         $this->db->select('products.*, units.Name as unit');
         $this->db->from('products');
@@ -121,7 +216,7 @@ class Stock_model extends CI_Model {
         return $result;
     }
     else{
-        dd("Something went Wrong");
+        return false;
     }
     }
 

@@ -171,6 +171,7 @@
                         <ul class="mm-collapse">
                             <li><a href="sell/add">Add Sell</a></li>
                             <li><a href="sell">List Sell</a></li>
+                            <li><a href="ready-production-sell">Ready Product Sell</a></li>
 
                         </ul>
                     </li>
