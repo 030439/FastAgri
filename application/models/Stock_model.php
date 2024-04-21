@@ -68,6 +68,32 @@ class Stock_model extends CI_Model {
         $result = $query->result_array();
         return $result;
     }
+    public function tunnelProfit(){
+        $query = $this->db->query("
+        SELECT 
+        s.`id` AS sid,
+        s.`selldate`,
+        sd.`id` as sdID,
+        g.`Name` as grade,
+        sd.`Quantity`,
+        sd.`Rate`,
+        sd.`amount`,
+        c.`Name` as customer,
+        t.`TName` as tunnel
+        FROM 
+        `sells` AS s
+        JOIN 
+        `customers` AS c ON c.`id` = s.`customer`
+        JOIN 
+        `selldetails` AS sd ON sd.`SellId` = s.`id`
+        JOIN 
+        `tunnels` AS t ON t.`id` = sd.`tunnel`
+        JOIN 
+        `grades` AS g ON g.`id` = sd.`GradeId`
+        ");
+        $result = $query->result_array(); 
+        return $result;
+    }
     public function loadForSale($data){
         $exe=false;
         $sell=[
@@ -185,7 +211,50 @@ class Stock_model extends CI_Model {
              'Quantity'=>$qty,
              'i_date'=>$data['issueDate']
             ];
-        return $this->db->insert('issuestock', $new);
+        if($this->db->insert('issuestock', $new)){
+           if($this->tunnelExpense($pqid,$data['tunnel'],$data['product'],$qty,$data['issueDate'])){
+            return true;
+           }
+           return false;
+        }
+        return ;
+    }
+    public function tunnelExpense($pqid,$tunnel,$pro,$qty,$idate){
+        $query = $this->db->query("SELECT product_id,fu_price From purchasesdetail WHERE id=$pqid");
+        $result = $query->result();
+        $product_ids=explode(",",$result[0]->product_id);
+        $fu_price=explode(",",$result[0]->fu_price);
+        foreach($product_ids as $c=>$pid){
+            if($pid==$pro){
+                $amount= $fu_price[$c];
+                $expense=[
+                    'tunnel_id'=>$tunnel,
+                    'expense_type'=>"issueStockPurchase",
+                    'eid'=>$pqid,
+                    'amount'=>$amount,
+                    'edate'=>$idate
+                ];
+                return $this->db->insert('tunnel_expense', $expense);
+            }
+        }
+        return ;
+    }
+    public function tunnelsExpensesList(){
+        $query = $this->db->query("
+        SELECT 
+            e.`id`,
+            e.`expense_type`,
+            e.`eid`,
+            e.`amount`,
+            e.`edate`,
+            t.`TName` as tunnel
+        FROM 
+        `tunnel_expense` AS e
+        JOIN 
+        `tunnels` AS t ON t.`id` = e.`tunnel_id`
+        WHERE t.`status` ='1'
+        ");
+        return $query->result();
     }
     public function issueList(){
         $query = $this->db->query("
