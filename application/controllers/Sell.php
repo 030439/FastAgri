@@ -15,6 +15,10 @@ class Sell extends CI_Controller {
 	    $data=$this->Stock_model->sellList();
 		$this->load->view('layout/parts',['page'=>"pages/sell/list-sell",'data'=>$data]);
 	}
+	public function detail($id){
+		$data= $this->Stock_model->sellDetail($id);
+		$this->load->view('layout/parts',['page'=>"pages/sell/sell-detail",'data'=>$data]);
+	}
 	public function loadForSale(){
 		$data = $this->input->post(NULL, TRUE);
 		echo $this->Stock_model->loadForSale($data);

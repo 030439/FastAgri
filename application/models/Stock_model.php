@@ -15,6 +15,33 @@ class Stock_model extends CI_Model {
          }
          return false;
     }
+    public function sellDetail($id){
+        $query = $this->db->query("
+        SELECT 
+        s.`id` AS sid,
+        s.`selldate`,
+        sd.`id` as sdID,
+        g.`Name` as grade,
+        sd.`Quantity`,
+        sd.`Rate`,
+        sd.`amount`,
+        c.`Name` as customer,
+        t.`TName` as tunnel
+        FROM 
+        `sells` AS s
+        JOIN 
+        `customers` AS c ON c.`id` = s.`customer`
+        JOIN 
+        `selldetails` AS sd ON sd.`SellId` = s.`id`
+        JOIN 
+        `tunnels` AS t ON t.`id` = sd.`tunnel`
+        JOIN 
+        `grades` AS g ON g.`id` = sd.`GradeId`
+        WHERE s.`id`=$id
+        ");
+        $result = $query->result_array(); 
+        return $result;
+    }
     public function sellList(){
         $query = $this->db->query("
         SELECT 
