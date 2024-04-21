@@ -107,6 +107,23 @@ class Stock_model extends CI_Model {
             return false;
         }
     }
+    public function productionStocks(){
+        $query = $this->db->query("
+        SELECT 
+            ps.`id` AS pid,
+            ps.`ACQ`,
+            ps.`BCQ`,
+            p.`Name` as product
+        FROM 
+        `production_stock` AS ps
+        JOIN 
+        `tunnels` AS t ON t.`id` = ps.`tunnel`
+        JOIN 
+        `products` AS p ON p.`id` = t.`product__id`
+        ");
+        $result = $query->result();
+        return $result;
+    }
     public function reduceProductionStock($tunnel,$g,$bg){
         $this->db->select('production_stock.*');
         $this->db->from('production_stock');

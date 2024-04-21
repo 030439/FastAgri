@@ -8,6 +8,9 @@ class Report extends CI_Controller {
 	{
 		$this->load->view('layout/parts',['page'=>"pages/reports/report-1"]);
 	}
+	public function profitExpense(){
+		
+	}
 	
 	
 }

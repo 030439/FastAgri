@@ -272,13 +272,8 @@
                             </svg>Reports
                         </a>
                         <ul class="mm-collapse">
+                        <li><a href="tunnel/profit-expense">Tunnel Profit & Expense</a></li>
                             <li><a href="report">1 report</a></li>
-
-
-
-
-
-
                         </ul>
                     </li>
 
