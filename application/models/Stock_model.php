@@ -60,7 +60,7 @@ class Stock_model extends CI_Model {
                     'sid' => $row['sid'],
                     'selldate' => $row['selldate'],
                     'sdID' => $row['sdID'],
-                    'grade' => $this->UnitName($GradeId[$index]),
+                    'grade' => $this->gradeName($GradeId[$index]),
                     'Quantity' => $quantity,
                     'Rate' => $row['Rate'],
                     'amount' => $row['amount'],
@@ -81,9 +81,9 @@ class Stock_model extends CI_Model {
         $products = $this->db->get()->result();
         return $products[0]->TName;
     }
-    function UnitName($id){
-        $this->db->select('units.Name');
-        $this->db->from('units');
+    function gradeName($id){
+        $this->db->select('grades.Name');
+        $this->db->from('grades');
         $this->db->WHERE('id', $id);
         $products = $this->db->get()->result();
         return $products[0]->Name;
