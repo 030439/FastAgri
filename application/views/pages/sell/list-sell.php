@@ -182,9 +182,13 @@
                                     <i class="fa-sharp fa-solid fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-list">
+                                    <a class="dropdown-menu-item btn" href="sell-gate-pass/<?php echo $d['sid']?>">
+                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                        <span>Gate Pass</span>
+                                    </a>
                                     <a class="dropdown-menu-item btn" href="sell-detail/<?php echo $d['sid']?>">
                                         <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
+                                        <span>Detail</span>
                                     </a>
                                     <button class="dropdown-menu-item">
                                         <img src="assets/img/icon/action-2.png" alt="icon not found">

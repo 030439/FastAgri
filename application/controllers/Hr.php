@@ -63,12 +63,12 @@ class Hr extends CI_Controller {
             $data = $this->input->post(NULL, TRUE);
             $data = ($data);
             $res=$this->Jamandar_model->issuelabour($data);
-			response($res,'issuelabour' ,"Data Update Successfully");
+			response($res,'issued-labour-list' ,"Data Update Successfully");
         }
 	}
 	public function labourList(){
-		$data=$this->Jamandar_model->labourList();
-		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour-list",'data'=>$data]);
+		$data=$this->Jamandar_model->labourList();$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour-list",'data'=>$data]);
+		
 	}
 	public function Advance()
 	{

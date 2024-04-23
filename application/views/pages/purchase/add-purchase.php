@@ -198,7 +198,7 @@
                             <h5 class="text-[15px] text-heading font-semibold mb-3">Paid  Amount </h5>
                             <div class="cashier-input-field-style">
                                 <div class="single-input-field w-full">
-                                    <input type="number" min="0" placeholder="Paid Amount"  name='pa'>
+                                    <input type="number" min="0" placeholder="Paid Amount"  value="0" name='pa'>
                                     <?php validator('pa')?>
                                 </div>
                             </div>

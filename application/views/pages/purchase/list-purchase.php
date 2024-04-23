@@ -142,7 +142,7 @@
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d['supplier_name'])?></span>
+                            <span><?php ShowVal($d['product_name'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
                             <span><?php ShowVal($d['supplier_name'])?></span>

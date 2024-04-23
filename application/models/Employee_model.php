@@ -33,7 +33,7 @@ class Employee_model extends CI_Model {
         return $customers;
     }
     public function getDesignation() {
-        $designation = $this->db->get('designation')->result();
+        $designation = $this->db->get('designations')->result();
         return $designation;
     }
     public function saveEmployee($data) {

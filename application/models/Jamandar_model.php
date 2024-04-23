@@ -108,7 +108,18 @@ class Jamandar_model extends CI_Model {
             'rate'=>$rate,
             'total_amount'=>$total_amount
         ];
+        $idate=date("Y-m-d");
         if($this->db->insert('issuelabour', $record)){
+            $insert_id = $this->db->insert_id();
+            $expense=[
+                'tunnel_id'=>$data['tunnel'],
+                'expense_type'=>"Labour",
+                'eid'=>$insert_id,
+                'amount'=>$total_amount,
+                'edate'=>$idate
+            ];
+             $this->db->insert('tunnel_expense', $expense);
+
             $this->db->select('payable');
             $this->db->where('jamandar_id', $j);
             $query = $this->db->get('jamandartotal');

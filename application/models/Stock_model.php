@@ -20,12 +20,16 @@ class Stock_model extends CI_Model {
         SELECT 
         s.`id` AS sid,
         s.`selldate`,
+        s.`dno`,
+        s.`vno`,
         sd.`id` as sdID,
         g.`Name` as grade,
         sd.`Quantity`,
         sd.`Rate`,
         sd.`amount`,
         c.`Name` as customer,
+        c.`contact` as cno,
+        c.`Address` as caddress,
         t.`TName` as tunnel
         FROM 
         `sells` AS s
