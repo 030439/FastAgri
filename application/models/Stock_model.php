@@ -65,7 +65,7 @@ class Stock_model extends CI_Model {
                     'Rate' => $row['Rate'],
                     'amount' => $row['amount'],
                     'customer' => $row['customer'],
-                    'tunnel' => $tunnels[$index], // Use corresponding tunnel value
+                    'tunnel' => tunnelName($tunnels[$index]), // Use corresponding tunnel value
                 ];
                 $newResult[] = $newRow;
             }
@@ -73,8 +73,13 @@ class Stock_model extends CI_Model {
         dd($newResult);
         return $result;
     }
+
     function tunnelName($id){
-        
+        $this->db->select('tunnels.TName');
+        $this->db->from('tunnels');
+        $this->db->WHERE('id', $id);
+        $products = $this->db->get()->result();
+        return $products[0]->TName;
     }
     public function sellList(){
         $query = $this->db->query("
