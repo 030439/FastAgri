@@ -70,7 +70,6 @@ class Stock_model extends CI_Model {
                 $newResult[] = $newRow;
             }
         }
-        dd($newResult);
         return $result;
     }
 

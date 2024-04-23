@@ -137,16 +137,16 @@
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d['tunnel'])?></span>
+                            <span><?php echo  $d['tunnel'];?></span>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                            <span><?php ShowVal($d['customer'])?></span>
+                            <span><?php echo  $d['customer'];?></span>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                            <span><?php ShowVal($d['grade'])?></span>
+                            <span><?php echo  $d['grade'];?></span>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                           <span><?php ShowVal($d['Quantity'])?></span>
+                           <span><?php echo  $d['Quantity'];?></span>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
                             <span><?php echo $d['Rate'];?></span>
