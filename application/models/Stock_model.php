@@ -49,35 +49,32 @@ class Stock_model extends CI_Model {
         WHERE s.`id`=$id
         ");
         $result = $query->result_array(); 
-        // Assuming $result contains the fetched data from your database query
-
-$newResult = [];
-foreach ($result as $row) {
-    $quantities = explode(',', $row['Quantity']);
-    $tunnels = explode(',', $row['tunnel']);
-    // Loop through each quantity and tunnel value to create individual records
-    foreach ($quantities as $index => $quantity) {
-        $newRow = [
-            'sid' => $row['sid'],
-            'selldate' => $row['selldate'],
-            'sdID' => $row['sdID'],
-            'grade' => $row['grade'],
-            'Quantity' => $quantity,
-            'Rate' => $row['Rate'],
-            'amount' => $row['amount'],
-            'customer' => $row['customer'],
-            'tunnel' => $tunnels[$index], // Use corresponding tunnel value
-        ];
-
-        // Add the new row to the result array
-        $newResult[] = $newRow;
-    }
-}
-
-// Now $newResult contains individual records for each Quantity and tunnel value
-
-        dd($result);
+        $newResult = [];
+        foreach ($result as $row) {
+            $quantities = explode(',', $row['Quantity']);
+            $tunnels = explode(',', $row['tunnel']);
+            $GradeId=explode(',', $row['GradeId']);
+            // Loop through each quantity and tunnel value to create individual records
+            foreach ($quantities as $index => $quantity) {
+                $newRow = [
+                    'sid' => $row['sid'],
+                    'selldate' => $row['selldate'],
+                    'sdID' => $row['sdID'],
+                    'grade' => $GradeId[$index],
+                    'Quantity' => $quantity,
+                    'Rate' => $row['Rate'],
+                    'amount' => $row['amount'],
+                    'customer' => $row['customer'],
+                    'tunnel' => $tunnels[$index], // Use corresponding tunnel value
+                ];
+                $newResult[] = $newRow;
+            }
+        }
+        dd($newResult);
         return $result;
+    }
+    function tunnelName($id){
+        
     }
     public function sellList(){
         $query = $this->db->query("
@@ -368,14 +365,14 @@ foreach ($result as $row) {
         JOIN products pd ON pd.id = c.pid 
         JOIN grades g ON g.id = p.GradeId 
         WHERE p.pdate='".$date."' order BY p.id
-    ");
-    $result = $query->result_array();
-    if($result){
-        return $result;
-    }
-    else{
-        return false;
-    }
+        ");
+        $result = $query->result_array();
+        if($result){
+            return $result;
+        }
+        else{
+            return false;
+        }
     }
 
     public function getStockProduct(){
@@ -388,11 +385,11 @@ foreach ($result as $row) {
         JOIN crops c ON c.pid = p.id
         LEFT JOIN purchaseseeddetail ps ON pd.id = ps.pid
         GROUP BY p.id
-    ");
+        ");
 
-    if ($query) {
-        return $result = $query->result_array();
-    }
+        if ($query) {
+            return $result = $query->result_array();
+        }
     }
     public function getStockQty($id){
         $query = $this->db->query("
@@ -447,54 +444,54 @@ foreach ($result as $row) {
     public function createAlgo(){
         $query = $this->db->query("
         SELECT product_id,fu_price,id from purchasesdetail  
-    ");
-
-    if ($query) {
-         $result = $query->result_array();
-        
-         foreach($result as $k=> $res){
-            echo "<pre>";
-            $product_ids=explode(",",$res['product_id']);
-            $fu_price=explode(",",$res['fu_price']);
-            
-            for($i=0;$i<count($product_ids);$i++){
-                // echo "<pre>";
-                echo $product_ids[$i];
-                echo "<br>---------";
-               echo $fu_price[$i];
-                // echo "<br>__________";
-                
-            }
-         }
-         print_r($fu_price);
-         dd($product_ids);
-         dd("SDF");
-         foreach($result as $re){
-            $id=$re['purchase_id'];
-            $purchased = $this->db->query("
-            SELECT purchase_id,RemainingQuantity from purchaseqty
-            SELECT product_id,fu_price from purchasesdetail WHERE id=$id
         ");
-        $pr = $purchased->result_array();
-        
-         }
-         
-         $product_ids=explode(",",$pr[0]['product_id']);
-         $fu_price=explode(",",$pr[0]['fu_price']);
 
-         foreach ($product_ids as $index => $product_id) {
-            echo "<pre>";
-            print_r($product_id);
-            echo "<br>";
-            $final=$fu_price[$index];
-            print_r($final);
-            // $individual_records[] = array(
-            //     'purchase_detail_id' => $row['purchase_detail_id'],
-            //     'product_id' => $product_id,
-            //     'product_name' => $row['product_name']);
+        if ($query) {
+            $result = $query->result_array();
+            
+            foreach($result as $k=> $res){
+                echo "<pre>";
+                $product_ids=explode(",",$res['product_id']);
+                $fu_price=explode(",",$res['fu_price']);
+                
+                for($i=0;$i<count($product_ids);$i++){
+                    // echo "<pre>";
+                    echo $product_ids[$i];
+                    echo "<br>---------";
+                echo $fu_price[$i];
+                    // echo "<br>__________";
+                    
+                }
             }
+            print_r($fu_price);
+            dd($product_ids);
+            dd("SDF");
+            foreach($result as $re){
+                $id=$re['purchase_id'];
+                $purchased = $this->db->query("
+                SELECT purchase_id,RemainingQuantity from purchaseqty
+                SELECT product_id,fu_price from purchasesdetail WHERE id=$id
+            ");
+            $pr = $purchased->result_array();
+            
+            }
+            
+            $product_ids=explode(",",$pr[0]['product_id']);
+            $fu_price=explode(",",$pr[0]['fu_price']);
 
-         dd($product_id);
-    }
+            foreach ($product_ids as $index => $product_id) {
+                echo "<pre>";
+                print_r($product_id);
+                echo "<br>";
+                $final=$fu_price[$index];
+                print_r($final);
+                // $individual_records[] = array(
+                //     'purchase_detail_id' => $row['purchase_detail_id'],
+                //     'product_id' => $product_id,
+                //     'product_name' => $row['product_name']);
+                }
+
+            dd($product_id);
+        }
     }
 }
