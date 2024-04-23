@@ -32,7 +32,7 @@ class Tunnel_model extends CI_Model
             'pro'    => 1,
             'BCQ'  => 0
           ];
-        $this->db->update('production_stock', $Qt);
+        $this->db->insert('production_stock', $Qt);
         foreach ($data['shares'] as $key => $quantity) {
             $shares['sh_id']=intval($data['shareholder'][$key]);
             $shares['shares_values']=intval($data['shares'][$key]);

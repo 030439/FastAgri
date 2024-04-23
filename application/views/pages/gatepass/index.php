@@ -141,7 +141,7 @@
               
                 
                 <th>Grade</th>
-                <td>fast</td>
+                <td></td>
                 <td>fast</td>
                 <td>lady finger</td>
                 <td>1</td>
@@ -155,7 +155,7 @@
                 
                 <th rowspan="3" >Weight</th>
                 
-                <td>fast</td>
+                <td></td>
                 <td>fast</td>
                 <td>lady finger</td>
                 <td>1</td>
@@ -167,7 +167,7 @@
                <tr>
                 
                 
-                <td>fast</td>
+                <td></td>
                 <td>fast</td>
                 <td>lady finger</td>
                 <td>1</td>
@@ -179,7 +179,7 @@
                <tr>
                
                 
-                <td>fast</td>
+                <td></td>
                 <td>fast</td>
                 <td>lady finger</td>
                 <td>1</td>

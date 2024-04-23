@@ -6,6 +6,7 @@ class Purchase extends CI_Controller {
         parent::__construct();
         $this->load->model('Purchase_model');
 		$this->load->model('Common_model');
+		$this->load->model('Stock_model');
 		$this->load->model('Setup_model');
         $this->load->library('form_validation');
     }
@@ -35,7 +36,7 @@ class Purchase extends CI_Controller {
 	{ 
 		try{
 			$data['suppliers']=$this->Common_model->getAll('suppliers');
-			$data['products']=$this->Common_model->getAll('products');
+			$data['products']=$this->Stock_model->getOnlyPro();
 		    $this->load->view('layout/parts',['page'=>"pages/purchase/add-purchase",'data'=>$data]);
 	    } catch (Exception $e) {
 			log_message('error', $e->getMessage());

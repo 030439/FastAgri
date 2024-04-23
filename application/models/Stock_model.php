@@ -15,6 +15,15 @@ class Stock_model extends CI_Model {
          }
          return false;
     }
+    function getOnlyPro(){
+        $this->db->select('products.*, units.Name as unit,crops.id as ci');
+        $this->db->from('products');
+        $this->db->join('units', 'products.unit_id = units.id', 'left');
+        $this->db->join('crops', 'products.id != crops.pid');
+        $products = $this->db->get()->result();
+
+        return $products;
+    }
     public function sellDetail($id){
         $query = $this->db->query("
         SELECT 
@@ -22,28 +31,52 @@ class Stock_model extends CI_Model {
         s.`selldate`,
         s.`dno`,
         s.`vno`,
+        sd.`GradeId`,
         sd.`id` as sdID,
-        g.`Name` as grade,
+        sd.`tunnel`,
         sd.`Quantity`,
         sd.`Rate`,
         sd.`amount`,
         c.`Name` as customer,
         c.`contact` as cno,
-        c.`Address` as caddress,
-        t.`TName` as tunnel
+        c.`Address` as caddress
         FROM 
         `sells` AS s
         JOIN 
         `customers` AS c ON c.`id` = s.`customer`
         JOIN 
         `selldetails` AS sd ON sd.`SellId` = s.`id`
-        JOIN 
-        `tunnels` AS t ON t.`id` = sd.`tunnel`
-        JOIN 
-        `grades` AS g ON g.`id` = sd.`GradeId`
         WHERE s.`id`=$id
         ");
         $result = $query->result_array(); 
+        // Assuming $result contains the fetched data from your database query
+
+$newResult = [];
+foreach ($result as $row) {
+    $quantities = explode(',', $row['Quantity']);
+    $tunnels = explode(',', $row['tunnel']);
+    // Loop through each quantity and tunnel value to create individual records
+    foreach ($quantities as $index => $quantity) {
+        $newRow = [
+            'sid' => $row['sid'],
+            'selldate' => $row['selldate'],
+            'sdID' => $row['sdID'],
+            'grade' => $row['grade'],
+            'Quantity' => $quantity,
+            'Rate' => $row['Rate'],
+            'amount' => $row['amount'],
+            'customer' => $row['customer'],
+            'tunnel' => $tunnels[$index], // Use corresponding tunnel value
+        ];
+
+        // Add the new row to the result array
+        $newResult[] = $newRow;
+    }
+}
+
+// Now $newResult contains individual records for each Quantity and tunnel value
+
+        dd($result);
         return $result;
     }
     public function sellList(){
@@ -111,25 +144,33 @@ class Stock_model extends CI_Model {
        $this->db->insert('sells', $sell);
        $sid = $this->db->insert_id();
         if($sid>0){
+            $grade= implode(',', $data['grades']);
+            $tunnels=implode(',', $data['tunnels']);
+            $bags=implode(',', $data['bags']);
+            $selldetail=[
+                'SellId'=> $sid,
+                'CustomerId'=>$data['customer'],
+                'tunnel'=>$tunnels,
+                'ProductionId'=>1,
+                'GradeId'=>$grade,
+                'Quantity' =>$bags,  
+            ];
+            // if($this->db->insert('selldetails', $selldetail)){
+            //     dd("SDF");
+            // }
+            // dd($sd);
+            if($this->db->insert('selldetails', $selldetail)){
             foreach($data['tunnels'] as $c=> $tunnel){
                 $exe=false;
                 $gd=$data['grades'][$c];
                 $bg=$data['bags'][$c];
-                    $sd=[
-                        'SellId'=> $sid,
-                        'CustomerId'=>$data['customer'],
-                        'tunnel'=>$tunnel,
-                        'ProductionId'=>1,
-                        'GradeId'=>$gd,
-                        'Quantity' =>$bg,  
-                    ];
-                $executed=$this->db->insert('selldetails', $sd);
-                if($executed){
+               // if($executed){
                     $this->reduceProductionStock($tunnel,$gd,$bg);
                     $exe=true;
-                }
+                //}
             }
         }
+       }
         if($exe){
             return true;
         }

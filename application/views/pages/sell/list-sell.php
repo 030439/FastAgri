@@ -118,31 +118,31 @@
                         <div class="cashier-salereturns-table-dateB">
                             <h5>Customer</h5>
                         </div>
-                        <div class="cashier-salereturns-table-referenceB">
+                        <!-- <div class="cashier-salereturns-table-referenceB">
                             <h5>Tunnel</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
+                        </div> -->
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Driver</h5>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Driver No</h5>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Vehicle No</h5>
                         </div>
-                        <div class="cashier-salereturns-table-billerB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Labour</h5>
                         </div>
-                        <div class="cashier-salereturns-table-totalB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Freight</h5>
                         </div>
-                        <div class="cashier-salereturns-table-remarkB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Other Expense</h5>
                         </div>
-                        <div class="cashier-salereturns-table-remarkB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Total Amount</h5>
                         </div>
-                        <div class="cashier-salereturns-table-actionB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Action</h5>
                         </div>
                     </div>
@@ -152,25 +152,25 @@
                         <div class="cashier-salereturns-table-dateB">
                             <span><?php ShowVal($d['customer'])?></span>
                         </div>
+                        <!-- <div class="cashier-salereturns-table-dateB">
+                        <span><?php //ShowVal($d['tunnel'])?></span>
+                        </div> -->
                         <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d['tunnel'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
                         <span><?php ShowVal($d['driver'])?></span>
                         </div>
-                        <div class="cashier-salereturns-table-customerB">
+                        <div class="cashier-salereturns-table-dateB">
                         <span><?php ShowVal($d['dno'])?></span>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
+                        <div class="cashier-salereturns-table-dateB">
                         <span><?php ShowVal($d['vno'])?></span>
                         </div>
-                        <div class="cashier-salereturns-table-billerB">
+                        <div class="cashier-salereturns-table-dateB">
                         <span><?php ShowVal($d['labour'])?></span>
                         </div>
-                        <div class="cashier-salereturns-table-totalB">
+                        <div class="cashier-salereturns-table-dateB">
                         <span><?php ShowVal($d['freight'])?></span>
                         </div>
-                        <div class="cashier-salereturns-table-totalB">
+                        <div class="cashier-salereturns-table-dateB">
                         <span><?php ShowVal($d['expences'])?></span>
                         </div>
                         <div class="cashier-salereturns-table-totalB">
