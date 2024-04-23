@@ -60,12 +60,12 @@ class Stock_model extends CI_Model {
                     'sid' => $row['sid'],
                     'selldate' => $row['selldate'],
                     'sdID' => $row['sdID'],
-                    'grade' => $GradeId[$index],
+                    'grade' => $this->UnitName($GradeId[$index]),
                     'Quantity' => $quantity,
                     'Rate' => $row['Rate'],
                     'amount' => $row['amount'],
                     'customer' => $row['customer'],
-                    'tunnel' => tunnelName($tunnels[$index]), // Use corresponding tunnel value
+                    'tunnel' => $this->tunnelName($tunnels[$index]), // Use corresponding tunnel value
                 ];
                 $newResult[] = $newRow;
             }
@@ -80,6 +80,13 @@ class Stock_model extends CI_Model {
         $this->db->WHERE('id', $id);
         $products = $this->db->get()->result();
         return $products[0]->TName;
+    }
+    function UnitName($id){
+        $this->db->select('units.Name');
+        $this->db->from('units');
+        $this->db->WHERE('id', $id);
+        $products = $this->db->get()->result();
+        return $products[0]->Name;
     }
     public function sellList(){
         $query = $this->db->query("
