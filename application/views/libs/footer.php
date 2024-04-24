@@ -224,5 +224,32 @@
       $("#bagsInputres-" + title).css('color', 'green');
     }
 }
+  function calculateTotal() {
+      var total = 0;
+      var bill_labour=parseInt($("#bill-labour").val());
+      var bill_expense=parseInt($("#bill-expense").val());
+    
+      $('.total-bill-amount').each(function() {
+        var rate=$(this).val();
+        var bill_amount=parseFloat(rate);
+        total += bill_amount;
+      });
+      total+=bill_labour;
+      total+=bill_expense
+      $('#all-total-bill').val(total);
+  }
+  function getValues(row,v){
+    var rv=$("#quantity-"+row).text();
+    var vint = parseInt(rv);
+    var total=v*vint;
+    $("#amount-"+row).val(total);
+    calculateTotal();
+  }
  </script>
- 
+ <script>
+   $(".get-rate-bill").keyup(function(e){
+    var row=$(this).attr('title');
+    var row_value=$(this).val();
+    getValues(row,row_value);
+   })
+</script>

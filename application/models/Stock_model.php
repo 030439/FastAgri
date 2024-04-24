@@ -74,6 +74,60 @@ class Stock_model extends CI_Model {
         return $newResult;
     }
 
+    public function sellBillDetail($id){
+        $query = $this->db->query("
+        SELECT 
+        s.`id` AS sid,
+        s.`selldate`,
+        s.`dno`,
+        s.`labour`,
+        s.`expences`,
+        s.`vno`,
+        sd.`GradeId`,
+        sd.`id` as sdID,
+        sd.`tunnel`,
+        sd.`Quantity`,
+        sd.`Rate`,
+        sd.`amount`,
+        c.`Name` as customer,
+        c.`contact` as cno,
+        c.`Address` as caddress
+        FROM 
+        `sells` AS s
+        JOIN 
+        `customers` AS c ON c.`id` = s.`customer`
+        JOIN 
+        `selldetails` AS sd ON sd.`SellId` = s.`id`
+        WHERE s.`id`=$id
+        ");
+        $result = $query->result_array(); 
+        $newResult = [];
+        foreach ($result as $row) {
+            $quantities = explode(',', $row['Quantity']);
+            $tunnels = explode(',', $row['tunnel']);
+            $GradeId=explode(',', $row['GradeId']);
+            // Loop through each quantity and tunnel value to create individual records
+            foreach ($quantities as $index => $quantity) {
+                $newRow = [
+                    'sid' => $row['sid'],
+                    'labour' => $row['labour'],
+                    'expences' => $row['expences'],
+                    'selldate' => $row['selldate'],
+                    'sdID' => $row['sdID'],
+                    'grade' => $this->gradeName($GradeId[$index]),
+                    'Quantity' => $quantity,
+                    'Rate' => $row['Rate'],
+                    'amount' => $row['amount'],
+                    'customer' => $row['customer'],
+                    'tunnel' => $this->tunnelName($tunnels[$index]), // Use corresponding tunnel value
+                ];
+                $newResult[] = $newRow;
+            }
+        }
+
+        return $newResult;
+    }
+
     function tunnelName($id){
         $this->db->select('tunnels.TName');
         $this->db->from('tunnels');

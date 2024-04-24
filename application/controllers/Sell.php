@@ -20,7 +20,7 @@ class Sell extends CI_Controller {
 		$this->load->view('layout/parts',['page'=>"pages/sell/sell-detail",'data'=>$data]);
 	}
 	public function sellBillDetail($id){
-		$data= $this->Stock_model->sellDetail($id);
+		$data= $this->Stock_model->sellBillDetail($id);
 		$this->load->view('layout/parts',['page'=>"pages/sell/bill-detail",'data'=>$data]);
 	}
 	public function getPass($id){
