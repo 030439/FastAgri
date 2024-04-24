@@ -120,5 +120,6 @@ $route['load-for-sell']="Sell/loadForSale";
 $route['sell-detail/(:num)']="Sell/detail/$1";
 $route['Production-stock']="Production/stocks";
 $route['sell-gate-pass/(:num)']="Sell/getPass/$1";
+$route['sell-bill-detail/(:num)']="Sell/sellBillDetail/$1";
 //Reports
 $route['tunnel/profit-expense']="Report/profitExpense";
