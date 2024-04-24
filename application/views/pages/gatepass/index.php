@@ -75,23 +75,23 @@
 
         <div class="date">
           <div class="gate-nbr">
-            <p class="ques">Gate pass NO: <span class=""><?=$data[0]['sid']?></span></p>
+            <p class="ques">Gate pass NO: <span class=""><?php echo$data[0]['data'][0]['sid']?></span></p>
           </div>
           <div class="date-nbr">
-            <p class="ques">Date: <span class="ans"><?= $data[0]['selldate']?></span></p>
+            <p class="ques">Date: <span class="ans"><?php echo  $data[0]['data'][0]['selldate']?></span></p>
           </div>
         </div>
         <div class="detail">
         <div class="name">
-          <p class="ques">Buyer Name: <span class="ans"><?php echo $data[0]['customer'];?></span></p>
-          <p class="ques">Buyer No: <span class="ans"><?= $data[0]['cno'];?></span></p>
-          <p class="ques">Location: <span class="ans"><?= $data[0]['caddress'];?></span></p>
+          <p class="ques">Buyer Name: <span class="ans"><?php echo $data[0]['data'][0]['customer'];?></span></p>
+          <p class="ques">Buyer No: <span class="ans"><?php echo $data[0]['data'][0]['cno'];?></span></p>
+          <p class="ques">Location: <span class="ans"><?php echo $data[0]['data'][0]['caddress'];?></span></p>
         </div>
         
         <div class="driv">
-          <p class="ques" style="text-align-last: end;">Driver Name: <span class="ans">shamas</span></p>
-          <p class="ques" >Vehicl No: <span class="ans"><?=$data[0]['vno']?></span></p>
-          <p class="ques" >Contact No: <span class="ans"><?php echo $data[0]['dno']?></span></p>
+          <p class="ques" style="text-align-last: end;">Driver Name: <span class="ans"><?php echo $data[0]['data'][0]['driver']?></span></p>
+          <p class="ques" >Vehicl No: <span class="ans"><?php echo $data[0]['data'][0]['vno']?></span></p>
+          <p class="ques" >Contact No: <span class="ans"><?php echo $data[0]['data'][0]['dno']?></span></p>
         </div>
         </div>
         
@@ -110,24 +110,26 @@
                 </tr>
             </thead>
             <tbody >
-              <?php if($data):$total=0; foreach($data as $d): ?>
+              <?php $t=0; if($data):$total=0; $cc=0; foreach($data as $count=> $d): ?>
                 <?php
-                  $t=$d['Quantity'];
-                  $total+=$t;
+                $ga=$d['data'][0]['Quantity'];
+                $gb=$d['data'][1]['Quantity'];
+                $total=$ga+$gb;
+                $t+=$total;
                   ?>
                <tr >
-                <td><?php echo $d['tunnel'];?></td>
-                <td>lady finger</td>
-                <td>1</td>
-                <td>2</td>
-                <td><?php echo $t;?></td>
+                <td><?php echo $d['tunnel'][$cc];?></td>
+                <td><?php productByTunnelName($d['tunnel'][$cc]);?></td>
+                <td><?php echo $ga;?></td>
+                <td><?php echo $gb;?></td>
+                <td><?php echo $total;?></td>
                 <td></td>
                 
                </tr>
                <?php endforeach; endif?>
                <tr>   
                 <td colspan="4" >Total</td>
-                <td><?php echo $total;?></td>
+                <td><?php echo $t;?></td>
                 <td></td>
                </tr>
                 <th  style="    font-size: 14px;">Description  </th>
@@ -146,7 +148,7 @@
                <tr>
                 
                 <th  style="    font-size: 14px;">Freight  Rate</th>
-                <td colspan="7"><?php echo $data[0]['freight'];?></td>
+                <td colspan="7"><?php //echo $data[0]['freight'];?></td>
                 
                </tr>
              

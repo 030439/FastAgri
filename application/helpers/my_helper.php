@@ -52,7 +52,7 @@ function dd($data){
 
 if (!function_exists('pqrate')) {
     function pqrate($pqid, $pid)
-   
+
     {
         $CI =& get_instance();
         $CI->load->database();
@@ -73,6 +73,21 @@ if (!function_exists('pqrate')) {
         }
         // Return any data if needed
         echo 0;
+    }
+}
+
+if (!function_exists('productByTunnelName')) {
+    function productByTunnelName($name)
+
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        $stockWithRate = array();
+        $query = $CI->db->query("SELECT crops.FasalName as crop FROM tunnels join crops ON crops.pid=tunnels.product__id WHERE tunnels.TName = '".$name."'");
+        $result = $query->row_array();
+        echo $result['crop'];
+        return;
     }
 }
 

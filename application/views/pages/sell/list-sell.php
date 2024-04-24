@@ -1,6 +1,6 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
+        <h4 class="text-[20px] font-bold text-heading mb-9">Sell List</h4>
         <div class="cashier-managesale-top-btn default-light-theme mb-7">
             <button class="mb-1" onclick="document.location='createbank.html'">
                 <i class="fa-light fa-plus"></i> Create Bank

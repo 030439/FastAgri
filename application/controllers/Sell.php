@@ -39,12 +39,18 @@ foreach ($data as $item) {
 
 $tunnelD=[];
 $c=0;
+// Sort each tunnel's data by grade
+foreach ($tunnelWiseData as &$tunnelData) {
+    usort($tunnelData, function ($a, $b) {
+        return strcmp($a['grade'], $b['grade']);
+    });
+}
 foreach($tunnelWiseData as $tunnel=> $dd){
 	$tunnelD[$c]['tunnel']=[$tunnel];
 	$tunnelD[$c]['data']=$dd;
 	$c++;
 }
-		$this->load->view("pages/gatepass/index",['data'=>$data]);
+		$this->load->view("pages/gatepass/index",['data'=>$tunnelD]);
 	}
 	public function loadForSale(){
 		$data = $this->input->post(NULL, TRUE);
