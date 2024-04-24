@@ -21,6 +21,29 @@ class Sell extends CI_Controller {
 	}
 	public function getPass($id){
 		$data= $this->Stock_model->getPassBysellDetailId($id);
+		
+// Initialize an empty array to hold tunnel-wise data
+$tunnelWiseData = [];
+
+// Loop through the data and categorize it by tunnel
+foreach ($data as $item) {
+    $tunnel = $item['tunnel'];
+    unset($item['tunnel']); // Remove 'tunnel' key from the item
+
+    if (!isset($tunnelWiseData[$tunnel])) {
+        $tunnelWiseData[$tunnel] = [];
+    }
+
+    $tunnelWiseData[$tunnel][] = $item;
+}
+
+$tunnelD=[];
+$c=0;
+foreach($tunnelWiseData as $tunnel=> $dd){
+	$tunnelD[$c]['tunnel']=[$tunnel];
+	$tunnelD[$c]['data']=$dd;
+	$c++;
+}
 		$this->load->view("pages/gatepass/index",['data'=>$data]);
 	}
 	public function loadForSale(){
