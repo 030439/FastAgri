@@ -101,8 +101,6 @@
         <table border="1"  style="width: 100%; text-align: center; border-spacing: inherit;">
             <thead >
                 <tr >
-                    <th colspan="2">&nbsp;</th>
-                    
                     <th>Tunnel</th>
                     <th>Product</th>
                     <th>A</th>
@@ -112,96 +110,46 @@
                 </tr>
             </thead>
             <tbody >
+              <?php if($data):$total=0; foreach($data as $d): ?>
+                <?php
+                  $t=$d['Quantity'];
+                  $total+=$t;
+                  ?>
                <tr >
-                <th  style="width: 16px;">Description</th>
-                
-                <td style="    width: 125px;"></td>
-                <td>fast</td>
+                <td><?php echo $d['tunnel'];?></td>
                 <td>lady finger</td>
                 <td>1</td>
                 <td>2</td>
-                <td>232</td>
-                <td>1kg</td>
+                <td><?php echo $t;?></td>
+                <td></td>
                 
+               </tr>
+               <?php endforeach; endif?>
+               <tr>   
+                <td colspan="4" >Total</td>
+                <td><?php echo $total;?></td>
+                <td></td>
+               </tr>
+                <th  style="    font-size: 14px;">Description  </th>
+                <td colspan="2"></td>
+                <th  style="    font-size: 14px;">Bilty  </th>
+                <td colspan="2"></td>
                </tr>
                <tr>
                 
-                
-                <th>Belti No</th>
-                <td></td>
-                <td>fast</td>
-                <td>lady finger</td>
-                <td>1</td>
-                <td>2</td>
-                <td>232</td>
-                <td>1kg</td>
-                
+                <th  style="    font-size: 14px;">Grade  </th>
+                <td colspan="2"></td>
+                <th  style="    font-size: 14px;">Weight  </th>
+                <td colspan="2"></td>
                </tr>
-               <tr>
-              
-                
-                <th>Grade</th>
-                <td></td>
-                <td>fast</td>
-                <td>lady finger</td>
-                <td>1</td>
-                <td>2</td>
-                <td>232</td>
-                <td>1kg</td>
-                
-               </tr>
-
-               <tr>
-                
-                <th rowspan="3" >Weight</th>
-                
-                <td></td>
-                <td>fast</td>
-                <td>lady finger</td>
-                <td>1</td>
-                <td>2</td>
-                <td>232</td>
-                <td>1kg</td>
-                
-               </tr>
-               <tr>
-                
-                
-                <td></td>
-                <td>fast</td>
-                <td>lady finger</td>
-                <td>1</td>
-                <td>2</td>
-                <td>232</td>
-                <td>1kg</td>
-                
-               </tr>
-               <tr>
-               
-                
-                <td></td>
-                <td>fast</td>
-                <td>lady finger</td>
-                <td>1</td>
-                <td>2</td>
-                <td></td>
-                <td>1kg</td>
-                
-               </tr>
+             
                <tr>
                 
                 <th  style="    font-size: 14px;">Freight  Rate</th>
-                <td colspan="7">788</td>
+                <td colspan="7"><?php echo $data[0]['freight'];?></td>
                 
                </tr>
-               <tr>
-                
-                <td colspan="4" >Total</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-               </tr>
+             
                <tr>
                 
                 <td  >From</td>

@@ -70,8 +70,8 @@ class Stock_model extends CI_Model {
                 $newResult[] = $newRow;
             }
         }
-        
-        return $result;
+
+        return $newResult;
     }
 
     function tunnelName($id){
@@ -505,5 +505,59 @@ class Stock_model extends CI_Model {
 
             dd($product_id);
         }
+    }
+
+
+
+    public function getPassBysellDetailId($id){
+        $query = $this->db->query("
+        SELECT 
+        s.`id` AS sid,
+        s.`selldate`,
+        s.`dno`,
+        s.`vno`,
+        s.`freight`,
+        sd.`GradeId`,
+        sd.`id` as sdID,
+        sd.`tunnel`,
+        sd.`Quantity`,
+        sd.`Rate`,
+        sd.`amount`,
+        c.`Name` as customer,
+        c.`contact` as cno,
+        c.`Address` as caddress
+        FROM 
+        `sells` AS s
+        JOIN 
+        `customers` AS c ON c.`id` = s.`customer`
+        JOIN 
+        `selldetails` AS sd ON sd.`SellId` = s.`id`
+        WHERE s.`id`=$id
+        ");
+        $result = $query->result_array(); 
+        $newResult = [];
+        foreach ($result as $row) {
+            $quantities = explode(',', $row['Quantity']);
+            $tunnels = explode(',', $row['tunnel']);
+            $GradeId=explode(',', $row['GradeId']);
+            // Loop through each quantity and tunnel value to create individual records
+            foreach ($quantities as $index => $quantity) {
+                $newRow = [
+                    'sid'=>$id,
+                    'freight'=>$row['freight'],
+                    'selldate' => $row['selldate'],
+                    'cno' => $row['cno'],
+                    'caddress' => $row['caddress'],
+                    'dno' => $row['dno'],
+                    'vno' => $row['vno'],
+                    'grade' => $this->gradeName($GradeId[$index]),
+                    'Quantity' => $quantity,
+                    'customer' => $row['customer'],
+                    'tunnel' => $this->tunnelName($tunnels[$index]), // Use corresponding tunnel value
+                ];
+                $newResult[] = $newRow;
+            }
+        }
+        return $newResult;
     }
 }
