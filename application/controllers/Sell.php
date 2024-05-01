@@ -23,6 +23,9 @@ class Sell extends CI_Controller {
 		$data= $this->Stock_model->sellBillDetail($id);
 		$this->load->view('layout/parts',['page'=>"pages/sell/bill-detail",'data'=>$data]);
 	}
+	public function billDetailInvoice(){
+		
+	}
 	public function getPass($id){
 		$data= $this->Stock_model->getPassBysellDetailId($id);
 		
