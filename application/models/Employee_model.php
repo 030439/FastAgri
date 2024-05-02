@@ -40,7 +40,7 @@ class Employee_model extends CI_Model {
         return $this->db->insert('employees', $data);
     }
     public function saveDesignation($data) {
-        return $this->db->insert('designation', $data);
+        return $this->db->insert('designations', $data);
     }
     public function saveCategory($data) {
         return $this->db->insert('employeecategory', $data);

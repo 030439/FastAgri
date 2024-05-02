@@ -31,6 +31,7 @@ class Stock_model extends CI_Model {
         s.`selldate`,
         s.`dno`,
         s.`vno`,
+        s.`freight` as kraya,
         sd.`GradeId`,
         sd.`id` as sdID,
         sd.`tunnel`,
@@ -54,6 +55,8 @@ class Stock_model extends CI_Model {
             $quantities = explode(',', $row['Quantity']);
             $tunnels = explode(',', $row['tunnel']);
             $GradeId=explode(',', $row['GradeId']);
+            $rate_=explode(',',$row['Rate']);
+            $amount=explode(',',$row['amount']);
             // Loop through each quantity and tunnel value to create individual records
             foreach ($quantities as $index => $quantity) {
                 $newRow = [
@@ -62,8 +65,9 @@ class Stock_model extends CI_Model {
                     'sdID' => $row['sdID'],
                     'grade' => $this->gradeName($GradeId[$index]),
                     'Quantity' => $quantity,
-                    'Rate' => $row['Rate'],
-                    'amount' => $row['amount'],
+                    'Rate' => $rate_[$index],
+                    'freight' =>$row['kraya'],
+                    'amount' => $amount[$index],
                     'customer' => $row['customer'],
                     'tunnel' => $this->tunnelName($tunnels[$index]), // Use corresponding tunnel value
                 ];
@@ -73,7 +77,24 @@ class Stock_model extends CI_Model {
 
         return $newResult;
     }
-
+    public function sellDetailUpdate($id,$rate,$amount,$labour,$expences,$freight,$net){
+        $rate_     = implode(',', $rate);
+        $amount_   = implode(',', $amount);
+        $labour_   = implode(',', $labour);
+        $expences_ = implode(',', $expences);
+        $freight_  = implode(',', $freight);
+        $net_      = implode(',', $net);
+        $data=[
+            'Rate'       => $rate_,
+            'Amount'     => $amount_,
+            'Labour'     => $labour_,
+            'commission' => $expences_,
+            "Freight"    => $freight_,
+            "NetAmount"  =>$net_
+        ];
+        $this->db->where('SellId', $id);
+        return  $this->db->update('selldetails', $data);
+    }
     public function sellBillDetail($id){
         $query = $this->db->query("
         SELECT 
@@ -127,7 +148,10 @@ class Stock_model extends CI_Model {
 
         return $newResult;
     }
-
+    public function updateSellBill($id, $data) {
+        $this->db->where('id', $id);
+         return  $this->db->update('sells', $data);
+      }
     function tunnelName($id){
         $this->db->select('tunnels.TName');
         $this->db->from('tunnels');

@@ -6,14 +6,14 @@
 </style>
 <div class="cashier-content-area mt-[30px] px-7">
     <form action="bill-detail-invoice" method="post">
-        <input type="hidden" value="<?=$data[0]['sid']?>">
+        <input name="sid" type="hidden" value="<?=$data[0]['sid']?>">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
         <h4 class="text-[20px] font-bold text-heading mb-9">Sell Detail </h4>
             <div class="mb-7">
                 <span>Commission </span>
-                <input class="billinputs" id="bill-labour" type="number" placeholder="Labour" value="<?php echo $data[0]['expences'];?>">
+                <input class="billinputs" id="bill-labour" type="number" name="expences" placeholder="Labour" value="<?php echo $data[0]['expences'];?>">
                 <span>Labour </span>
-                <input class="billinputs" id="bill-expense" type="number" placeholder="Labour" value="<?php echo $data[0]['expences'];?>">
+                <input class="billinputs" id="bill-expense" type="number"  name="labour" placeholder="Labour" value="<?php echo $data[0]['labour'];?>">
             </div>
             all-total-bill
         
@@ -82,13 +82,18 @@
                     <div class="grid grid-cols-12">
                         <div class="lg:col-span-9 md:col-span-6 col-span-12">
                             <div class="cashier-pagination text-right maxSm:text-center">
-                               <input class="billinputs" id="all-total-bill" value="0">
+                               <input name="billinputs" class="billinputs" id="all-total-bill" value="0">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-span-12">
+                <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
+                    <button class="btn-primary" type="submit">Create Invoice</button>
+                </div>
+            </div>
     </div>
     </form>
 </div>

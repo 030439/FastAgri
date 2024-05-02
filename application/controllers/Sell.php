@@ -24,8 +24,42 @@ class Sell extends CI_Controller {
 		$this->load->view('layout/parts',['page'=>"pages/sell/bill-detail",'data'=>$data]);
 	}
 	public function billDetailInvoice(){
-		
+		$data = $this->input->post(NULL, TRUE);
+		$id = $data['sid'];
+		$sell = [
+			'labour'        => $data['labour'],
+			'total_amount'  => $data['billinputs'],
+			'expences'      => $data['expences']
+		];
+		$this->Stock_model->updateSellBill($id, $sell);
+		$records = $this->Stock_model->sellBillDetail($id);
+		$data_ = $this->Stock_model->sellDetail($id);
+		$totalQ = 0;
+		foreach ($data_ as $d){
+			$totalQ += $d['Quantity'];
+		}
+		$kraya = $data_[0]['freight'] / $totalQ;
+		$labourPerItem = $data['labour'] / $totalQ;
+		$expencesPerItem = $data['expences'] / $totalQ;
+		$rateArr = [];
+		$amount = [];
+		$labour = [];
+		$expences = [];
+		$freight = [];
+		$net = [];
+		foreach ($data_ as $c => $dd){
+			$rate = $data['rate'][$c]; // Assuming $data['rate'] is an array
+			$rateArr[] = $rate;
+			$amount[] = $dd['Quantity'] * $rate;
+			$labour[] = $labourPerItem;
+			$expences[] = $expencesPerItem;
+			$freight[] = $kraya;
+			$net[] = $amount[$c] - $labour[$c] - $expences[$c] - $freight[$c];
+		}
+		$dataUpdate=$this->Stock_model->sellDetailUpdate($id,$rateArr,$amount,$labour,$expences,$freight,$net);
+		dd($dataUpdate);
 	}
+	
 	public function getPass($id){
 		$data= $this->Stock_model->getPassBysellDetailId($id);
 		
