@@ -103,6 +103,7 @@ $route['employees-listing']='Employee/listing';
 $route['getPermanentEmployees']='Employee/getPermanentEmployees';
 $route['getDailyEmployees']='Employee/getDailyEmployees';
 $route['employee-advance-add']="Employee/employeeAdvanceAdd";
+$route['generate-pays']='Employee/generatePays';
 //Jammandar 
 $route['jamandars']='Jamandar/index';
 $route['getJamandars']='Jamandar/getJamandars';

@@ -225,7 +225,7 @@
                                     <li><a href="jamandars">Jamandars List </a></li>
                                 </ul>
                             </li>
-                            <li><a href="hr/Advance">Advance/Loan</a></li>
+                            <li><a href="employee/Advance">Advance/Loan</a></li>
 
 
 

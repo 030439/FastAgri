@@ -108,7 +108,51 @@ class Employee extends CI_Controller {
 		echo $html;
 	}
 	public function employeeAdvanceAdd(){
-		
+		$data = $this->input->post(NULL, TRUE);
+		try {
+			$this->form_validation->set_rules('employee_type', 'Employee Type ', 'required');
+			$this->form_validation->set_rules('employee_id', 'Employee Name  ', 'required');
+			$this->form_validation->set_rules('amount', 'Amount ', 'required');
+			$this->form_validation->set_rules('installment', 'Installment ', 'required');
+			$this->form_validation->set_rules('date_', 'Date ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->load->view('layout/parts',['page'=>"pages/human-resource/advance"]);
+			}
+			 else {
+			  $data = $this->input->post(NULL, TRUE);
+			  $res= $this->Employee_model->employeeAdvanceAdd($data);
+			   if($res){
+				response($res,'employee/Advance',"Data Inserted Successfully");
+			   }
+			   else{
+				response($res,'employee/Advance',"Something went Wrong");
+			   }
+			  
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+	}
+	public function Advance()
+	{
+		$data['loans']=$this->Employee_model->getLoans();
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/advance",'data'=>$data]);
+	}
+	public function generatePays(){
+		try {
+			   $data = $this->input->post(NULL, TRUE);
+			   $res= $this->Employee_model->pays($data);
+			   if($res){
+				response($res,'designation',"Data Inserted Successfully");
+			   }
+			   else{
+				response($res,'designation',"Something went Wrong");
+			   }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
 	}
 	public function purchasedSeedList()
 	{

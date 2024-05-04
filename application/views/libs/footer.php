@@ -295,4 +295,14 @@
     }
 
     });
+    $(".net-sallary-by-installment").keyup(function(e){
+      var netS = $(this).attr('title');
+      var insta = parseInt($("#installment-" + netS).val());
+      var addition = parseInt($("#additon-" + netS).val());
+      var deduction = parseInt($("#deduction-" + netS).val());
+      var total = parseInt($("#total-" + netS).val());
+      var Total_ = total + addition - deduction - insta;
+      $("#net-" + netS).val(Total_);
+
+    });
 </script>
