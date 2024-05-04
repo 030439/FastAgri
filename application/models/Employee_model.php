@@ -134,7 +134,23 @@ class Employee_model extends CI_Model {
         $customer = $this->db->get_where('customers', ['id' => $id])->row();
         return $customer;
     }
-    
+    public function updateLoan($eid,$pay){
+        $employee = $this->db->get_where('loans', ['employee_id' => $eid])->row();
+        $loan=$employee->loan;
+        $loan-=$pay;
+        $loan=[
+            'loan'=>$loan,
+        ];
+        $this->db->where('employee_id', $eid);
+        return $this->db->update('loans', $loan);
+    }
+    public function addPays($arr){
+        $record = $this->db->get_where('pays', ['employee_id' => $arr['employee_id'],'date_'=>$arr['date_']])->row(); 
+       if(!$record){
+            return $this->db->insert('pays', $arr);
+        }
+        return false;
+    }
     public function pays($data){
         foreach($data['total'] as $index => $total){
             $eid=$data['employee_id'][$index];
@@ -148,14 +164,17 @@ class Employee_model extends CI_Model {
                 'deduction'=>$data['deduction'][$index],
                 'net'=>$data['net'][$index],
                 ];
-                if($this->db->insert('pays', $arr)){
+                if($this->addPays($arr)){
                     $this->updateLoan($eid,$installment);
+                }else{
+                    return "record Found";
                 }
         }
-        dd($data);
-        dd("SDF");
+        return true;
     }
-
+    public function getPays(){
+        
+    }
     public function updatecustomer($id, $data) {
       $this->db->where('id', $id);
        return  $this->db->update('customers', $data);

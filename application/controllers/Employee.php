@@ -144,10 +144,10 @@ class Employee extends CI_Controller {
 			   $data = $this->input->post(NULL, TRUE);
 			   $res= $this->Employee_model->pays($data);
 			   if($res){
-				response($res,'designation',"Data Inserted Successfully");
+				response($res,'payroll',"Data Inserted Successfully");
 			   }
 			   else{
-				response($res,'designation',"Something went Wrong");
+				response($res,'payroll',"Something went Wrong");
 			   }
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

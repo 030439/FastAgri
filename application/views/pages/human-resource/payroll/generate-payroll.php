@@ -111,6 +111,10 @@
         </style>
         <div class="cashier-salereturns-table-area">
             <div class="cashier-salereturns-table-innerC">
+            <form action="generate-pays" method="post">
+                <label>Select Date</label>
+            <input type="month" id="myMonth" required name="date_"style="width:100px; height:20px; border:1px solid">
+
                 <div
                     class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7">
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
@@ -146,7 +150,7 @@
                             <h5>Net Sallary</h5>
                         </div>
                     </div>
-                    <form action="generate-pays" method="post">
+                        
                     <?php if(!empty($data)): foreach($data['records'] as $c=> $d):?>
 
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
@@ -191,8 +195,9 @@
                             <button class="btn-primary" type="submit" style="margin-bottom:20px;">Add Now</button>
                         </div>
                     </div>
-                    </form>
+
                 </div>
+                </form>
             </div>
         </div>
     </div>
