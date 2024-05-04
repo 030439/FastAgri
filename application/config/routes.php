@@ -100,8 +100,12 @@ $route['save-category']='Employee/saveCategory';
 $route['save-employee']='Employee/saveEmployee';
 $route['employees']='Employee/index';
 $route['employees-listing']='Employee/listing';
+$route['getPermanentEmployees']='Employee/getPermanentEmployees';
+$route['getDailyEmployees']='Employee/getDailyEmployees';
+$route['employee-advance-add']="Employee/employeeAdvanceAdd";
 //Jammandar 
 $route['jamandars']='Jamandar/index';
+$route['getJamandars']='Jamandar/getJamandars';
 $route['add-jamandar']='Jamandar/add';
 $route['save-jamandar']='Jamandar/save';
 $route['jamandar-detail/(:num)']="Jamandar/detail/$1";
@@ -124,3 +128,5 @@ $route['sell-bill-detail/(:num)']="Sell/sellBillDetail/$1";
 $route['bill-detail-invoice']="Sell/billDetailInvoice";
 //Reports
 $route['tunnel/profit-expense']="Report/profitExpense";
+//loan
+

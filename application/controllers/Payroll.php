@@ -31,7 +31,8 @@ class Payroll extends CI_Controller{
 
         // Fetch data with pagination
         $offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-         $data['records']=$this->Employee_model->getAll($config['per_page'], $offset);
+         $data['records']=$this->Employee_model->permanentEmployee($config['per_page'], $offset);
+        //  dd($data);
             $this->load->view('layout/parts',['page'=>"pages/human-resource/payroll/generate-payroll",'data'=>$data,'listing'=>"employee-list"]);
 			//$this->load->view('layout/parts',['page'=>"pages/human-resource/list-employee",'data'=>$data,'listing'=>"employee-list"]);
 		} catch (Exception $e) {

@@ -87,7 +87,29 @@ class Employee extends CI_Controller {
 		echo json_encode($data);
 		exit();
 	}
-
+	public function getPermanentEmployees(){
+		$result=$this->Employee_model->permanentEmployee(0,10);
+		$html="";
+		foreach ($result as $key => $res) {
+			$html.="<option value='".$res->id."'>";
+			$html.=$res->Name;
+			$html.="</option>";
+		}
+		echo $html;
+	}
+	public function getDailyEmployees(){
+		$result=$this->Employee_model->getDailyEmployees(0,10);
+		$html="";
+		foreach ($result as $key => $res) {
+			$html.="<option value='".$res->id."'>";
+			$html.=$res->Name;
+			$html.="</option>";
+		}
+		echo $html;
+	}
+	public function employeeAdvanceAdd(){
+		
+	}
 	public function purchasedSeedList()
 	{
 		try{

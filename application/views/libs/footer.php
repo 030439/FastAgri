@@ -251,5 +251,48 @@
     var row=$(this).attr('title');
     var row_value=$(this).val();
     getValues(row,row_value);
-   })
+   });
+   function getPermanentEmployees(){
+    $.ajax({
+        url: "getPermanentEmployees",
+        method: 'post',
+        success: function(result){
+           $("#loan-employee-names").html(result);
+           $('#loan-employee-names').show();
+        }
+      });
+   }
+   function getDailyEmployees(){
+    $.ajax({
+        url: "getDailyEmployees",
+        method: 'post',
+        success: function(result){
+           $("#loan-employee-names").html(result);
+           $('#loan-employee-names').show();
+        }
+      });
+   }
+   function getJamandars(){
+    $.ajax({
+        url: "getJamandars",
+        method: 'post',
+        success: function(result){
+           $("#loan-employee-names").html(result);
+           $('#loan-employee-names').show();
+        }
+      });
+   }
+   $('#loan-employee-type').on('change', function(){  
+    let loanEmployeeType=$(this).val();
+    if(loanEmployeeType==1){
+      getPermanentEmployees();
+    }
+    if(loanEmployeeType==2){
+      getDailyEmployees();
+    }
+    if(loanEmployeeType==3){
+      getJamandars();
+    }
+
+    });
 </script>

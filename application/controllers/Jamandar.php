@@ -16,6 +16,16 @@ class Jamandar extends CI_Controller{
         
         $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar",'data'=>$data]);
     }
+    public function getJamandars(){
+		$result=$this->Jamandar_model->getAll();
+		$html="";
+		foreach ($result as $key => $res) {
+			$html.="<option value='".$res->id."'>";
+			$html.=$res->name;
+			$html.="</option>";
+		}
+		echo $html;
+	}
     public function detail($id){
         $data=$this->Jamandar_model->labourListByJamandar($id);
         $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar-issue-labour-list",'data'=>$data]);

@@ -28,6 +28,36 @@ class Employee_model extends CI_Model {
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
+    public function permanentEmployee($limit, $offset) {
+        $this->db->select('
+        employees.id,employees.Name,employees.FatherName,
+        employees.Nic,employees.Address,employees.ContactNo,
+        employees.BasicSalary,employees.Allowances,employees.Medical,employees.status,
+
+        designations.Name as designation,employeecategory.Name as category
+       ');
+        $this->db->from('employees');
+        $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
+        $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
+        $this->db->where('employeecategory.id', 1);
+        $stocks = $this->db->get()->result();
+        return $stocks; 
+    }
+    public function getDailyEmployees($limit, $offset) {
+        $this->db->select('
+        employees.id,employees.Name,employees.FatherName,
+        employees.Nic,employees.Address,employees.ContactNo,
+        employees.BasicSalary,employees.Allowances,employees.Medical,employees.status,
+
+        designations.Name as designation,employeecategory.Name as category
+       ');
+        $this->db->from('employees');
+        $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
+        $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
+        $this->db->where('employeecategory.id', 2);
+        $stocks = $this->db->get()->result();
+        return $stocks; 
+    }
     public function getCategory() {
         $customers = $this->db->get('employeecategory')->result();
         return $customers;
