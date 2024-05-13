@@ -217,6 +217,7 @@
                             <li><a href="javascript:void(0)" class="has-arrow">PayRoll</a>
                                 <ul class="mm-collapse">
                                     <li><a href="payroll/add">Add payroll</a></li>
+                                    <li><a href="payroll/generate">Generate payroll</a></li>
                                     <li><a href="payroll">Genterative List PayRoll</a></li>
                                 </ul>
                             </li>

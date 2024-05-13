@@ -136,8 +136,8 @@ class Stock extends CI_Controller {
 	public function getStockRate(){
 		$id=$this->input->post('id');
 		$res=$this->Stock_model->getStockRate($id);
+		$html="";
 		if($res){
-			$html="";
 			$html.="<option selected='selected' disabled>Select price wise Stock </option>";
 			foreach($res as $e){
 				$stock=$e['stock'];

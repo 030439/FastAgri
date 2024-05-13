@@ -155,6 +155,7 @@ class Employee_model extends CI_Model {
         foreach($data['total'] as $index => $total){
             $eid=$data['employee_id'][$index];
             $installment=$data['installment'][$index];
+            
             $arr=[
                 'date_' =>$data['date_'],
                 'employee_id'=>$eid,
@@ -167,13 +168,25 @@ class Employee_model extends CI_Model {
                 if($this->addPays($arr)){
                     $this->updateLoan($eid,$installment);
                 }else{
-                    return "record Found";
+                    return false;
                 }
         }
         return true;
     }
     public function getPays(){
-        
+        $this->db->select('
+        employees.id as eid,employees.Name as employee,
+        employees.BasicSalary as basic,employees.Allowances as allowance,employees.Medical as medical,employees.status,
+        pays.total,pays.installment,pays.additon as addition,pays.deduction,pays.net,pays.date_ as pdate,pays.status as status
+       ');
+        $this->db->from('pays');
+        $this->db->join('employees', 'employees.id = pays.employee_id', 'left');
+        $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
+        $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
+        $this->db->where('employeecategory.id', 1);
+        $this->db->order_by('pays.id', 'desc');
+        $pays = $this->db->get()->result();
+        return $pays; 
     }
     public function updatecustomer($id, $data) {
       $this->db->where('id', $id);

@@ -143,6 +143,7 @@ class Employee extends CI_Controller {
 		try {
 			   $data = $this->input->post(NULL, TRUE);
 			   $res= $this->Employee_model->pays($data);
+			  
 			   if($res){
 				response($res,'payroll',"Data Inserted Successfully");
 			   }
