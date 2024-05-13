@@ -131,3 +131,5 @@ $route['bill-detail-invoice']="Sell/billDetailInvoice";
 $route['tunnel/profit-expense']="Report/profitExpense";
 //loan
 
+//pdfs
+$route['create-pdf'] = "Welcome/CreatePdf";
