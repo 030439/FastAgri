@@ -18,6 +18,56 @@ class Supplier_model extends CI_Model {
       $all = $this->db->get()->result();
       return $all;
   }
+  public function detail($id){
+   $this->db->select('
+   pd.id AS purchase_detail_id,
+   pd.product_id,
+   p.Name AS product_name,
+   pd.quantity AS purchased_quantity,
+   pq.product_id AS purchase_product_id,
+   pq.RemainingQuantity,
+   s.Name AS supplier_name,
+   s.company_name AS supplier_company,
+   pd.rate,
+   pd.amount,
+   pd.expenses,
+   pd.total_amount,
+   pd.Date AS purchase_date
+');
+$this->db->from('purchasesdetail pd');
+$this->db->join('suppliers s', 'pd.Supplier_id = s.id');
+$this->db->join('products p', 'pd.product_id = p.id');
+$this->db->join('purchaseqty pq', 'pd.id = pq.purchase_id AND pd.product_id = pq.product_id', 'left');
+$this->db->where('pd.Supplier_id', $id);
+$this->db->order_by('pd.id DESC, pq.product_id DESC');
+
+$query = $this->db->get();
+   $results = $query->result_array();
+
+   $individual_records = [];
+   foreach ($results as $row) {
+      $product_ids = explode(',', $row['product_id']);
+      $purchased_quantities = explode(',', $row['purchased_quantity']);
+      $purchased_rates = explode(',', $row['rate']);
+
+      foreach ($product_ids as $index => $product_id) {
+         $individual_records[] = array(
+            'purchase_detail_id' => $row['purchase_detail_id'],
+            'product_name' => $row['product_name'],
+            'purchased_quantity' => $purchased_quantities[$index],
+            'purchase_product_id' => $row['purchase_product_id'],
+            'rate' => $purchased_rates[$index],
+            'amount' => $row['amount'],
+            'total_amount' => $row['total_amount'],
+            'purchase_date' => $row['purchase_date']
+         );
+      }
+   }
+   // echo "<pre>";
+   // print_r($results);die;
+   dd($individual_records);
+   return $individual_records;
+  }
     public function createRecord($data,$table) {
       $res=$this->db->insert($table, $data);
       $ok=false;
