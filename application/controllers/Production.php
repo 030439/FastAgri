@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor/autoload.php';
 class Production extends CI_Controller {
 
 	public function __construct() {
@@ -19,6 +19,21 @@ class Production extends CI_Controller {
 		$date=date('Y-m-d');
 		$data['production']=$this->Stock_model->getProduction($date);
 		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
+	}
+	public function dailyProductionReports(){
+		$date=date('Y-m-d');
+		$production=$this->Stock_model->getProduction($date);
+		$mpdf = new \Mpdf\Mpdf([
+            'format'=>'A4',
+            'margin_top'=>0,
+            'margin_bottom'=>0,
+            'margin_left'=>0,
+            'margin_right'=>0,
+        ]);
+        // $mpdf = new \Mpdf\Mpdf();
+        $html=$this->load->view('pages/reports/daily-production',["data"=>$production,'date'=>$date],true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
 	}
 	public function stocks(){
 		$data=$this->Stock_model->productionStocks();

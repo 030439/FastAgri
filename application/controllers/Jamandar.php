@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor/autoload.php';
 class Jamandar extends CI_Controller{
 
     public function __construct() {
@@ -15,6 +15,25 @@ class Jamandar extends CI_Controller{
         $data=$this->Jamandar_model->getAll();
         
         $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar",'data'=>$data]);
+    }
+    public function getJmanadarsReports(){
+        $data=$this->Jamandar_model->getJmanadarsReports();
+        $organizedData = [];
+        foreach ($data as $item) {
+            $jamandar = $item->jamandar;
+            $organizedData[$jamandar][] = $item;
+        }
+        $mpdf = new \Mpdf\Mpdf([
+            'format'=>'A4',
+            'margin_top'=>0,
+            'margin_bottom'=>0,
+            'margin_left'=>0,
+            'margin_right'=>0,
+        ]);
+        // $mpdf = new \Mpdf\Mpdf();
+        $html=$this->load->view('pages/human-resource/jamandar-print',["data"=>$organizedData],true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
     public function getJamandars(){
 		$result=$this->Jamandar_model->getAll();

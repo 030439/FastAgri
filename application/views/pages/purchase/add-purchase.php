@@ -64,7 +64,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Quantity</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" min="0" oninput="calculateTotal()" placeholder="Quantity" name="qty[]">
+                            <input type="number" min="0" oninput="calculateTotal_()" placeholder="Quantity" name="qty[]">
                             <?php validator('qty[]')?>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Rate</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" oninput="calculateTotal()" min="0" placeholder="Rate" name="rate[]">
+                        <input type="number" oninput="calculateTotal_()" min="0" placeholder="Rate" name="rate[]">
                         <?php validator('rate[]')?>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                     //         console.log("Total Amount:", totalAmount);
                     //     });
                     // });
-                    function calculateTotal(){
+                    function calculateTotal_(){
                         var qtyInputs = document.querySelectorAll("input[name='qty[]']");
                         var rateInputs = document.querySelectorAll("input[name='rate[]']");
                         
@@ -176,7 +176,7 @@
                             <h5 class="text-[15px] text-heading font-semibold mb-3">Transport Charges</h5>
                             <div class="cashier-input-field-style">
                                 <div class="single-input-field w-full">
-                                    <input oninput="calculateTotal()" id="transportation" type="number" min="0" placeholder="Charges" value="0"  name='charges'>
+                                    <input oninput="calculateTotal_()" id="transportation" type="number" min="0" placeholder="Charges" value="0"  name='charges'>
                                     <?php validator('rate[]')?>
                                 </div>
                             </div>

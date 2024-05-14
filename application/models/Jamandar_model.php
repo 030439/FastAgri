@@ -94,6 +94,28 @@ class Jamandar_model extends CI_Model {
         return $this->db->query($sql, array($amount, $last));
 
     }
+    function getJmanadarsReports(){
+    // Calculate the current week's Friday and Thursday dates
+        $today = new DateTime();
+        $today->modify('this week'); // Start of current week
+        $friday = $today->modify('next friday')->format('Y-m-d');
+        $thursday = $today->modify('next thursday')->format('Y-m-d');
+        // Fetch data from the database for the current week (Friday to Thursday)
+        $this->db->select('issuelabour.*,jamandars.name as jname,jamandartotal.advance as advance');
+        $this->db->from('issuelabour');
+        $this->db->join('jamandars', 'issuelabour.jamandar = jamandars.id', 'left');
+        $this->db->join('jamandartotal', 'jamandartotal.jamandar_id = jamandars.id', 'left');
+        $this->db->where('issuelabour.create_at >=', $friday);
+        $this->db->where('issuelabour.create_at <=', $thursday);
+        $this->db->order_by('issuelabour.jamandar', 'asc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result(); // Return the fetched data
+        } else {
+            return null; // No data found for the current week
+        }
+
+    }
     public function issuelabour($data){
         $rate=$this->getRate();
         $labor=$data['labour'];

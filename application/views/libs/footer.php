@@ -51,19 +51,20 @@
 
 </script>
 <script>
-  const cnicInput = document.getElementById('cnic');
-  const cnicValidationMessage = document.getElementById('cnicValidationMessage');
+    $('#cnic').on('input', function() {
+                let cnic = $(this).val().trim().replace(/-/g, ''); // Remove existing dashes
+                cnic = addDashes(cnic); // Add dashes back
 
-  cnicInput.addEventListener('input', function() {
-    let cnic = cnicInput.value.trim().replace(/-/g, ''); // Remove existing dashes
-    cnic = addDashes(cnic); // Add dashes back
+                if (isValidCNIC(cnic)) {
+                    $('#cnicValidationMessage').text('CNIC is valid.');
+                } else {
+                    $('#cnicValidationMessage').text('Invalid CNIC. Please enter a valid CNIC.');
+                }
 
-    if (isValidCNIC(cnic)) {
-      cnicValidationMessage.innerText = 'CNIC is valid.';
-    } else {
-      cnicValidationMessage.innerText = 'Invalid CNIC. Please enter a valid CNIC.';
-    }
-  });
+                $(this).val(cnic); // Update the input value with the formatted CNIC
+            });
+
+          
 
     function isValidCNIC(cnic) {
       // CNIC validation logic
@@ -305,4 +306,7 @@
       $("#net-" + netS).val(Total_);
 
     });
+    function reports(_url_){
+      window.open(_url_, '_blank');
+    }
 </script>

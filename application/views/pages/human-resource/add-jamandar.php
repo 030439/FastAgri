@@ -32,7 +32,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="CNIC" name="cnic">
+                            <input type="number" placeholder="CNIC" name="cnic">
                             <?php validator('cnic')?>
                         </div>
                     </div>

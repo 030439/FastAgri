@@ -133,3 +133,5 @@ $route['tunnel/profit-expense']="Report/profitExpense";
 
 //pdfs
 $route['create-pdf'] = "Welcome/CreatePdf";
+$route['getJmanadarsReports']="Jamandar/getJmanadarsReports";
+$route['dailyProductionReports']="Production/dailyProductionReports";

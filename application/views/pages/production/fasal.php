@@ -127,7 +127,7 @@
 </div>
 
 <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9">Daily Production List</h4>
     <div class="cashier-table-header-search-area">
         <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
             <div class="md:col-span-6 col-span-12">
@@ -141,7 +141,7 @@
             <div class="md:col-span-6 col-span-12">
                 <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
                     <div class="dropdown">
-                        <button class="filter">
+                        <button class="filter" >
                             <svg id="filter" xmlns="http://www.w3.org/2000/svg" width="15.766" height="13.34"
                                 viewBox="0 0 15.766 13.34">
                                 <path id="Path_196" data-name="Path 196"
@@ -170,7 +170,7 @@
                             </button>
                         </div>
                     </div>
-                    <button type="button" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
+                    <button type="button" onClick="reports('dailyProductionReports');"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
                             width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
                             <path id="Path_188" data-name="Path 188"
                                 d="M82.8,209H81.578a.578.578,0,0,0-.578.58l.009,4.389a.578.578,0,1,0,1.155,0v-1.333l.636,0a1.817,1.817,0,1,0,0-3.634Zm0,2.478-.639,0c0-.246,0-.511,0-.664,0-.131,0-.4,0-.661H82.8a.662.662,0,1,1,0,1.323Z"

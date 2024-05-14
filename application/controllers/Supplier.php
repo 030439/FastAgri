@@ -7,6 +7,7 @@ class Supplier extends CI_Controller {
         parent::__construct();
         $this->load->model('Setup_model');
 		$this->load->model('Common_model');
+		$this->load->model('Supplier_model');
         $this->load->library('form_validation');
     }
 	

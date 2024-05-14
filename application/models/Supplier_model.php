@@ -11,7 +11,10 @@ class Supplier_model extends CI_Model {
         $customers = $this->db->get('customers')->result();
         return $customers;
     }
-
+    public function createRecord($data,$table) {
+      $res=$this->db->insert($table, $data);
+      return $res?true:false;
+ }
     function fetchAll($postData=null){
 
         $response = array();

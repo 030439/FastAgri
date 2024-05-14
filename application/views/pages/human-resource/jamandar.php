@@ -48,7 +48,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="button" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
+                        <button type="button"  onClick="reports('getJmanadarsReports');"><svg  xmlns="http://www.w3.org/2000/svg"
                                 width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
                                 <path id="Path_188" data-name="Path 188"
                                     d="M82.8,209H81.578a.578.578,0,0,0-.578.58l.009,4.389a.578.578,0,1,0,1.155,0v-1.333l.636,0a1.817,1.817,0,1,0,0-3.634Zm0,2.478-.639,0c0-.246,0-.511,0-.664,0-.131,0-.4,0-.661H82.8a.662.662,0,1,1,0,1.323Z"
