@@ -70,6 +70,7 @@ $route['createAlgo']="Stock/createAlgo";
 $route['insert-supplier']='Supplier/create';
 $route['supplierExport']="Supplier/supplierExport";
 $route['supplierFilter']="Supplier/supplierFilter";
+$route['supplier/(:num)']="Supplier/detail/$1";
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list

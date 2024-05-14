@@ -21,7 +21,15 @@ class Supplier extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
-	
+	public function detail($id){
+		try {
+			$data=$this->Supplier_model->detail($id);
+			$this->load->view('layout/parts',['page'=>"pages/supplier/detail",'data'=>$data]);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function supplierExport(){
 		try {
 			/* file name */

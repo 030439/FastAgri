@@ -158,7 +158,7 @@
                                 <span><?php ShowVal($d->Address);?></span>
                             </div>
                             <div class="cashier-salereturns-table-billerB">
-                                <span>1000</span>
+                                <span><?php echo $d->close;?></span>
                             </div>
                             <div class="cashier-salereturns-table-remarkB">
                                 <span>
@@ -177,6 +177,10 @@
                                             <img src="assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Update</span>
                                         </button>
+                                        <a href ="supplier/<?php echo $d->id?>"class="dropdown-menu-item">
+                                            <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                            <span>Detail</span>
+                                        </a>
                                         <button class="dropdown-menu-item">
                                             <img src="assets/img/icon/action-6.png" alt="icon not found">
                                             <span>Delete</span>
