@@ -11,9 +11,28 @@ class Supplier_model extends CI_Model {
         $customers = $this->db->get('customers')->result();
         return $customers;
     }
+    public function getAll($table){
+      $this->db->select('suppliers.*, supplier_detail.opening as open,supplier_detail.closing as close');
+      $this->db->from('suppliers');
+      $this->db->join('supplier_detail', 'supplier_detail.sid = suppliers.id', 'left');
+      $all = $this->db->get()->result();
+      return $all;
+  }
     public function createRecord($data,$table) {
       $res=$this->db->insert($table, $data);
-      return $res?true:false;
+      $ok=false;
+      if($res){
+         $sid = $this->db->insert_id();
+         $sdata=[
+            'sid'=>$sid,
+            'opening'  => 0,
+            'closing'  => 0
+         ];
+         if($this->db->insert('supplier_detail', $sdata)){
+            $ok=true;
+         }
+      }
+      return $ok?true:false;
  }
     function fetchAll($postData=null){
 

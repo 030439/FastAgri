@@ -14,7 +14,7 @@ class Supplier extends CI_Controller {
 	public function index()
 	{ 
 		try {
-			$data=$this->Common_model->getAll('suppliers');
+			$data=$this->Supplier_model->getAll('suppliers');
 			$this->load->view('layout/parts',['page'=>"pages/supplier/list-supplier",'data'=>$data]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -72,7 +72,7 @@ class Supplier extends CI_Controller {
 			 else {
 				$data = $this->input->post(NULL, TRUE);
 			
-			   $res= $this->Common_model->createRecord($data,'suppliers');
+			   $res= $this->Supplier_model->createRecord($data,'suppliers');
 			   response($res,'supplier',"Data Inserted Successfully");
 			}
         } catch (Exception $e) {
