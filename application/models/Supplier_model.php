@@ -31,6 +31,7 @@ class Supplier_model extends CI_Model {
    pd.rate,
    pd.amount,
    pd.expenses,
+   pd.status as status,
    pd.total_amount,
    pd.Date AS purchase_date
 ');
@@ -63,9 +64,6 @@ $query = $this->db->get();
          );
       }
    }
-   // echo "<pre>";
-   // print_r($results);die;
-   dd($individual_records);
    return $individual_records;
   }
     public function createRecord($data,$table) {

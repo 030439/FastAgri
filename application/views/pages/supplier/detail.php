@@ -1,20 +1,18 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
         <div class="cashier-managesale-top-btn default-light-theme mb-7">
-            <button class="mb-1" onclick="document.location='customer/create'">
-                <i class="fa-light fa-plus"></i> Add Customer
+            <button class="mb-1" onclick="document.location='supplier'">
+                  Supplier List
             </button>
         </div>
         <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
                 <div class="md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search relative maxSm:mb-4">
-                        <input type="text" placeholder="Search List">
+                        <input type="text" placeholder="Search List" id="dataFilter">
                         <span>
                             <i class="fa-light fa-magnifying-glass"></i>
                         </span>
-                        
                     </div>
                 </div>
                 <div class="md:col-span-6 col-span-12">
@@ -65,7 +63,7 @@
                                     transform="translate(-9 0)" fill="#ff9720"></path>
                             </svg>
                         </button>
-                        <button type="button" class="csv"><svg id="csv" xmlns="http://www.w3.org/2000/svg"
+                        <button  onclick="document.location='supplierExport'" type="button" class="csv"><svg id="csv" xmlns="http://www.w3.org/2000/svg"
                                 width="18.105" height="18.105" viewBox="0 0 18.105 18.105">
                                 <path id="Path_184" data-name="Path 184"
                                     d="M16.514,8.558h-.566V4.774a.535.535,0,0,0-.155-.375h0L11.55.155A.535.535,0,0,0,11.174,0H3.748A1.593,1.593,0,0,0,2.157,1.591V8.558H1.591A1.593,1.593,0,0,0,0,10.149v6.365a1.593,1.593,0,0,0,1.591,1.591H16.514a1.593,1.593,0,0,0,1.591-1.591V10.149A1.593,1.593,0,0,0,16.514,8.558ZM11.7,1.811l2.432,2.432h-1.9a.531.531,0,0,1-.53-.53Zm-8.487-.22a.531.531,0,0,1,.53-.53h6.9V3.713A1.593,1.593,0,0,0,12.235,5.3h2.652V8.558H3.218ZM17.045,16.514a.531.531,0,0,1-.53.53H1.591a.531.531,0,0,1-.53-.53V10.149a.531.531,0,0,1,.53-.53H16.514a.531.531,0,0,1,.53.53Z"
@@ -112,78 +110,83 @@
                                 class="selectall">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <h5> Name</h5>
+                            <h5>Product</h5>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                            <h5>Company</h5>
+                            <h5>Quantity </h5>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                            <h5>Conatact No</h5>
+                            <h5>Rate</h5>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                            <h5>Cnic </h5>
+                            <h5>Amount</h5>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                            <h5>Address</h5>
+                            <h5>Purchase Date</h5>
                         </div>
-                        
-                        <div class="cashier-salereturns-table-remarkB">
-                            <h5>Status</h5>
+                        <div class="cashier-salereturns-table-billerB">
+                            <h5>Payment Status</h5>
                         </div>
                         <div class="cashier-salereturns-table-actionB">
                             <h5>Action</h5>
                         </div>
                     </div>
-                    <?php
-                    if(!empty($data)):
-                        foreach($data as $d):
-                    ?>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
-                                class="checkme">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php echo $d->Name;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                        <span><?php echo $d->company;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerB">
-                        <span><?php echo $d->contact;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                        <span><?php echo $d->cnic;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                        <span><?php echo $d->Address;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 
-                                 rounded-[3px] inline-block <?php echo $d->status==1?'bg-themeGreen':'bg-themeGreen';?>">
-                                    <?php echo $d->status==1?"Active":"DeActive"?></span>
-                            </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
+                    <div id="filteredData">
+                        <?php if(!empty($data)): foreach($data as $d):?>
+                            <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
+                            <div class="cashier-salereturns-table-checkboxB default-light-theme">
+                                <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
+                                    class="checkme">
+                            </div>
+                            <div class="cashier-salereturns-table-dateB">
+                                <span><?php ShowVal($d['product_name']);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-referenceB">
+                                <span><?php ShowVal($d['purchased_quantity']);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-customerB">
+                                <span><?php ShowVal($d['rate']);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-warehouseB">
+                                <span><?php ShowVal($d['amount']);?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-billerB">
+                                <span><?php echo $d['amount'];?></span>
+                            </div>
+                            <div class="cashier-salereturns-table-billerB">
+                                <span><?php echo date('Y-m-d', strtotime($d['purchase_date']));?></span>
+                            </div>
+                            <!-- <div class="cashier-salereturns-table-remarkB">
+                                <span>
+                                    <span
+                                        class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
+                                        Completed</span>
+                                </span>
+                            </div> -->
+                            <div class="cashier-salereturns-table-actionB">
+                                <div class="dropdown">
+                                    <button class="common-action-menu-style">Action
+                                        <i class="fa-sharp fa-solid fa-caret-down"></i>
                                     </button>
-                                    <a class="dropdown-menu-item" href="customer/detail/<?php echo $d->id;?>">
-                                    <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Detail</span>
-                                    </a>
+                                    <div class="dropdown-list">
+                                        <button class="dropdown-menu-item">
+                                            <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                            <span>Update</span>
+                                        </button>
+                                        <!-- <a href ="supplier/<?php //echo $d['purchase_detail_id']?>"class="dropdown-menu-item">
+                                            <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                            <span>Detail</span>
+                                        </a> -->
+                                        <button class="dropdown-menu-item">
+                                            <img src="assets/img/icon/action-6.png" alt="icon not found">
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <?php endforeach;endif;?>
                     </div>
-                    <?php endforeach;endif;?>
                 </div>
             </div>
             <div class="cashier-pagination-area">

@@ -177,7 +177,7 @@
                                             <img src="assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Update</span>
                                         </button>
-                                        <a href ="supplier/<?php echo $d->id?>"class="dropdown-menu-item">
+                                        <a href ="supplier/<?php echo $d->id;?>"class="dropdown-menu-item">
                                             <img src="assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Detail</span>
                                         </a>

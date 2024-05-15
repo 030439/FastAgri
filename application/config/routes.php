@@ -64,6 +64,7 @@ $route['tunnels'] = "tunnels/index"; //tunnels list
 $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
 //Custmer routes
 $route['customer/create'] = 'customer/create';
+$route['customer/detail/(:num)']='customer/customerDetail/$1';
 //supplier
 $route['fetch-suppliers']="Supplier/fetchAll";
 $route['createAlgo']="Stock/createAlgo";
@@ -136,3 +137,6 @@ $route['tunnel/profit-expense']="Report/profitExpense";
 $route['create-pdf'] = "Welcome/CreatePdf";
 $route['getJmanadarsReports']="Jamandar/getJmanadarsReports";
 $route['dailyProductionReports']="Production/dailyProductionReports";
+
+//cash book
+$route['cashbook']="Cashbook/add";

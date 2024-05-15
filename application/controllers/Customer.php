@@ -16,6 +16,16 @@ class Customer extends CI_Controller {
 		$data= $this->Customer_model->getCustomers();
 		$this->load->view('layout/parts',['page'=>"pages/customer/list-customer",'data'=>$data]);
 	}
+	public function customerDetail($id){
+		try {
+			$data=$this->Customer_model->customerDetail($id);
+			$this->load->view('layout/parts',['page'=>"pages/customer/detail",'data'=>$data]);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+
+	}
 	
 	public function add()
 	{ 

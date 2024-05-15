@@ -1,11 +1,6 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
-        <div class="cashier-managesale-top-btn default-light-theme mb-7">
-            <button class="mb-1" onclick="document.location='customer/create'">
-                <i class="fa-light fa-plus"></i> Add Customer
-            </button>
-        </div>
+        <h4 class="text-[20px] font-bold text-heading mb-9">Customer Name : <?php echo  $data[0]['customer'];?></h4>
         <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
                 <div class="md:col-span-6 col-span-12">
@@ -14,7 +9,6 @@
                         <span>
                             <i class="fa-light fa-magnifying-glass"></i>
                         </span>
-                        
                     </div>
                 </div>
                 <div class="md:col-span-6 col-span-12">
@@ -112,75 +106,64 @@
                                 class="selectall">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <h5> Name</h5>
+                            <h5>Tunnel</h5>
                         </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <h5>Company</h5>
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Fasal</h5>
                         </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <h5>Conatact No</h5>
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Grade</h5>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <h5>Cnic </h5>
+                        <!-- <div class="cashier-salereturns-table-warehouseB">
+                            <h5>Unit</h5>
+                        </div> -->
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Quantity</h5>
                         </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <h5>Address</h5>
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Rate</h5>
                         </div>
-                        
-                        <div class="cashier-salereturns-table-remarkB">
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Amount</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Date</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Status</h5>
                         </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <h5>Action</h5>
-                        </div>
                     </div>
-                    <?php
-                    if(!empty($data)):
-                        foreach($data as $d):
-                    ?>
+                    <?php if(!empty($data)): foreach($data as $d):?>
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                         <div class="cashier-salereturns-table-checkboxB default-light-theme">
                             <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <span><?php echo $d->Name;?></span>
+                            <span><?php echo  $d['tunnel'];?></span>
                         </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                        <span><?php echo $d->company;?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                            <span><?php echo  $d['Fasal'];?></span>
                         </div>
-                        <div class="cashier-salereturns-table-customerB">
-                        <span><?php echo $d->contact;?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                            <span><?php echo  $d['grade'];?></span>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                        <span><?php echo $d->cnic;?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                           <span><?php echo  $d['Quantity'];?></span>
                         </div>
-                        <div class="cashier-salereturns-table-billerB">
-                        <span><?php echo $d->Address;?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                            <span><?php echo $d['Rate'];?></span>
                         </div>
-                        <div class="cashier-salereturns-table-remarkB">
-                            <span>
-                                <span class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 
-                                 rounded-[3px] inline-block <?php echo $d->status==1?'bg-themeGreen':'bg-themeGreen';?>">
-                                    <?php echo $d->status==1?"Active":"DeActive"?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                            <span><?php echo $d['amount'];?></span>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
+                            <span><?php echo $d['selldate'];?></span>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
+                            <span style="width:60px;" class="status-tag text-[12px] font-semibold leading-[20px] text-white px-2.5 h-5 rounded-[3px] inline-block <?php echo $d['status']==0? 'bg-themeWarn':'bg-themeGreen';?>">
+                                <?php echo $d['status']==0? 'Unpaid':'Paid';?>
                             </span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Update</span>
-                                    </button>
-                                    <a class="dropdown-menu-item" href="customer/detail/<?php echo $d->id;?>">
-                                    <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Detail</span>
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <?php endforeach;endif;?>
