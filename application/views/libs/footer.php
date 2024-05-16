@@ -309,4 +309,97 @@
     function reports(_url_){
       window.open(_url_, '_blank');
     }
+    function getcustomers(){
+      $.ajax({
+        url: "getcustomers",
+        method: 'post',
+        success: function(result){
+           $("#cash-selection-party").html(result);
+           $('#cash-selection-party').css('display', 'block');
+        }
+      });
+    }
+    function getSuppliers(){
+      $.ajax({
+        url: "getSuppliers",
+        method: 'post',
+        success: function(result){
+           $("#cash-selection-party").html(result);
+           $('#cash-selection-party').css('display', 'block');
+        }
+      });
+    }
+    function getShareSolders(){
+      $.ajax({
+        url: "getShareSolders",
+        method: 'post',
+        success: function(result){
+           $("#cash-selection-party").html(result);
+           $('#cash-selection-party').css('display', 'block');
+        }
+      });
+    }
+    $("#cash-selection").on('change', function(){ 
+      $("#cash-selection-type").empty();
+      var cashtype=$(this).val();
+      if(cashtype=="cash-in"){
+        var options = [
+        { value: 'customer', text: 'Customer' },
+        { value: 'direct', text: 'Direct' }
+        ];
+        $.each(options, function(index, option) {
+            $('#cash-selection-type').append($('<option>', option));
+            $('#cash-selection-type').css('display', 'block');
+        });
+      }
+      else if(cashtype=="cash-out"){
+        var options = [
+        { value: 'supplier', text: 'Supplier' },
+        { value: 'shareholder', text: 'Share Holder' },
+        { value: 'other', text: 'other' }
+        ];
+        $.each(options, function(index, option) {
+            $('#cash-selection-type').append($('<option>', option));
+            $('#cash-selection-type').css('display', 'block');
+        });
+      }
+    });
+    $("#cash-selection-type").on('change', function(){ 
+      var cst=$(this).val();
+      var cashtype=$("#cash-selection").val();
+      if(cashtype=="cash-in"){
+        if(cst=="customer"){
+          getcustomers();
+        }
+        else if(cst=="direct"){
+          directPay();
+          alert("cash out");
+        }
+      }
+      else if(cashtype=="cash-out"){
+        if(cst=="supplier"){
+          getSuppliers();
+        }
+        else if(cst=="shareholder"){
+          getShareSolders();
+        }
+        else if(cst=="direct"){
+          directPay();
+          alert("cash out");
+        }
+      }
+    });
+    // $("#cash-selection-party").on('change', function(){ 
+    //   var cstp=$(this).val();
+    //   var cashtype=$("#cash-selection").val();
+    //   var cst=$("#cash-selection-type").val();
+    //   if(cashtype=="cash-in"){
+    //     if(cst=="customer"){
+    //       getcustomers();
+    //     }
+    //     else if(cst=="direct"){
+    //       alert("cash out");
+    //     }
+    //   }
+    // });
 </script>

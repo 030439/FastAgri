@@ -121,4 +121,11 @@ class Customer_model extends CI_Model {
             $products = $this->db->get()->result();
             return $products[0]->Name;
     }
+    public function customerDetailInfo(){
+            $this->db->select('c.id as id,c.Name,d.opening as opening');
+            $this->db->from('customers c');
+            $this->db->join('customer_detail d', 'c.id = d.cid');
+            $products = $this->db->get()->result();
+            return $products;
+    }
 }

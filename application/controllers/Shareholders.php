@@ -12,11 +12,19 @@ class Shareholders extends CI_Controller {
 	public function index()
 	{
 		$data= $this->ShareHolder_model->getshareholders();
-
-      
-   
 		$this->load->view('layout/parts',['page'=>"pages/shareholders/list-shareholders",'data'=>$data]);
 	}
+    public function getShareSolders(){
+        $data= $this->ShareHolder_model->getshareholders();
+        $html="";
+		$html.='<option value="default" selected disabled>Select an option</option>';
+		foreach($data as $d){
+			$html.="<option value='$d->id'>";
+			$html.=$d->Name;
+			$html.="</option>";
+		}
+		echo $html;
+    }
 	
 	public function add()
 	{

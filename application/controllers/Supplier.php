@@ -21,6 +21,17 @@ class Supplier extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+	public function getSuppliers(){
+		$data= $this->Supplier_model->getSuppliers();
+		$html="";
+		$html.='<option value="default" selected disabled>Select an option</option>';
+		foreach($data as $d){
+			$html.="<option value='$d->id'>";
+			$html.=$d->Name.' - '.$d->opening;
+			$html.="</option>";
+		}
+		echo $html;
+	}
 	public function detail($id){
 		try {
 			$data=$this->Supplier_model->detail($id);

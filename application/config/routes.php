@@ -58,6 +58,7 @@ $route['shareholder/add'] = "shareholders/add"; //shareholder form view
 $route['shareholder/create'] = "shareholders/create"; //shareholder form data submission
 $route['shareholder/edit/(:num)'] = 'shareholders/edit/$1'; //form for edit
 $route['shareholder/update'] = 'shareholders/update'; //data update
+$route['getShareSolders']="shareholders/getShareSolders";
 // $route['shareholder/delete/(:num)'] = 'shareholders/delete/$1'; //data delete
 // tunnels routes
 $route['tunnels'] = "tunnels/index"; //tunnels list
@@ -65,6 +66,7 @@ $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 $route['customer/detail/(:num)']='customer/customerDetail/$1';
+$route['getcustomers']="customer/getcustomers";
 //supplier
 $route['fetch-suppliers']="Supplier/fetchAll";
 $route['createAlgo']="Stock/createAlgo";
@@ -72,6 +74,7 @@ $route['insert-supplier']='Supplier/create';
 $route['supplierExport']="Supplier/supplierExport";
 $route['supplierFilter']="Supplier/supplierFilter";
 $route['supplier/(:num)']="Supplier/detail/$1";
+$route['getSuppliers']="Supplier/getSuppliers";
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list
@@ -140,3 +143,4 @@ $route['dailyProductionReports']="Production/dailyProductionReports";
 
 //cash book
 $route['cashbook']="Cashbook/add";
+$route['cashbook-pay']="Cashbook/cashbookPay";

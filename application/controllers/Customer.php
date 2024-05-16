@@ -16,6 +16,17 @@ class Customer extends CI_Controller {
 		$data= $this->Customer_model->getCustomers();
 		$this->load->view('layout/parts',['page'=>"pages/customer/list-customer",'data'=>$data]);
 	}
+	public function getcustomers(){
+		$data= $this->Customer_model->customerDetailInfo();
+		$html="";
+		$html.='<option value="default" selected disabled>Select an option</option>';
+		foreach($data as $d){
+			$html.="<option value='$d->id'>";
+			$html.=$d->Name.' - '.$d->opening;
+			$html.="</option>";
+		}
+		echo $html;
+	}
 	public function customerDetail($id){
 		try {
 			$data=$this->Customer_model->customerDetail($id);
