@@ -11,7 +11,10 @@ class Cashbook_model extends CI_Model {
         return $this->db->insert('account_head', $data);
     }
     public function cashbookList() {
-        $cash = $this->db->get('cash_in_out')->result_array();
+        $this->db->select('c.*,a.amount as famount');
+        $this->db->from('cash_in_out c');
+        $this->db->join('availableamount a ', 'c.id = a.cash_id');
+        $cash = $this->db->get()->result_array();
         foreach($cash as $c=>$d){
             if($d['cash_s']=="cash-in"){
                 if($d['case_sT']=="customer"){
@@ -21,7 +24,7 @@ class Cashbook_model extends CI_Model {
             }elseif($d['cash_s']=="cash-out"){
                 if($d['case_sT']=="supplier"){
                     $cash[$c]['narration']=$this->SupplierName($d['cash_sP']);
-                    $cash[$c]['name']="Supplier";
+                    $cash[$c]['name']=$d['narration'];
                 }
                 elseif ($d['case_sT']=="shareholder") {
                     $cash[$c]['narration']=$this->ShareHolderName($d['cash_sP']);
@@ -90,13 +93,13 @@ class Cashbook_model extends CI_Model {
         $this->balance($arr,$id_);
         $this->db->trans_start();
         if($data['cash-selection']=='cash-in'){
-            $this->debit($data);
+            // $this->debit($data);
             if($data['cash-selection-type']=='customer'){
                 $this->customerCashIn($data);
             }
         }
         else{
-            $this->credit($data);
+            // $this->credit($data);
             if($data['cash-selection-type']=='supplier'){
                 $this->SupplierCashOut($data);
             }
@@ -144,38 +147,57 @@ class Cashbook_model extends CI_Model {
         ];
         return $this->db->insert('expenses', $arr);
     }
-    public function balance($data,$id){
-        $this->db->order_by('id', 'DESC'); // Assuming 'id' is your primary key
+    public function balance($data, $id) {
+        // Validate the input data
+        if (!isset($data['cash_s']) || !in_array($data['cash_s'], ['cash-in', 'cash-out']) || !isset($data['amount']) || !is_numeric($data['amount'])) {
+            return false; // Invalid data
+        }
+    
+        // Get the last record from the 'availableamount' table
+        $this->db->order_by('id', 'DESC');
         $this->db->limit(1);
         $query = $this->db->get('availableamount');
-        $last_record = $query->row();
-        if($data['cash_s']=='cash-in'){
-            $amount=$last_record['amount']+$data['amount'];
-            $arr=[
-            'cash_id'    => $id,
-            'cash_type' => $data['cash_s'],
-            'amount'     => $amount
-            ];
-        }elseif($data['cash_s']=="cash-out"){
-            $amount=$last_record['amount']-$data['amount'];
-            $arr=[
-            'cash_id'    => $id,
-            'cash_type'  => $data['cash_s'],
-            'amount'     => $amount
-            ];
+    
+        if ($query->num_rows() == 0) {
+            // No records found, assuming initial balance is 0
+            $last_amount = 0;
+        } else {
+            $last_record = $query->row();
+            $last_amount = $last_record->amount;
         }
-        return $this->db->insert('availableamount', $arr);
+    
+        // Calculate the new amount based on the cash type
+        if ($data['cash_s'] == 'cash-in') {
+            $amount = $last_amount + $data['amount'];
+        } elseif ($data['cash_s'] == 'cash-out') {
+            $amount = $last_amount - $data['amount'];
+        }
+    
+        // Prepare the data to be inserted
+        $arr = [
+            'cash_id'   => $id,
+            'cash_type' => $data['cash_s'],
+            'amount'    => $amount
+        ];
+    
+        // Insert the new record into the 'availableamount' table
+        if ($this->db->insert('availableamount', $arr)) {
+            return true; // Insert successful
+        } else {
+            return false; // Insert failed
+        }
     }
-    public function debit($data){
-        $amount = $data['amount'];
-        $this->db->set('amount', 'amount + ' . $this->db->escape($amount), FALSE);
-        return $this->db->update('availableamount');
-    }
-    public function credit($data){
-        $amount = $data['amount'];
-        $this->db->set('amount', 'amount - ' . $this->db->escape($amount), FALSE);
-        return $this->db->update('availableamount');
-    }
+    
+    // public function debit($data){
+    //     $amount = $data['amount'];
+    //     $this->db->set('amount', 'amount + ' . $this->db->escape($amount), FALSE);
+    //     return $this->db->update('availableamount');
+    // }
+    // public function credit($data){
+    //     $amount = $data['amount'];
+    //     $this->db->set('amount', 'amount - ' . $this->db->escape($amount), FALSE);
+    //     return $this->db->update('availableamount');
+    // }
     public function shareHolderCashOut($data){
         $amount = $data['amount'];
         $sh = $data['cash-selection-party'];

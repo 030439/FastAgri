@@ -226,7 +226,12 @@
                                     <li><a href="jamandars">Jamandars List </a></li>
                                 </ul>
                             </li>
-                            <li><a href="employee/Advance">Advance/Loan</a></li>
+                            <li><a href="javascript:void(0)" class="has-arrow">Advance/Loan</a>
+                                <ul class="mm-collapse">
+                                    <li><a href="employee/Advance">Employee Advance </a></li>
+                                    <li><a href="jamandars/Advance">Jamandar Advance </a></li>
+                                </ul>
+                            </li>
 
 
 

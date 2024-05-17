@@ -115,6 +115,7 @@ $route['getJamandars']='Jamandar/getJamandars';
 $route['add-jamandar']='Jamandar/add';
 $route['save-jamandar']='Jamandar/save';
 $route['jamandar-detail/(:num)']="Jamandar/detail/$1";
+$route['jamandars/Advance']="Jamandar/Advance";
 //labour
 $route['labour-rate']='hr/labourRate';
 $route['add-rate']='hr/updateRate';

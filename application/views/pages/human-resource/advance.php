@@ -209,19 +209,19 @@
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d->employee);?></span>
+                        <span><?php echo $d->employee;?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d->category);?></span>
+                        <span><?php echo $d->category;?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d->amount);?></span>
+                        <span><?php echo $d->amount;?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d->installment);?></span>
+                        <span><?php echo $d->installment;?></span>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                        <span><?php ShowVal($d->date_);?></span>
+                        <span><?php echo $d->date_;?></span>
                         </div>
                         
                         <div class="cashier-salereturns-table-remarkB">

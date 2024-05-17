@@ -209,7 +209,7 @@
                             <span><?php if($c['cash_s']=='cash-out'){echo $c['amount'];}?></span>
                         </div>
                         <div class="cashier-salereturns-table-actionP">
-                            <span>1230</span>
+                            <span><?php echo $c['famount'];?></span>
                         </div>
                     </div>
                     <?php endforeach; endif;?>

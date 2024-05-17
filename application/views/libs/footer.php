@@ -390,6 +390,7 @@
       else if(cashtype=="cash-out"){
         if(cst=="supplier"){
           getSuppliers();
+          $("#narration-field").show();
         }
         else if(cst=="shareholder"){
           getShareSolders();
