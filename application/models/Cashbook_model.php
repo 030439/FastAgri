@@ -11,20 +11,56 @@ class Cashbook_model extends CI_Model {
         return $this->db->insert('account_head', $data);
     }
     public function cashbookList() {
-        $cash = $this->db->get('cash_in_out')->result();
-        foreach($cash as $c){
-            echo "<pre>";
-            print_r($c);
-            if($c->cash_s=="cash-in"){
-                if($c->case_sT=="customer"){
-                    
+        $cash = $this->db->get('cash_in_out')->result_array();
+        foreach($cash as $c=>$d){
+            if($d['cash_s']=="cash-in"){
+                if($d['case_sT']=="customer"){
+                    $cash[$c]['name']="Cash Received";
+                    $cash[$c]['narration']=$this->customerName($d['cash_sP']);
                 }
-            }else{
+            }elseif($d['cash_s']=="cash-out"){
+                if($d['case_sT']=="supplier"){
+                    $cash[$c]['narration']=$this->SupplierName($d['cash_sP']);
+                    $cash[$c]['name']="Supplier";
+                }
+                elseif ($d['case_sT']=="shareholder") {
+                    $cash[$c]['narration']=$this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
+                elseif ($d['case_sT']=="expense") {
+                    $cash[$c]['name']=$this->accountHeadName($d['cash_sP']);
+                }
             }
         }
-        dd("SDF");
-        dd($cash);
         return $cash;
+    }
+    public function customerName($id){
+        $this->db->select('Name');
+        $this->db->from('customers');
+        $this->db->WHERE('id', $id);
+        $customer = $this->db->get()->result();
+        return $customer[0]->Name;
+    }
+    public function SupplierName($id){
+        $this->db->select('Name');
+        $this->db->from('suppliers');
+        $this->db->WHERE('id', $id);
+        $supplier = $this->db->get()->result();
+        return $supplier[0]->Name;
+    }
+    public function ShareHolderName($id){
+        $this->db->select('Name');
+        $this->db->from('shareholders');
+        $this->db->WHERE('id', $id);
+        $shareholder = $this->db->get()->result();
+        return $shareholder[0]->Name;
+    }
+    public function accountHeadName($id){
+        $this->db->select('Name');
+        $this->db->from('account_head');
+        $this->db->WHERE('id', $id);
+        $shareholder = $this->db->get()->result();
+        return $shareholder[0]->Name;
     }
     public function getAccountHead() {
         $customers = $this->db->get('account_head')->result();
@@ -47,8 +83,11 @@ class Cashbook_model extends CI_Model {
             'case_sT'  =>$data['cash-selection-type'],
             'cash_sP'  =>$data['cash-selection-party'],
             'amount'  =>$data['amount'],
+            'narration'   => $data['narration'],
         ];
         $this->db->insert('cash_in_out', $arr);
+        $id_ = $this->db->insert_id();
+        $this->balance($arr,$id_);
         $this->db->trans_start();
         if($data['cash-selection']=='cash-in'){
             $this->debit($data);
@@ -104,6 +143,28 @@ class Cashbook_model extends CI_Model {
             'amount'     => $data['amount']
         ];
         return $this->db->insert('expenses', $arr);
+    }
+    public function balance($data,$id){
+        $this->db->order_by('id', 'DESC'); // Assuming 'id' is your primary key
+        $this->db->limit(1);
+        $query = $this->db->get('availableamount');
+        $last_record = $query->row();
+        if($data['cash_s']=='cash-in'){
+            $amount=$last_record['amount']+$data['amount'];
+            $arr=[
+            'cash_id'    => $id,
+            'cash_type' => $data['cash_s'],
+            'amount'     => $amount
+            ];
+        }elseif($data['cash_s']=="cash-out"){
+            $amount=$last_record['amount']-$data['amount'];
+            $arr=[
+            'cash_id'    => $id,
+            'cash_type'  => $data['cash_s'],
+            'amount'     => $amount
+            ];
+        }
+        return $this->db->insert('availableamount', $arr);
     }
     public function debit($data){
         $amount = $data['amount'];

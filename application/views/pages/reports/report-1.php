@@ -176,321 +176,43 @@
                             <h5>Date</h5>
                         </div>
                         <div class="cashier-salereturns-table-referenceP">
-                            <h5>Account Name</h5>
+                            <h5>Head</h5>
                         </div>
                         <div class="cashier-salereturns-table-customerP">
-                            <h5>Status</h5>
+                            <h5>Narration</h5>
                         </div>
                         <div class="cashier-salereturns-table-companyP">
-                            <h5>Payment</h5>
+                            <h5>Debit</h5>
                         </div>
                         <div class="cashier-salereturns-table-warehouseP">
-                            <h5>Remark</h5>
+                            <h5>Credit</h5>
                         </div>
                         <div class="cashier-salereturns-table-actionP">
-                            <h5>Amount</h5>
+                            <h5>Balance</h5>
                         </div>
                     </div>
+                    <?php if(!empty($data)):foreach($data as $c):?>
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                         <div class="cashier-salereturns-table-dateP ">
-                            <span>01/01/2021</span>
+                            <span><?php echo date("Y-m-d", strtotime($c['created_at']));?></span>
                         </div>
                         <div class="cashier-salereturns-table-referenceP ">
-                            <span>National Bank</span>
+                            <span><?php echo $c['name'];?></span>
                         </div>
                         <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
+                            <span><?php echo $c['narration'];?></span>
                         </div>
                         <div class="cashier-salereturns-table-companyP ">
-                            <span>Cash</span>
+                            <span><?php if($c['cash_s']=='cash-in'){echo $c['amount'];}?></span>
                         </div>
                         <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Product Sales</span>
+                            <span><?php if($c['cash_s']=='cash-out'){echo $c['amount'];}?></span>
                         </div>
                         <div class="cashier-salereturns-table-actionP">
                             <span>1230</span>
                         </div>
                     </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>01/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Royal Bank of Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Purchase</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>6970</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>01/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Partial</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Cheque</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Product Sales</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>3342</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>03/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Fadeweek Central Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Partial</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Cheque</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Income</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>9712</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>03/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Eastern Bank Ltd.</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Income</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>3012</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>06/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Halifax Bank of Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Revenue</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>3542</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>07/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Product Sales</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>1241</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>08/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Rosemary City Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Rental</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>7410</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>08/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Eastern Bank Ltd.</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Product Sales</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>6982</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>08/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Halifax Bank of Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Partial</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Transfer</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>2034</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>10/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Partial</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Purchase</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>1054</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>10/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Partial</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Cheque</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Purchase</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>7120</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>15/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Halifax Bank of Scotland</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Expense</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>3520</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>15/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Rosemary City Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Partial</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Bank</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Expense</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>6874</span>
-                        </div>
-                    </div>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP ">
-                            <span>16/01/2021</span>
-                        </div>
-                        <div class="cashier-salereturns-table-referenceP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-customerP ">
-                            <span>Paid</span>
-                        </div>
-                        <div class="cashier-salereturns-table-companyP ">
-                            <span>Cash</span>
-                        </div>
-                        <div class="cashier-salereturns-table-warehouseP ">
-                            <span>Expense</span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionP">
-                            <span>2144</span>
-                        </div>
-                    </div>
+                    <?php endforeach; endif;?>
                 </div>
             </div>
         </div>

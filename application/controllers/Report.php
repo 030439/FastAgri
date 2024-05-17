@@ -12,8 +12,8 @@ class Report extends CI_Controller {
     }	
 	public function index()
 	{
-		$res= $this->Cashbook_model->cashbookList();
-		$this->load->view('layout/parts',['page'=>"pages/reports/report-1"]);
+		$data= $this->Cashbook_model->cashbookList();
+		$this->load->view('layout/parts',['page'=>"pages/reports/report-1",'data'=>$data]);
 	}
 	public function profitExpense(){
 		$data['expenses']=$this->Stock_model->tunnelsExpensesList();
