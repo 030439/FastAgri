@@ -329,6 +329,16 @@
         }
       });
     }
+    function OtherExpense(){
+      $.ajax({
+        url: "OtherExpense",
+        method: 'post',
+        success: function(result){
+           $("#cash-selection-party").html(result);
+           $('#cash-selection-party').css('display', 'block');
+        }
+      });
+    }
     function getShareSolders(){
       $.ajax({
         url: "getShareSolders",
@@ -356,7 +366,7 @@
         var options = [
         { value: 'supplier', text: 'Supplier' },
         { value: 'shareholder', text: 'Share Holder' },
-        { value: 'other', text: 'other' }
+        { value: 'expense', text: 'Expense' }
         ];
         $.each(options, function(index, option) {
             $('#cash-selection-type').append($('<option>', option));
@@ -367,6 +377,7 @@
     $("#cash-selection-type").on('change', function(){ 
       var cst=$(this).val();
       var cashtype=$("#cash-selection").val();
+      $("#narration-field").hide();
       if(cashtype=="cash-in"){
         if(cst=="customer"){
           getcustomers();
@@ -383,9 +394,10 @@
         else if(cst=="shareholder"){
           getShareSolders();
         }
-        else if(cst=="direct"){
-          directPay();
-          alert("cash out");
+        else if(cst=="expense"){
+          OtherExpense();
+          $("#narration-field").show();
+
         }
       }
     });

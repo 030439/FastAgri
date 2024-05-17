@@ -7,10 +7,12 @@ class Report extends CI_Controller {
         $this->load->model('Setup_model');
 		$this->load->model('Common_model');
 		$this->load->model('Stock_model');
+		$this->load->model('Cashbook_model');
         $this->load->library('form_validation');
     }	
 	public function index()
 	{
+		$res= $this->Cashbook_model->cashbookList();
 		$this->load->view('layout/parts',['page'=>"pages/reports/report-1"]);
 	}
 	public function profitExpense(){

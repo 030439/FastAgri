@@ -243,7 +243,7 @@
                             </svg>Accounts
                         </a>
                         <ul class="mm-collapse">
-                            <li><a href="createledger.html">CashBook</a></li>
+                            <li><a href="cashbook">CashBook</a></li>
                             <li><a href="AccountHeads">Account Heads</a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">Expenses</a>
                                 <ul class="mm-collapse">

@@ -144,3 +144,5 @@ $route['dailyProductionReports']="Production/dailyProductionReports";
 //cash book
 $route['cashbook']="Cashbook/add";
 $route['cashbook-pay']="Cashbook/cashbookPay";
+$route['OtherExpense']="AccountHeads/OtherExpense";
+$route['addAccountHead']="AccountHeads/addAccountHead";
