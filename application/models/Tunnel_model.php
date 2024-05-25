@@ -140,4 +140,39 @@ class Tunnel_model extends CI_Model
         $stocks = $this->db->get()->result();
         return $stocks[0]->id; 
     }
+    public function getunnelsExpense($id){
+        $query = $this->db->query("
+        SELECT 
+            e.`id`,
+            e.`expense_type`,
+            e.`eid`,
+            e.`amount`,
+            e.`pid`,
+            e.`edate`,
+            t.`TName` as tunnel,
+            t.`id` as tid
+        FROM 
+        `tunnel_expense` AS e
+        JOIN 
+        `tunnels` AS t ON t.`id` = e.`tunnel_id`
+        WHERE t.`id` =$id
+        ");
+        $res= $query->result();
+        foreach($res as $c => $re) {
+            if ($re->expense_type == "issueStockPurchase"){
+                $pq=getIssueProQty($id, $re->pid, $re->edate);
+                $res[$c]->head   = productName_($re->pid);
+                $res[$c]->qty    = $pq['qty'];
+                $res[$c]->rate   = $pq['rate'];
+                $res[$c]->amount = $pq['qty']*$pq['rate'];
+            }else{
+                $lb=getLabourQty($id,$re->eid);
+                $res[$c]->head = $lb['jname'];
+                $res[$c]->qty =$lb['qty'];
+                $res[$c]->rate =$lb['rate'];
+                
+            }
+        }
+        return $res;
+    }
 }

@@ -1,23 +1,82 @@
+<div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
+    <h4 class="text-[20px] font-bold text-heading mb-9">Advance/ Loan</h4>
+    <form action='jamandar-advance-add' method="post">
+        <div class="grid grid-cols-12 gap-x-5">
+                <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                    <div class="cashier-select-field mb-5">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Name</h5>
+                        <div class="cashier-select-field-style">
+                            <select id="loan-employee-names" name="employee_id" >
+                                <option disabled selected>Select Jamandar</option>
+                            <?php if(!empty($jamandar)):foreach($jamandar as $j):?>
+                                <option value="<?php echo $j->id?>"><?php echo $j->name;?></option>
+                            <?php endforeach; endif;?>
+                            </select>
+                            <?php validator('employee_id')?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                    <div class="cashier-select-field mb-5">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Amount</h5>
+                        <div class="cashier-input-field-style">
+                            <div class="single-input-field w-full">
+                                <input type="number" placeholder="Amount" name="amount">
+                                <?php validator('amount')?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                    <div class="cashier-select-field mb-5">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Installment</h5>
+                        <div class="cashier-input-field-style">
+                            <div class="single-input-field w-full">
+                                <input type="number" placeholder="Installment" name="installment">
+                                <?php validator('installment')?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                    <div class="cashier-select-field mb-5">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Date</h5>
+                        <div class="cashier-input-field-style">
+                            <div class="single-input-field w-full">
+                                <input type="date" placeholder="Installment" name="date_">
+                                <?php validator('date_')?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 md:col-span-6 col-span-12">
+                    <div class="cashier-managesale-top-btn default-light-theme pt-2.5" style="margin-top:25px">
+                        <button class="btn-primary" type="submit">Add Now</button>
+                    </div>
+                </div>
+        </div>
+    </form>
+</div>
+
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Seed Purchase List</h4>
-        <div class="cashier-managesale-top-btn default-light-theme mb-7">
-            <button class="mb-1" onclick="document.location='purchase-seed'">
-                <i class="fa-light fa-plus"></i> Create Purchase
-            </button>
-        </div>
+        <h4 class="text-[20px] font-bold text-heading mb-9">Employees List</h4>
+       
         <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
                 <div class="md:col-span-6 col-span-12">
-                    <!-- <div class="cashier-table-header-search relative maxSm:mb-4">
+                    <div class="cashier-table-header-search relative maxSm:mb-4">
                         <input type="text" placeholder="Search List">
                         <span>
                             <i class="fa-light fa-magnifying-glass"></i>
                         </span>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="md:col-span-6 col-span-12">
-                    <!-- <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
+                    <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
                         <div class="dropdown">
                             <button class="filter">
                                 <svg id="filter" xmlns="http://www.w3.org/2000/svg" width="15.766" height="13.34"
@@ -96,7 +155,7 @@
                                     transform="translate(-62.555 -185.74)" fill="#2c6ae5"></path>
                             </svg>
                         </button>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,27 +170,19 @@
                                 class="selectall">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <h5>Product</h5>
+                            <h5>Jamandar Name</h5>
                         </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <h5>Supplier</h5>
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Advance</h5>
                         </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <h5>Rate</h5>
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Date</h5>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <h5>Amount</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <h5>PurchaseQty</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <h5>RemainingQty</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-remarkB">
+                       
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Status</h5>
                         </div>
-                        <div class="cashier-salereturns-table-actionB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Action</h5>
                         </div>
                     </div>
@@ -142,23 +193,15 @@
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d['product_name'])?></span>
+                        <span><?php echo $d->jname;?></span>
                         </div>
-                        <div class="cashier-salereturns-table-referenceB">
-                            <span><?php ShowVal($d['supplier_name'])?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                        <span><?php echo $d->taken;?></span>
                         </div>
-                        <div class="cashier-salereturns-table-customerB">
-                            <span><?php ShowVal($d['rate'])?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                        <span><?php echo $d->tdate;?></span>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                           <span><?php ShowVal($d['amount'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-billerB">
-                            <span><?php ShowVal($d['purchased_quantity'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                            <span><?php ShowVal($d['RemainingQuantity'])?></span>
-                        </div>
+                        
                         <div class="cashier-salereturns-table-remarkB">
                             <span>
                                 <span
@@ -185,6 +228,7 @@
                         </div>
                     </div>
                     <?php endforeach;endif;?>
+                    <?php echo $this->pagination->create_links(); ?>
                 </div>
             </div>
             <div class="cashier-pagination-area">

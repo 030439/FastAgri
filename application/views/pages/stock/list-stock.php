@@ -1,21 +1,12 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
-        <div class="cashier-managesale-top-btn default-light-theme mb-7">
+        <h4 class="text-[20px] font-bold text-heading mb-9">Issue Stock List</h4>
+        <!-- <div class="cashier-managesale-top-btn default-light-theme mb-7">
             <button class="mb-1" onclick="document.location='createbank.html'">
                 <i class="fa-light fa-plus"></i> Create Bank
             </button>
-            <div class="mb-1 btn-primary button">
-                <i class="fa-light fa-folder-plus"></i>
-                <span class="cashier-input-field-style relative inline-block">
-                    <span class="cashier-input-field-file">
-                        <input type="file" id="fileUpload">
-                        <label for="fileUpload">Import Product</label>
-                    </span>
-                </span>
-            </div>
-        </div>
-        <div class="cashier-table-header-search-area">
+        </div> -->
+        <!-- <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
                 <div class="md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search relative maxSm:mb-4">
@@ -108,7 +99,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="cashier-salereturns-table-area">
             <div class="cashier-salereturns-table-innerC">

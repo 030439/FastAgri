@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-
+require FCPATH.'vendor/autoload.php';
 class Tunnels extends CI_Controller{
    
 	public function __construct() {
@@ -47,6 +46,13 @@ class Tunnels extends CI_Controller{
             show_error('An unexpected error occurred. Please try again later.');
         }
     }
+    public function detail($id){
+        
+    }
+    public function tunnleExpense($id){
+        $data['expenses']=$this->Tunnel_model->getunnelsExpense($id);
+        $this->load->view('layout/parts',['page'=>"pages/tunnels/expense",'data'=>$data]);
+    }
     public function tunnelProduct(){
         try{
                 $id = $this->input->post('id');
@@ -58,7 +64,19 @@ class Tunnels extends CI_Controller{
             show_error('An unexpected error occurred. Please try again later.');
         }
     }
-    
-    
+    public function detailPdf($id){
+        $data=$this->Tunnel_model->getunnelsExpense($id);
+        $mpdf = new \Mpdf\Mpdf([
+            'format'=>'A4',
+            'margin_top'=>0,
+            'margin_bottom'=>0,
+            'margin_left'=>0,
+            'margin_right'=>0,
+        ]);
+        // $mpdf = new \Mpdf\Mpdf();
+        $html=$this->load->view('pages/reports/stunnelpdf',["data"=>$data],true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
 }
 ?>

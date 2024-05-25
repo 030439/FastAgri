@@ -51,38 +51,26 @@
 
 </script>
 <script>
+   $(document).ready(function() {
     $('#cnic').on('input', function() {
-                let cnic = $(this).val().trim().replace(/-/g, ''); // Remove existing dashes
-                cnic = addDashes(cnic); // Add dashes back
+        let cnic = $(this).val().trim().replace(/-/g, ''); // Remove existing dashes
 
-                if (isValidCNIC(cnic)) {
-                    $('#cnicValidationMessage').text('CNIC is valid.');
-                } else {
-                    $('#cnicValidationMessage').text('Invalid CNIC. Please enter a valid CNIC.');
-                }
+        if (isValidCNIC(cnic)) {
+            $('#cnicValidationMessage').text('CNIC is valid.').css('color', 'green');
+        } else {
+            $('#cnicValidationMessage').text('Invalid CNIC. Please enter a valid CNIC.').css('color', 'red');
+        }
 
-                $(this).val(cnic); // Update the input value with the formatted CNIC
-            });
-
-          
+        $(this).val(cnic); // Update the input value without dashes
+    });
 
     function isValidCNIC(cnic) {
-      // CNIC validation logic
-      const cnicRegex = /^\d{5}-\d{7}-\d{1}$/;
-      return cnicRegex.test(cnic);
+        // CNIC validation logic without dashes
+        const cnicRegex = /^\d{13}$/; // CNIC should be exactly 13 digits long
+        return cnicRegex.test(cnic);
     }
+});
 
-    function addDashes(cnic) {
-      // Add dashes to CNIC number
-      const formattedCnic = [];
-      for (let i = 0; i < cnic.length; i++) {
-        formattedCnic.push(cnic[i]);
-        if ((i === 4 || i === 11) && cnic[i] !== '-') {
-          formattedCnic.push('-');
-        }
-      }
-      return formattedCnic.join('');
-    }
 
     $(document).ready(function() {
         $('#dataFilter').on('input', function() {
@@ -394,6 +382,7 @@
         }
         else if(cst=="shareholder"){
           getShareSolders();
+          $("#narration-field").show();
         }
         else if(cst=="expense"){
           OtherExpense();

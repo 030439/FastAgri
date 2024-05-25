@@ -52,7 +52,6 @@ function dd($data){
 
 if (!function_exists('pqrate')) {
     function pqrate($pqid, $pid)
-
     {
         $CI =& get_instance();
         $CI->load->database();
@@ -67,12 +66,12 @@ if (!function_exists('pqrate')) {
             foreach($products as $c=>$p){
                 if($p==$pid){
                     echo $fprices[$c];
+                }else{
+                    echo 0;
                 }
             }
             // Do something with $products or $result if needed
         }
-        // Return any data if needed
-        echo 0;
     }
 }
 
@@ -90,5 +89,78 @@ if (!function_exists('productByTunnelName')) {
         return;
     }
 }
+if (!function_exists('productName_')) {
+    function productName_($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query
+        $query = $CI->db->query("SELECT Name as product FROM products WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['product'];
+        } else {
+            return "Product not found";
+        }
+        return;
+    }
+
+}
+if (!function_exists('getIssueProQty')) {
+    function getIssueProQty($tid, $pid, $idate)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT i.Quantity as qty,pd.fu_price as rate, pd.product_id
+        FROM issuestock i
+        join purchasesdetail pd ON pd.id
+        WHERE i.tunnel_id = ? AND i.pid = ? ", array(30,30));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+        if(!empty($result['product_id'])){
+            $product_ids = explode(',', $result['product_id']);
+            foreach ($product_ids as $index => $product_id) {
+                if($pid==$product_id){
+                    $result['price']=$product_id[$index]['fu_price'];
+                }
+            }
+        }
+        // Check if result is not empty
+        if ($result) {
+            return $result;
+        } else {
+            return "Product not found";
+        }
+    }
+}
+if (!function_exists('getLabourQty')) {
+    function getLabourQty($tid, $eid)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  j.name as jname ,l.lq as qty ,l.rate FROM issuelabour l JOIN jamandars j ON l.jamandar=j.id WHERE l.tunnel = ? AND l.id = ?", array($tid, $eid));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result;
+        } else {
+            return "data not found";
+        }
+    }
+}
+
 
 ?>

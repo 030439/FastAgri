@@ -201,10 +201,21 @@ class Cashbook_model extends CI_Model {
     public function shareHolderCashOut($data){
         $amount = $data['amount'];
         $sh = $data['cash-selection-party'];
-
         $this->db->set('balance', 'balance + ' . $this->db->escape($amount), FALSE);
         $this->db->where('id', $sh);
-        return $this->db->update('shareholders');
+        $res=$this->db->update('shareholders');
+        if($res){
+            $this->db->where('id', $sh);
+            $all = $this->db->get('shareholders')->result_array();
+            $b=$all[0]['balance'];
+        $arr=[
+            'sid'      => $sh,
+            'pay_type' => $data['cash-selection'],
+            'amount'   => $amount, 
+            'balance'=>$b,
+        ];
+        return $this->db->insert('shareholders_pays', $arr);
+        }
     }
 
     public function updatecustomer($id, $data) {

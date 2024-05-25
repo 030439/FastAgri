@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor/autoload.php';
 class Sell extends CI_Controller {
 	public function __construct() {
         parent::__construct();
@@ -14,6 +14,19 @@ class Sell extends CI_Controller {
 	{
 	    $data=$this->Stock_model->sellList();
 		$this->load->view('layout/parts',['page'=>"pages/sell/list-sell",'data'=>$data]);
+	}
+	public function sellPdf(){
+		$data=$this->Stock_model->sellList();
+		$mpdf = new \Mpdf\Mpdf([
+            'format'=>'A4',
+            'margin_top'=>0,
+            'margin_bottom'=>0,
+            'margin_left'=>0,
+            'margin_right'=>0,
+        ]);
+        $html=$this->load->view('pages/reports/sellPdf',["data"=>$data],true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
 	}
 	public function detail($id){
 		$data= $this->Stock_model->sellDetail($id);

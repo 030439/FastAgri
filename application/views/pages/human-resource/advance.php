@@ -9,7 +9,6 @@
                             <select class="block" id="loan-employee-type" name="employee_type" style="display: none;">
                                 <option value="1">Permanent Employees</option>
                                 <option value="2">Daily  Employees</option>
-                                <option value="3">Jamandars</option>
                             </select>
                             <?php validator('employee_type')?>
                         </div>

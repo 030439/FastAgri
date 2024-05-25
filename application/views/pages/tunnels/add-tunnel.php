@@ -1,5 +1,20 @@
+
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Add Tunnels</h4>
+    <style>
+        button:hover{
+            background-color:#ffc403 !important;
+            color:green;
+        }
+    </style>
+    <div style="display:flex">
+        <div style="width:40%;margin-top:-5px;margin-left:-20px;padding:1px !important;height:10px" class="cashier-managesale-top-btn default-light-theme mb-7">
+            <button style="background:none"  class="" onclick="document.location='tunnels'">
+            <i style="background:none"class="far fa-arrow-left inline-block"></i> 
+            </button>
+           
+        </div>
+        <h4 style="border-bottom:5px solid #ffc403" class="text-[20px] font-bold text-heading mb-9" style="">Add Tunnel</h4>
+    </div>
     <form action="tunnels/save" method="post">
     <div class="grid grid-cols-12 gap-x-5" style="align-items: center;">
         <div class="lg:col-span-3 md:col-span-6 col-span-12">

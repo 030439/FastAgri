@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require FCPATH.'vendor/autoload.php';
 class Shareholders extends CI_Controller {
 
 
@@ -62,7 +62,24 @@ class Shareholders extends CI_Controller {
 	public function edit($id) {
             $data = $this->ShareHolder_model->getshareholderById($id);
 			$this->load->view('layout/parts',['page'=>"pages/shareholders/edit",'edit'=>$data]);
-       
+    }
+    public function detail($id){
+        $data=$this->ShareHolder_model->detail($id);
+        $this->load->view('layout/parts',['page'=>"pages/shareholders/detail",'data'=>$data,'id'=>$id]);
+    }
+    public function detailPdf($id){
+        $data=$this->ShareHolder_model->detail($id);
+        $mpdf = new \Mpdf\Mpdf([
+            'format'=>'A4',
+            'margin_top'=>0,
+            'margin_bottom'=>0,
+            'margin_left'=>0,
+            'margin_right'=>0,
+        ]);
+        // $mpdf = new \Mpdf\Mpdf();
+        $html=$this->load->view('pages/reports/shareholdersDetail',["data"=>$data],true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 
     public function update() {

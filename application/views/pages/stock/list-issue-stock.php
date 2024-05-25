@@ -1,6 +1,6 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Bank List</h4>
+        <h4 class="text-[20px] font-bold text-heading mb-9">Issue Stock  List</h4>
         <div class="cashier-managesale-top-btn default-light-theme mb-7">
             <button class="mb-1" onclick="document.location='stock/issue'">
                 <i class="fa-light fa-plus"></i> Issue Stock
@@ -18,7 +18,7 @@
                 </div>
                 <div class="md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
-                        <div class="dropdown">
+                        <!-- <div class="dropdown">
                             <button class="filter">
                                 <svg id="filter" xmlns="http://www.w3.org/2000/svg" width="15.766" height="13.34"
                                     viewBox="0 0 15.766 13.34">
@@ -47,8 +47,8 @@
                                     <span>Biller</span>
                                 </button>
                             </div>
-                        </div>
-                        <button type="button" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
+                        </div> -->
+                        <a href="issue-stock/issuePdf" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
                                 width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
                                 <path id="Path_188" data-name="Path 188"
                                     d="M82.8,209H81.578a.578.578,0,0,0-.578.58l.009,4.389a.578.578,0,1,0,1.155,0v-1.333l.636,0a1.817,1.817,0,1,0,0-3.634Zm0,2.478-.639,0c0-.246,0-.511,0-.664,0-.131,0-.4,0-.661H82.8a.662.662,0,1,1,0,1.323Z"
@@ -63,8 +63,8 @@
                                     d="M26.294,5.585H25.87V5.42a2.877,2.877,0,0,0-.792-1.987L22.678.9a2.9,2.9,0,0,0-2.1-.9H12.89a1.735,1.735,0,0,0-1.733,1.733V5.585h-.424A1.735,1.735,0,0,0,9,7.318v6.933a1.735,1.735,0,0,0,1.733,1.733h.424v2A1.735,1.735,0,0,0,12.89,19.72H24.137a1.735,1.735,0,0,0,1.733-1.733v-2h.424a1.735,1.735,0,0,0,1.733-1.733V7.318A1.735,1.735,0,0,0,26.294,5.585ZM12.312,1.733a.578.578,0,0,1,.578-.578h7.691a1.74,1.74,0,0,1,1.258.541l2.4,2.531a1.726,1.726,0,0,1,.475,1.192v.165h-12.4Zm12.4,16.254a.578.578,0,0,1-.578.578H12.89a.578.578,0,0,1-.578-.578v-2h12.4Zm2.157-3.736a.578.578,0,0,1-.578.578H10.733a.578.578,0,0,1-.578-.578V7.318a.578.578,0,0,1,.578-.578h15.56a.578.578,0,0,1,.578.578Z"
                                     transform="translate(-9 0)" fill="#ff9720"></path>
                             </svg>
-                        </button>
-                        <button type="button" class="csv"><svg id="csv" xmlns="http://www.w3.org/2000/svg"
+                        </a>
+                        <!-- <button type="button" class="csv"><svg id="csv" xmlns="http://www.w3.org/2000/svg"
                                 width="18.105" height="18.105" viewBox="0 0 18.105 18.105">
                                 <path id="Path_184" data-name="Path 184"
                                     d="M16.514,8.558h-.566V4.774a.535.535,0,0,0-.155-.375h0L11.55.155A.535.535,0,0,0,11.174,0H3.748A1.593,1.593,0,0,0,2.157,1.591V8.558H1.591A1.593,1.593,0,0,0,0,10.149v6.365a1.593,1.593,0,0,0,1.591,1.591H16.514a1.593,1.593,0,0,0,1.591-1.591V10.149A1.593,1.593,0,0,0,16.514,8.558ZM11.7,1.811l2.432,2.432h-1.9a.531.531,0,0,1-.53-.53Zm-8.487-.22a.531.531,0,0,1,.53-.53h6.9V3.713A1.593,1.593,0,0,0,12.235,5.3h2.652V8.558H3.218ZM17.045,16.514a.531.531,0,0,1-.53.53H1.591a.531.531,0,0,1-.53-.53V10.149a.531.531,0,0,1,.53-.53H16.514a.531.531,0,0,1,.53.53Z"
@@ -95,7 +95,7 @@
                                     d="M67.37,193H65.564a.564.564,0,1,0,0,1.128H67.37a.564.564,0,1,0,0-1.128Z"
                                     transform="translate(-62.555 -185.74)" fill="#2c6ae5"></path>
                             </svg>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -129,36 +129,35 @@
                             <h5>Issued Date</h5>
                         </div>
                         
-                        <div class="cashier-salereturns-table-actionB">
+                        <!-- <div class="cashier-salereturns-table-actionB">
                             <h5>Action</h5>
-                        </div>
+                        </div> -->
                     </div>
                     <?php if(!empty($data)): foreach($data as $d):?>
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                         <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
-                                class="checkme">
+                            <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check" class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d->TName)?></span>
+                            <span><?php ShowVal($d->TName)?></span>
                         </div>
                         <div class="cashier-salereturns-table-referenceB">
-                        <span><?php ShowVal($d->employee)?></span>
+                            <span><?php ShowVal($d->employee)?></span>
                         </div>
                         <div class="cashier-salereturns-table-customerB">
-                        <span><?php ShowVal($d->product_name)?></span>
+                            <span><?php ShowVal($d->product_name)?></span>
                         </div>
                         <div class="cashier-salereturns-table-warehouseB">
-                        <span><?php ShowVal($d->Quantity)?></span>
+                            <span><?php ShowVal($d->Quantity)?></span>
                         </div>
                         <div class="cashier-salereturns-table-billerB">
-                        <span><?php pqrate($d->PqId,$d->pid)?></span>
+                            <span><?php pqrate($d->PqId,$d->pid)?></span>
                         </div>
                         <div class="cashier-salereturns-table-totalB">
-                        <span><?php ShowVal($d->i_date)?></span>
+                            <span><?php ShowVal($d->i_date)?></span>
                         </div>
                        
-                        <div class="cashier-salereturns-table-actionB">
+                        <!-- <div class="cashier-salereturns-table-actionB">
                             <div class="dropdown">
                                 <button class="common-action-menu-style">Action
                                     <i class="fa-sharp fa-solid fa-caret-down"></i>
@@ -174,7 +173,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <?php endforeach; endif;?>
                 </div>

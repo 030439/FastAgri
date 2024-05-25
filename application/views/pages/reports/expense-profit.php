@@ -2,7 +2,7 @@
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
         <div class="cashier-transection-selectors flex items-center justify-between pb-5 maxSm:block">
             <h4 class="text-[20px] text-heading mb-2.5 font-bold">Expenses</h4>
-            <div
+            <!-- <div
                 class="cashier-transection-selector flex gap-x-4 maxSm:gap-x-0 items-center justify-end maxSm:justify-start maxXs:block">
                 <div class="cashier-transection-selector-single w-[120px] mb-2.5">
                     <div class="cashier-select-field">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
        
         <div class="cashier-table-header-search-area">

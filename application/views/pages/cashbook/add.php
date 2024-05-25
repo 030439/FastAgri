@@ -4,7 +4,7 @@
     <div class="grid grid-cols-12 gap-x-5">
            <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Designation</h5>
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Cash</h5>
                     <div class="cashier-select-field-style">
                         <select id="cash-selection" class="block" name="cash-selection" style="display: none;">
                             <option selected="" disabled="" value="default">Select cash </option>

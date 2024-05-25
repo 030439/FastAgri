@@ -75,7 +75,9 @@
 
         <div class="date">
           <div class="gate-nbr">
-            <p class="ques">Gate pass NO: <span class=""><?php echo$data[0]['data'][0]['sid']?></span></p>
+            <p class="ques">Gate pass NO: <span class=""><?php if($data[0]['data'][0]['sid']){
+              echo $data[0]['data'][0]['sid'];
+            }?></span></p>
           </div>
           <div class="date-nbr">
             <p class="ques">Date: <span class="ans"><?php echo  $data[0]['data'][0]['selldate']?></span></p>
@@ -113,7 +115,10 @@
               <?php $t=0; if($data):$total=0; $cc=0; foreach($data as $count=> $d): ?>
                 <?php
                 $ga=$d['data'][0]['Quantity'];
-                $gb=$d['data'][1]['Quantity'];
+                $gb=0;
+                if(!empty($d['data'][1])){
+                  $gb=$d['data'][1]['Quantity'];
+                }
                 $total=$ga+$gb;
                 $t+=$total;
                   ?>

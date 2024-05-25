@@ -4,20 +4,6 @@
         <div class="grid grid-cols-12 gap-x-5">
             <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Select Tunnel </h5>
-                    <div class="cashier-select-field-style">
-                        <select class="block" style="display: none;" name="tunnel">
-                            <option selected="" disabled="" value="default">Select Tunnel</option>
-                            <?php if($data['tunnels']): foreach($data['tunnels'] as $tunnel):?>
-                                <option value="<?= $tunnel->id;?>"><?php echo $tunnel->TName;?></option>
-                            <?php endforeach; endif;?>
-                        </select>
-                    
-                    </div>
-                </div>
-            </div>
-            <div class="lg:col-span-4 md:col-span-6 col-span-12">
-                <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Select Jamadar</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" style="display: none;" name='jamandar'>
@@ -30,8 +16,20 @@
                     </div>
                 </div>
             </div>
-
-
+            <div class="lg:col-span-4 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Select Tunnel </h5>
+                    <div class="cashier-select-field-style">
+                        <select class="block" style="display: none;" name="tunnel">
+                            <option selected="" disabled="" value="default">Select Tunnel</option>
+                            <?php if($data['tunnels']): foreach($data['tunnels'] as $tunnel):?>
+                                <option value="<?= $tunnel->id;?>"><?php echo $tunnel->TName;?></option>
+                            <?php endforeach; endif;?>
+                        </select>
+                    
+                    </div>
+                </div>
+            </div>
             <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3"> Enter no of labour</h5>

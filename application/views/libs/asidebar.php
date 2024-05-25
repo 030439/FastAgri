@@ -29,7 +29,7 @@
                     </li>
 
                     <li>
-                        <a href="javascript:void(0)" class="has-arrow">
+                        <a href="shareholders" >
 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
 
@@ -39,14 +39,10 @@
                                 </path>
                             </svg>ShareHolders
                         </a>
-                        <ul class="mm-collapse">
-                            <li><a href="shareholders/add">Add ShareHolders</a></li>
-                            <li><a href="shareholders">List ShareHolders</a></li>
-                        </ul>
                     </li>
 
                     <li>
-                        <a href="javascript:void(0)" class="has-arrow">
+                        <a href="tunnels" class="">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 
                                 <path
@@ -54,16 +50,6 @@
                                 </path>
                             </svg>Tunnels
                         </a>
-                        <ul class="mm-collapse">
-                            <li>
-                                <a href="tunnels/add">Add Tunnels</a>
-
-                            </li>
-                            <li><a href="tunnels">List Tunnels</a></li>
-
-
-
-                        </ul>
                     </li>
 
                     <li>
@@ -78,9 +64,6 @@
                         <ul class="mm-collapse">
                             <li>
                                 <a href="purchase">List Purchase</a>
-                            </li>
-                            <li>
-                                <a href="purchase-seed">Purchase Seed</a>
                             </li>
                             <li>
                                 <a href="purchased/seed-list">Purchase Seed List</a>
@@ -102,8 +85,6 @@
                              <li>
                                 <a href="add-seed">Add Seed</a>
                             </li>
-                            <li><a href="stock/add-product">Add Product</a></li>
-                            <li><a href="stock/add">Add Stock </a></li>
                             <li><a href="stock">List Stock Product</a></li>
                             <li><a href="stock/seeds">Seed List</a></li>
                             <li><a href="stock/issue">Issue Stock</a></li>
@@ -122,20 +103,11 @@
                         </a>
 
                         <ul class="mm-collapse">
-                        <li><a href="javascript:void(0)" class="has-arrow">Customer</a>
-                                    <ul>
-                                        <li><a href="customer/add">Add Customer</a></li>
-                                        <li><a href="customer">List Customer</a></li>
-                                    </ul>
-                        </li>
-
-
                         <li>
-                            <a href="javascript:void(0)" class="has-arrow">Supplier</a>
-                                <ul>
-                                    <li><a href="supplier/add">Add Supplier</a></li>
-                                    <li><a href="supplier">List Supplier</a></li>
-                                </ul>
+                            <a href="customer" >Customers</a>
+                        </li>
+                        <li>
+                            <a href="supplier" >Suppliers</a>
                         </li>
                         </ul>
                     </li>
@@ -163,7 +135,7 @@
                             </svg>Sell
                         </a>
                         <ul class="mm-collapse">
-                            <li><a href="ready-production-sell">Add Sell</a></li>
+                            <!-- <li><a href="ready-production-sell">Add Sell</a></li> -->
                             <li><a href="sell">List Sell</a></li>
                             <li><a href="ready-production-sell">Ready Product Sell</a></li>
 

@@ -11,6 +11,18 @@ class ShareHolder_model extends CI_Model {
         $shareholders = $this->db->get('shareholders')->result();
         return $shareholders;
     }
+    public function detail($id){
+        $this->db->select('sp.id,s.Name, c.narration, sp.balance as fb, sp.amount, sp.pay_type, sp.created');
+        $this->db->from('shareholders s');
+        $this->db->join('cash_in_out c', 'c.cash_sP = s.id', 'left');
+        $this->db->join('shareholders_pays sp', 'sp.sid = s.id', 'right');
+        $this->db->where('s.id', $id);
+        $this->db->where('sp.sid', $id);
+        $this->db->where('c.cash_sP', $id);
+        $this->db->where('c.case_sT', "shareholder");
+        $this->db->group_by('sp.id, s.Name, c.narration, sp.balance, sp.amount, sp.pay_type, sp.created');
+        return  $this->db->get()->result();
+    }
 
     public function createShareholder($data) {
         return $this->db->insert('shareholders', $data);

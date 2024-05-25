@@ -113,22 +113,22 @@
                         <div class="cashier-salereturns-table-dateB">
                             <h5>Tunnel Name</h5>
                         </div>
-                        <div class="cashier-salereturns-table-referenceB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Fasal</h5>
                         </div>
-                        <div class="cashier-salereturns-table-customerB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Covered Area</h5>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Croping Date</h5>
                         </div>
-                        <div class="cashier-salereturns-table-remarkB">
+                        <div class="cashier-salereturns-table-dateB">
+                            <h5>Expenses</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Status</h5>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <h5>View  Datail</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Action</h5>
                         </div>
                     </div>
@@ -141,28 +141,28 @@
                         <div class="cashier-salereturns-table-dateB">
                             <span><?php ShowVal($d->TName);?></span>
                         </div>
-                        <div class="cashier-salereturns-table-referenceB">
+                        <div class="cashier-salereturns-table-dateB">
                             <span><?php ShowVal($d->product);?></span>
                         </div>
-                        <div class="cashier-salereturns-table-customerB">
+                        <div class="cashier-salereturns-table-dateB">
                             <span><?php ShowVal($d->CoveredArea);?></span>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                            <span><?php echo $d->cDate;?></span>
+                        <div class="cashier-salereturns-table-dateB">
+                            <span><?php echo date("Y-m-d", strtotime($d->cDate));?></span>
                         </div>
-                        <div class="cashier-salereturns-table-remarkB">
+                        <div class="cashier-salereturns-table-warehouseB">
+                        <a class="mb-1" style="border :2px solid #6f4ef6;width:80px;padding:1px 2px;" href="tunnel/tunnle-expense/<?php echo $d->id?>">
+                            Expences
+                        </a>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
                             <span>
                                 <span
                                     class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
                                     Completed</span>
                             </span>
                         </div>
-                        <div class="cashier-salereturns-table-warehouseB">
-                        <button class="mb-1" onclick="document.location='tunnels/detail?id=<?php echo $d->id?>'">
-                            <i class="fa-light fa-plus"></i> Create
-                        </button>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
+                        <div class="cashier-salereturns-table-dateB">
                             <div class="dropdown">
                                 <button class="common-action-menu-style">Action
                                     <i class="fa-sharp fa-solid fa-caret-down"></i>
@@ -172,10 +172,10 @@
                                         <img src="assets/img/icon/action-2.png" alt="icon not found">
                                         <span>Update</span>
                                     </button>
-                                    <button class="dropdown-menu-item">
+                                    <a class="dropdown-menu-item" href="tunnels/detail/<?php echo $d->id;?>">
                                         <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
+                                        <span><Details></Details></span>
+                                     </a>
                                 </div>
                             </div>
                         </div>

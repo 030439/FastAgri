@@ -364,7 +364,8 @@ class Stock_model extends CI_Model {
                     'expense_type'=>"issueStockPurchase",
                     'eid'=>$pqid,
                     'amount'=>$amount,
-                    'edate'=>$idate
+                    'edate'=>$idate,
+                    'pid'=>$pro,
                 ];
                 return $this->db->insert('tunnel_expense', $expense);
             }

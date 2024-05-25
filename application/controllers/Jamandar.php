@@ -16,6 +16,40 @@ class Jamandar extends CI_Controller{
         
         $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar",'data'=>$data]);
     }
+    public function advance() 
+	{
+		$data=$this->Jamandar_model->getLoans();
+        $jamandar=$this->Jamandar_model->getAll();
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar-advance",'data'=>$data,'jamandar'=>$jamandar]);
+	}
+    public function jamandarAdvanceAdd(){
+		$data = $this->input->post(NULL, TRUE);
+		try {
+			$this->form_validation->set_rules('employee_id', 'Jamandar Name  ', 'required');
+			$this->form_validation->set_rules('amount', 'Amount ', 'required');
+			$this->form_validation->set_rules('installment', 'Installment ', 'required');
+			$this->form_validation->set_rules('date_', 'Date ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$data=$this->Jamandar_model->getLoans();
+        $jamandar=$this->Jamandar_model->getAll();
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar-advance",'data'=>$data,'jamandar'=>$jamandar]);
+			}
+			 else {
+			  $data = $this->input->post(NULL, TRUE);
+			  $res= $this->Jamandar_model->jamandarAdvanceAdd($data);
+			   if($res){
+				response($res,'jamandars/Advance',"Data Inserted Successfully");
+			   }
+			   else{
+				response($res,'jamandars/Advance',"Something went Wrong");
+			   }
+			  
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+	}
     public function getJmanadarsReports(){
         $data=$this->Jamandar_model->getJmanadarsReports();
         $organizedData = [];

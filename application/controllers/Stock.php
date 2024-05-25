@@ -1,5 +1,5 @@
-
 <?php
+require FCPATH.'vendor/autoload.php';
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Stock extends CI_Controller {
@@ -24,7 +24,6 @@ class Stock extends CI_Controller {
 	}
 	public function productList(){
 		$data=$this->Stock_model->getProducts();
-	
 		$this->load->view('layout/parts',['page'=>"pages/stock/products",'data'=>$data]);
 	}
 	public function addProduct()
@@ -132,6 +131,20 @@ class Stock extends CI_Controller {
 	{
 		$data=$this->Stock_model->issueList();
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock",'data'=>$data]);
+	}
+	public function issuePdf(){
+		$data=$this->Stock_model->issueList();
+        $mpdf = new \Mpdf\Mpdf([
+            'format'=>'A4',
+            'margin_top'=>0,
+            'margin_bottom'=>0,
+            'margin_left'=>0,
+            'margin_right'=>0,
+        ]);
+        // $mpdf = new \Mpdf\Mpdf();
+        $html=$this->load->view('pages/reports/listIssueStockPdf',["data"=>$data],true);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
 	}
 	public function getStockRate(){
 		$id=$this->input->post('id');

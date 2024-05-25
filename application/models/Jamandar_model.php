@@ -94,6 +94,36 @@ class Jamandar_model extends CI_Model {
         return $this->db->query($sql, array($amount, $last));
 
     }
+    public function jamandarAdvanceAdd($data) {
+        $arr=[
+            'jid'          => $data['employee_id'],
+            'amount'       => $data['amount'],
+            'installment'  => $data['installment'],
+            'date_'        => $data['date_'],
+        ];
+        if($this->db->insert('jamandar_loan', $arr)){
+            $employee = $this->db->get_where('jamandartotal', ['jamandar_id' => $data['employee_id']])->row();
+            $loan=$employee->advance;
+            $loan+=$data['amount'];
+            $loan=[
+                'advance'=>$loan,
+            ];
+            $this->db->where('jamandar_id', $data['employee_id']);
+            return $this->db->update('jamandartotal', $loan);
+        }
+    }
+
+    public function getLoans(){
+        $this->db->select('
+        jamandar_loan.id as jlid, jamandar_loan.amount as taken, jamandar_loan.date_ as tdate, jamandars.name as jname
+       ');
+        $this->db->from('jamandar_loan');
+        $this->db->join('jamandars', 'jamandars.id = jamandar_loan.jid', 'left');
+        $stocks = $this->db->get()->result();
+        return $stocks;
+    }
+
+
     function getJmanadarsReports(){
     // Calculate the current week's Friday and Thursday dates
         $today = new DateTime();
@@ -138,7 +168,8 @@ class Jamandar_model extends CI_Model {
                 'expense_type'=>"Labour",
                 'eid'=>$insert_id,
                 'amount'=>$total_amount,
-                'edate'=>$idate
+                'edate'=>$idate,
+                'pid'=>0
             ];
              $this->db->insert('tunnel_expense', $expense);
 

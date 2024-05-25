@@ -59,10 +59,15 @@ $route['shareholder/create'] = "shareholders/create"; //shareholder form data su
 $route['shareholder/edit/(:num)'] = 'shareholders/edit/$1'; //form for edit
 $route['shareholder/update'] = 'shareholders/update'; //data update
 $route['getShareSolders']="shareholders/getShareSolders";
+$route['shareholder/detail/(:num)']="shareholders/detail/$1";
+$route['shareholder/detailPdf/(:num)']="shareholders/detailPdf/$1";
 // $route['shareholder/delete/(:num)'] = 'shareholders/delete/$1'; //data delete
 // tunnels routes
 $route['tunnels'] = "tunnels/index"; //tunnels list
 $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
+$route['tunnels/detail/(:num)']="tunnels/detail/$1";
+$route['tunnel/tunnle-expense/(:num)']="tunnels/tunnleExpense/$1";
+$route['tunnel/detailPdf/(:num)']="tunnels/detailPdf/$1";
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 $route['customer/detail/(:num)']='customer/customerDetail/$1';
@@ -97,6 +102,7 @@ $route['stock/products']="Stock/productList";
 $route['getStockRate']="Stock/getStockRate";
 $route['getStockQty']="Stock/getStockQty";
 $route['issue-product']="Stock/issueProduct";
+$route['issue-stock/issuePdf']="Stock/issuePdf";
 //Employee 
 $route['add-employee']='Employee/add';
 $route['designation']='Employee/designation';
@@ -116,6 +122,7 @@ $route['add-jamandar']='Jamandar/add';
 $route['save-jamandar']='Jamandar/save';
 $route['jamandar-detail/(:num)']="Jamandar/detail/$1";
 $route['jamandars/Advance']="Jamandar/Advance";
+$route['jamandar-advance-add']="Jamandar/jamandarAdvanceAdd";
 //labour
 $route['labour-rate']='hr/labourRate';
 $route['add-rate']='hr/updateRate';
@@ -133,8 +140,10 @@ $route['Production-stock']="Production/stocks";
 $route['sell-gate-pass/(:num)']="Sell/getPass/$1";
 $route['sell-bill-detail/(:num)']="Sell/sellBillDetail/$1";
 $route['bill-detail-invoice']="Sell/billDetailInvoice";
+$route['sell/sellPdf']="Sell/sellPdf";
 //Reports
 $route['tunnel/profit-expense']="Report/profitExpense";
+
 //loan
 
 //pdfs
