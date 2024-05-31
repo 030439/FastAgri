@@ -343,6 +343,7 @@
       if(cashtype=="cash-in"){
         var options = [
         { value: 'customer', text: 'Customer' },
+        { value: 'shareholder', text: 'Shareholder' },
         { value: 'direct', text: 'Direct' }
         ];
         $.each(options, function(index, option) {
@@ -369,6 +370,10 @@
       if(cashtype=="cash-in"){
         if(cst=="customer"){
           getcustomers();
+        }
+        else if(cst=="shareholder"){
+          getShareSolders();
+          $("#narration-field").show();
         }
         else if(cst=="direct"){
           directPay();

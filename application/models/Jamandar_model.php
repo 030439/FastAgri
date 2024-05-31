@@ -146,13 +146,53 @@ class Jamandar_model extends CI_Model {
         }
 
     }
+    
+    public  function jamandari($jid){
+        $date=date("Y-m-d");
+        $this->db->select('amount');
+        $this->db->where('jid', $jid);
+        $this->db->where('date_', $date);
+        $query = $this->db->get('jamandari');
+        $result=$query->result();
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public  function jamandariAmount(){
+        $this->db->select('amount');
+        $query = $this->db->get('jamandari_fee');
+        $result=$query->result();
+        return $result[0]->amount;
+    }
+    public function addJamandari($data){
+
+        $this->db->insert('jamandari', $data);
+        $insert_id=$this->db->insert_id();
+        $this->db->select('id');
+        $this->db->where('status',1);
+        $query = $this->db->get('tunnels');
+        $result=$query->result();
+        foreach($result as $res){
+            $expense=[
+                'tunnel_id'=>$res->id,
+                'expense_type'=>"Jamandari",
+                'eid'=>$insert_id,
+                'amount'=>$data['amount'],
+                'edate'=>$data['date_'],
+                'pid'=>0
+            ];
+            $this->db->insert('tunnel_expense', $expense);
+        }
+         return ;
+    }
     public function issuelabour($data){
         $rate=$this->getRate();
         $labor=$data['labour'];
         $j=$data['jamandar'];
         $rate=$rate[0]->amount;
         $total_amount=$rate*$labor;
-
         $record=[
             'tunnel'=>$data['tunnel'],
             'jamandar'=>$j,
@@ -172,13 +212,23 @@ class Jamandar_model extends CI_Model {
                 'pid'=>0
             ];
              $this->db->insert('tunnel_expense', $expense);
-
             $this->db->select('payable');
             $this->db->where('jamandar_id', $j);
             $query = $this->db->get('jamandartotal');
             $result=$query->result();
             $last=$result[0]->payable;
             $amount=$last+$total_amount;
+            $out=$this->jamandari($data['jamandar']);
+            if(!$out){
+                $jamount=$this->jamandariAmount();
+                $jarr=[
+                    'jid'=>$j,
+                    'amount'=>$jamount,
+                    'date_'=>$idate
+                ];
+                $this->addJamandari($jarr);
+                $amount+=$jamount;
+            }
             $sql = "UPDATE jamandartotal SET payable = ? WHERE jamandar_id = ?";
             return $this->db->query($sql, array($amount, $j));
         }
