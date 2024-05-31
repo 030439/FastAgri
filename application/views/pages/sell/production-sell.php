@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="lg:col-span-2 md:col-span-6 col-span-12">
+            <!-- <div class="lg:col-span-2 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Frieght</h5>
                     <div class="cashier-input-field-style">
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <br/>
 <hr>

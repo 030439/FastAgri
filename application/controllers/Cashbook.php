@@ -42,7 +42,7 @@ class Cashbook extends CI_Controller {
             $data = $this->input->post(NULL, TRUE);
 		
            $res= $this->Cashbook_model->cashbookPay($data);
-		   $this->response($res,'cashbook',"Data Inserted Successfully");
+		   $this->response($res,'report',"Data Inserted Successfully");
         }
     }
 	public function response($res,$route,$msg){

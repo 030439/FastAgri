@@ -15,13 +15,18 @@ class Cashbook_model extends CI_Model {
         $this->db->from('cash_in_out c');
         $this->db->join('availableamount a ', 'c.id = a.cash_id');
         $cash = $this->db->get()->result_array();
+        $debit=0;
+        $credit=0;
         foreach($cash as $c=>$d){
+            $balance=$d['famount'];
             if($d['cash_s']=="cash-in"){
+                $credit+=$d['amount'];
                 if($d['case_sT']=="customer"){
                     $cash[$c]['name']="Cash Received";
                     $cash[$c]['narration']=$this->customerName($d['cash_sP']);
                 }
             }elseif($d['cash_s']=="cash-out"){
+                $debit+=$d['amount'];
                 if($d['case_sT']=="supplier"){
                     $cash[$c]['narration']=$this->SupplierName($d['cash_sP']);
                     $cash[$c]['name']=$d['narration'];
@@ -35,6 +40,9 @@ class Cashbook_model extends CI_Model {
                 }
             }
         }
+        $cash[0]['fb']=$balance;
+        $cash[0]['cashOut']=$credit;
+        $cash[0]['cashIn']=$debit;
         return $cash;
     }
     public function customerName($id){

@@ -103,6 +103,7 @@ class Stock_model extends CI_Model {
         s.`dno`,
         s.`labour`,
         s.`expences`,
+        s.`freight`,
         s.`vno`,
         sd.`GradeId`,
         sd.`id` as sdID,
@@ -130,6 +131,7 @@ class Stock_model extends CI_Model {
             // Loop through each quantity and tunnel value to create individual records
             foreach ($quantities as $index => $quantity) {
                 $newRow = [
+                    'freight'=>$row['freight'],
                     'sid' => $row['sid'],
                     'labour' => $row['labour'],
                     'expences' => $row['expences'],
@@ -225,7 +227,7 @@ class Stock_model extends CI_Model {
             'driver' => $data['driver'],
             'dno' => $data['dnumber'],
             'vno' => $data['vno'],
-            'freight' => $data['frieght'],
+            // 'freight' => $data['frieght'],
             'selldate' => $data['rdate'],
         ];
        $this->db->insert('sells', $sell);

@@ -87,16 +87,19 @@
                             <h5>Freight</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <h5>Other Expense</h5>
+                            <h5>Commission</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateB">
                             <h5>Total Amount</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateB">
+                            <h5>Net Amount</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
                             <h5>Action</h5>
                         </div>
                     </div>
-                    <?php if($data):foreach($data as $d):?>
+                    <?php if($data):foreach($data as $d): $net=$d['total_amount']-$d['expences']-$d['labour']-$d['freight'];?>
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                        
                         <div class="cashier-salereturns-table-dateB">
@@ -125,6 +128,9 @@
                         </div>
                         <div class="cashier-salereturns-table-totalB">
                         <span><?php ShowVal($d['total_amount'])?></span>
+                        </div>
+                        <div class="cashier-salereturns-table-dateB">
+                        <span><?php echo $net;?></span>
                         </div>
                         <div class="cashier-salereturns-table-actionB">
                             <div class="dropdown">

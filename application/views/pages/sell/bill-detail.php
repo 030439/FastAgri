@@ -13,7 +13,9 @@
                 <span>Commission </span>
                 <input class="billinputs" id="bill-labour" type="number" name="expences" placeholder="Labour" value="<?php echo $data[0]['expences'];?>">
                 <span>Labour </span>
-                <input class="billinputs" id="bill-expense" type="number"  name="labour" placeholder="Labour" value="<?php echo $data[0]['labour'];?>">
+                <input class="billinputs" id="bill------" type="number"  name="labour" placeholder="Labour" value="<?php echo $data[0]['labour'];?>">
+                <span>Labour </span>
+                <input class="billinputs" id="bil---" type="number"  name="kraya" placeholder="Kraya" value="<?php echo $data[0]['freight'];?>">
             </div>
             all-total-bill
         

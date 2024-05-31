@@ -42,7 +42,8 @@ class Sell extends CI_Controller {
 		$sell = [
 			'labour'        => $data['labour'],
 			'total_amount'  => $data['billinputs'],
-			'expences'      => $data['expences']
+			'expences'      => $data['expences'],
+			'freight'      => $data['kraya']
 		];
 		$this->Stock_model->updateSellBill($id, $sell);
 		$records = $this->Stock_model->sellBillDetail($id);
@@ -70,7 +71,7 @@ class Sell extends CI_Controller {
 			$net[] = $amount[$c] - $labour[$c] - $expences[$c] - $freight[$c];
 		}
 		$dataUpdate=$this->Stock_model->sellDetailUpdate($id,$rateArr,$amount,$labour,$expences,$freight,$net);
-		dd($dataUpdate);
+		redirect('sell');
 	}
 	
 	public function getPass($id){

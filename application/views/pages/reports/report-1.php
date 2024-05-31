@@ -48,55 +48,37 @@
                 <div class="col-span-12 xxl:col-span-1 lg:col-span-4 md:col-span-6">
                     <div class="cashier-transection-info bg-[#EEF0F8] mb-5">
                         <div class="cashier-transection-info-text">
-                            <h5>Total Transaction</h5>
-                            <h4>$241,575</h4>
+                            <h5>Total Cash In</h5>
+                            <h4><?php echo $data[0]['cashIn'];?></h4>
                         </div>
                         <div class="cashier-transection-info-percent">
-                            <span class="bg-[#657CEE] inline-block">+99%</span>
+                            <span class="bg-[#657CEE] inline-block">+</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-span-12 xxl:col-span-1 lg:col-span-4 md:col-span-6">
                     <div class="cashier-transection-info bg-[#F8F0E7] mb-5">
                         <div class="cashier-transection-info-text">
-                            <h5>Cash</h5>
-                            <h4>$54,472</h4>
+                            <h5>Cash Out</h5>
+                            <h4><?php echo $data[0]['cashOut'];?></h4>
                         </div>
                         <div class="cashier-transection-info-percent">
-                            <span class="bg-[#E6AA69] inline-block">+19%</span>
+                            <span class="bg-[#E6AA69] inline-block">-</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-span-12 xxl:col-span-1 lg:col-span-4 md:col-span-6">
                     <div class="cashier-transection-info bg-[#E6F2E2] mb-5">
+
+
                         <div class="cashier-transection-info-text">
-                            <h5>Bank</h5>
-                            <h4>$74,247</h4>
+                            <h5>Running Balance</h5>
+                            <h4><?php echo $data[0]['fb']?></h4>
                         </div>
+
+                        
                         <div class="cashier-transection-info-percent">
-                            <span class="bg-[#92D268] inline-block">+44%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-12 xxl:col-span-1 lg:col-span-4 md:col-span-6">
-                    <div class="cashier-transection-info bg-[#F9E8E8] mb-5">
-                        <div class="cashier-transection-info-text">
-                            <h5>Card</h5>
-                            <h4>$24,201</h4>
-                        </div>
-                        <div class="cashier-transection-info-percent">
-                            <span class="bg-[#DC7B7B] inline-block">+4%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-12 xxl:col-span-1 lg:col-span-4 md:col-span-6">
-                    <div class="cashier-transection-info bg-[#E1F0F5] mb-5">
-                        <div class="cashier-transection-info-text">
-                            <h5>Cheque</h5>
-                            <h4>$68,593</h4>
-                        </div>
-                        <div class="cashier-transection-info-percent">
-                            <span class="bg-[#73B8D4] inline-block">+29%</span>
+                            <span class="bg-[#92D268] inline-block">Rs</span>
                         </div>
                     </div>
                 </div>
