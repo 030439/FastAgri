@@ -162,5 +162,26 @@ if (!function_exists('getLabourQty')) {
     }
 }
 
+if (!function_exists('jamandarName')) {
+    function jamandarName($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  j.name as jname  FROM jamandars j WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['jname'];
+        } else {
+            return "data not found";
+        }
+    }
+}
+
 
 ?>

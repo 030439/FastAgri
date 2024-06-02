@@ -174,6 +174,8 @@ class Jamandar_model extends CI_Model {
         $this->db->where('status',1);
         $query = $this->db->get('tunnels');
         $result=$query->result();
+        $total=count($result);
+        $per_tunnel_exp=$data['amount']/$total;
         foreach($result as $res){
             $expense=[
                 'tunnel_id'=>$res->id,
@@ -181,7 +183,7 @@ class Jamandar_model extends CI_Model {
                 'eid'=>$insert_id,
                 'amount'=>$data['amount'],
                 'edate'=>$data['date_'],
-                'pid'=>0
+                'pid'=>$data['jid']
             ];
             $this->db->insert('tunnel_expense', $expense);
         }

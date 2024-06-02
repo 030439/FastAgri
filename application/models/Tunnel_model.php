@@ -166,20 +166,19 @@ class Tunnel_model extends CI_Model
                 $res[$c]->rate   = $pq['rate'];
                 $res[$c]->amount = $pq['qty']*$pq['rate'];
             }
-            // elseif($re->expense_type == "Jamandari"){
-            //     $pq=getIssueProQty($id, $re->pid, $re->edate);
-            //     $res[$c]->head   = productName_($re->pid);
-            //     $res[$c]->qty    = $pq['qty'];
-            //     $res[$c]->rate   = $pq['rate'];
-            //     $res[$c]->amount = $pq['qty']*$pq['rate'];
-            // }
-            // else{
-            //     $lb=getLabourQty($id,$re->eid);
-            //     $res[$c]->head = $lb['jname'];
-            //     $res[$c]->qty =$lb['qty'];
-            //     $res[$c]->rate =$lb['rate'];
+            elseif($re->expense_type == "Jamandari"){
+                $pq=getIssueProQty($id, $re->pid, $re->edate);
+                $res[$c]->head   = jamandarName($re->pid);
+                $res[$c]->qty    = 1;
+                $res[$c]->rate   = 0;
+            }
+            else{
+                $lb=getLabourQty($id,$re->eid);
+                $res[$c]->head = $lb['jname'];
+                $res[$c]->qty =$lb['qty'];
+                $res[$c]->rate =$lb['rate'];
                 
-            // }
+            }
         }
         return $res;
     }
