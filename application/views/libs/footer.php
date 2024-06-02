@@ -307,6 +307,16 @@
         }
       });
     }
+    function getEmployees(){
+      $.ajax({
+        url: "getEmployees",
+        method: 'post',
+        success: function(result){
+           $("#cash-selection-party").html(result);
+           $('#cash-selection-party').css('display', 'block');
+        }
+      });
+    }
     function getSuppliers(){
       $.ajax({
         url: "getSuppliers",
@@ -331,13 +341,24 @@
       $.ajax({
         url: "getShareSolders",
         method: 'post',
-        success: function(result){
-           $("#cash-selection-party").html(result);
+        success: function(sresult){
+           $("#cash-selection-party").html(sresult);
            $('#cash-selection-party').css('display', 'block');
         }
       });
     }
+    function getEmployeeById(id){
+      $.ajax({
+        url: "getEmployeeById",
+        method: 'post',
+        data:{id:id},
+        success: function(edbi){
+           $("#e-pay").val(edbi);
+        }
+      });
+    }
     $("#cash-selection").on('change', function(){ 
+      $("#e-amount").hide();
       $("#cash-selection-type").empty();
       var cashtype=$(this).val();
       if(cashtype=="cash-in"){
@@ -355,6 +376,7 @@
         var options = [
         { value: 'supplier', text: 'Supplier' },
         { value: 'shareholder', text: 'Share Holder' },
+        { value: 'pay', text: 'Salary' },
         { value: 'expense', text: 'Expense' }
         ];
         $.each(options, function(index, option) {
@@ -367,6 +389,7 @@
       var cst=$(this).val();
       var cashtype=$("#cash-selection").val();
       $("#narration-field").hide();
+      $("#e-amount").hide();
       if(cashtype=="cash-in"){
         if(cst=="customer"){
           getcustomers();
@@ -385,6 +408,10 @@
           getSuppliers();
           $("#narration-field").show();
         }
+        else if(cst=="pay"){
+          getEmployees();
+          $("#narration-field").show();
+        }
         else if(cst=="shareholder"){
           getShareSolders();
           $("#narration-field").show();
@@ -396,17 +423,19 @@
         }
       }
     });
-    // $("#cash-selection-party").on('change', function(){ 
-    //   var cstp=$(this).val();
-    //   var cashtype=$("#cash-selection").val();
-    //   var cst=$("#cash-selection-type").val();
-    //   if(cashtype=="cash-in"){
-    //     if(cst=="customer"){
-    //       getcustomers();
-    //     }
-    //     else if(cst=="direct"){
-    //       alert("cash out");
-    //     }
-    //   }
-    // });
+    
+    $("#cash-selection-party").on('change', function(){ 
+      var cstp=$(this).val();
+      var cashtype=$("#cash-selection").val();
+      var cst=$("#cash-selection-type").val();
+      if(cashtype=="cash-out"){
+        if(cst=="pay"){
+          getEmployeeById(cstp);
+          $("#e-amount").show();
+        }
+        else if(cst=="direct"){
+          alert("cash out");
+        }
+      }
+    });
 </script>

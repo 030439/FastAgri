@@ -46,15 +46,25 @@
             </div>
 
             <div class="lg:col-span-4 md:col-span-6 col-span-12" id="narration-field" style="display:none">
-            <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Naration</h5>
-                <div class="cashier-input-field-style">
-                    <div class="single-input-field w-full">
-                        <input type="text" name="narration" placeholder="Narration">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Naration</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="text" name="narration" placeholder="Narration">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="e-amount" style="display:none">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Payable Amount</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="text" readonly id="e-pay" name="e-amount" placeholder="Payable Amount">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <div class="lg:col-span-4 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">

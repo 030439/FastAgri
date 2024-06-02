@@ -83,6 +83,17 @@ class Employee_model extends CI_Model {
         $designation = $this->db->get('designations')->result();
         return $designation;
     }
+    public function getEmployees() {
+        $designation = $this->db->get('employees')->result();
+        return $designation;
+    }
+     public function getEmployeePayById($id) {
+        $this->db->select('employees.payable');
+        $this->db->from('employees');
+        $this->db->WHERE('id', $id);
+        $products = $this->db->get()->result();
+        return $products[0]->payable;
+    }
     public function saveEmployee($data) {
         if($this->db->insert('employees', $data)){
             
@@ -147,7 +158,11 @@ class Employee_model extends CI_Model {
     public function addPays($arr){
         $record = $this->db->get_where('pays', ['employee_id' => $arr['employee_id'],'date_'=>$arr['date_']])->row(); 
        if(!$record){
-            return $this->db->insert('pays', $arr);
+             if($this->db->insert('pays', $arr)){
+                $this->db->set('payable', 'payable + ' . $this->db->escape($arr['net']), FALSE);
+                $this->db->where('id', $arr['employee_id']);
+                return $this->db->update('employees');
+             }
         }
         return false;
     }

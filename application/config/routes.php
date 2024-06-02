@@ -115,6 +115,8 @@ $route['getPermanentEmployees']='Employee/getPermanentEmployees';
 $route['getDailyEmployees']='Employee/getDailyEmployees';
 $route['employee-advance-add']="Employee/employeeAdvanceAdd";
 $route['generate-pays']='Employee/generatePays';
+$route['getEmployees']="Employee/getEmployees";
+$route['getEmployeeById']="Employee/getEmployeePayById";
 //Jammandar 
 $route['jamandars']='Jamandar/index';
 $route['getJamandars']='Jamandar/getJamandars';

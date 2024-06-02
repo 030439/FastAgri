@@ -25,6 +25,10 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['name']="Cash Received";
                     $cash[$c]['narration']=$this->customerName($d['cash_sP']);
                 }
+                elseif ($d['case_sT']=="shareholder") {
+                    $cash[$c]['narration']=$this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
             }elseif($d['cash_s']=="cash-out"){
                 $debit+=$d['amount'];
                 if($d['case_sT']=="supplier"){
@@ -33,6 +37,10 @@ class Cashbook_model extends CI_Model {
                 }
                 elseif ($d['case_sT']=="shareholder") {
                     $cash[$c]['narration']=$this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
+                elseif ($d['case_sT']=="pay") {
+                    $cash[$c]['narration']=$this->EmployeeName($d['cash_sP']);
                     $cash[$c]['name']="Share Holder";
                 }
                 elseif ($d['case_sT']=="expense") {
@@ -62,6 +70,13 @@ class Cashbook_model extends CI_Model {
     public function ShareHolderName($id){
         $this->db->select('Name');
         $this->db->from('shareholders');
+        $this->db->WHERE('id', $id);
+        $shareholder = $this->db->get()->result();
+        return $shareholder[0]->Name;
+    }
+    public function EmployeeName($id){
+        $this->db->select('Name');
+        $this->db->from('employees');
         $this->db->WHERE('id', $id);
         $shareholder = $this->db->get()->result();
         return $shareholder[0]->Name;
@@ -105,6 +120,9 @@ class Cashbook_model extends CI_Model {
             if($data['cash-selection-type']=='customer'){
                 $this->customerCashIn($data);
             }
+            elseif($data['cash-selection-type']=="shareholder"){
+                $this->shareHolderCashIn($data);
+            }
         }
         else{
             // $this->credit($data);
@@ -113,6 +131,9 @@ class Cashbook_model extends CI_Model {
             }
             elseif($data['cash-selection-type']=="shareholder"){
                 $this->shareHolderCashOut($data);
+            }
+            elseif($data['cash-selection-type']=="pay"){
+                $this->SalaryGiven($data);
             }
             elseif($data['cash-selection-type']=="expense"){
                 $this->Expense($data);
@@ -146,6 +167,14 @@ class Cashbook_model extends CI_Model {
         $this->db->set('closing', 'closing - ' . $this->db->escape($amount), FALSE);
         $this->db->where('sid', $customerId);
         return $this->db->update('supplier_detail');
+    }
+    public function SalaryGiven($data){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+
+        $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
+        $this->db->where('id', $customerId);
+        return $this->db->update('employees');
     }
     public function Expense($data){
         $arr=[
@@ -207,6 +236,26 @@ class Cashbook_model extends CI_Model {
     //     return $this->db->update('availableamount');
     // }
     public function shareHolderCashOut($data){
+        $amount = $data['amount'];
+        $sh = $data['cash-selection-party'];
+        $this->db->set('balance', 'balance - ' . $this->db->escape($amount), FALSE);
+        $this->db->where('id', $sh);
+        $res=$this->db->update('shareholders');
+        if($res){
+            $this->db->where('id', $sh);
+            $all = $this->db->get('shareholders')->result_array();
+            $b=$all[0]['balance'];
+        $arr=[
+            'sid'      => $sh,
+            'pay_type' => $data['cash-selection'],
+            'amount'   => $amount, 
+            'balance'=>$b,
+        ];
+        return $this->db->insert('shareholders_pays', $arr);
+        }
+    }
+
+    public function shareHolderCashIn($data){
         $amount = $data['amount'];
         $sh = $data['cash-selection-party'];
         $this->db->set('balance', 'balance + ' . $this->db->escape($amount), FALSE);

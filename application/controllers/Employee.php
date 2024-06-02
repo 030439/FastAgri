@@ -107,6 +107,21 @@ class Employee extends CI_Controller {
 		}
 		echo $html;
 	}
+	public function getEmployees(){
+		$result=$this->Employee_model->getEmployees();
+		$html="";
+		$html.="<option>Select Employee</option>";
+		foreach ($result as $key => $res) {
+			$html.="<option value='".$res->id."'>";
+			$html.=$res->Name;
+			$html.="</option>";
+		}
+		echo $html;
+	}
+	public function getEmployeePayById(){
+		$id=$this->input->post('id');
+		echo $this->Employee_model->getEmployeePayById($id);
+	}
 	public function employeeAdvanceAdd(){
 		$data = $this->input->post(NULL, TRUE);
 		try {

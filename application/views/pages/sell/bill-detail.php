@@ -14,7 +14,7 @@
                 <input class="billinputs" id="bill-labour" type="number" name="expences" placeholder="Labour" value="<?php echo $data[0]['expences'];?>">
                 <span>Labour </span>
                 <input class="billinputs" id="bill------" type="number"  name="labour" placeholder="Labour" value="<?php echo $data[0]['labour'];?>">
-                <span>Labour </span>
+                <span>Kraya </span>
                 <input class="billinputs" id="bil---" type="number"  name="kraya" placeholder="Kraya" value="<?php echo $data[0]['freight'];?>">
             </div>
             all-total-bill
@@ -84,7 +84,7 @@
                     <div class="grid grid-cols-12">
                         <div class="lg:col-span-9 md:col-span-6 col-span-12">
                             <div class="cashier-pagination text-right maxSm:text-center">
-                               <input name="billinputs" class="billinputs" id="all-total-bill" value="0">
+                               <input name="billinputs" class="billinputs" id="all-total-bill" value="<?php echo !empty($data)? $data[0]['amount']:'0';?>">
                             </div>
                         </div>
                     </div>
