@@ -166,6 +166,13 @@ class Jamandar_model extends CI_Model {
         $result=$query->result();
         return $result[0]->amount;
     }
+    public function getJamandariById($id) {
+        $this->db->select(' jamandartotal.payable');
+        $this->db->from(' jamandartotal');
+        $this->db->WHERE('jamandar_id', $id);
+        $products = $this->db->get()->result();
+        return $products[0]->payable;
+    }
     public function addJamandari($data){
 
         $this->db->insert('jamandari', $data);

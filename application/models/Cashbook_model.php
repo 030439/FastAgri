@@ -43,6 +43,10 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['narration']=$this->EmployeeName($d['cash_sP']);
                     $cash[$c]['name']="Share Holder";
                 }
+                elseif ($d['case_sT']=="jamandari") {
+                    $cash[$c]['narration']=$this->jamandarName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
                 elseif ($d['case_sT']=="expense") {
                     $cash[$c]['name']=$this->accountHeadName($d['cash_sP']);
                 }
@@ -59,6 +63,13 @@ class Cashbook_model extends CI_Model {
         $this->db->WHERE('id', $id);
         $customer = $this->db->get()->result();
         return $customer[0]->Name;
+    }
+    public function jamandarName($id){
+        $this->db->select('name');
+        $this->db->from('jamandars');
+        $this->db->WHERE('id', $id);
+        $customer = $this->db->get()->result();
+        return $customer[0]->name;
     }
     public function SupplierName($id){
         $this->db->select('Name');
@@ -132,6 +143,9 @@ class Cashbook_model extends CI_Model {
             elseif($data['cash-selection-type']=="shareholder"){
                 $this->shareHolderCashOut($data);
             }
+            elseif($data['cash-selection-type']=="jamandari"){
+                $this->JamandarCashOut($data);
+            }
             elseif($data['cash-selection-type']=="pay"){
                 $this->SalaryGiven($data);
             }
@@ -175,6 +189,14 @@ class Cashbook_model extends CI_Model {
         $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
         $this->db->where('id', $customerId);
         return $this->db->update('employees');
+    }
+    public function JamandarCashOut($data){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+
+        $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
+        $this->db->where('jamandar_id', $customerId);
+        return $this->db->update('jamandartotal');
     }
     public function Expense($data){
         $arr=[

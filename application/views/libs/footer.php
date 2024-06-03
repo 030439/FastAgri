@@ -347,9 +347,29 @@
         }
       });
     }
+    function jamandariAccount(){
+      $.ajax({
+        url: "jamandariAccount",
+        method: 'post',
+        success: function(sresult){
+           $("#cash-selection-party").html(sresult);
+           $('#cash-selection-party').css('display', 'block');
+        }
+      });
+    }
     function getEmployeeById(id){
       $.ajax({
         url: "getEmployeeById",
+        method: 'post',
+        data:{id:id},
+        success: function(edbi){
+           $("#e-pay").val(edbi);
+        }
+      });
+    }
+    function getJamandariById(id){
+      $.ajax({
+        url: "getJamandariById",
         method: 'post',
         data:{id:id},
         success: function(edbi){
@@ -435,6 +455,10 @@
       if(cashtype=="cash-out"){
         if(cst=="pay"){
           getEmployeeById(cstp);
+          $("#e-amount").show();
+        }
+        else if(cst=="jamandari"){
+          getJamandariById(cstp);
           $("#e-amount").show();
         }
         else if(cst=="direct"){
