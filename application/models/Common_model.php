@@ -17,6 +17,13 @@ class Common_model extends CI_Model {
         $all = $this->db->get($table)->result_array();
         return $all;
     }
+    public function availableBalance(){
+        $all = $this->db->get("availableamount")->result_array();
+        foreach($all as $a){
+            $available=$a['amount'];
+        }
+        return $available;
+    }
 
     public function createRecord($data,$table) {
          $res=$this->db->insert($table, $data);

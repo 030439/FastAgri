@@ -377,7 +377,8 @@
         { value: 'supplier', text: 'Supplier' },
         { value: 'shareholder', text: 'Share Holder' },
         { value: 'pay', text: 'Salary' },
-        { value: 'expense', text: 'Expense' }
+        { value: 'expense', text: 'Expense' },
+        { value: 'jamandari', text: 'Jamandar' }
         ];
         $.each(options, function(index, option) {
             $('#cash-selection-type').append($('<option>', option));
@@ -419,7 +420,10 @@
         else if(cst=="expense"){
           OtherExpense();
           $("#narration-field").show();
-
+        }
+        else if(cst=="jamandari"){
+          jamandariAccount();
+          $("#narration-field").show();
         }
       }
     });

@@ -94,6 +94,8 @@
                         </div>
                     </div>
                     <?php 
+                     $cin=0;
+                     $cout=0;
                     if(!empty($data)):
                         // s.Name,sp.balance as fb,sp.amount,sp.pay_type,sp.created
                     foreach($data as $d):
@@ -114,9 +116,11 @@
                                     <?php 
                                         if($d->pay_type=="cash-in"){
                                             echo "Cash In";
+                                            $cin+=$d->amount;
                                         }
                                         if($d->pay_type=="cash-out"){
                                             echo "Cash out";
+                                            $cout+=$d->amount;
                                         }
                                     ?>
                                 </span>
@@ -135,54 +139,24 @@
                     <?php endforeach;endif;?>
                 </div>
             </div>
-            <div class="cashier-pagination-area">
-                <div class="cashier-pagination-wrapper">
-                    <div class="grid grid-cols-12">
-                        <div class="lg:col-span-3 md:col-span-6 col-span-12">
-                            <div
-                                class="cashier-pagination-sort flex items-center flex-wrap maxSm:mb-4 maxSm:justify-center">
-                                <figure class="text-[14px] font-normal text-gray mr-1.5">Rows per page : </figure>
-                                <div class="cashier-select-field-style w-16">
-                                    <div class="single-input-field w-full">
-                                        <select class="block" style="display: none;">
-                                            <option selected="" value="language-1">20</option>
-                                            <option value="language-2">25</option>
-                                            <option value="language-3">35</option>
-                                            <option value="language-4">45</option>
-                                            <option value="language-5">50</option>
-                                        </select>
-                                        <div class="nice-select block" tabindex="0"><span class="current">20</span>
-                                            <ul class="list">
-                                                <li data-value="language-1" class="option selected">20</li>
-                                                <li data-value="language-2" class="option">25</li>
-                                                <li data-value="language-3" class="option">35</li>
-                                                <li data-value="language-4" class="option">45</li>
-                                                <li data-value="language-5" class="option">50</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div style="background-color:#dfd9d9;margin-top:10px;" class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
+                        <div class="cashier-salereturns-table-dateP">
+                            <h5></h5>
                         </div>
-                        <div class="lg:col-span-9 md:col-span-6 col-span-12">
-                            <div class="cashier-pagination text-right maxSm:text-center">
-                                <ul>
-                                    <li><a href="javascript:void(0)">
-                                            <i class="fa-light fa-angle-left"></i>
-                                        </a></li>
-                                    <li><a href="javascript:void(0)" class="active">01</a></li>
-                                    <li><a href="javascript:void(0)">02</a></li>
-                                    <li><a href="javascript:void(0)">03</a></li>
-                                    <li><a href="javascript:void(0)">04</a></li>
-                                    <li><a href="javascript:void(0)">
-                                            <i class="fa-light fa-angle-right"></i>
-                                        </a></li>
-                                </ul>
-                            </div>
+                        <div class="cashier-salereturns-table-dateP">
+                            <h5>Total Cash in:</h5>
                         </div>
+                        <div class="cashier-salereturns-table-dateP">
+                            <h5><?php echo $cin;?></h5>
+                        </div>
+                        <div class="cashier-salereturns-table-dateP">
+                            <h5>Cash Out:</h5>
+                        </div>
+                        <div class="cashier-salereturns-table-dateP">
+                            <h5><?php echo $cout;?></h5>
+                        </div>
+                       
                     </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
