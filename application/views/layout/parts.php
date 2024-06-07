@@ -39,8 +39,8 @@
             </div>
         </div>
     </main>
-
     <?php include(APPPATH . 'views/libs/footer.php'); ?>
+    <?php include(APPPATH . 'views/libs/js/'.$file); ?>
 </body>
 
 </html>

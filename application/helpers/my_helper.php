@@ -35,6 +35,18 @@ if (!function_exists('ShowVal')) {
     }
 }
 
+if (!function_exists('jsonOutPut')) {
+    function output_json($data)
+    {
+        if (ob_get_length()) {
+            ob_clean();
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+}
+
 function is_authorized() {
     $CI = get_instance();
     $CI->load->library('session'); 
