@@ -31,12 +31,32 @@ class Purchase extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+
+	public function purchasedSeedListJS()
+	{
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+			$res=$this->Purchase_model->getSeedDetailsJS($draw,$start,$length);
+			if (ob_get_length()) {
+				ob_clean();
+			}
+		
+			header('Content-Type: application/json');
+			echo json_encode($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+
 	
 	public function add()
 	{ 
 		try{
 			$data['suppliers']=$this->Common_model->getAll('suppliers');
-			$data['products']=$this->Stock_model->getOnlyPro();
+			$data['products']=$this->Stock_model->getOnlyProducts();
 		    $this->load->view('layout/parts',['page'=>"pages/purchase/add-purchase",'data'=>$data]);
 	    } catch (Exception $e) {
 			log_message('error', $e->getMessage());

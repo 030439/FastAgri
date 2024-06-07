@@ -1,7 +1,7 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
         <div class="cashier-transection-selectors flex items-center justify-between pb-5 maxSm:block">
-            <h4 class="text-[20px] text-heading mb-2.5 font-bold"><?php echo $data['expenses']['0']->tunnel;?> : Expenses</h4>
+            <h4 class="text-[20px] text-heading mb-2.5 font-bold"><?php if($data['expenses']): echo $data['expenses']['0']->tunnel; endif;?> : Expenses</h4>
             <!-- <div class="cashier-transection-selector flex gap-x-4 maxSm:gap-x-0 items-center justify-end maxSm:justify-start maxXs:block">
                 <div class="cashier-transection-selector-single w-[120px] mb-2.5">
                     <div class="cashier-select-field">
@@ -59,7 +59,7 @@
                 </div>
                 <div class="lg:col-span-7 md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
-                        <a href="tunnel/detailPdf/<?php echo ($data['expenses'][0]->tid); ?>" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
+                        <a href="tunnel/detailPdf/<?php if($data['expenses']): echo ($data['expenses'][0]->tid); endif; ?>" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
                                 width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
                                 <path id="Path_188" data-name="Path 188"
                                     d="M82.8,209H81.578a.578.578,0,0,0-.578.58l.009,4.389a.578.578,0,1,0,1.155,0v-1.333l.636,0a1.817,1.817,0,1,0,0-3.634Zm0,2.478-.639,0c0-.246,0-.511,0-.664,0-.131,0-.4,0-.661H82.8a.662.662,0,1,1,0,1.323Z"

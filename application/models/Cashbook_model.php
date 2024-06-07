@@ -57,6 +57,55 @@ class Cashbook_model extends CI_Model {
         $cash[0]['cashIn']=$debit;
         return $cash;
     }
+
+    public function cashbookById($id) {
+        $this->db->select('c.*,a.amount as famount');
+        $this->db->from('cash_in_out c');
+        $this->db->join('availableamount a ', 'c.id = a.cash_id');
+        $cash = $this->db->get()->result_array();
+        $debit=0;
+        $credit=0;
+        foreach($cash as $c=>$d){
+            $balance=$d['famount'];
+            if($d['cash_s']=="cash-in"){
+                $credit+=$d['amount'];
+                if($d['case_sT']=="customer"){
+                    $cash[$c]['name']="Cash Received";
+                    $cash[$c]['narration']=$this->customerName($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="shareholder") {
+                    $cash[$c]['narration']=$this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
+            }elseif($d['cash_s']=="cash-out"){
+                $debit+=$d['amount'];
+                if($d['case_sT']=="supplier"){
+                    $cash[$c]['narration']=$this->SupplierName($d['cash_sP']);
+                    $cash[$c]['name']=$d['narration'];
+                }
+                elseif ($d['case_sT']=="shareholder") {
+                    $cash[$c]['narration']=$this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
+                elseif ($d['case_sT']=="pay") {
+                    $cash[$c]['narration']=$this->EmployeeName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
+                elseif ($d['case_sT']=="jamandari") {
+                    $cash[$c]['narration']=$this->jamandarName($d['cash_sP']);
+                    $cash[$c]['name']="Share Holder";
+                }
+                elseif ($d['case_sT']=="expense") {
+                    $cash[$c]['name']=$this->accountHeadName($d['cash_sP']);
+                }
+            }
+        }
+        $cash[0]['fb']=$balance;
+        $cash[0]['cashOut']=$credit;
+        $cash[0]['cashIn']=$debit;
+        return $cash;
+    }
+
     public function customerName($id){
         $this->db->select('Name');
         $this->db->from('customers');
@@ -122,10 +171,12 @@ class Cashbook_model extends CI_Model {
             'amount'  =>$data['amount'],
             'narration'   => $data['narration'],
         ];
+      
+        $this->db->trans_start();
         $this->db->insert('cash_in_out', $arr);
         $id_ = $this->db->insert_id();
         $this->balance($arr,$id_);
-        $this->db->trans_start();
+
         if($data['cash-selection']=='cash-in'){
             // $this->debit($data);
             if($data['cash-selection-type']=='customer'){
@@ -162,7 +213,7 @@ class Cashbook_model extends CI_Model {
         } else {
             // Transaction succeeded
             $this->db->trans_commit(); // Commit changes
-            return true;
+            return $id_;
         } 
     }
 

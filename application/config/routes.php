@@ -87,6 +87,7 @@ $route['create-purchase'] = "purchase/save"; //purchase form data submission
 $route['purchase-seed']='purchase/purchaseSeedFrom';
 $route['seed-purchase']='purchase/purchaseSeed';
 $route['purchased/seed-list']='purchase/purchasedSeedList';
+$route['purchased/seed-list-js']='purchase/purchasedSeedListJS';
 
 //Unit Curd
 $route['unit/create'] = "Unit/create"; //purchase form view 
@@ -160,3 +161,4 @@ $route['cashbook']="Cashbook/add";
 $route['cashbook-pay']="Cashbook/cashbookPay";
 $route['OtherExpense']="AccountHeads/OtherExpense";
 $route['addAccountHead']="AccountHeads/addAccountHead";
+$route['cashbook/print/(:num)']="Cashbook/printSlip/$1";

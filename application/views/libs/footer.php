@@ -33,10 +33,14 @@
  <script src="assets/js/swiper-bundle.min.js"></script>
  <script src="assets/js/apexcharts.js"></script>
  <script src="assets/js/main.js"></script>
-
+ <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
+ <script>
+ 
 
+ 
+</script>
 <script type="text/javascript">
 
 <?php if($this->session->flashdata('success')){ ?>
@@ -52,6 +56,36 @@
 </script>
 <script>
    $(document).ready(function() {
+    $('#user-list').DataTable({
+  "processing": true,
+    dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ],
+        "ajax": {
+            url : "<?php echo base_url(); ?>purchased/seed-list-js",
+            type : 'post',
+            error: function(xhr, error, thrown) {
+            alert('Error: ' + xhr.responseText);
+        }
+        },        
+         "columns": [
+                { "data": "product_name" },
+                { "data": "supplier_name" },
+                { "data": "rate" },
+                { "data": "amount" },
+                { "data": "purchased_quantity" },
+                { "data": "RemainingQuantity" },
+                { "data": "purchase_detail_id" },
+                { // Actions column
+                    "data": null,
+                    "defaultContent": '<div class="dropdown">'+
+                                '<button class="common-action-menu-style">Action<i class="fa-sharp fa-solid fa-caret-down"></i></button><div class="dropdown-list">'+
+                                    '<button class="dropdown-menu-item"><img src="assets/img/icon/action-2.png"><span>Update</span></button>'+
+                                    '<button class="dropdown-menu-item"><img src="assets/img/icon/action-6.png"><span>Delete</span></button></div></div>'
+                }
+            ]
+    });
     $('#cnic').on('input', function() {
         let cnic = $(this).val().trim().replace(/-/g, ''); // Remove existing dashes
 

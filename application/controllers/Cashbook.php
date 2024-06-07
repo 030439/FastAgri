@@ -42,9 +42,29 @@ class Cashbook extends CI_Controller {
             $data = $this->input->post(NULL, TRUE);
 		
            $res= $this->Cashbook_model->cashbookPay($data);
-		   $this->response($res,'report',"Data Inserted Successfully");
+		   if ($res) {
+            $printUrl = base_url('cashbook/print/' . $res); // assuming you have a print method to handle printing
+
+            // Load a view with JavaScript to open the print page and then redirect
+            echo "<script type='text/javascript'>
+                    window.open('{$printUrl}', '_blank');
+                   
+                  </script>";
+            return;
+        }
+		//$this->response($res,'report',"Data Inserted Successfully");
+		
         }
     }
+	public function printSlip($id){
+		try {
+			$data=$this->Customer_model->cashbookById($id);
+			$this->load->view('layout/parts',['page'=>"pages/cashbook/print",'data'=>$data]);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function response($res,$route,$msg){
 		if($res){
 			$this->session->set_flashdata('success', $msg);

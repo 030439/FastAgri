@@ -24,6 +24,14 @@ class Stock_model extends CI_Model {
 
         return $products;
     }
+    function getOnlyProducts(){
+        $this->db->select('products.*');
+        $this->db->from('products');
+        $this->db->join('crops', 'products.id = crops.pid', 'left');
+        $this->db->where('crops.pid IS NULL');
+        $products = $this->db->get()->result();
+        return $products;
+    }
     public function sellDetail($id){
         $query = $this->db->query("
         SELECT 
