@@ -14,8 +14,10 @@ class Tunnels extends CI_Controller{
         $this->load->view('layout/parts',['page'=>"pages/tunnels/list-tunnel"]);
     }
     public function summary(){
-        $this->Tunnel_model->tunnelSummary();
+        $data=$this->Tunnel_model->tunnelSummary();
+        $this->load->view('layout/parts',['page'=>"pages/tunnels/summary",'data'=>$data]);
     }
+
     public function tunnelJsList(){
         try{
 			$draw = intval($this->input->post("draw"));

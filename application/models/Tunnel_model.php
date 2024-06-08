@@ -130,41 +130,65 @@ class Tunnel_model extends CI_Model
         $this->db->where('status', 1);
         return  $this->db->get()->result();
     }
-    public function tunnelSummary(){
+    public function tunnelSummary() {
+        // Fetch active tunnels
         $this->db->select('*');
         $this->db->from('tunnels');
         $this->db->where('status', 1);
         $tunnels = $this->db->get()->result();
-        $arr=array();
-        foreach($tunnels as $n=>$tunnel){
-            $name=$tunnel->TName;
-            $acer=$tunnel->CoveredArea;
-            $expense=$this->tunnelExpenses($tunnel->id);
-            $profit=$this->tunnleProfitSummary($tunnel->id);
-            $net=$profit-$expense;
-
-            $sholders=$this->shareByTunnel($tunnel->id);
-            $shareholders=$this->getActiveShareHolders();
-            foreach($sholders['shareholders'] as $counter=>$sholder){
-                foreach($shareholders as $shareholder){
-                    if($shareholder->id==$sholder){
-                        
-                    }
-            // if($shareholder->id==$sholder[])
+    
+        $arr = array();
+        $shares = array();
+        $name = [];
+        $acer = [];
+        $expense = [];
+        $profit = [];
+        $net = [];
+    
+        // Get active shareholders
+        $shareholders = $this->getActiveShareHolders();
+        $shareholders_dict = [];
+        foreach ($shareholders as $shareholder) {
+            $shareholders_dict[$shareholder->id] = $shareholder;
+        }
+    
+        foreach ($tunnels as $n => $tunnel) {
+            $name[$n] = $tunnel->TName;
+            $acer[$n] = $tunnel->CoveredArea;
+            $expense[$n] = $this->tunnelExpenses($tunnel->id);
+            $profit[$n] = $this->tunnleProfitSummary($tunnel->id);
+    
+            // Calculate net profit for the tunnel
+            $net_value = $profit[$n] - $expense[$n];
+            $net[$n] = $net_value;
+    
+            $sholders = $this->shareByTunnel($tunnel->id);
+    
+            $shares[$n] = ['shareholder' => []];
+            foreach ($sholders['shareholders'] as $counter => $sholder_id) {
+                if (isset($shareholders_dict[$sholder_id])) {
+                    $share_percentage = $sholders['shares'][$counter];
+                    $samount = ($share_percentage / 100) * $net_value; 
+                    $shares[$n]['shareholder'][$sholder_id] = $samount;
+                } else {
+                    $shares[$n]['shareholder'][$sholder_id] = "---------";
                 }
             }
-
-            $arr[$n]=[
-                'tunnel'       => $name,
-                'acer'         => $acer,
-                'sale'         => $profit,
-                'expense'      => $expense,
-                'net'          => $net
-            ];
         }
-        dd("ASDF");
-       // dd($arr);
+    
+        $arr = [
+            'tunnel' => $name,
+            'acer' => $acer,
+            'sale' => $profit,
+            'expense' => $expense,
+            'net' => $net,
+            'shares' => $shares,
+        ];
+    
+        return $arr;
     }
+    
+    
     function shareByTunnel($tunnel){
         $this->db->select('*');
         $this->db->from('shares');
