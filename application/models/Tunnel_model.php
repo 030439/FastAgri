@@ -129,12 +129,16 @@ class Tunnel_model extends CI_Model
         $this->db->from('tunnels');
         $this->db->where('status', 1);
         $tunnels = $this->db->get()->result();
+        dd($tunnels);
         foreach($tunnels as $tunnel){
-            $expanse=$this->tunnelExpenses($tunnel->id);
-            $this->tunnleProfitSummary($tunnel->id);
-            // echo "<pre>";
-            // print_r($sale);
-            $tunnelName=$tunnel->TName;
+            $name=$tunnel->TName;
+            $acer=$tunnel->CoveredArea;
+            $expense=$this->tunnelExpenses($tunnel->id);
+            $profit=$this->tunnleProfitSummary($tunnel->id);
+            $net=$profit-$expense;
+            $arr=[
+                'tunnel'=>$name
+            ];
         }
         dd("res");
     }
