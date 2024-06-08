@@ -137,12 +137,23 @@ class Tunnel_model extends CI_Model
         $tunnels = $this->db->get()->result();
         $arr=array();
         foreach($tunnels as $n=>$tunnel){
-            $this->shareholderByTunnel($tunnel);
             $name=$tunnel->TName;
             $acer=$tunnel->CoveredArea;
             $expense=$this->tunnelExpenses($tunnel->id);
             $profit=$this->tunnleProfitSummary($tunnel->id);
             $net=$profit-$expense;
+
+            $sholders=$this->shareByTunnel($tunnel->id);
+            $shareholders=$this->getActiveShareHolders();
+            foreach($sholders['shareholders'] as $counter=>$sholder){
+                foreach($shareholders as $shareholder){
+                    if($shareholder->id==$sholder){
+                        
+                    }
+            // if($shareholder->id==$sholder[])
+                }
+            }
+
             $arr[$n]=[
                 'tunnel'       => $name,
                 'acer'         => $acer,
@@ -151,18 +162,24 @@ class Tunnel_model extends CI_Model
                 'net'          => $net
             ];
         }
-        dd($arr);
+        dd("ASDF");
+       // dd($arr);
     }
-    function shareholderByTunnel($tunnel){
+    function shareByTunnel($tunnel){
         $this->db->select('*');
-        $this->db->from('tunnels');
-        $this->db->where('status', 1);
-        $this->db->where('id', $tunnel);
-        $tunnels = $this->db->get()->result();
-        $shareholders=explode(',',$tunnel->sh_id);
-        foreach($shareholders as $s=> $share){
-            print_r($share);
+        $this->db->from('shares');
+        $this->db->where('tunnel_id', $tunnel);
+        $shares = $this->db->get()->result();
+        $sh=array();
+        $shareVal=array();
+        foreach($shares as $s=> $share){
+            $sh[]=$share->sh_id;
+            $shareVal[]=$share->shares_values;
         }
+        return [
+            'shareholders'   => $sh,
+            'shares'         => $shareVal
+        ];
     }
     function tunnelExpenses($id){
         $query = $this->db->query("
