@@ -124,23 +124,45 @@ class Tunnel_model extends CI_Model
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
+    public function getActiveShareHolders(){
+        $this->db->select('*');
+        $this->db->from('shareholders');
+        $this->db->where('status', 1);
+        return  $this->db->get()->result();
+    }
     public function tunnelSummary(){
         $this->db->select('*');
         $this->db->from('tunnels');
         $this->db->where('status', 1);
         $tunnels = $this->db->get()->result();
-        dd($tunnels);
-        foreach($tunnels as $tunnel){
+        $arr=array();
+        foreach($tunnels as $n=>$tunnel){
+            $this->shareholderByTunnel($tunnel);
             $name=$tunnel->TName;
             $acer=$tunnel->CoveredArea;
             $expense=$this->tunnelExpenses($tunnel->id);
             $profit=$this->tunnleProfitSummary($tunnel->id);
             $net=$profit-$expense;
-            $arr=[
-                'tunnel'=>$name
+            $arr[$n]=[
+                'tunnel'       => $name,
+                'acer'         => $acer,
+                'sale'         => $profit,
+                'expense'      => $expense,
+                'net'          => $net
             ];
         }
-        dd("res");
+        dd($arr);
+    }
+    function shareholderByTunnel($tunnel){
+        $this->db->select('*');
+        $this->db->from('tunnels');
+        $this->db->where('status', 1);
+        $this->db->where('id', $tunnel);
+        $tunnels = $this->db->get()->result();
+        $shareholders=explode(',',$tunnel->sh_id);
+        foreach($shareholders as $s=> $share){
+            print_r($share);
+        }
     }
     function tunnelExpenses($id){
         $query = $this->db->query("
