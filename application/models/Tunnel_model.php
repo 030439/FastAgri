@@ -120,9 +120,30 @@ class Tunnel_model extends CI_Model
         $this->db->from('tunnels');
         $this->db->join('crops', 'tunnels.product__id = crops.pid', 'left');
         $this->db->where('tunnels.status', 1);
+        $this->db->limit($length, $start);
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
+
+    public function tunnelJsList($draw, $start, $length){
+        $this->db->where('status', 1);
+        $totalRecords = $this->db->count_all_results('tunnels');
+
+        $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,tunnels.cDate,
+        crops.FasalName as product,crops.SeedQuality as grade');
+        $this->db->from('tunnels');
+        $this->db->join('crops', 'tunnels.product__id = crops.pid', 'left');
+        $this->db->where('tunnels.status', 1);
+        $data = $this->db->get()->result();
+        $tunnels = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $data
+        );
+        return $tunnels; 
+    }
+
     public function tunnelProduct($tunnel){
         $this->db->select('tunnels.id,crops.pid as pid,
         crops.FasalName as product');
@@ -141,6 +162,7 @@ class Tunnel_model extends CI_Model
         return $stocks[0]->id; 
     }
     public function getunnelsExpense($id){
+
         $query = $this->db->query("
         SELECT 
             e.`id`,
@@ -160,11 +182,11 @@ class Tunnel_model extends CI_Model
         $res= $query->result();
         foreach($res as $c => $re) {
             if ($re->expense_type == "issueStockPurchase"){
-                $pq=getIssueProQty($id, $re->pid, $re->edate);
+                $pq=getIssueProQty($id, $re->pid);
                 $res[$c]->head   = productName_($re->pid);
                 $res[$c]->qty    = $pq['qty'];
-                $res[$c]->rate   = $pq['rate'];
-                $res[$c]->amount = $pq['qty']*$pq['rate'];
+                $res[$c]->rate   = $re->amount;
+                $res[$c]->amount = $pq['qty']*$re->amount;
             }
             elseif($re->expense_type == "Jamandari"){
                 $pq=getIssueProQty($id, $re->pid, $re->edate);

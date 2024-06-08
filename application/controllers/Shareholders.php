@@ -11,8 +11,8 @@ class Shareholders extends CI_Controller {
     }
 	public function index()
 	{
-		$data= $this->ShareHolder_model->getshareholders();
-		$this->load->view('layout/parts',['page'=>"pages/shareholders/list-shareholders",'data'=>$data]);
+		//$data= $this->ShareHolder_model->getshareholders();
+		$this->load->view('layout/parts',['page'=>"pages/shareholders/list-shareholders"]);
 	}
     public function getShareSolders(){
         $data= $this->ShareHolder_model->getshareholders();
@@ -24,6 +24,19 @@ class Shareholders extends CI_Controller {
 			$html.="</option>";
 		}
 		echo $html;
+    }
+    public function jsList(){
+        try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            
+			$res=$this->ShareHolder_model->getshareholdersListing($draw,$start = 0, $length = 10);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
     }
 	
 	public function add()

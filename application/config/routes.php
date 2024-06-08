@@ -61,13 +61,16 @@ $route['shareholder/update'] = 'shareholders/update'; //data update
 $route['getShareSolders']="shareholders/getShareSolders";
 $route['shareholder/detail/(:num)']="shareholders/detail/$1";
 $route['shareholder/detailPdf/(:num)']="shareholders/detailPdf/$1";
+$route['shareholders-list-js']="shareholders/jsList";
 // $route['shareholder/delete/(:num)'] = 'shareholders/delete/$1'; //data delete
 // tunnels routes
 $route['tunnels'] = "tunnels/index"; //tunnels list
 $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
 $route['tunnels/detail/(:num)']="tunnels/detail/$1";
 $route['tunnel/tunnle-expense/(:num)']="tunnels/tunnleExpense/$1";
+$route['tunnel/tunnle-profit/(:num)']="tunnels/tunnleProfit/$1";
 $route['tunnel/detailPdf/(:num)']="tunnels/detailPdf/$1";
+$route['tunnels-list-js'] = "tunnels/tunnelJsList"; //tunnels list
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 $route['customer/detail/(:num)']='customer/customerDetail/$1';

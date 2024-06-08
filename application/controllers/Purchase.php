@@ -24,8 +24,7 @@ class Purchase extends CI_Controller {
 	public function purchasedSeedList()
 	{
 		try{
-			$res=$this->Purchase_model->getSeedDetails();
-			$this->load->view('layout/parts',['page'=>"pages/purchase/list-seed","data"=>$res]);
+			$this->load->view('layout/parts',['page'=>"pages/purchase/list-seed"]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
@@ -38,13 +37,8 @@ class Purchase extends CI_Controller {
 			$draw = intval($this->input->post("draw"));
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
-			$res=$this->Purchase_model->getSeedDetailsJS($draw,$start,$length);
-			if (ob_get_length()) {
-				ob_clean();
-			}
-		
-			header('Content-Type: application/json');
-			echo json_encode($res);
+			$res=$this->Purchase_model->getSeedDetailsJS($draw,$start = 0, $length = 10);
+			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');

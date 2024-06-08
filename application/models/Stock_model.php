@@ -343,7 +343,9 @@ class Stock_model extends CI_Model {
         $query = $this->db->query("SELECT * From purchaseqty WHERE purchase_id=$pqid");
        if ($query) {
         $result = $query->result();
+
         $remaning=$result[0]->RemainingQuantity-$qty;
+        $this->updateStock($data['product'],$qty);
         $this->db->query("Update purchaseqty SET RemainingQuantity=$remaning WHERE purchase_id=$pqid");
        }
        $new=['PqId'=>$pqid,
@@ -382,6 +384,12 @@ class Stock_model extends CI_Model {
         }
         return ;
     }
+    public function updateStock($pro,$qty){
+        $this->db->set('qunatity', 'qunatity - ' . $this->db->escape($qty), FALSE);
+        $this->db->where('pid', $pro);
+        return $this->db->update('stocks');
+    }
+
     public function tunnelsExpensesList(){
         $query = $this->db->query("
         SELECT 
@@ -487,11 +495,24 @@ class Stock_model extends CI_Model {
         LEFT JOIN purchaseseeddetail ps ON pd.id = ps.pid
         GROUP BY p.id
         ");
-
         if ($query) {
             return $result = $query->result_array();
         }
     }
+
+    public function getStockProductList(){
+        $query = $this->db->query("
+        SELECT p.id as id, p.Name AS ProductName, 
+        s.qunatity AS RemainingQuality
+        FROM products p
+        JOIN stocks s ON s.pid = p.id
+        GROUP BY p.id
+        ");
+        if ($query) {
+            return $result = $query->result_array();
+        }
+    }
+
     public function getStockQty($id){
         $query = $this->db->query("
             SELECT p.Name AS ProductName, 

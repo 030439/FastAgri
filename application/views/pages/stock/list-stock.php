@@ -1,6 +1,6 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Issue Stock List</h4>
+        <h4 class="text-[20px] font-bold text-heading mb-9">Products Stock List</h4>
         <!-- <div class="cashier-managesale-top-btn default-light-theme mb-7">
             <button class="mb-1" onclick="document.location='createbank.html'">
                 <i class="fa-light fa-plus"></i> Create Bank
@@ -142,7 +142,7 @@
                                 class="checkme">
                         </div>
                         <div class="cashier-salereturns-table-dateB">
-                            <span><?php echo $d->product?></span>
+                            <span><?php echo $d['ProductName']?></span>
                         </div>
                         <!-- <div class="cashier-salereturns-table-referenceB">
                             <span>Canterbury</span>
@@ -157,7 +157,7 @@
                             <span>+02 585 369 202</span>
                         </div>-->
                         <div class="cashier-salereturns-table-totalB">
-                            <span><?php echo $d->qunatity;?></span>
+                            <span><?php echo $d['RemainingQuality'];?></span>
                         </div> 
                         <!-- <div class="cashier-salereturns-table-remarkB">
                             <span>

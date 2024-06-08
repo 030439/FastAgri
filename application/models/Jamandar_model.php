@@ -188,7 +188,7 @@ class Jamandar_model extends CI_Model {
                 'tunnel_id'=>$res->id,
                 'expense_type'=>"Jamandari",
                 'eid'=>$insert_id,
-                'amount'=>$data['amount'],
+                'amount'=>$per_tunnel_exp,
                 'edate'=>$data['date_'],
                 'pid'=>$data['jid']
             ];

@@ -13,7 +13,7 @@ class Stock extends CI_Controller {
     }
 	public function index()
 	{
-		$data=$this->Stock_model->getStock();
+		$data=$this->Stock_model->getStockProductList();
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-stock",'data'=>$data]);
 	}
 	

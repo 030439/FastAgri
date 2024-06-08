@@ -40,7 +40,8 @@
         </div>
     </main>
     <?php include(APPPATH . 'views/libs/footer.php'); ?>
-    <?php include(APPPATH . 'views/libs/js/'.$file); ?>
+    
+    <?php if(isset($file)):include(APPPATH . 'views/libs/js/'.$file); endif; ?>
 </body>
 
 </html>

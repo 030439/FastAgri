@@ -245,12 +245,7 @@
                     <div class="cashier-salereturns-table-warehouseB">
                         <h5>Quantity</h5>
                     </div>
-                    <div class="cashier-salereturns-table-totalB">
-                        <h5>Initial Balance</h5>
-                    </div>
-                    <div class="cashier-salereturns-table-remarkB">
-                        <h5>Status</h5>
-                    </div>
+                   
                     <div class="cashier-salereturns-table-actionB">
                         <h5>Action</h5>
                     </div>
@@ -276,16 +271,7 @@
                     <div class="cashier-salereturns-table-warehouseB">
                         <span><?php ShowVal($pro['qty'])?></span>
                     </div>
-                    <div class="cashier-salereturns-table-totalB">
-                        <span>$58,45,255</span>
-                    </div>
-                    <div class="cashier-salereturns-table-remarkB">
-                        <span>
-                            <span
-                                class="status-tag text-[12px] font-semibold leading-5 text-white px-2.5 h-5 rounded-[3px] inline-block bg-themeGreen">
-                                Completed</span>
-                        </span>
-                    </div>
+                    
                     <div class="cashier-salereturns-table-actionB">
                         <div class="dropdown">
                             <button class="common-action-menu-style">Action

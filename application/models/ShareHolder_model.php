@@ -8,9 +8,31 @@ class ShareHolder_model extends CI_Model {
         $this->load->library('form_validation');
     }
     public function getshareholders() {
+        $this->db->where('status', 1);
         $shareholders = $this->db->get('shareholders')->result();
         return $shareholders;
     }
+    public function getshareholdersListing($draw, $start, $length) {
+        $this->db->where('status', 1);
+        $totalRecords = $this->db->count_all_results('shareholders');
+    
+        $this->db->select('*');
+        $this->db->from('shareholders');
+        $this->db->order_by('id', 'desc');
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $data = $query->result_array();
+    
+        $shareholders = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $data
+        );
+    
+        return $shareholders;
+    }
+    
     public function detail($id){
         $this->db->select('sp.id, s.Name, c.narration, sp.balance as fb, sp.amount, sp.pay_type, sp.created');
         $this->db->from('shareholders s');

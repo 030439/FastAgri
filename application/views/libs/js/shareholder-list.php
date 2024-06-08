@@ -7,20 +7,18 @@ $('#user-list').DataTable({
               'excel'
           ],
           "ajax": {
-              url : "<?php echo base_url(); ?>purchased/seed-list-js",
+              url : "<?php echo base_url(); ?>shareholders-list-js",
               type : 'post',
               error: function(xhr, error, thrown) {
               alert('Error: ' + xhr.responseText);
           }
           },        
            "columns": [
-                  { "data": "product_name" },
-                  { "data": "supplier_name" },
-                  { "data": "rate" },
-                  { "data": "amount" },
-                  { "data": "purchased_quantity" },
-                  { "data": "RemainingQuantity" },
-                  { "data": "purchase_detail_id" },
+                  { "data": "Name" },
+                  { "data": "phone" },
+                  { "data": "cnic" },
+                  { "data": "address" },
+                  { "data": "capital_amount" },
                   { // Actions column
                       "data": null,
                       "defaultContent": '<div class="dropdown">'+

@@ -11,8 +11,20 @@ class Tunnels extends CI_Controller{
         $this->load->library('form_validation');
     }
     public function index(){
-        $data=$this->Tunnel_model->getunnels();
-        $this->load->view('layout/parts',['page'=>"pages/tunnels/list-tunnel",'data'=>$data]);
+        $this->load->view('layout/parts',['page'=>"pages/tunnels/list-tunnel"]);
+    }
+    public function tunnelJsList(){
+        try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            
+			$res=$this->Tunnel_model->tunnelJsList($draw,$start = 0, $length = 10);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
     }
     public function add(){
         $data['products']=$this->Common_model->getAll('crops');
@@ -30,7 +42,8 @@ class Tunnels extends CI_Controller{
 			if ($this->form_validation->run() == FALSE) {
 				$this->add();
 			}
-			 else {
+
+            else {
 				$data = $this->input->post(NULL, TRUE);
 			
                 $res= $this->Tunnel_model->createTunnel($data);

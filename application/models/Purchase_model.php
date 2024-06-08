@@ -228,8 +228,12 @@ if ($query->num_rows() > 0) {
         return $individual_records;
     }
 
-
-    public function getSeedDetailsJS($draw,$start,$length) {
+    public function getSeedDetailsJS($draw, $start, $length)
+    {
+        // Count total records without pagination
+        $totalRecords = $this->db->count_all_results('purchasesdetail');
+    
+        // Get records with pagination
         $query = $this->db->query("
             SELECT 
                 pd.id AS purchase_detail_id,
@@ -253,12 +257,12 @@ if ($query->num_rows() > 0) {
                 products p ON pd.product_id = p.id
             LEFT JOIN
                 purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id
-                
             ORDER BY 
                 pd.id, pq.product_id
+            LIMIT $start, $length
         ");
         $results = $query->result_array();
-        
+    
         $individual_records = [];
         foreach ($results as $row) {
             $product_ids = explode(',', $row['product_id']);
@@ -283,16 +287,17 @@ if ($query->num_rows() > 0) {
                 );
             }
         }
+    
         $result = array(
             "draw" => $draw,
-              "recordsTotal" => 10,
-              "recordsFiltered" =>10,
-              "data" => $individual_records
-
-         );
-
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $individual_records
+        );
+    
         return $result;
     }
+    
     
     public function getunit()
     {

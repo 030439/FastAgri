@@ -36,7 +36,7 @@ if (!function_exists('ShowVal')) {
 }
 
 if (!function_exists('jsonOutPut')) {
-    function output_json($data)
+    function jsonOutPut($data)
     {
         if (ob_get_length()) {
             ob_clean();
@@ -124,7 +124,7 @@ if (!function_exists('productName_')) {
 
 }
 if (!function_exists('getIssueProQty')) {
-    function getIssueProQty($tid, $pid, $idate)
+    function getIssueProQty($tid, $pid)
     {
         $CI =& get_instance();
         $CI->load->database();
@@ -133,7 +133,7 @@ if (!function_exists('getIssueProQty')) {
         $query = $CI->db->query("SELECT i.Quantity as qty,pd.fu_price as rate, pd.product_id
         FROM issuestock i
         join purchasesdetail pd ON pd.id
-        WHERE i.tunnel_id = ? AND i.pid = ? ", array(30,30));
+        WHERE i.tunnel_id = ? AND i.pid = ? ", array($tid,$pid));
 
         // Fetch the result as an associative array
         $result = $query->row_array();
