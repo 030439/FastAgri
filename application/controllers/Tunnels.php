@@ -14,7 +14,7 @@ class Tunnels extends CI_Controller{
         $this->load->view('layout/parts',['page'=>"pages/tunnels/list-tunnel"]);
     }
     public function summary(){
-        
+        $this->Tunnel_model->tunnelSummary();
     }
     public function tunnelJsList(){
         try{

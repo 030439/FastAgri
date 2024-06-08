@@ -124,7 +124,42 @@ class Tunnel_model extends CI_Model
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
-    public
+    public function tunnelSummary(){
+        $this->db->select('*');
+        $this->db->from('tunnels');
+        $this->db->where('status', 1);
+        $tunnels = $this->db->get()->result();
+        foreach($tunnels as $tunnel){
+            $res=$this->tunnelExpenses($tunnel->id);
+            $tunnelName=$tunnel->TName;
+            dd($res);
+        }
+        dd("res");
+    }
+    function tunnelExpenses($id){
+        $query = $this->db->query("
+        SELECT 
+            e.`id`,
+            e.`expense_type`,
+            e.`eid`,
+            e.`amount`,
+            e.`edate`,
+            t.`TName` as tunnel
+        FROM 
+        `tunnel_expense` AS e
+        JOIN 
+        `tunnels` AS t ON t.`id` = e.`tunnel_id`
+        WHERE t.`id` ='{$id}'
+        ");
+        $totals=$query->result();
+        $amount=0;
+        if($totals){
+            foreach($totals as $total){
+                $amount+=$total->amount;
+            }
+        }
+        return $totals;
+    }
     public function tunnelJsList($draw, $start, $length,$search=""){
         $this->db->where('status', 1);
         $totalRecords = $this->db->count_all_results('tunnels');
