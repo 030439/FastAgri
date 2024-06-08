@@ -6,13 +6,8 @@
                 <!-- header area start here -->
                 <div class="cashier-header-content flex items-center justify-between custom-height-70">
                     <div class="cashier-header-breadcrumb">
+                        
                         <h5 class="text-[20px] text-heading font-bold mb-1 leading-none">
-                            <a href="home">FAST AGRI</a>
-                        </h5>
-
-                    </div>
-                    <div class="flex items-center">
-
                         <div id="sidebarToggle" class="cashier-header-bar-responsive cursor-pointer mr-5">
                             <svg xmlns="http://www.w3.org/2000/svg" width="23.094" height="16.166"
                                 viewBox="0 0 23.094 16.166">
@@ -21,6 +16,12 @@
                                     transform="translate(0 -76.8)" fill="#616161"></path>
                             </svg>
                         </div>
+                        </h5>
+
+                    </div>
+                    <div class="flex items-center">
+
+                        
                         <div
                             class="cashier-header-notify-wrapper px-5 flex items-center border-l border-solid border-grayBorder custom-height-70 pr-0">
 

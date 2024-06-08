@@ -22,18 +22,28 @@ $('#user-list').DataTable({
             { 
                 "data": "id",
                 "render": function(data, type, row) {
-                    console.log(data);
-                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" onclick="handleButtonClick(\'' + data + '\')" class="btn btn-primary">Expense</button> ';
+                    
+                    return '<button style="background-color:#ec6f16;padding:3px 5px;color:#fff" onclick="handleButtonClick(\'' + data + '\')" class="btn btn-primary">Expense</button> ';
                 }
             },
             { 
                 "data": "id",
                 "render": function(data, type, row) {
-                    console.log(data);
-                    return '<button style="background-color:#b5e7a0;padding:3px 5px;color:#fff" onclick="profitButtonClick(\'' + data + '\')" class="btn btn-primary">Profit</button> ';
+                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" onclick="profitButtonClick(\'' + data + '\')" class="btn btn-primary">Profit</button> ';
                 }
             },
-            { "data": "status" },
+            { 
+                "data": "status",
+                "render": function(data, type, row) {
+                    console.log(data);
+                    if(data==1){
+                        statusName="Active";
+                    }else{
+                        statusName="Close";
+                    }
+                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">'+statusName+'</button> ';
+                }
+            },
             { // Actions column
                 "data": null,
                 "defaultContent": '<div class="dropdown">'+

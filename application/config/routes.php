@@ -71,6 +71,7 @@ $route['tunnel/tunnle-expense/(:num)']="tunnels/tunnleExpense/$1";
 $route['tunnel/tunnle-profit/(:num)']="tunnels/tunnleProfit/$1";
 $route['tunnel/detailPdf/(:num)']="tunnels/detailPdf/$1";
 $route['tunnels-list-js'] = "tunnels/tunnelJsList"; //tunnels list
+$route['tunnels/summary']="tunnels/summary";
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 $route['customer/detail/(:num)']='customer/customerDetail/$1';

@@ -13,13 +13,17 @@ class Tunnels extends CI_Controller{
     public function index(){
         $this->load->view('layout/parts',['page'=>"pages/tunnels/list-tunnel"]);
     }
+    public function summary(){
+        
+    }
     public function tunnelJsList(){
         try{
 			$draw = intval($this->input->post("draw"));
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
             
-			$res=$this->Tunnel_model->tunnelJsList($draw,$start = 0, $length = 10);
+			$res=$this->Tunnel_model->tunnelJsList($draw,$start = 0, $length = 10,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -65,6 +69,10 @@ class Tunnels extends CI_Controller{
     public function tunnleExpense($id){
         $data['expenses']=$this->Tunnel_model->getunnelsExpense($id);
         $this->load->view('layout/parts',['page'=>"pages/tunnels/expense",'data'=>$data]);
+    }
+    public function tunnleProfit($id){
+        $data['profits']=$this->Tunnel_model->tunnleProfit($id);
+        $this->load->view('layout/parts',['page'=>"pages/tunnels/profits",'data'=>$data]);
     }
     public function tunnelProduct(){
         try{

@@ -124,16 +124,25 @@ class Tunnel_model extends CI_Model
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
-
-    public function tunnelJsList($draw, $start, $length){
+    public
+    public function tunnelJsList($draw, $start, $length,$search=""){
         $this->db->where('status', 1);
         $totalRecords = $this->db->count_all_results('tunnels');
 
-        $this->db->select('tunnels.id,tunnels.TName,tunnels.CoveredArea,tunnels.cDate,
+        $this->db->select('tunnels.id,tunnels.status,tunnels.TName,tunnels.CoveredArea,tunnels.cDate,
         crops.FasalName as product,crops.SeedQuality as grade');
         $this->db->from('tunnels');
         $this->db->join('crops', 'tunnels.product__id = crops.pid', 'left');
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('tunnels.TName', $search);
+            $this->db->or_like('tunnels.CoveredArea', $search);
+            $this->db->or_like('crops.FasalName', $search);
+            $this->db->or_like('crops.SeedQuality', $search);
+            $this->db->group_end();
+        }
         $this->db->where('tunnels.status', 1);
+
         $data = $this->db->get()->result();
         $tunnels = array(
             "draw" => $draw,
@@ -203,5 +212,32 @@ class Tunnel_model extends CI_Model
             }
         }
         return $res;
+    }
+    public function tunnleProfit($id){
+        $query = $this->db->query("
+        SELECT 
+        s.`id` AS sid,
+        s.`selldate`,
+        sd.`id` as sdID,
+        g.`Name` as grade,
+        sd.`Quantity`,
+        sd.`Rate`,
+        sd.`amount`,
+        c.`Name` as customer,
+        t.`TName` as tunnel
+        FROM 
+        `sells` AS s
+        JOIN 
+        `customers` AS c ON c.`id` = s.`customer`
+        JOIN 
+        `selldetails` AS sd ON sd.`SellId` = s.`id`
+        JOIN 
+        `tunnels` AS t ON t.`id` = sd.`tunnel`
+        JOIN 
+        `grades` AS g ON g.`id` = sd.`GradeId`
+        WHERE t.`id` =$id");
+        
+        $result = $query->result_array(); 
+        return $result;
     }
 }

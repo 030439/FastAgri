@@ -105,7 +105,7 @@
         <div class="cashier-salereturns-table-area">
             <div class="cashier-salereturns-table-area">
                 <div class="cashier-salereturns-table-innerC">
-                    <table id="user-list" class="table table-bordered table-striped table-hover">
+                    <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
                         <thead>
                             <tr>
                                 <th>Tunnel Name</th>
@@ -113,6 +113,7 @@
                                 <th>Covered Area</th>
                                 <th>Croping Date</th>
                                 <th>Expenses</th>
+                                <th>Profit</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>

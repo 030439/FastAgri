@@ -12,7 +12,7 @@ class ShareHolder_model extends CI_Model {
         $shareholders = $this->db->get('shareholders')->result();
         return $shareholders;
     }
-    public function getshareholdersListing($draw, $start, $length) {
+    public function getshareholdersListing($draw, $start, $length,$search="") {
         $this->db->where('status', 1);
         $totalRecords = $this->db->count_all_results('shareholders');
     
@@ -20,6 +20,17 @@ class ShareHolder_model extends CI_Model {
         $this->db->from('shareholders');
         $this->db->order_by('id', 'desc');
         $this->db->limit($length, $start);
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('id', $search);
+            $this->db->or_like('Name', $search);
+            $this->db->or_like('phone', $search);
+            $this->db->or_like('address', $search);
+            $this->db->or_like('cnic', $search);
+            $this->db->or_like('capital_amount', $search);
+            $this->db->or_like('balance', $search);
+            $this->db->group_end();
+        }
         $query = $this->db->get();
         $data = $query->result_array();
     
