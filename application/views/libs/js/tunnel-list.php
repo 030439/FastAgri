@@ -43,16 +43,8 @@ $('#user-list').DataTable({
                     }
                     return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">'+statusName+'</button> ';
                 }
-            },
-            { // Actions column
-                "data": null,
-                "defaultContent": '<div class="dropdown">'+
-                            '<button class="common-action-menu-style">Action<i class="fa-sharp fa-solid fa-caret-down"></i></button><div class="dropdown-list">'+
-                                '<button class="dropdown-menu-item"><img src="assets/img/icon/action-2.png"><span>Update</span></button>'+
-                                '<button class="dropdown-menu-item"><img src="assets/img/icon/action-6.png"><span>Delete</span></button></div></div>'
-            },
-                  
-              ]
+            },  
+            ]
       });
         function handleButtonClick(id) {
             window.location.href="tunnel/tunnle-expense/"+id

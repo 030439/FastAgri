@@ -24,7 +24,6 @@
                                 <th>Expenses</th>
                                 <th>Profit</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                     </table> 

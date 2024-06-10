@@ -96,6 +96,7 @@ class Shareholders extends CI_Controller {
     }
 
     public function update() {
+        
 		$id = $this->input->post('id');
         $this->form_validation->set_rules('Name', 'Name', 'required');
         $this->form_validation->set_rules('phone', 'phone', 'required');

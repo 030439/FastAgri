@@ -109,68 +109,72 @@ if ($query->num_rows() > 0) {
 // Now you have either fetched an existing record or created a new one
 
 }
-    public function getPurchaseDetails() {
-        $query = $this->db->query("
-            SELECT 
-                pd.id AS purchase_detail_id,
-                pd.product_id,
-                p.Name AS product_name,
-                pd.quantity AS purchased_quantity,
-                pq.product_id AS purchase_product_id,
-                pq.RemainingQuantity,
-                s.Name AS supplier_name,
-                s.company_name AS supplier_company,
-                pd.rate,
-                pd.amount,
-                pd.expenses,
-                pd.total_amount,
-                pd.Date AS purchase_date
-            FROM 
-                purchasesdetail pd
-            JOIN 
-                suppliers s ON pd.Supplier_id = s.id
-            JOIN 
-                products p ON pd.product_id = p.id
-            LEFT JOIN
-                purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id
-                
-            ORDER BY 
-                pd.id, pq.product_id
-        ");
-        $results = $query->result_array();
-        
-        $individual_records = [];
-        foreach ($results as $row) {
-            $product_ids = explode(',', $row['product_id']);
-            $purchased_quantities = explode(',', $row['purchased_quantity']);
-            $purchased_rates = explode(',', $row['rate']);
-    
-            foreach ($product_ids as $index => $product_id) {
-                $individual_records[] = array(
-                    'purchase_detail_id' => $row['purchase_detail_id'],
-                    'product_id' => $product_id,
-                    'product_name' => $row['product_name'],
-                    'purchased_quantity' => $purchased_quantities[$index],
-                    'purchase_product_id' => $row['purchase_product_id'],
-                    'RemainingQuantity' => $row['RemainingQuantity'],
-                    'supplier_name' => $row['supplier_name'],
-                    'supplier_company' => $row['supplier_company'],
-                    'rate' => $purchased_rates[$index],
-                    'amount' => $row['amount'],
-                    'expenses' => $row['expenses'],
-                    'total_amount' => $row['total_amount'],
-                    'purchase_date' => $row['purchase_date']
-                );
-                // print_r($purchased_quantities[$index]);
-                // echo "remaing";
-                // echo $row['RemainingQuantity'];
-                // echo "<br>";
-            }
-        }
-        // echo "<pre>";
-        // print_r($results);die;
-        return $individual_records;
+public function getPurchaseDetails($draw, $start, $length, $search) {
+    // Calculate total records
+    $totalRecords = $this->db->count_all_results('purchasesdetail');
+
+    // Construct SQL query using Active Record
+    $this->db->select('pd.id AS purchase_detail_id, pd.product_id, p.Name AS product_name, pd.quantity AS purchased_quantity, pq.product_id AS purchase_product_id, pq.RemainingQuantity, s.Name AS supplier_name, s.company_name AS supplier_company, pd.rate, pd.amount, pd.expenses, pd.total_amount, pd.Date AS purchase_date');
+    $this->db->from('purchasesdetail pd');
+    $this->db->join('suppliers s', 'pd.Supplier_id = s.id', 'INNER');
+    $this->db->join('products p', 'pd.product_id = p.id', 'INNER');
+    $this->db->join('purchaseqty pq', 'pd.id = pq.purchase_id AND pd.product_id = pq.product_id', 'LEFT');
+    $this->db->order_by('pd.id, pq.product_id');
+
+    // Apply search condition if search term is provided
+    if (!empty($search)) {
+        $this->db->group_start();
+        $this->db->like('p.Name', $search);
+        $this->db->or_like('s.Name', $search);
+        $this->db->or_like('pd.amount', $search);
+        $this->db->or_like('pd.rate', $search);
+        $this->db->group_end();
     }
+
+    // Apply limit and offset for pagination
+    $this->db->limit($length, $start);
+
+    // Execute query
+    $query = $this->db->get();
+    $results = $query->result_array();
+    
+    // Process results for individual records
+    $individual_records = [];
+    foreach ($results as $row) {
+        $product_ids = explode(',', $row['product_id']);
+        $purchased_quantities = explode(',', $row['purchased_quantity']);
+        $purchased_rates = explode(',', $row['rate']);
+
+        foreach ($product_ids as $index => $product_id) {
+            $individual_records[] = array(
+                'purchase_detail_id' => $row['purchase_detail_id'],
+                'product_id' => $product_id,
+                'product_name' => $row['product_name'],
+                'purchased_quantity' => $purchased_quantities[$index],
+                'purchase_product_id' => $row['purchase_product_id'],
+                'RemainingQuantity' => $row['RemainingQuantity'],
+                'supplier_name' => $row['supplier_name'],
+                'supplier_company' => $row['supplier_company'],
+                'rate' => $purchased_rates[$index],
+                'amount' => $row['amount'],
+                'expenses' => $row['expenses'],
+                'total_amount' => $row['total_amount'],
+                'purchase_date' => $row['purchase_date']
+            );
+        }
+    }
+
+    // Construct response array
+    $shareholders = array(
+        "draw" => $draw,
+        "recordsTotal" => $totalRecords,
+        "recordsFiltered" => $totalRecords,
+        "data" => $individual_records
+    );
+
+    return $shareholders;
+}
+
     public function getSeedDetails() {
         $query = $this->db->query("
             SELECT 

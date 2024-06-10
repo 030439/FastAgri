@@ -13,4 +13,13 @@
     .dt-search{
         float:right;
     }
+    .edit{
+        padding:5px;
+        background-color:#66bfbf;
+    }
+    .detail{
+        padding:5px;
+        margin-left:5px;
+        background-color:#eaf6f6
+    }
 </style>

@@ -16,7 +16,19 @@ class Stock extends CI_Controller {
 		$data=$this->Stock_model->getStockProductList();
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-stock",'data'=>$data]);
 	}
-	
+	public function productListJs(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Stock_model->productListJs($draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function add()
 	{
 		$data=$this->Setup_model->getunit();
@@ -114,6 +126,8 @@ class Stock extends CI_Controller {
 		$this->form_validation->set_rules('product', 'product', 'required');
         $this->form_validation->set_rules('pqid', 'pqid', 'required');
 		$this->form_validation->set_rules('qty', 'qty', 'required');
+		$this->form_validation->set_rules('person', 'Employee', 'required');
+		$this->form_validation->set_rules('issueDate', 'Issue date', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $data['employees']=$this->Common_model->getAll('employees');

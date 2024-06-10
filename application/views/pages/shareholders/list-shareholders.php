@@ -16,12 +16,12 @@
                 <table id="user-list" class="table display table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                        <th>Name</th>
-                        <th>Phone No</th>
-                        <th>CNIC</th>
-                        <th>Address</th>
-                        <th>Capital Amount</th>
-                        <th>Action</th>
+                            <th>Name</th>
+                            <th>Phone No</th>
+                            <th>CNIC</th>
+                            <th>Address</th>
+                            <th>Capital Amount</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                 </table> 

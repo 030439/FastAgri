@@ -15,6 +15,7 @@
                             <option value="<?php echo $t->id?>"><?=$t->TName;?></option>
                             <?php endforeach; endif;?>
                         </select>
+                        <?php validator('tunnel')?>
                     </div>
                 </div>
             </div>
@@ -31,6 +32,7 @@
                             <option value="<?php echo $e->id?>"><?=$e->Name;?></option>
                             <?php endforeach; endif;?>
                         </select>
+                        <?php validator('person')?>
                     </div>
                 </div>
             </div>
@@ -40,7 +42,7 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="date" name="issueDate" placeholder="Quantity" id="issue--val">
-                            
+                            <?php validator('issueDate')?>
                         </div>
                     </div>
                 </div>
@@ -60,7 +62,7 @@
                             <option value="<?php echo $p->id?>"><?=$p->Name;?></option>
                             <?php endforeach; endif;?>
                         </select>
-                        
+                        <?php validator('product')?>
                     </div>
                 </div>
             </div>
@@ -81,6 +83,7 @@
                         <div class="single-input-field w-full">
                             <input type="text" name="qty" onkeyup="checkQty(this)" placeholder="Quantity">
                             <p id="issue-stock-qty-" class="text-danger"></p>
+                            <?php validator('qty')?>
                         </div>
                     </div>
                 </div>

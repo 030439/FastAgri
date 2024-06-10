@@ -14,8 +14,21 @@ class Purchase extends CI_Controller {
 	public function index()
 	{
 		try{
-			$res=$this->Purchase_model->getPurchaseDetails();
-			$this->load->view('layout/parts',['page'=>"pages/purchase/list-purchase","data"=>$res]);
+			//$res=$this->Purchase_model->getPurchaseDetails();
+			$this->load->view('layout/parts',['page'=>"pages/purchase/list-purchase"]);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+	public function purchaseListJs(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Purchase_model->getPurchaseDetails($draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');

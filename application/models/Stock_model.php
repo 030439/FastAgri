@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Stock_model extends CI_Model {
+
     public function __construct() {
         parent::__construct();
         $this->load->database();
@@ -330,6 +331,34 @@ class Stock_model extends CI_Model {
 
         return $products;
     }
+    
+    public function productListJs($draw, $start, $length,$search="") {
+        $totalRecords = $this->db->count_all_results('products');
+        $this->db->select('products.*, units.Name as unit');
+        $this->db->from('products');
+        $this->db->join('units', 'products.unit_id = units.id', 'left');
+        $this->db->limit($length, $start);
+
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('products.Name', $search);
+            $this->db->or_like('units.Name', $search);
+            $this->db->group_end();
+        }
+
+        $products = $this->db->get()->result();
+        $shareholders = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data" => $products
+        );
+    
+        return $shareholders;
+
+        return $products;
+    }
+    
     public function getStock(){
         $this->db->select('stocks.*, products.Name as product');
         $this->db->from('stocks');

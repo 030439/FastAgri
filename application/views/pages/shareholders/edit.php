@@ -38,7 +38,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="Address">
+                        <input type="text" value="<?= $edit->address?>" placeholder="Address">
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC Number</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="41111-1111111-1">
+                        <input type="text" value="<?= $edit->cnic?>" placeholder="41111-1111111-1">
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Capital Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="5000">
+                        <input type="text" value="<?= $edit->capital_amount?>">
                     </div>
                 </div>
             </div>
@@ -69,7 +69,6 @@
                 <button class="btn-primary" type="submit">Add Now</button>
             </div>
         </div>
-
     </div>
     </form>
 </div>
