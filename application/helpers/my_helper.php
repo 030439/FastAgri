@@ -141,7 +141,7 @@ if (!function_exists('getIssueProQty')) {
             $product_ids = explode(',', $result['product_id']);
             foreach ($product_ids as $index => $product_id) {
                 if($pid==$product_id){
-                    $result['price']=$product_id[$index]['fu_price'];
+                    $result['price']=$result['rate'];
                 }
             }
         }

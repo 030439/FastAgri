@@ -9,7 +9,7 @@
                 </div>
                 <div class="cashier-header-profile-info pl-2.5 cursor-pointer">
                     <div>
-                        <a class="text-[15px] font-bold text-heading cursor-pointer" href="profile.html">Furqan 
+                        <a class="text-[15px] font-bold text-heading cursor-pointer" href="home">Furqan 
                         </a>
                     </div>
                     <span class="text-[13px] font-normal text-bodyText cursor-pointer">Admin User</span>
@@ -89,12 +89,10 @@
                             Stock
                         </a>
                         <ul class="mm-collapse">
-                             <li>
-                                <a href="add-seed">Add Seed</a>
-                            </li>
+                           
                             <li><a href="stock/productList">Product List </a></li>
-                            <li><a href="stock">Product Stock List</a></li>
                             <li><a href="stock/seeds">Seed List</a></li>
+                            <li><a href="stock">Product Stock List</a></li>
                             <li><a href="stock/issue">Issue Stock</a></li>
                             <li><a href="stock/listissue">List Issue Stock</a></li>
                         </ul>

@@ -1,7 +1,7 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
         <div class="cashier-transection-selectors flex items-center justify-between pb-5 maxSm:block">
-            <h4 class="text-[20px] text-heading mb-2.5 font-bold"><?php if($data['expenses']): echo $data['expenses']['0']->tunnel; endif;?> : Expenses</h4>
+            <h4 class="text-[20px] text-heading mb-2.5 font-bold">Summary </h4>
         </div>
        <style>
         @media (max-width: 1400px) {
@@ -20,7 +20,7 @@
                 </div>
                 <div class="lg:col-span-7 md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
-                        <a href="tunnel/detailPdf/<?php if($data['expenses']): echo ($data['expenses'][0]->tid); endif; ?>" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
+                        <a href="tunnel/detailPdf/" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
                                 width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
                                 <path id="Path_188" data-name="Path 188"
                                     d="M82.8,209H81.578a.578.578,0,0,0-.578.58l.009,4.389a.578.578,0,1,0,1.155,0v-1.333l.636,0a1.817,1.817,0,1,0,0-3.634Zm0,2.478-.639,0c0-.246,0-.511,0-.664,0-.131,0-.4,0-.661H82.8a.662.662,0,1,1,0,1.323Z"
@@ -36,103 +36,83 @@
                                     transform="translate(-9 0)" fill="#ff9720"></path>
                             </svg>
                         </a>
-                        <!-- <button type="button" class="csv"><svg id="csv" xmlns="http://www.w3.org/2000/svg"
-                                width="18.105" height="18.105" viewBox="0 0 18.105 18.105">
-                                <path id="Path_184" data-name="Path 184"
-                                    d="M16.514,8.558h-.566V4.774a.535.535,0,0,0-.155-.375h0L11.55.155A.535.535,0,0,0,11.174,0H3.748A1.593,1.593,0,0,0,2.157,1.591V8.558H1.591A1.593,1.593,0,0,0,0,10.149v6.365a1.593,1.593,0,0,0,1.591,1.591H16.514a1.593,1.593,0,0,0,1.591-1.591V10.149A1.593,1.593,0,0,0,16.514,8.558ZM11.7,1.811l2.432,2.432h-1.9a.531.531,0,0,1-.53-.53Zm-8.487-.22a.531.531,0,0,1,.53-.53h6.9V3.713A1.593,1.593,0,0,0,12.235,5.3h2.652V8.558H3.218ZM17.045,16.514a.531.531,0,0,1-.53.53H1.591a.531.531,0,0,1-.53-.53V10.149a.531.531,0,0,1,.53-.53H16.514a.531.531,0,0,1,.53.53Z"
-                                    transform="translate(0 0)" fill="#27db8d"></path>
-                                <path id="Path_185" data-name="Path 185"
-                                    d="M92.591,303.061a.531.531,0,0,1,.53.53.53.53,0,1,0,1.061,0,1.591,1.591,0,0,0-3.183,0v2.122a1.591,1.591,0,1,0,3.183,0,.53.53,0,0,0-1.061,0,.53.53,0,1,1-1.061,0v-2.122A.531.531,0,0,1,92.591,303.061Z"
-                                    transform="translate(-87.782 -291.321)" fill="#27db8d"></path>
-                                <path id="Path_186" data-name="Path 186"
-                                    d="M212.591,304.122a.53.53,0,1,1,.375-.906.53.53,0,0,0,.75-.75,1.591,1.591,0,1,0-1.125,2.717.53.53,0,1,1-.375.906.53.53,0,1,0-.75.75,1.591,1.591,0,1,0,1.125-2.717Z"
-                                    transform="translate(-203.539 -291.321)" fill="#27db8d"></path>
-                                <path id="Path_187" data-name="Path 187"
-                                    d="M333.778,302.013a.531.531,0,0,0-.643.386l-.546,2.185-.546-2.185a.53.53,0,1,0-1.029.257l1.061,4.243a.53.53,0,0,0,1.029,0l1.061-4.243A.53.53,0,0,0,333.778,302.013Z"
-                                    transform="translate(-319.293 -291.317)" fill="#27db8d"></path>
-                            </svg>
-                        </button> -->
-                     
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="cashier-salereturns-table-area">
+        <div class="cashier-salereturns-table-area" style="overflow:scroll">
             <div class="cashier-salereturns-table-innerS">
                 <div
                     class="cashier-salereturns-table-inner-wrapperS border border-solid border-grayBorder border-b-0 mb-7">
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                         <div class="cashier-salereturns-table-dateP">
-                            <h5>Expense Type</h5>
+                            <h5>Tunnel</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <h5>Product/Person</h5>
+                            <h5>Acer</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <h5>Rate</h5>
+                            <h5>Avge</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <h5>Quantity</h5>
+                            <h5>Sale</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <h5>Amount</h5>
+                            <h5>Expense</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <h5>Date</h5>
+                            <h5>Net Amount</h5>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <h5>Detail</h5>
+                            <h5>Remarks</h5>
                         </div>
+                        <?php if(!empty($data['snames'])):foreach($data['snames'] as $name):?>
+                            <div class="cashier-salereturns-table-dateP">
+                                <h5><?php echo $name;?></h5>
+                            </div>
+                        <?php endforeach; endif;?>
                     </div>
-                    <?php $total=0;if($data['expenses']):foreach($data['expenses'] as $d):?>
+                    <?php $total=0;if($data['tunnel']):foreach($data['tunnel'] as $no=> $t):?>
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                         <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->expense_type;?></span>
+                            <span><?php echo $t;?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->head;?></span>
+                            <span><?php echo $data['acer'][$no];?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->rate;?></span>
+                            <span>10</span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->qty;?></span>
+                            <span><?php echo intval($data['sale'][$no]);?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->amount; $total+=$d->amount;?></span>
+                            <span><?php echo intval($data['expense'][$no]);?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                        <span><?php echo $d->edate;?></span>
+                        <span><?php echo intval($data['net'][$no]);?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
                             <span> Detail</span>
                         </div>
+                        <?php if(!empty($data['shareholders'])):foreach($data['shareholders'] as $sid):?>
+                            <div class="cashier-salereturns-table-dateP">
+                                <span> 
+                                    <?php
+                                     foreach($data['shares'][$no] as $c=> $share){
+                                       if($c==$sid){
+                                        echo intval($share);
+                                       }
+                                    }
+                                    ?>
+                                </span>
+                            </div>
+                        <?php endforeach; endif;?>
                     </div>
                     <?php endforeach; endif;?>
-                    <div style="background-color:#dfd9d9;margin-top:10px;" class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Total Amount :</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5><?= $total;?></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                    </div>
+
+                    
                 </div>
          
             </div>

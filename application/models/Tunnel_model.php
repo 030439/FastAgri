@@ -148,7 +148,11 @@ class Tunnel_model extends CI_Model
         // Get active shareholders
         $shareholders = $this->getActiveShareHolders();
         $shareholders_dict = [];
+        $shareholders_ids=[];
+        $shareholders_name=[];
         foreach ($shareholders as $shareholder) {
+            $shareholders_ids[]=$shareholder->id;
+            $shareholders_name[]=$shareholder->Name;
             $shareholders_dict[$shareholder->id] = $shareholder;
         }
     
@@ -169,22 +173,23 @@ class Tunnel_model extends CI_Model
                 if (isset($shareholders_dict[$sholder_id])) {
                     $share_percentage = $sholders['shares'][$counter];
                     $samount = ($share_percentage / 100) * $net_value; 
-                    $shares[$n]['shareholder'][$sholder_id] = $samount;
+                    $shares[$n][$sholder_id] = $samount;
                 } else {
-                    $shares[$n]['shareholder'][$sholder_id] = "---------";
+                    $shares[$n][$sholder_id] = "---------";
                 }
             }
         }
     
         $arr = [
-            'tunnel' => $name,
-            'acer' => $acer,
-            'sale' => $profit,
-            'expense' => $expense,
-            'net' => $net,
-            'shares' => $shares,
+            'tunnel'       => $name,
+            'acer'         => $acer,
+            'sale'         => $profit,
+            'expense'      => $expense,
+            'net'          => $net,
+            'shares'       => $shares,
+            'shareholders' =>$shareholders_ids,
+            'snames'       =>$shareholders_name
         ];
-    
         return $arr;
     }
     

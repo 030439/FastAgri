@@ -109,8 +109,21 @@ class Sell extends CI_Controller {
 	}
 	public function loadForSale(){
 		$data = $this->input->post(NULL, TRUE);
-		echo $this->Stock_model->loadForSale($data);
-		redirect('sell');
+		$this->form_validation->set_rules('customer', 'Customer', 'required');
+		$this->form_validation->set_rules('driver', 'Driver ', 'required');
+		$this->form_validation->set_rules('grades[]', 'Grade ', 'required');
+		$this->form_validation->set_rules('tunnels[]', 'Grade ', 'required');
+		$this->form_validation->set_rules('bags[]', 'Grade ', 'required');
+		$this->form_validation->set_rules('vno', 'vehicle no ', 'required');
+		if ($this->form_validation->run() == FALSE) {
+			$data['tunnels']=$this->Common_model->getAll('tunnels');
+			$data['quality']=$this->Common_model->getAll('grades');
+			$data['customers']=$this->Common_model->getAll('customers');
+			$this->load->view('layout/parts',['page'=>"pages/sell/production-sell",'data'=>$data]);
+		}else{
+			echo $this->Stock_model->loadForSale($data);
+		    redirect('sell');
+		}
 	}
 	public function add()
 	{

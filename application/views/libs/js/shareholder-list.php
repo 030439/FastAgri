@@ -1,5 +1,6 @@
 <script>
 $('#user-list').DataTable({
+    responsive: true,
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
@@ -20,11 +21,13 @@ $('#user-list').DataTable({
                   { "data": "address" },
                   { "data": "capital_amount" },
                   { // Actions column
-                      "data": null,
-                      "defaultContent": '<div class="dropdown">'+
-                                  '<button class="common-action-menu-style">Action<i class="fa-sharp fa-solid fa-caret-down"></i></button><div class="dropdown-list">'+
-                                      '<button class="dropdown-menu-item"><img src="assets/img/icon/action-2.png"><span>Update</span></button>'+
-                                      '<button class="dropdown-menu-item"><img src="assets/img/icon/action-6.png"><span>Delete</span></button></div></div>'
+                     "data": "id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item" href="shareholders/edit/'+data+'"><span>Update</span></a>'+
+                                      '<a class="dropdown-menu-item"><span>Delete</span></a></div>';
+                        }
+                                      
                   }
               ]
       });

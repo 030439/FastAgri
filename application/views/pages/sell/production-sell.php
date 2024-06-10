@@ -16,6 +16,7 @@
                             <option value="<?php echo $customer->id?>"><?php echo $customer->Name?> </option>
                             <?php endforeach; endif;?>
                         </select>
+                        <?php validator('customer')?>
                     </div>
                 </div>
             </div>
@@ -27,6 +28,7 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="date" placeholder="date" name="rdate">
+                            <?php validator('rdate')?>
                         </div>
                     </div>
                 </div>
@@ -37,6 +39,7 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="text" placeholder="Driver" name="driver">
+                            <?php validator('driver')?>
                         </div>
                     </div>
                 </div>
@@ -57,20 +60,11 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="number" placeholder="vehicle number" name="vno">
+                            <?php validator('vno')?>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="lg:col-span-2 md:col-span-6 col-span-12">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Frieght</h5>
-                    <div class="cashier-input-field-style">
-                        <div class="single-input-field w-full">
-                            <input type="number" placeholder="Kraya" name="frieght">
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <br/>
 <hr>
@@ -80,14 +74,15 @@
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Tunnel</h5>
                     <div class="cashier-select-field-style">
-                        <select class="block" name="tunnels[]" style="display: none;" title="0" id="tunnelSelect-0" onchange="readySell(this)">
-                            <option value="0">Select Tunnel </option>
+                        <select class="block" name="tunnels[]" required style="display: none;" title="0" id="tunnelSelect-0" onchange="readySell(this)">
+                            <option selected disabled>Select Tunnel </option>
                             <?php
                             if($data['tunnels']):foreach($data['tunnels'] as $tunnel):
                             ?>
                             <option value="<?php echo $tunnel->id?>"><?php echo $tunnel->TName?> </option>
                             <?php endforeach; endif;?>
                         </select>
+                        <?php validator('tunnels[]')?>
                     </div>
                 </div>
             </div>
@@ -97,6 +92,7 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="text" name="bags[]" placeholder="bags"  title="0" id="productSelect-0" style="padding: 3px;">
+                            <?php validator('bags[]')?>
                         </div>
                     </div>
                 </div>
@@ -111,6 +107,7 @@
                             <option value="1">A</option>
                             <option value="2">B</option>
                         </select>
+                        <?php validator('grades[]')?>
                     </div>
                 </div>
             </div>
@@ -121,7 +118,7 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="number" min="0"  name="bags[]" placeholder="bags" title="0" oninput="checkValue(this)" id="bagsInput-0" style=" padding: 3px;">
-                            <span id="bagsInputres-0"></span>
+                            <span id="bagsInputres-0"> <?php validator('bags[]')?></span>
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,7 @@ class Common_model extends CI_Model {
         return $all;
     }
     public function availableBalance(){
+        $available=0;
         $all = $this->db->get("availableamount")->result_array();
         foreach($all as $a){
             $available=$a['amount'];
