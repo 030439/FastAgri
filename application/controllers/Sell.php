@@ -12,8 +12,8 @@ class Sell extends CI_Controller {
     }
 	public function index()
 	{
-	    $data=$this->Stock_model->sellList();
-		$this->load->view('layout/parts',['page'=>"pages/sell/list-sell",'data'=>$data]);
+	    // $data=$this->Stock_model->sellList();
+		$this->load->view('layout/parts',['page'=>"pages/sell/list-sell"]);
 	}
 	public function sellListting(){
 		try{

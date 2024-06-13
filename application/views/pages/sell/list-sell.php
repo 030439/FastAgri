@@ -33,153 +33,27 @@
 
         <div class="cashier-salereturns-table-area" >
             <div class="cashier-salereturns-table-innerC" style="overflow-x:scroll !important; overflow-y:hidden" >
-                <div  class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7" style="margin-bottom:150px !important">
-                    <div  class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Customer</h5>
-                        </div>
-                        <!-- <div class="cashier-salereturns-table-referenceB">
-                            <h5>Tunnel</h5>
-                        </div> -->
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Driver</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Driver No</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Vehicle No</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Total Amount</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Labour</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Freight</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Commission</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Net Amount</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Action</h5>
-                        </div>
-                    </div>
-                    <?php if($data):foreach($data as $d): $net=$d['total_amount']-$d['expences']-$d['labour']-$d['freight'];?>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                       
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d['customer'])?></span>
-                        </div>
-                        <!-- <div class="cashier-salereturns-table-dateB">
-                        <span><?php //ShowVal($d['tunnel'])?></span>
-                        </div> -->
-                        <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d['driver'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d['dno'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d['vno'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-totalB">
-                        <span><?php ShowVal($d['total_amount'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d['labour'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d['freight'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                        <span><?php ShowVal($d['expences'])?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                        <span><?php echo $net;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-actionB">
-                            <div class="dropdown">
-                                <button class="common-action-menu-style">Action
-                                    <i class="fa-sharp fa-solid fa-caret-down"></i>
-                                </button>
-                                <div class="dropdown-list">
-                                    <a class="dropdown-menu-item btn" href="sell-gate-pass/<?php echo $d['sid']?>">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Gate Pass</span>
-                                    </a>
-                                    <a class="dropdown-menu-item btn" href="sell-detail/<?php echo $d['sid']?>">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Detail</span>
-                                    </a>
-                                    <a class="dropdown-menu-item btn" href="sell-bill-detail/<?php echo $d['sid']?>">
-                                        <img src="assets/img/icon/action-2.png" alt="icon not found">
-                                        <span>Bill</span>
-                                    </a>
-                                    <button class="dropdown-menu-item">
-                                        <img src="assets/img/icon/action-6.png" alt="icon not found">
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endforeach; endif;?>
-                </div>
+                    <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
+                        <thead>
+                            <tr>
+                            <th>Customer</th>
+                            <th>Driver</th>
+                            <th>Driver No</th>
+                            <th>Vehicle No</th>
+                            <th>Total Amount</th>
+                            <th>Labour</th>
+                            <th>Freight</th>
+                            <th>Commission</th>
+                            <th>Net Amount</th>
+                            <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table> 
             </div>
-            <div class="cashier-pagination-area">
-                <div class="cashier-pagination-wrapper">
-                    <div class="grid grid-cols-12">
-                        <div class="lg:col-span-3 md:col-span-6 col-span-12">
-                            <div
-                                class="cashier-pagination-sort flex items-center flex-wrap maxSm:mb-4 maxSm:justify-center">
-                                <figure class="text-[14px] font-normal text-gray mr-1.5">Rows per page : </figure>
-                                <div class="cashier-select-field-style w-16">
-                                    <div class="single-input-field w-full">
-                                        <select class="block" style="display: none;">
-                                            <option selected="" value="language-1">20</option>
-                                            <option value="language-2">25</option>
-                                            <option value="language-3">35</option>
-                                            <option value="language-4">45</option>
-                                            <option value="language-5">50</option>
-                                        </select>
-                                        <div class="nice-select block" tabindex="0"><span class="current">20</span>
-                                            <ul class="list">
-                                                <li data-value="language-1" class="option selected">20</li>
-                                                <li data-value="language-2" class="option">25</li>
-                                                <li data-value="language-3" class="option">35</li>
-                                                <li data-value="language-4" class="option">45</li>
-                                                <li data-value="language-5" class="option">50</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lg:col-span-9 md:col-span-6 col-span-12">
-                            <div class="cashier-pagination text-right maxSm:text-center">
-                                <ul>
-                                    <li><a href="javascript:void(0)">
-                                            <i class="fa-light fa-angle-left"></i>
-                                        </a></li>
-                                    <li><a href="javascript:void(0)" class="active">01</a></li>
-                                    <li><a href="javascript:void(0)">02</a></li>
-                                    <li><a href="javascript:void(0)">03</a></li>
-                                    <li><a href="javascript:void(0)">04</a></li>
-                                    <li><a href="javascript:void(0)">
-                                            <i class="fa-light fa-angle-right"></i>
-                                        </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
         </div>
     </div>
 </div>
+
+
+<?php $file="sell.php";?>

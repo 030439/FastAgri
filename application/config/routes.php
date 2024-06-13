@@ -152,6 +152,11 @@ $route['bill-detail-invoice']="Sell/billDetailInvoice";
 $route['sell/sellPdf']="Sell/sellPdf";
 //Reports
 $route['tunnel/profit-expense']="Report/profitExpense";
+$route['tunnels/expense']="Report/expense";
+$route['tunnels/profit']="Report/profit";
+$route['tunnels/profitListing']="Report/profitListing";
+$route['tunnels/expenseListing']="Report/expenseListing";
+
 
 //loan
 

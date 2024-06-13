@@ -20,6 +20,39 @@ class Report extends CI_Controller {
 		$data['profit']=$this->Stock_model->tunnelProfit();
 		$this->load->view('layout/parts',['page'=>"pages/reports/expense-profit",'data'=>$data]);
 	}
+	public function profit(){
+		$this->load->view('layout/parts',['page'=>"pages/reports/profit"]);
+	}
+	public function expense(){
+		$this->load->view('layout/parts',['page'=>"pages/reports/expense"]);
+	}
+	public function profitListing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			
+			$res=$this->Stock_model->tunnelProfit($draw,$start , $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+	public function expenseListing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Stock_model->tunnelsExpensesList($draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	
 	
 }

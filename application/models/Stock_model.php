@@ -177,44 +177,54 @@ class Stock_model extends CI_Model {
         $products = $this->db->get()->result();
         return $products[0]->Name;
     }
-    public function sellList($draw,$start = 0, $length = 10,$search){
-        
+    public function sellList($draw, $start = 0, $length = 10, $search = '') {
+        // Get the total number of records
         $totalRecords = $this->db->count_all_results('sells');
-         $this->db->query("
-        SELECT 
-            s.`id` AS sid,
-            s.`selldate`,
-            s.`driver`,
-            s.`dno`,
-            s.`vno`,
-            s.`freight`,
-            s.`labour`,
-            s.`total_amount`,
-            s.`expences`,
-            c.`Name` as customer,
-            t.`TName` as tunnel
-        FROM 
-        `sells` AS s
-        JOIN 
-        `customers` AS c ON c.`id` = s.`customer`
-        JOIN 
-        `selldetails` AS sd ON sd.`SellId` = s.`id`
-        JOIN 
-        `tunnels` AS t ON t.`id` = sd.`tunnel`
-        ");
+    
+        // Create the query with query builder
+        $this->db->select('
+            s.id AS sid,
+            s.selldate,
+            s.driver,
+            s.dno,
+            s.vno,
+            s.freight,
+            s.labour,
+            s.total_amount,
+            s.expences,
+            c.Name as customer,
+            t.TName as tunnel
+        ');
+        $this->db->from('sells AS s');
+        $this->db->join('customers AS c', 'c.id = s.customer', 'left');
+        $this->db->join('selldetails AS sd', 'sd.SellId = s.id', 'left');
+        $this->db->join('tunnels AS t', 't.id = sd.tunnel', 'left');
+    
+        // Apply search filter if any
         if (!empty($search)) {
             $this->db->group_start();
-            $this->db->like('id', $search);
-            $this->db->or_like('Name', $search);
-            $this->db->or_like('phone', $search);
-            $this->db->or_like('address', $search);
-            $this->db->or_like('cnic', $search);
-            $this->db->or_like('capital_amount', $search);
-            $this->db->or_like('balance', $search);
+            $this->db->like('s.id', $search);
+            $this->db->or_like('c.Name', $search);
+            $this->db->or_like('s.driver', $search);
+            $this->db->or_like('s.dno', $search);
+            $this->db->or_like('s.vno', $search);
+            $this->db->or_like('s.total_amount', $search);
+            $this->db->or_like('s.freight', $search);
+            $this->db->or_like('s.labour', $search);
+            $this->db->or_like('s.expences', $search);
             $this->db->group_end();
         }
-        $query=$this->db->limit($length, $start);
+    
+        // Limit the results for pagination
+        $this->db->limit($length, $start);
+    
+        // Execute the query
+        $query = $this->db->get();
+    
+        // Get the result as an array
         $result = $query->result_array();
+    
+        // Prepare the final output
         $sells = array(
             "draw" => $draw,
             "recordsTotal" => $totalRecords,  // Total records without pagination
@@ -224,32 +234,64 @@ class Stock_model extends CI_Model {
     
         return $sells;
     }
-    public function tunnelProfit(){
-        $query = $this->db->query("
-        SELECT 
-        s.`id` AS sid,
-        s.`selldate`,
-        sd.`id` as sdID,
-        g.`Name` as grade,
-        sd.`Quantity`,
-        sd.`Rate`,
-        sd.`amount`,
-        c.`Name` as customer,
-        t.`TName` as tunnel
-        FROM 
-        `sells` AS s
-        JOIN 
-        `customers` AS c ON c.`id` = s.`customer`
-        JOIN 
-        `selldetails` AS sd ON sd.`SellId` = s.`id`
-        JOIN 
-        `tunnels` AS t ON t.`id` = sd.`tunnel`
-        JOIN 
-        `grades` AS g ON g.`id` = sd.`GradeId`
-        ");
-        $result = $query->result_array(); 
-        return $result;
+    
+    public function tunnelProfit($draw, $start = 0, $length = 10, $search = '') {
+        // Get the total number of records
+        $totalRecords = $this->db->count_all_results('sells');
+    
+        // Create the query with query builder
+        $this->db->select('
+            s.id AS sid,
+            s.selldate,
+            sd.id as sdID,
+            g.Name as grade,
+            sd.Quantity,
+            sd.Rate,
+            sd.amount,
+            c.Name as customer,
+            t.TName as tunnel
+        ');
+        $this->db->from('sells AS s');
+        $this->db->join('customers AS c', 'c.id = s.customer', 'left');
+        $this->db->join('selldetails AS sd', 'sd.SellId = s.id', 'left');
+        $this->db->join('tunnels AS t', 't.id = sd.tunnel', 'left');
+        $this->db->join('grades AS g', 'g.id = sd.GradeId', 'left');
+    
+        // Apply search filter if any
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('s.id', $search);
+            $this->db->or_like('c.Name', $search);
+            $this->db->or_like('s.driver', $search);
+            $this->db->or_like('s.dno', $search);
+            $this->db->or_like('s.vno', $search);
+            $this->db->or_like('s.total_amount', $search);
+            $this->db->or_like('s.freight', $search);
+            $this->db->or_like('s.labour', $search);
+            $this->db->or_like('s.expences', $search);
+            $this->db->group_end();
+        }
+    
+        // Limit the results for pagination
+        $this->db->limit($length, $start);
+    
+        // Execute the query
+        $query = $this->db->get();
+    
+        // Get the result as an array
+        $result = $query->result_array();
+    
+        // Prepare the final output
+        $shareholders = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $result
+        );
+    
+        return $shareholders;
     }
+    
     public function loadForSale($data){
         $exe=false;
         $sell=[
@@ -438,23 +480,57 @@ class Stock_model extends CI_Model {
         return $this->db->update('stocks');
     }
 
-    public function tunnelsExpensesList(){
-        $query = $this->db->query("
-        SELECT 
-            e.`id`,
-            e.`expense_type`,
-            e.`eid`,
-            e.`amount`,
-            e.`edate`,
-            t.`TName` as tunnel
-        FROM 
-        `tunnel_expense` AS e
-        JOIN 
-        `tunnels` AS t ON t.`id` = e.`tunnel_id`
-        WHERE t.`status` ='1'
-        ");
-        return $query->result();
+    public function tunnelsExpensesList($draw, $start, $length, $search = '') {
+        // Get the total number of records
+        $this->db->from('tunnel_expense');
+        $totalRecords = $this->db->count_all_results();
+    
+        // Create the query with query builder
+        $this->db->select('
+            e.id,
+            e.expense_type,
+            e.eid,
+            e.amount,
+            e.edate,
+            t.TName as tunnel
+        ');
+        $this->db->from('tunnel_expense AS e');
+        $this->db->join('tunnels AS t', 't.id = e.tunnel_id');
+        $this->db->where('t.status', '1');
+    
+        // Apply search filter if any
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('e.expense_type', $search);
+            $this->db->or_like('e.eid', $search);
+            $this->db->or_like('e.amount', $search);
+            $this->db->or_like('e.edate', $search);
+            $this->db->or_like('t.TName', $search);
+            $this->db->group_end();
+        }
+    
+        // Get the filtered records count
+        $filteredRecords = $this->db->count_all_results('', FALSE);
+        // $this->db->order_by('e.id', 'DESC');
+        // Limit the results for pagination
+        $this->db->limit($length, $start);
+    
+        // Execute the query
+        $query = $this->db->get();
+        $result = $query->result();
+    
+        // Prepare the final output
+        $expenses = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($filteredRecords),
+            "data" => $result
+        );
+    
+        return $expenses;
     }
+    
+    
     public function issueList($draw, $start, $length,$search=""){
         $totalRecords = $this->db->count_all_results('issuestock');
         $this->db->query("
