@@ -143,8 +143,21 @@ class Stock extends CI_Controller {
 	}
 	public function listissue()
 	{
-		$data=$this->Stock_model->issueList();
-		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock",'data'=>$data]);
+		// $data=$this->Stock_model->issueList();
+		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock"]);
+	}
+	public function issueStockJs(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$data=$this->Stock_model->issueList($draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($data);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
 	}
 	public function issuePdf(){
 		$data=$this->Stock_model->issueList();

@@ -177,8 +177,10 @@ class Stock_model extends CI_Model {
         $products = $this->db->get()->result();
         return $products[0]->Name;
     }
-    public function sellList(){
-        $query = $this->db->query("
+    public function sellList($draw,$start = 0, $length = 10,$search){
+        
+        $totalRecords = $this->db->count_all_results('sells');
+         $this->db->query("
         SELECT 
             s.`id` AS sid,
             s.`selldate`,
@@ -200,8 +202,27 @@ class Stock_model extends CI_Model {
         JOIN 
         `tunnels` AS t ON t.`id` = sd.`tunnel`
         ");
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('id', $search);
+            $this->db->or_like('Name', $search);
+            $this->db->or_like('phone', $search);
+            $this->db->or_like('address', $search);
+            $this->db->or_like('cnic', $search);
+            $this->db->or_like('capital_amount', $search);
+            $this->db->or_like('balance', $search);
+            $this->db->group_end();
+        }
+        $query=$this->db->limit($length, $start);
         $result = $query->result_array();
-        return $result;
+        $sells = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $result
+        );
+    
+        return $sells;
     }
     public function tunnelProfit(){
         $query = $this->db->query("
@@ -355,8 +376,6 @@ class Stock_model extends CI_Model {
         );
     
         return $shareholders;
-
-        return $products;
     }
     
     public function getStock(){
@@ -436,8 +455,9 @@ class Stock_model extends CI_Model {
         ");
         return $query->result();
     }
-    public function issueList(){
-        $query = $this->db->query("
+    public function issueList($draw, $start, $length,$search=""){
+        $totalRecords = $this->db->count_all_results('issuestock');
+        $this->db->query("
         SELECT 
             i.`id` AS issue_stock_id,
             i.`PqId`,
@@ -457,8 +477,26 @@ class Stock_model extends CI_Model {
         `employees` AS e ON e.`id` = i.`empoyee_id`
 
         ");
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('id', $search);
+            $this->db->or_like('Name', $search);
+            $this->db->or_like('phone', $search);
+            $this->db->or_like('address', $search);
+            $this->db->or_like('cnic', $search);
+            $this->db->or_like('capital_amount', $search);
+            $this->db->or_like('balance', $search);
+            $this->db->group_end();
+        }
+        $query=$this->db->limit($length, $start);
         $result = $query->result();
-        return $result;
+        $shareholders = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $result
+        );
+        return $shareholders;
     }
     public function getSeed(){
         $crops = $this->db->get('crops')->result();

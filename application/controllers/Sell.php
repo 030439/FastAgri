@@ -15,6 +15,19 @@ class Sell extends CI_Controller {
 	    $data=$this->Stock_model->sellList();
 		$this->load->view('layout/parts',['page'=>"pages/sell/list-sell",'data'=>$data]);
 	}
+	public function sellListting(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Stock_model->sellList($draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function sellPdf(){
 		$data=$this->Stock_model->sellList();
 		$mpdf = new \Mpdf\Mpdf([
