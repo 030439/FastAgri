@@ -17,6 +17,20 @@ class Cashbook extends CI_Controller {
 		$data= $this->Customer_model->getCustomers();
 		$this->load->view('layout/parts',['page'=>"pages/cashbook/add"]);
 	}
+	public function cashFlow(){
+			try{
+				$draw = intval($this->input->post("draw"));
+				$start = intval($this->input->post("start"));
+				$length = intval($this->input->post("length"));
+				$search = $this->input->post('search')['value'];
+				$res=$this->Cashbook_model->cashbookList_($draw,$start = 0, $length = 10,$search);
+				echo jsonOutPut($res);
+			} catch (Exception $e) {
+				log_message('error', $e->getMessage());
+				show_error('An unexpected error occurred. Please try again later.');
+			}
+
+	}
 	public function customerDetail($id){
 		try {
 			$data=$this->Customer_model->customerDetail($id);

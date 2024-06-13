@@ -57,6 +57,89 @@ class Cashbook_model extends CI_Model {
         $cash[0]['cashIn']=$debit;
         return $cash;
     }
+    public function cashbookList_($draw, $start = 0, $length = 10, $search = '') {
+        // Get the total number of records
+        $this->db->from('cash_in_out');
+        $totalRecords = $this->db->count_all_results();
+    
+        // Create the query with query builder
+        $this->db->select('c.*, a.amount as famount');
+        $this->db->from('cash_in_out c');
+        $this->db->join('availableamount a', 'c.id = a.cash_id');
+    
+        // Apply search filter if any
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('c.id', $search);
+            $this->db->or_like('c.cash_s', $search);
+            $this->db->or_like('c.case_sT', $search);
+            $this->db->or_like('c.narration', $search);
+            $this->db->or_like('a.amount', $search);
+            $this->db->group_end();
+        }
+    
+        // Get the filtered records count
+        $filteredRecords = $this->db->count_all_results('', FALSE);
+    
+        // Order by id in descending order
+        $this->db->order_by('c.id', 'DESC');
+    
+        // Limit the results for pagination
+        $this->db->limit($length, $start);
+    
+        // Execute the query
+        $query = $this->db->get();
+        $cash = $query->result_array();
+    
+        // Process the results
+        $debit = 0;
+        $credit = 0;
+        $balance = 0;
+        foreach ($cash as $c => $d) {
+            $balance = $d['famount'];
+            if ($d['cash_s'] == "cash-in") {
+                $credit += $d['amount'];
+                if ($d['case_sT'] == "customer") {
+                    $cash[$c]['name'] = "Cash Received";
+                    $cash[$c]['narration'] = $this->customerName($d['cash_sP']);
+                } elseif ($d['case_sT'] == "shareholder") {
+                    $cash[$c]['narration'] = $this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['name'] = "Share Holder";
+                }
+            } elseif ($d['cash_s'] == "cash-out") {
+                $debit += $d['amount'];
+                if ($d['case_sT'] == "supplier") {
+                    $cash[$c]['narration'] = $this->SupplierName($d['cash_sP']);
+                    $cash[$c]['name'] = $d['narration'];
+                } elseif ($d['case_sT'] == "shareholder") {
+                    $cash[$c]['narration'] = $this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['name'] = "Share Holder";
+                } elseif ($d['case_sT'] == "pay") {
+                    $cash[$c]['narration'] = $this->EmployeeName($d['cash_sP']);
+                    $cash[$c]['name'] = "Share Holder";
+                } elseif ($d['case_sT'] == "jamandari") {
+                    $cash[$c]['narration'] = $this->jamandarName($d['cash_sP']);
+                    $cash[$c]['name'] = "Share Holder";
+                } elseif ($d['case_sT'] == "expense") {
+                    $cash[$c]['name'] = $this->accountHeadName($d['cash_sP']);
+                }
+            }
+        }
+        $cash[0]['fb'] = $balance;
+        $cash[0]['cashOut'] = $credit;
+        $cash[0]['cashIn'] = $debit;
+    
+        // Prepare the final output
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($filteredRecords),
+            "data" => $cash
+        );
+    
+        return $response;
+    }
+    
 
     public function cashbookById($id) {
         $this->db->select('c.*,a.amount as famount');

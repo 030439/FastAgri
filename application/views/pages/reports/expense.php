@@ -7,7 +7,7 @@
 
         <div class="cashier-salereturns-table-area">
             <div class="cashier-salereturns-table-innerS">
-            <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
+                    <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
                         <thead>
                             <tr>
                                 <th>Tunnel</th>

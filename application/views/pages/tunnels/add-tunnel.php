@@ -22,7 +22,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3"> Name</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="Name" name="name">
+                        <input type="text" placeholder="" name="name">
                         <?php validator('name')?>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Covered Area</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" min='0' placeholder="1 acre" name="area">
+                        <input type="number" min='0' placeholder="" name="area">
                         <?php validator('area')?>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
 
         <div class="lg:col-span-3 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Croping Date</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Croping/Swing Date</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
                         <input type="date" placeholder="date" name='cdate'>
@@ -94,7 +94,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Shares</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" min="0" placeholder="shares" name="shares[]">
+                        <input type="number" min="0" placeholder="" name="shares[]">
                         <?php validator('shares[]')?>
                     </div>
                 </div>

@@ -171,3 +171,4 @@ $route['cashbook-pay']="Cashbook/cashbookPay";
 $route['OtherExpense']="AccountHeads/OtherExpense";
 $route['addAccountHead']="AccountHeads/addAccountHead";
 $route['cashbook/print/(:num)']="Cashbook/printSlip/$1";
+$route['cash-flow']="Cashbook/cashFlow";
