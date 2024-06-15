@@ -17,6 +17,7 @@ $('#user-list').DataTable({
            "columns": [
                   { "data": "Name" },
                   { "data": "unit" },
+                  { "data":"RemainingQuality"}
                   
               ]
       });

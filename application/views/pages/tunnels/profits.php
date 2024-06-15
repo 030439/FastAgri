@@ -121,7 +121,7 @@
                                     <span><?php echo $p['Rate'];?></span>
                                 </div>
                                 <div class="cashier-salereturns-table-totalB">
-                                    <span><?php echo $p['amount'];?></span>
+                                    <span><?php echo $p['total_amount']-$p['labour']-$p['freight']-$p['expences'];?></span>
                                 </div>
                                 <div class="cashier-salereturns-table-remarkB">
                                 <span><?php echo $p['selldate'];?></span>

@@ -11,7 +11,40 @@ class Customer_model extends CI_Model {
         $customers = $this->db->get('customers')->result();
         return $customers;
     }
-
+    public function customersList($draw, $start, $length, $search = '') {
+        // Get total records count
+        $totalRecords = $this->db->count_all('customers');
+    
+        // Query to fetch data with search if provided
+        $this->db->select('*');
+        $this->db->from('customers');
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('id', $search);
+            $this->db->or_like('Name', $search);
+            $this->db->or_like('company', $search);
+            $this->db->or_like('contact', $search);
+            $this->db->or_like('cnic', $search);
+            $this->db->or_like('Address', $search);
+            $this->db->or_like('status', $search);
+            $this->db->group_end();
+        }
+        $this->db->order_by('id', 'ASC');  // Order by ID or any other column as needed
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $customers = $query->result_array();
+    
+        // Prepare the final output
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($totalRecords),  // No filtering applied in this example
+            "data" => $customers
+        );
+    
+        return $response;
+    }
+    
     public function createCustomer($data) {
         $customer=$this->db->insert('customers', $data);
         $ok=false;
@@ -99,6 +132,102 @@ class Customer_model extends CI_Model {
         }
         return $newResult;
     }
+    // public function customerDetailList($draw, $start, $length, $search = '', $id) {
+    //     // Count total records
+    //     $this->db->select('COUNT(*) as total');
+    //     $this->db->from('sells s');
+    //     $this->db->join('customers c', 'c.id = s.customer');
+    //     $this->db->join('selldetails sd', 'sd.SellId = s.id');
+    //     $this->db->where('s.customer', $id);
+    //     $totalRecords = $this->db->get()->row()->total;
+    
+    //     // Base query to fetch data
+    //     $this->db->select('
+    //         s.id AS sid,
+    //         s.selldate,
+    //         s.dno,
+    //         s.vno,
+    //         s.status,
+    //         s.labour,
+    //         s.freight AS kraya,
+    //         sd.GradeId,
+    //         sd.id AS sdID,
+    //         sd.tunnel,
+    //         sd.Quantity,
+    //         sd.Rate,
+    //         sd.amount,
+    //         c.Name AS customer,
+    //         c.contact AS cno,
+    //         c.Address AS caddress
+    //     ');
+    //     $this->db->from('sells s');
+    //     $this->db->join('customers c', 'c.id = s.customer');
+    //     $this->db->join('selldetails sd', 'sd.SellId = s.id');
+    //     $this->db->where('s.customer', $id);
+    
+    //     // Apply search filter if provided
+    //     if (!empty($search)) {
+    //         $this->db->group_start();
+    //         $this->db->like('s.id', $search);
+    //         $this->db->or_like('s.selldate', $search);
+    //         $this->db->or_like('s.dno', $search);
+    //         $this->db->or_like('s.vno', $search);
+    //         $this->db->or_like('c.Name', $search);
+    //         $this->db->or_like('c.contact', $search);
+    //         $this->db->or_like('c.Address', $search);
+    //         $this->db->group_end();
+    //     }
+    
+    //     // Apply ordering
+    //     $columns = ['s.id', 's.selldate', 's.dno', 's.vno', 'c.Name', 'c.contact', 'c.Address'];
+    //     $column = $columns[$order[0]['column']];
+    //     $dir = $order[0]['dir'];
+    //     $this->db->order_by($column, $dir);
+    
+    //     // Apply pagination
+    //     $this->db->limit($length, $start);
+    //     $query = $this->db->get();
+    //     $result = $query->result_array();
+    
+    //     $newResult = [];
+    //     foreach ($result as $row) {
+    //         $quantities = explode(',', $row['Quantity']);
+    //         $tunnels = explode(',', $row['tunnel']);
+    //         $GradeId = explode(',', $row['GradeId']);
+    //         $rate_ = explode(',', $row['Rate']);
+    //         $amount = explode(',', $row['amount']);
+    //         // Loop through each quantity and tunnel value to create individual records
+    //         foreach ($quantities as $index => $quantity) {
+    //             $newRow = [
+    //                 'sid' => $row['sid'],
+    //                 'selldate' => $row['selldate'],
+    //                 'labour' => $row['labour'],
+    //                 'sdID' => $row['sdID'],
+    //                 'grade' => $this->gradeName($GradeId[$index]),
+    //                 'Quantity' => $quantity,
+    //                 'status' => $row['status'],
+    //                 'Fasal' => $this->faslaName($tunnels[$index]),
+    //                 'Rate' => $rate_[$index],
+    //                 'freight' => $row['kraya'],
+    //                 'amount' => $amount[$index],
+    //                 'customer' => $row['customer'],
+    //                 'tunnel' => $this->tunnelName($tunnels[$index]), // Use corresponding tunnel value
+    //             ];
+    //             $newResult[] = $newRow;
+    //         }
+    //     }
+    
+    //     // Prepare the final output
+    //     $response = array(
+    //         "draw" => intval($draw),
+    //         "recordsTotal" => intval($totalRecords),
+    //         "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+    //         "data" => $newResult
+    //     );
+    
+    //     return $response;
+    // }
+    
     function tunnelName($id){
         $this->db->select('tunnels.TName');
         $this->db->from('tunnels');

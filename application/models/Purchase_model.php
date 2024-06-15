@@ -47,6 +47,8 @@ class Purchase_model extends CI_Model
             $purchase['purchase_id'] = $pid;
             $purchase['product_id'] = intval($data['product'][$key]);
             $purchase['RemainingQuantity'] = $data['qty'][$key];
+            $sb=$data['qty'][$key]*$data['rate'][$key];
+            $this->updateSupplier($sup,$sb);
             $this->db->insert('purchaseqty', $purchase);
             $pqid =$this->db->insert_id();
 
@@ -66,7 +68,7 @@ class Purchase_model extends CI_Model
             }
             if($data['quality']){
                 $purchaseSeed=['pid'=>$pid,'qty'=>$purchase['RemainingQuantity'],'quality'=>$data['quality']];
-                  $this->db->insert('purchaseSeedDetail', $purchaseSeed);
+                  $this->db->insert('purchaseseeddetail', $purchaseSeed);
             }
         }
         $this->db->trans_complete(); // Complete Transaction
@@ -108,6 +110,11 @@ if ($query->num_rows() > 0) {
 
 // Now you have either fetched an existing record or created a new one
 
+}
+public function updateSupplier($s,$b){
+    $this->db->set('closing', 'closing + ' . $this->db->escape($b), FALSE);
+    $this->db->where('sid', $s);
+    return $this->db->update('supplier_detail');
 }
 public function getPurchaseDetails($draw, $start, $length, $search) {
     // Calculate total records

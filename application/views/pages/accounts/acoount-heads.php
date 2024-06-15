@@ -1,5 +1,5 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Add Account Heads </h4>
+    <h4 class="text-[20px] font-bold text-heading">Add Account Heads </h4>
     <form action="addAccountHead" method="post">
         <div class="grid grid-cols-12 gap-x-5">
             <div class="lg:col-span-4 md:col-span-5 col-span-12 flex items-center">

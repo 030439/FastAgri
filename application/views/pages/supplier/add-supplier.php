@@ -18,7 +18,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" id="cnic" maxlength="15" name="cnic" pattern="\d{5}-\d{7}-\d{1}" placeholder="4111111111111">
+                            <input type="number" id="cnic" maxlength="15" name="cnic" pattern="\d{5}-\d{7}-\d{1}" placeholder="">
                             <p id="cnicValidationMessage"></p>
                             <?php validator('cnic');?>
                         </div>

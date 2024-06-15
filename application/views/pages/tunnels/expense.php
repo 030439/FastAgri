@@ -2,46 +2,7 @@
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
         <div class="cashier-transection-selectors flex items-center justify-between pb-5 maxSm:block">
             <h4 class="text-[20px] text-heading mb-2.5 font-bold"><?php if($data['expenses']): echo $data['expenses']['0']->tunnel; endif;?> : Expenses</h4>
-            <!-- <div class="cashier-transection-selector flex gap-x-4 maxSm:gap-x-0 items-center justify-end maxSm:justify-start maxXs:block">
-                <div class="cashier-transection-selector-single w-[120px] mb-2.5">
-                    <div class="cashier-select-field">
-                        <div class="cashier-select-field-style">
-                            <select class="block" style="display: none;">
-                                <option selected="" value="default">Monthly</option>
-                                <option value="language-1">Monthly</option>
-                                <option value="language-2">Yearly</option>
-                            </select>
-                            <div class="nice-select block" tabindex="0"><span class="current">Monthly</span>
-                                <ul class="list">
-                                    <li data-value="default" class="option selected">Monthly</li>
-                                    <li data-value="language-1" class="option">Monthly</li>
-                                    <li data-value="language-2" class="option">Yearly</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cashier-transection-selector-single w-[270px] mb-2.5 maxXs:w-full">
-                    <div class="cashier-select-field">
-                        <div class="cashier-select-field-style">
-                            <select class="block" style="display: none;">
-                                <option selected="" value="default">01 Jan 2022 - 30 Jul 2022</option>
-                                <option value="language-1">01 Jan 2022 - 30 Jul 2022</option>
-                                <option value="language-2">01 Jan 2022 - 12 Dec 2022</option>
-                            </select>
-                            <div class="nice-select block" tabindex="0"><span class="current">01 Jan 2022 - 30 Jul
-                                    2022</span>
-                                <ul class="list">
-                                    <li data-value="default" class="option selected">01 Jan 2022 - 30 Jul 2022</li>
-                                    <li data-value="language-1" class="option">01 Jan 2022 - 30 Jul 2022</li>
-                                    <li data-value="language-2" class="option">01 Jan 2022 - 12 Dec 2022</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        </div>
+            </div>
        <style>
         @media (max-width: 1400px) {
     .cashier-salereturns-table-dateP {
@@ -74,30 +35,26 @@
                                     d="M26.294,5.585H25.87V5.42a2.877,2.877,0,0,0-.792-1.987L22.678.9a2.9,2.9,0,0,0-2.1-.9H12.89a1.735,1.735,0,0,0-1.733,1.733V5.585h-.424A1.735,1.735,0,0,0,9,7.318v6.933a1.735,1.735,0,0,0,1.733,1.733h.424v2A1.735,1.735,0,0,0,12.89,19.72H24.137a1.735,1.735,0,0,0,1.733-1.733v-2h.424a1.735,1.735,0,0,0,1.733-1.733V7.318A1.735,1.735,0,0,0,26.294,5.585ZM12.312,1.733a.578.578,0,0,1,.578-.578h7.691a1.74,1.74,0,0,1,1.258.541l2.4,2.531a1.726,1.726,0,0,1,.475,1.192v.165h-12.4Zm12.4,16.254a.578.578,0,0,1-.578.578H12.89a.578.578,0,0,1-.578-.578v-2h12.4Zm2.157-3.736a.578.578,0,0,1-.578.578H10.733a.578.578,0,0,1-.578-.578V7.318a.578.578,0,0,1,.578-.578h15.56a.578.578,0,0,1,.578.578Z"
                                     transform="translate(-9 0)" fill="#ff9720"></path>
                             </svg>
-                        </a>
-                        <!-- <button type="button" class="csv"><svg id="csv" xmlns="http://www.w3.org/2000/svg"
-                                width="18.105" height="18.105" viewBox="0 0 18.105 18.105">
-                                <path id="Path_184" data-name="Path 184"
-                                    d="M16.514,8.558h-.566V4.774a.535.535,0,0,0-.155-.375h0L11.55.155A.535.535,0,0,0,11.174,0H3.748A1.593,1.593,0,0,0,2.157,1.591V8.558H1.591A1.593,1.593,0,0,0,0,10.149v6.365a1.593,1.593,0,0,0,1.591,1.591H16.514a1.593,1.593,0,0,0,1.591-1.591V10.149A1.593,1.593,0,0,0,16.514,8.558ZM11.7,1.811l2.432,2.432h-1.9a.531.531,0,0,1-.53-.53Zm-8.487-.22a.531.531,0,0,1,.53-.53h6.9V3.713A1.593,1.593,0,0,0,12.235,5.3h2.652V8.558H3.218ZM17.045,16.514a.531.531,0,0,1-.53.53H1.591a.531.531,0,0,1-.53-.53V10.149a.531.531,0,0,1,.53-.53H16.514a.531.531,0,0,1,.53.53Z"
-                                    transform="translate(0 0)" fill="#27db8d"></path>
-                                <path id="Path_185" data-name="Path 185"
-                                    d="M92.591,303.061a.531.531,0,0,1,.53.53.53.53,0,1,0,1.061,0,1.591,1.591,0,0,0-3.183,0v2.122a1.591,1.591,0,1,0,3.183,0,.53.53,0,0,0-1.061,0,.53.53,0,1,1-1.061,0v-2.122A.531.531,0,0,1,92.591,303.061Z"
-                                    transform="translate(-87.782 -291.321)" fill="#27db8d"></path>
-                                <path id="Path_186" data-name="Path 186"
-                                    d="M212.591,304.122a.53.53,0,1,1,.375-.906.53.53,0,0,0,.75-.75,1.591,1.591,0,1,0-1.125,2.717.53.53,0,1,1-.375.906.53.53,0,1,0-.75.75,1.591,1.591,0,1,0,1.125-2.717Z"
-                                    transform="translate(-203.539 -291.321)" fill="#27db8d"></path>
-                                <path id="Path_187" data-name="Path 187"
-                                    d="M333.778,302.013a.531.531,0,0,0-.643.386l-.546,2.185-.546-2.185a.53.53,0,1,0-1.029.257l1.061,4.243a.53.53,0,0,0,1.029,0l1.061-4.243A.53.53,0,0,0,333.778,302.013Z"
-                                    transform="translate(-319.293 -291.317)" fill="#27db8d"></path>
-                            </svg>
-                        </button> -->
-                     
+                        </a>                      
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="cashier-salereturns-table-area">
+        <table id="expense-list"  class="table table-bordered borderd table-striped display table-hover">
+                        <thead>
+                            <tr>
+                                <th>Expense Type</th>
+                                <th>Product/Person</th>
+                                <th>Rate</th>
+                                <th>Quantity</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                    </table> 
             <div class="cashier-salereturns-table-innerS">
                 <div
                     class="cashier-salereturns-table-inner-wrapperS border border-solid border-grayBorder border-b-0 mb-7">
@@ -178,3 +135,4 @@
         </div>
     </div>
 </div>
+<?php $file="tunnelexpense.php";?>

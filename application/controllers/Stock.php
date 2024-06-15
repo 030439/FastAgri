@@ -88,7 +88,7 @@ class Stock extends CI_Controller {
             $data = $this->input->post(NULL, TRUE);
 		
            $res= $this->Stock_model->insertSeed($data);
-		   $this->response($res,'stock/seeds',"Data Inserted Successfully");
+		   $this->response($res,'stock/products',"Data Inserted Successfully");
         }
     }
 	public function insertStock() {
@@ -143,8 +143,9 @@ class Stock extends CI_Controller {
 	}
 	public function listissue()
 	{
-		// $data=$this->Stock_model->issueList();
-		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock"]);
+		//$data=$this->Stock_model->issueList();
+		$data=[];
+		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock",'data'=>$data]);
 	}
 	public function issueStockJs(){
 		try{

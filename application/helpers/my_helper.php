@@ -67,7 +67,6 @@ if (!function_exists('pqrate')) {
     {
         $CI =& get_instance();
         $CI->load->database();
-
         $stockWithRate = array();
         $query = $CI->db->query("SELECT * FROM purchasesdetail WHERE id = $pqid");
 
@@ -189,6 +188,26 @@ if (!function_exists('jamandarName')) {
         // Check if result is not empty
         if ($result) {
             return $result['jname'];
+        } else {
+            return "data not found";
+        }
+    }
+}
+if (!function_exists('customerName')) {
+    function customerName($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  c.Name as cname  FROM customers c WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['cname'];
         } else {
             return "data not found";
         }

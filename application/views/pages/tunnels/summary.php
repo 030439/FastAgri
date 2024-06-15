@@ -40,7 +40,14 @@
                 </div>
             </div>
         </div>
-
+<style>
+    @media (max-width: 1400px) {
+    .cashier-salereturns-table-dateP {
+        width: 16%;
+        min-width: 110px;
+    }
+}
+</style>
         <div class="cashier-salereturns-table-area" style="overflow:scroll">
             <div class="cashier-salereturns-table-innerS">
                 <div
@@ -63,9 +70,6 @@
                         </div>
                         <div class="cashier-salereturns-table-dateP">
                             <h5>Net Amount</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Remarks</h5>
                         </div>
                         <?php if(!empty($data['snames'])):foreach($data['snames'] as $name):?>
                             <div class="cashier-salereturns-table-dateP">
@@ -92,9 +96,6 @@
                         </div>
                         <div class="cashier-salereturns-table-dateP">
                         <span><?php echo intval($data['net'][$no]);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <span> Detail</span>
                         </div>
                         <?php if(!empty($data['shareholders'])):foreach($data['shareholders'] as $sid):?>
                             <div class="cashier-salereturns-table-dateP">

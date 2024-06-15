@@ -300,6 +300,83 @@ class Tunnel_model extends CI_Model
         $stocks = $this->db->get()->result();
         return $stocks[0]->id; 
     }
+
+    public function getunnelsExpenseList($id,$draw, $start, $length, $search = '') {
+        // Get total records count
+        $this->db->where('t.id', $id);
+        $totalRecords = $this->db->count_all_results('tunnel_expense AS e JOIN tunnels AS t ON t.id = e.tunnel_id');
+    
+        // Construct the base query with joins
+        $this->db->select('
+            e.id,
+            e.expense_type,
+            e.eid,
+            e.amount,
+            e.pid,
+            e.edate,
+            t.TName as tunnel,
+            t.id as tid
+        ');
+        $this->db->from('tunnel_expense e');
+        $this->db->join('tunnels t', 't.id = e.tunnel_id');
+        $this->db->where('t.id', $id);
+    
+        // Apply search filter if provided
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('e.expense_type', $search);
+            $this->db->or_like('e.amount', $search);
+            $this->db->or_like('e.edate', $search);
+            $this->db->or_like('t.TName', $search);
+            $this->db->group_end();
+        }
+    
+        // Apply ordering
+        if (!empty($order)) {
+            $column = $order[0]['column'];
+            $dir = $order[0]['dir'];
+            $columns = ['e.id', 'e.expense_type', 'e.amount', 'e.edate', 't.TName'];
+            $this->db->order_by($columns[$column], $dir);
+        } else {
+            $this->db->order_by('e.id', 'ASC');
+        }
+    
+        // Apply pagination
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $res = $query->result_array();
+    
+        // Process each record for additional data
+        foreach ($res as $c => $re) {
+            if ($re['expense_type'] == "issueStockPurchase") {
+                $pq = $this->getIssueProQty($id, $re['pid']);
+                $res[$c]['head'] = $this->productName_($re['pid']);
+                $res[$c]['qty'] = $pq['qty'];
+                $res[$c]['rate'] = $re['amount'];
+                $res[$c]['amount'] = $pq['qty'] * $re['amount'];
+            } elseif ($re['expense_type'] == "Jamandari") {
+                $pq = $this->getIssueProQty($id, $re['pid'], $re['edate']);
+                $res[$c]['head'] = $this->jamandarName($re['pid']);
+                $res[$c]['qty'] = 1;
+                $res[$c]['rate'] = 0;
+            } else {
+                $lb = $this->getLabourQty($id, $re['eid']);
+                $res[$c]['head'] = $lb['jname'];
+                $res[$c]['qty'] = $lb['qty'];
+                $res[$c]['rate'] = $lb['rate'];
+            }
+        }
+    
+        // Prepare the final output
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+            "data" => $res
+        );
+    
+        return $response;
+    }
     public function getunnelsExpense($id){
 
         $query = $this->db->query("
@@ -348,6 +425,10 @@ class Tunnel_model extends CI_Model
         SELECT 
         s.`id` AS sid,
         s.`selldate`,
+        s.`total_amount`,
+        s.`labour`,
+        s.`freight`,
+        s.`expences`,
         sd.`id` as sdID,
         g.`Name` as grade,
         sd.`Quantity`,

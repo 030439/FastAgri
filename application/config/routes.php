@@ -68,6 +68,7 @@ $route['tunnels'] = "tunnels/index"; //tunnels list
 $route['tunnels/save'] = "tunnels/save"; //tunnels form data submission
 $route['tunnels/detail/(:num)']="tunnels/detail/$1";
 $route['tunnel/tunnle-expense/(:num)']="tunnels/tunnleExpense/$1";
+$routep['tunnel/expense/(:num)']="tunnels/getunnelsExpenseList/$1";
 $route['tunnel/tunnle-profit/(:num)']="tunnels/tunnleProfit/$1";
 $route['tunnel/detailPdf/(:num)']="tunnels/detailPdf/$1";
 $route['tunnels-list-js'] = "tunnels/tunnelJsList"; //tunnels list
@@ -76,6 +77,8 @@ $route['tunnels/summary']="tunnels/summary";
 $route['customer/create'] = 'customer/create';
 $route['customer/detail/(:num)']='customer/customerDetail/$1';
 $route['getcustomers']="customer/getcustomers";
+$route['customer/list']="customer/listing";
+$route['customer-detail/(:num)']="customer/customerDetailList/$1";
 //supplier
 $route['fetch-suppliers']="Supplier/fetchAll";
 $route['createAlgo']="Stock/createAlgo";
@@ -84,6 +87,7 @@ $route['supplierExport']="Supplier/supplierExport";
 $route['supplierFilter']="Supplier/supplierFilter";
 $route['supplier/(:num)']="Supplier/detail/$1";
 $route['getSuppliers']="Supplier/getSuppliers";
+$route['supplier/list']="Supplier/listing";
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list

@@ -13,8 +13,21 @@ class Customer extends CI_Controller {
     }
 	public function index()
 	{
-		$data= $this->Customer_model->getCustomers();
-		$this->load->view('layout/parts',['page'=>"pages/customer/list-customer",'data'=>$data]);
+		// $data= $this->Customer_model->getCustomers();
+		$this->load->view('layout/parts',['page'=>"pages/customer/list-customer"]);
+	}
+	public function listing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Customer_model->customersList($draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
 	}
 	public function getcustomers(){
 		$data= $this->Customer_model->customerDetailInfo();
@@ -30,13 +43,26 @@ class Customer extends CI_Controller {
 	public function customerDetail($id){
 		try {
 			$data=$this->Customer_model->customerDetail($id);
-			$this->load->view('layout/parts',['page'=>"pages/customer/detail",'data'=>$data]);
+			$this->load->view('layout/parts',['page'=>"pages/customer/detail",'data'=>$data,'id'=>$id]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 
 	}
+	// public function customerDetailList($id){
+	// 	try{
+	// 		$draw = intval($this->input->post("draw"));
+	// 		$start = intval($this->input->post("start"));
+	// 		$length = intval($this->input->post("length"));
+    //         $search = $this->input->post('search')['value'];
+	// 		$res=$this->Customer_model->customerDetailList($draw,$start = 0, $length = 10,$search,$id);
+	// 		echo jsonOutPut($res);
+	// 	} catch (Exception $e) {
+	// 		log_message('error', $e->getMessage());
+	// 		show_error('An unexpected error occurred. Please try again later.');
+	// 	}
+	// }
 	
 	public function add()
 	{ 

@@ -394,12 +394,19 @@ class Stock_model extends CI_Model {
 
         return $products;
     }
+
+    // SELECT p.id as id, p.Name AS ProductName, 
+    //     s.qunatity AS RemainingQuality
+    //     FROM products p
+    //     JOIN stocks s ON s.pid = p.id
+    //     GROUP BY p.id
     
     public function productListJs($draw, $start, $length,$search="") {
         $totalRecords = $this->db->count_all_results('products');
-        $this->db->select('products.*, units.Name as unit');
+        $this->db->select('products.*, units.Name as unit,stocks.qunatity AS RemainingQuality');
         $this->db->from('products');
         $this->db->join('units', 'products.unit_id = units.id', 'left');
+        $this->db->join('stocks', 'products.id = stocks.pid', 'left');
         $this->db->limit($length, $start);
 
         if (!empty($search)) {
@@ -531,49 +538,63 @@ class Stock_model extends CI_Model {
     }
     
     
-    public function issueList($draw, $start, $length,$search=""){
-        $totalRecords = $this->db->count_all_results('issuestock');
-        $this->db->query("
-        SELECT 
-            i.`id` AS issue_stock_id,
-            i.`PqId`,
-            i.`pid`,
-            i.`Quantity`,
-            i.`i_date`,
-            p.`Name` AS product_name,
-            t.`TName`,
-            e.`Name` AS employee
-        FROM 
-        `issuestock` AS i
-        JOIN 
-        `products` AS p ON i.`pid` = p.`id`
-        JOIN 
-        `tunnels` AS t ON i.`tunnel_id` = t.`id`
-        JOIN 
-        `employees` AS e ON e.`id` = i.`empoyee_id`
-
-        ");
+    public function issueList($draw, $start, $length, $search = '') {
+        // Get total records count
+        $totalRecords = $this->db->count_all('issuestock');
+    
+        // Construct the base query with joins
+        $this->db->select('
+            i.id AS issue_stock_id,
+            i.PqId,
+            i.pid,
+            i.Quantity,
+            i.i_date,
+            p.Name AS product_name,
+            t.TName,
+            e.Name AS employee
+        ');
+        $this->db->from('issuestock i');
+        $this->db->join('products p', 'i.pid = p.id');
+        $this->db->join('tunnels t', 'i.tunnel_id = t.id');
+        $this->db->join('employees e', 'e.id = i.empoyee_id');
+    
+        // Apply search filter if provided
         if (!empty($search)) {
             $this->db->group_start();
-            $this->db->like('id', $search);
-            $this->db->or_like('Name', $search);
-            $this->db->or_like('phone', $search);
-            $this->db->or_like('address', $search);
-            $this->db->or_like('cnic', $search);
-            $this->db->or_like('capital_amount', $search);
-            $this->db->or_like('balance', $search);
+            $this->db->like('i.id', $search);
+            $this->db->or_like('p.Name', $search);
+            $this->db->or_like('t.TName', $search);
+            $this->db->or_like('e.Name', $search);
             $this->db->group_end();
         }
-        $query=$this->db->limit($length, $start);
-        $result = $query->result();
-        $shareholders = array(
-            "draw" => $draw,
-            "recordsTotal" => $totalRecords,  // Total records without pagination
-            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
-            "data" => $result
+    
+        // Apply pagination and ordering
+        $this->db->order_by('i.id', 'ASC');
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        $new=[];
+        foreach($result as $i=> $re){
+            $new[$i]['TName']=$re['TName'];
+            $new[$i]['employee']=$re['employee'];
+            $new[$i]['product_name']=$re['product_name'];
+            $new[$i]['Quantity']=$re['Quantity'];
+            $new[$i]['TName']=$re['TName'];
+            $new[$i]['i_date']=$re['i_date'];
+            $new[$i]['pqrate']=pqrate($re['PqId'],$re['pid']);
+        }
+    
+        // Prepare the final output
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+            "data" => $new
         );
-        return $shareholders;
+    
+        return $response;
     }
+    
     public function getSeed(){
         $crops = $this->db->get('crops')->result();
         return $crops;

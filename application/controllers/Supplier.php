@@ -21,6 +21,21 @@ class Supplier extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+
+	public function listing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Supplier_model->suppliersList($draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+
 	public function getSuppliers(){
 		$data= $this->Supplier_model->getSuppliers();
 		$html="";

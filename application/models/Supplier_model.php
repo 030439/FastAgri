@@ -18,6 +18,44 @@ class Supplier_model extends CI_Model {
       $all = $this->db->get()->result();
       return $all;
   }
+  public function suppliersList($draw, $start, $length, $search = '') {
+   // Get total records count
+   $totalRecords = $this->db->count_all('suppliers');
+
+   // Construct query with joins
+   $this->db->select('suppliers.*, supplier_detail.opening as open, supplier_detail.closing as close');
+   $this->db->from('suppliers');
+   $this->db->join('supplier_detail', 'supplier_detail.sid = suppliers.id', 'left');
+
+   // Apply search filter if provided
+   if (!empty($search)) {
+       $this->db->group_start();
+       $this->db->like('suppliers.id', $search);
+       $this->db->or_like('suppliers.name', $search);
+       $this->db->or_like('suppliers.company', $search);
+       $this->db->or_like('suppliers.contact', $search);
+       $this->db->or_like('suppliers.cnic', $search);
+       $this->db->or_like('suppliers.address', $search);
+       $this->db->group_end();
+   }
+
+   // Apply pagination
+   $this->db->order_by('suppliers.id', 'ASC');  // Order by ID or any other column as needed
+   $this->db->limit($length, $start);
+   $query = $this->db->get();
+   $suppliers = $query->result_array();
+
+   // Prepare the final output
+   $response = array(
+       "draw" => intval($draw),
+       "recordsTotal" => intval($totalRecords),
+       "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+       "data" => $suppliers
+   );
+
+   return $response;
+}
+
   public function detail($id){
    $this->db->select('
       pd.id AS purchase_detail_id,
