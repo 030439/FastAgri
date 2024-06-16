@@ -104,4 +104,5 @@ class Production extends CI_Controller {
 	{
 		$this->load->view('layout/parts',['page'=>"pages/production/detail-production"]);
 	}
+	//
 }
