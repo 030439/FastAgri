@@ -9,6 +9,9 @@ class Tunnels extends CI_Controller{
         $this->load->model('Tunnel_model');
 		$this->load->model('ShareHolder_model');
         $this->load->library('form_validation');
+        if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
     public function index(){
         $this->load->view('layout/parts',['page'=>"pages/tunnels/list-tunnel"]);

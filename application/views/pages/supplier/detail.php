@@ -101,7 +101,22 @@
         </div>
 
         <div class="cashier-salereturns-table-area">
-            <div class="cashier-salereturns-table-innerC">
+            <div class="cashier-salereturns-table-innerC" id="supplier-detail-id" title="<?php echo $id;?>">
+            <table id="user-list" class="table display table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th>Purchase Date</th>
+                                <!-- <th>Balance</th>
+                                <th>Status</th>
+                                <th>Action</th> -->
+                            </tr>
+                            
+                        </thead>
+                    </table> 
                 <div
                     class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7">
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
@@ -240,3 +255,5 @@
         </div>
     </div>
 </div>
+
+<?php $file="supplier-detail.php";?>

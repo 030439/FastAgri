@@ -6,7 +6,13 @@ class User_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
-    public function get_user_by_email($email) {
-        return $this->db->get_where('users', ['email' => $email])->row();
+    public function get_user_by_email($email,$pass) {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('username', $email);
+        $this->db->where('Password', $pass);
+        return  $this->db->get()->result();
+        
+        return $this->db->get_where('users', ['username' => $email])->row();
     }
 }

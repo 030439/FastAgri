@@ -7,6 +7,9 @@ class Home extends CI_Controller {
         $this->load->model('Common_model');
         $this->load->model('Tunnel_model');
 		$this->load->model('ShareHolder_model');
+		if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
 	public function index()
 	{

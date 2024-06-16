@@ -9,6 +9,9 @@ class Hr extends CI_Controller {
 		$this->load->model('Setup_model');
         $this->load->library('form_validation');
 		$this->load->model('Common_model');
+		if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
 
 	public function index()

@@ -9,6 +9,9 @@ class Supplier extends CI_Controller {
 		$this->load->model('Common_model');
 		$this->load->model('Supplier_model');
         $this->load->library('form_validation');
+		if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
 	
 	public function index()
@@ -47,15 +50,31 @@ class Supplier extends CI_Controller {
 		}
 		echo $html;
 	}
+
 	public function detail($id){
 		try {
 			$data=$this->Supplier_model->detail($id);
-			$this->load->view('layout/parts',['page'=>"pages/supplier/detail",'data'=>$data]);
+			$this->load->view('layout/parts',['page'=>"pages/supplier/detail",'data'=>$data,'id'=>$id]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+
+	public function detailListing($id){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Supplier_model->detailListing($id,$draw,$start = 0, $length = 10,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+	
 	public function supplierExport(){
 		try {
 			/* file name */

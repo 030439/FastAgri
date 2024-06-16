@@ -20,6 +20,7 @@
             <div class="cashier-input-field-style">
                 <div class="single-input-field w-full">
                 <input type="text" name="email" placeholder="Username" >
+                <?php validator('email')?>
                 </div>
                 <span class="input-icon">
                 <i class="fa-light fa-user"></i>
@@ -30,6 +31,7 @@
             <div class="cashier-input-field-style cashier-input-field-style-eye">
                 <div class="single-input-field w-full">
                 <input id="password-field" type="password" class="form-control" name="password" value="123456">
+                <?php validator('password')?>
                 <button formaction="#password-field" class="fal fa-fw fa-eye-slash field-icon toggle-password"></button>
                 </div>
             </div>

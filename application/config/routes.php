@@ -88,6 +88,7 @@ $route['supplierFilter']="Supplier/supplierFilter";
 $route['supplier/(:num)']="Supplier/detail/$1";
 $route['getSuppliers']="Supplier/getSuppliers";
 $route['supplier/list']="Supplier/listing";
+$route['supplier/detail/listing/(:num)']="Supplier/detailListing/$1";
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase'] = "purchase/index"; //purchase list

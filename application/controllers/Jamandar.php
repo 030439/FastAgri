@@ -10,6 +10,9 @@ class Jamandar extends CI_Controller{
         $this->load->model('Jamandar_model');
 		$this->load->model('Setup_model');
         $this->load->library('form_validation');
+		if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
     public function index(){
         $data=$this->Jamandar_model->getAll();

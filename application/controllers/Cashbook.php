@@ -8,9 +8,9 @@ class Cashbook extends CI_Controller {
         $this->load->model('Customer_model');
         $this->load->model('Cashbook_model');
         $this->load->library('form_validation');
-		// if (!is_authorized()) {
-		// 	redirect('auth/login');
-		// }
+		if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
 	public function add()
 	{

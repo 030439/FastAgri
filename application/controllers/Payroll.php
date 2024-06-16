@@ -8,6 +8,9 @@ class Payroll extends CI_Controller{
 		$this->load->model('Common_model');
 		$this->load->model('Setup_model');
         $this->load->library('form_validation');
+        if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
 
     public function index(){

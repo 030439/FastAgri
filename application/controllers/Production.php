@@ -10,6 +10,9 @@ class Production extends CI_Controller {
 		$this->load->model('Tunnel_model');
 		$this->load->model('Stock_model');
         $this->load->library('form_validation');
+		if (!is_authorized()) {
+			redirect('auth/login');
+		}
     }
 	public function index()
 	{
@@ -104,5 +107,4 @@ class Production extends CI_Controller {
 	{
 		$this->load->view('layout/parts',['page'=>"pages/production/detail-production"]);
 	}
-	//
 }
