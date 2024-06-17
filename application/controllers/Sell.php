@@ -24,7 +24,7 @@ class Sell extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res=$this->Stock_model->sellList($draw,$start = 0, $length = 10,$search);
+			$res=$this->Stock_model->sellList($draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

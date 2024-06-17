@@ -34,7 +34,7 @@ class Shareholders extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res=$this->ShareHolder_model->getshareholdersListing($draw,$start = 0, $length = 10,$search);
+			$res=$this->ShareHolder_model->getshareholdersListing($draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

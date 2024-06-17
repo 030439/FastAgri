@@ -22,7 +22,7 @@ class Customer extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res=$this->Customer_model->customersList($draw,$start = 0, $length = 10,$search);
+			$res=$this->Customer_model->customersList($draw,$start, $length ,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

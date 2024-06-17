@@ -33,8 +33,8 @@
  <script src="assets/js/swiper-bundle.min.js"></script>
  <script src="assets/js/apexcharts.js"></script>
  <script src="assets/js/main.js"></script>
- <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+ <script src="assets/js/datatable.js"></script>
+ <script src="assets/js/toaster.js"></script>
 
  <script>
  

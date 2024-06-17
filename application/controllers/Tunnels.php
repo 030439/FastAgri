@@ -28,7 +28,7 @@ class Tunnels extends CI_Controller{
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
             
-			$res=$this->Tunnel_model->tunnelJsList($draw,$start = 0, $length = 10,$search);
+			$res=$this->Tunnel_model->tunnelJsList($draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -94,7 +94,7 @@ class Tunnels extends CI_Controller{
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
             
-			$res=$this->Tunnel_model->getunnelsExpenseList($id,$draw,$start = 0, $length = 10,$search);
+			$res=$this->Tunnel_model->getunnelsExpenseList($id,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
