@@ -92,6 +92,57 @@ class Jamandar_model extends CI_Model {
         return $response;
         return $result;
     }
+    public function listing($draw,$start, $length,$search){
+        $this->db->where('status', 1);
+        $totalRecords = $this->db->count_all_results('jamandars');
+        $this->db->select('jamandars.*,jt.`payable`,
+            jt.`advance`,
+            jt.`remaing`');
+        $this->db->from('jamandars');
+        $this->db->join('jamandartotal jt', 'jt.jamandar_id = jamandars.id', 'left');
+        $this->db->order_by('jamandars.id', 'asc');
+        $query = $this->db->get();
+        $data = $query->result_array();
+    
+        $shareholders = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $data
+        );
+    
+        return $shareholders;
+    }
+    public function issuedJamandarLabour($id,$draw,$start, $length,$search){
+        $this->db->where('jamandar', $id);
+        $totalRecords = $this->db->count_all_results('issuelabour');
+        $query = $this->db->query("
+        SELECT 
+            i.`id` AS issue_stock_id,
+            i.`create_at`,
+            i.`total_amount`,
+            i.`rate`,
+            i.`lq`,
+            j.`name` AS jamander,
+            t.`TName`
+        FROM 
+        `issuelabour` AS i
+        JOIN 
+        `jamandars` AS j ON i.`jamandar` = j.`id`
+        JOIN 
+        `tunnels` AS t ON i.`tunnel` = t.`id`
+        WHERE j.id=$id
+        LIMIT $start, $length
+        ");
+        $result = $query->result_array();
+        $response = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $result
+        );
+        return $response;
+    }
     public function labourListByJamandar($id){
         $query = $this->db->query("
         SELECT 

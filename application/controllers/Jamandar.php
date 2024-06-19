@@ -16,9 +16,36 @@ class Jamandar extends CI_Controller{
     }
     public function index(){
         $data=$this->Jamandar_model->getAll();
-        
         $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar",'data'=>$data]);
     }
+
+	public function listing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Jamandar_model->listing($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+	public function issuedJamandarLabour(){
+		$id=$this->input->post("id");
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Jamandar_model->issuedJamandarLabour($id,$draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
     public function jamandariAccount(){
         $data=$this->Jamandar_model->getAll();
 		$html="";
@@ -99,7 +126,7 @@ class Jamandar extends CI_Controller{
 	}
     public function detail($id){
         $data=$this->Jamandar_model->labourListByJamandar($id);
-        $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar-issue-labour-list",'data'=>$data]);
+        $this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar-issue-labour-list",'data'=>$data,'id'=>$id]);
     }
 
     public function add(){
