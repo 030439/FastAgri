@@ -42,6 +42,10 @@ class Employee extends CI_Controller {
 	}
 	public function listing()
 	{
+		$start = $this->input->get("start") ?? 0;
+		$length = $this->input->get("length") ?? 10;
+		$draw = $this->input->get("draw") ?? 0;
+
 		$vendor = $this->input->get('vendor', TRUE);
 		$this->load->database();
 		
@@ -55,39 +59,35 @@ class Employee extends CI_Controller {
 		$this->db->join('designations', 'employees.designation_id = designations.id', 'left');
 		$this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
 		
-		$searchValue = $this->input->get("search")['value'] ?? '';
-		if ($searchValue) {
-			$this->db->group_start();
-			foreach ($this->getFieldNames() as $field) {
-				$this->db->or_like($field, $searchValue);
-			}
-			$this->db->group_end();
-		}
+		// $searchValue = $this->input->get("search")['value'] ?? '';
+		// if ($searchValue) {
+		// 	$this->db->group_start();
+		// 	foreach ($this->getFieldNames() as $field) {
+		// 		$this->db->or_like($field, $searchValue);
+		// 	}
+		// 	$this->db->group_end();
+		// }
 
-		$start = $this->input->get("start") ?? 0;
-		$length = $this->input->get("length") ?? 10;
-		$draw = $this->input->get("draw") ?? 0;
+	
 
 		$this->db->limit($length, $start);
 		$query = $this->db->get();
-		$result = $query->result();
+		$result = $query->result_array();
+		// $arr = [];
+		// foreach ($result as $row) {
+		// 	$arr[] = (array) $row;
+		// }
 
-		$arr = [];
-		foreach ($result as $row) {
-			$arr[] = (array) $row;
-		}
-
-		$filtered = count($arr);
+		$filtered = count($result);
 		$totalRows = $this->db->count_all_results('employees', false);
-
-		$data = [
+		$response = array(
 			"draw" => $draw,
 			"recordsTotal" => $totalRows,
 			"recordsFiltered" => $totalRows,
-			"data" => $arr,
-		];
+			"data" => $result,
+		);
 
-		echo json_encode($data);
+		echo jsonOutPut($response);
 		exit();
 	}
 	public function getPermanentEmployees(){

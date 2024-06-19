@@ -130,6 +130,7 @@ $route['employee-advance-add']="Employee/employeeAdvanceAdd";
 $route['generate-pays']='Employee/generatePays';
 $route['getEmployees']="Employee/getEmployees";
 $route['getEmployeeById']="Employee/getEmployeePayById";
+$route['getEmployeesList']="Employee/getEmployeesList";
 //Jammandar 
 $route['jamandars']='Jamandar/index';
 $route['getJamandars']='Jamandar/getJamandars';
@@ -145,6 +146,7 @@ $route['labour-rate']='hr/labourRate';
 $route['add-rate']='hr/updateRate';
 $route['labour-issue']='hr/labourIssue';
 $route['issued-labour-list']='hr/labourList';
+$route['issued-labour-listing']="hr/issuedLabourListing";
 //Production 
 $route['tunnelProduct']="tunnels/tunnelProduct";
 $route['ready-product']="Production/ready";

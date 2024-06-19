@@ -53,6 +53,21 @@ class Hr extends CI_Controller {
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour",'data'=>$data]);
 	}
+
+	public function issuedLabourListing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Jamandar_model->issuedLabourListing($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+
 	public function labourIssue(){
 		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
 		$this->form_validation->set_rules('jamandar', 'jamandar', 'required');

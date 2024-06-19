@@ -157,7 +157,7 @@
 
     <div class="cashier-salereturns-table-area">
         <div class="cashier-salereturns-table-innerC">
-        <table id="user-list" class="table display table-bordered table-striped table-hover">
+                <table id="user-list" class="table display table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>Tunnel</th>

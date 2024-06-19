@@ -60,6 +60,38 @@ class Jamandar_model extends CI_Model {
         $result = $query->result();
         return $result;
     }
+
+    public function issuedLabourListing($draw, $start, $length){
+
+        $totalRecords = $this->db->count_all_results('issuelabour');
+        $query = $this->db->query("
+        SELECT 
+            i.`id` AS issue_stock_id,
+            i.`create_at`,
+            i.`total_amount`,
+            i.`rate`,
+            i.`lq`,
+            j.`name` AS jamander,
+            t.`TName`
+        FROM 
+        `issuelabour` AS i
+        JOIN 
+        `jamandars` AS j ON i.`jamandar` = j.`id`
+        JOIN 
+        `tunnels` AS t ON i.`tunnel` = t.`id`
+         LIMIT $start, $length
+        ");
+        $result = $query->result_array();
+        $response = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $result
+        );
+    
+        return $response;
+        return $result;
+    }
     public function labourListByJamandar($id){
         $query = $this->db->query("
         SELECT 

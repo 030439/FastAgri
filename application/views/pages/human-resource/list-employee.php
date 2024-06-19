@@ -42,8 +42,21 @@
 
         <div class="cashier-salereturns-table-area">
             <div class="cashier-salereturns-table-innerC">
-                <div
-                    class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7">
+                <table id="user-list" class="table display table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Category</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Basic Salary</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7">
                     <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
                         <div class="cashier-salereturns-table-checkboxB default-light-theme">
                             <input type="checkbox" id="b-check" name="b-check" data-checkbox-name="cbi"
@@ -180,3 +193,4 @@
         </div>
     </div>
 </div>
+<?php $file="list-employees.php";?>
