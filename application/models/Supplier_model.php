@@ -105,7 +105,9 @@ class Supplier_model extends CI_Model {
       return $individual_records;
   }
   public function detailListing($id ,$draw, $start, $length, $search = ''){
-   $totalRecords = $this->db->count_all('customers')->where('purchasesdetail.Supplier_id',$id);
+   $query = $this->db->query("SELECT * From purchasesdetail WHERE Supplier_id=$id");
+   $counter = $query->result_array();
+   $totalRecords = count($counter);
    $this->db->select('
       pd.id AS purchase_detail_id,
       pd.product_id,
@@ -139,6 +141,7 @@ class Supplier_model extends CI_Model {
          $purchased_rates = explode(',', $row['rate']);
 
          foreach ($product_ids as $index => $product_id) {
+           $pdate= date('Y-m-d', strtotime($row['purchase_date']));
             $individual_records[] = array(
                'purchase_detail_id' => $row['purchase_detail_id'],
                'product_name' => $row['product_name'],
@@ -147,7 +150,7 @@ class Supplier_model extends CI_Model {
                'rate' => $purchased_rates[$index],
                'amount' => $row['amount'],
                'total_amount' => $row['total_amount'],
-               'purchase_date' => $row['purchase_date']
+               'purchase_date' => $pdate
             );
          }
       }
