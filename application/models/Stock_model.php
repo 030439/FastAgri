@@ -672,6 +672,34 @@ class Stock_model extends CI_Model {
             return false;
         }
     }
+    public function getProductionListing($draw, $start, $length,$search=""){
+        $totalRecords = $this->db->count_all('productions');
+        $sql=("
+        SELECT p.id as id, p.Quantity as qty,p.pdate,
+        pd.Name AS ProductName, 
+        t.TName AS tunnel, 
+        u.Name AS unit, 
+        g.Name AS grade 
+        FROM productions p 
+        JOIN tunnels t ON t.id = p.TunnelId 
+        JOIN units u ON u.id = p.UnitId 
+        JOIN crops c ON c.id = p.CropId 
+        JOIN products pd ON pd.id = c.pid 
+        JOIN grades g ON g.id = p.GradeId  order BY p.id desc
+        ");
+        $sql .= " LIMIT $start, $length";
+
+        // Execute the query
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+            "data" => $result
+        );
+            return $response;
+    }
 
     public function getStockProduct(){
         $query = $this->db->query("

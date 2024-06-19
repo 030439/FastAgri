@@ -23,6 +23,19 @@ class Production extends CI_Controller {
 		$data['production']=$this->Stock_model->getProduction($date);
 		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
 	}
+	public function getProductionListing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Stock_model->getProductionListing($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function dailyProductionReports(){
 		$date=date('Y-m-d');
 		$production=$this->Stock_model->getProduction($date);

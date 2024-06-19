@@ -158,6 +158,7 @@ $route['sell-gate-pass/(:num)']="Sell/getPass/$1";
 $route['sell-bill-detail/(:num)']="Sell/sellBillDetail/$1";
 $route['bill-detail-invoice']="Sell/billDetailInvoice";
 $route['sell/sellPdf']="Sell/sellPdf";
+$route['production/getProductionListing']=['Production/getProductionListing'];
 //Reports
 $route['tunnel/profit-expense']="Report/profitExpense";
 $route['tunnels/expense']="Report/expense";
