@@ -87,7 +87,24 @@ class Tunnels extends CI_Controller{
          $data['expenses']=$this->Tunnel_model->getunnelsExpense($id);
         $this->load->view('layout/parts',['page'=>"pages/tunnels/expense",'data'=>$data]);
     }
-    public function getunnelsExpenseList($id){
+
+    public function individualExpense($id){
+        try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+            
+			$res=$this->Tunnel_model->individualExpense($id,$draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+    }
+
+    public function getunnelsExpenseList(){
+        $id=$this->input->post('id');
         try{
 			$draw = intval($this->input->post("draw"));
 			$start = intval($this->input->post("start"));
@@ -95,6 +112,21 @@ class Tunnels extends CI_Controller{
             $search = $this->input->post('search')['value'];
             
 			$res=$this->Tunnel_model->getunnelsExpenseList($id,$draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+    }
+    public function getunnelsProfitList(){
+        $id=$this->input->post('id');
+        try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+            
+			$res=$this->Tunnel_model->getunnelsProfitList($id,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

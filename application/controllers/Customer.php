@@ -40,6 +40,20 @@ class Customer extends CI_Controller {
 		}
 		echo $html;
 	}
+	public function customerDetailListing(){
+		$id=$this->input->post('id');
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Customer_model->customerDetailListing($id,$draw,$start, $length ,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function customerDetail($id){
 		try {
 			$data=$this->Customer_model->customerDetail($id);

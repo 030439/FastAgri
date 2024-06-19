@@ -5,16 +5,11 @@
         <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
                 <div class="md:col-span-6 col-span-12">
-                    <div class="cashier-table-header-search relative maxSm:mb-4">
-                        <input type="text" placeholder="Search List">
-                        <span>
-                            <i class="fa-light fa-magnifying-glass"></i>
-                        </span>
-                    </div>
+                   
                 </div>
                 <div class="md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
-                        
+                        <span id="shareholder-detail-id" title="<?php echo $id;?>"></span>
                         <a href="shareholder/detailPdf/<?php echo $id;?>" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
                                 width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
                                 <path id="Path_188" data-name="Path 188"
@@ -31,38 +26,6 @@
                                     transform="translate(-9 0)" fill="#ff9720"></path>
                             </svg>
                         </a>
-                        <button type="button" class="csv"><svg id="csv" xmlns="http://www.w3.org/2000/svg"
-                                width="18.105" height="18.105" viewBox="0 0 18.105 18.105">
-                                <path id="Path_184" data-name="Path 184"
-                                    d="M16.514,8.558h-.566V4.774a.535.535,0,0,0-.155-.375h0L11.55.155A.535.535,0,0,0,11.174,0H3.748A1.593,1.593,0,0,0,2.157,1.591V8.558H1.591A1.593,1.593,0,0,0,0,10.149v6.365a1.593,1.593,0,0,0,1.591,1.591H16.514a1.593,1.593,0,0,0,1.591-1.591V10.149A1.593,1.593,0,0,0,16.514,8.558ZM11.7,1.811l2.432,2.432h-1.9a.531.531,0,0,1-.53-.53Zm-8.487-.22a.531.531,0,0,1,.53-.53h6.9V3.713A1.593,1.593,0,0,0,12.235,5.3h2.652V8.558H3.218ZM17.045,16.514a.531.531,0,0,1-.53.53H1.591a.531.531,0,0,1-.53-.53V10.149a.531.531,0,0,1,.53-.53H16.514a.531.531,0,0,1,.53.53Z"
-                                    transform="translate(0 0)" fill="#27db8d"></path>
-                                <path id="Path_185" data-name="Path 185"
-                                    d="M92.591,303.061a.531.531,0,0,1,.53.53.53.53,0,1,0,1.061,0,1.591,1.591,0,0,0-3.183,0v2.122a1.591,1.591,0,1,0,3.183,0,.53.53,0,0,0-1.061,0,.53.53,0,1,1-1.061,0v-2.122A.531.531,0,0,1,92.591,303.061Z"
-                                    transform="translate(-87.782 -291.321)" fill="#27db8d"></path>
-                                <path id="Path_186" data-name="Path 186"
-                                    d="M212.591,304.122a.53.53,0,1,1,.375-.906.53.53,0,0,0,.75-.75,1.591,1.591,0,1,0-1.125,2.717.53.53,0,1,1-.375.906.53.53,0,1,0-.75.75,1.591,1.591,0,1,0,1.125-2.717Z"
-                                    transform="translate(-203.539 -291.321)" fill="#27db8d"></path>
-                                <path id="Path_187" data-name="Path 187"
-                                    d="M333.778,302.013a.531.531,0,0,0-.643.386l-.546,2.185-.546-2.185a.53.53,0,1,0-1.029.257l1.061,4.243a.53.53,0,0,0,1.029,0l1.061-4.243A.53.53,0,0,0,333.778,302.013Z"
-                                    transform="translate(-319.293 -291.317)" fill="#27db8d"></path>
-                            </svg>
-                        </button>
-                        <button type="button" class="printer"><svg id="printer" xmlns="http://www.w3.org/2000/svg"
-                                width="19.26" height="19.26" viewBox="0 0 19.26 19.26">
-                                <path id="Path_192" data-name="Path 192"
-                                    d="M16.439,4.853h-.527V2.821A2.824,2.824,0,0,0,13.091,0H6.169A2.824,2.824,0,0,0,3.348,2.821V4.853H2.821A2.824,2.824,0,0,0,0,7.674v4.514a2.824,2.824,0,0,0,2.821,2.821h.527v2.558A1.7,1.7,0,0,0,5.041,19.26h9.178a1.7,1.7,0,0,0,1.693-1.693V15.009h.527a2.824,2.824,0,0,0,2.821-2.821V7.674A2.824,2.824,0,0,0,16.439,4.853ZM4.476,2.821A1.7,1.7,0,0,1,6.169,1.129h6.921a1.7,1.7,0,0,1,1.693,1.693V4.853H4.476ZM14.783,17.567a.565.565,0,0,1-.564.564H5.041a.565.565,0,0,1-.564-.564V12H14.783Zm3.348-5.379a1.7,1.7,0,0,1-1.693,1.693h-.527V12h.339a.564.564,0,1,0,0-1.129H3.009a.564.564,0,1,0,0,1.129h.339v1.881H2.821a1.7,1.7,0,0,1-1.693-1.693V7.674A1.7,1.7,0,0,1,2.821,5.981H16.439a1.7,1.7,0,0,1,1.693,1.693Z"
-                                    fill="#2c6ae5"></path>
-                                <path id="Path_193" data-name="Path 193"
-                                    d="M204.574,353h-3.009a.564.564,0,1,0,0,1.128h3.009a.564.564,0,1,0,0-1.128Z"
-                                    transform="translate(-193.439 -339.721)" fill="#2c6ae5"></path>
-                                <path id="Path_194" data-name="Path 194"
-                                    d="M204.574,417h-3.009a.564.564,0,1,0,0,1.129h3.009a.564.564,0,1,0,0-1.129Z"
-                                    transform="translate(-193.439 -401.314)" fill="#2c6ae5"></path>
-                                <path id="Path_195" data-name="Path 195"
-                                    d="M67.37,193H65.564a.564.564,0,1,0,0,1.128H67.37a.564.564,0,1,0,0-1.128Z"
-                                    transform="translate(-62.555 -185.74)" fill="#2c6ae5"></path>
-                            </svg>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -70,93 +33,18 @@
 
         <div class="cashier-salereturns-table-area">
             <div class="cashier-salereturns-table-innerC">
-                <div
-                    class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7">
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                            <input type="checkbox" id="b-check" name="b-check" data-checkbox-name="cbi"
-                                class="selectall">
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5> Date</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5> Detail Narration</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Cash Type </h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Amount</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Balance  </h5>
-                        </div>
-                    </div>
-                    <?php 
-                     $cin=0;
-                     $cout=0;
-                    if(!empty($data)):
-                        // s.Name,sp.balance as fb,sp.amount,sp.pay_type,sp.created
-                    foreach($data as $d):
-                    ?>
-                        <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                            <div class="cashier-salereturns-table-checkboxB default-light-theme">
-                                <input type="checkbox" id="cbi_1" name="cbi" value="1" data-select-all="b-check"
-                                    class="checkme">
-                            </div>
-                            <div class="cashier-salereturns-table-dateB">
-                                <span><?php echo date("Y-m-d", strtotime($d->created));?></span>
-                            </div>
-                            <div class="cashier-salereturns-table-dateB">
-                            <span><?php print_r($d->narration);?></span>
-                            </div>
-                            <div class="cashier-salereturns-table-dateB">
-                                <span>
-                                    <?php 
-                                        if($d->pay_type=="cash-in"){
-                                            echo "Cash In";
-                                            $cin+=$d->amount;
-                                        }
-                                        if($d->pay_type=="cash-out"){
-                                            echo "Cash out";
-                                            $cout+=$d->amount;
-                                        }
-                                    ?>
-                                </span>
-                            </div>
-                            <div class="cashier-salereturns-table-dateB">
-                                <span><?php 
-                                    echo $d->amount;
-                                ?></span>
-                            </div>
-                            <div class="cashier-salereturns-table-dateB">
-                            <span><?php print_r($d->fb);?></span>
-                            </div>
-                            
-                          
-                        </div>
-                    <?php endforeach;endif;?>
-                </div>
+            <table id="user-list" class="table display table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Narration</th>
+                            <th>Cash Type</th>
+                            <th>Amount</th>
+                            <th>Balance </th>
+                        </tr>
+                    </thead>
+                </table> 
             </div>
-            <div style="background-color:#dfd9d9;margin-top:10px;" class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Total Cash in:</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5><?php echo $cin;?></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Cash Out:</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5><?php echo $cout;?></h5>
-                        </div>
-                       
-                    </div>
         </div>
     </div>
-</div>
+</div><?php $file="shareholder-detail.php";?>

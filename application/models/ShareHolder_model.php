@@ -56,6 +56,31 @@ class ShareHolder_model extends CI_Model {
         $res =$this->db->get()->result();
         return $res;
     }
+    public function detailListing($id,$draw, $start, $length,$search=""){
+
+        $this->db->where('sid', $id);
+        $totalRecords = $this->db->count_all_results('shareholders_pays');
+
+        $this->db->select('sp.id, s.Name, c.narration, sp.balance as fb, sp.amount, sp.pay_type, sp.created');
+        $this->db->from('shareholders s');
+        $this->db->join('cash_in_out c', 'c.cash_sP = s.id', 'left');
+        $this->db->join('shareholders_pays sp', 'sp.sid = s.id', 'right');
+        $this->db->where('s.id', $id); // Assuming $id is a valid shareholder ID
+        $this->db->where('c.case_sT', 'shareholder');
+        $this->db->limit($length, $start);
+        $this->db->group_by('sp.created');
+
+        $res =$this->db->get()->result();
+        $shareholders = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $res
+        );
+    
+        return $shareholders;
+        return $res;
+    }
 
     public function createShareholder($data) {
         return $this->db->insert('shareholders', $data);

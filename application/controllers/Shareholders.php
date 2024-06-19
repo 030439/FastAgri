@@ -83,6 +83,20 @@ class Shareholders extends CI_Controller {
         $data=$this->ShareHolder_model->detail($id);
         $this->load->view('layout/parts',['page'=>"pages/shareholders/detail",'data'=>$data,'id'=>$id]);
     }
+    public function detailListing(){
+        try{
+            $id=$this->input->post("id");
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->ShareHolder_model->detailListing($id,$draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+    }
     public function detailPdf($id){
         $data=$this->ShareHolder_model->detail($id);
         $mpdf = new \Mpdf\Mpdf([

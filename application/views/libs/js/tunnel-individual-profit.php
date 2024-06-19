@@ -9,7 +9,7 @@ $('#user-list').DataTable({
               'excel'
           ],
           "ajax": {
-              url : "<?php echo base_url(); ?>tunnel/getunnelsExpenseList",
+              url : "<?php echo base_url(); ?>tunnel/getunnelsProfitList",
               type : 'post',
               data:{id:tid},
               error: function(xhr, error, thrown) {
@@ -17,13 +17,13 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
-                  { "data": "expense_type" },
-                  { "data": "head" },
-                  { "data": "rate" },
-                  { "data": "qty" },
+                  { "data": "customer" },
+                  { "data": "grade" },
+                  { "data": "Quantity" },
+                  { "data": "Rate" },
                   { "data": "amount" },
-                  { "data": "edate" },
-                  // { "data": "edate" },
+                  { "data": "NetAmount" },
+                  { "data": "selldate" },
               ]
       });
     </script>

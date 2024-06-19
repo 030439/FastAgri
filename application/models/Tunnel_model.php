@@ -303,9 +303,11 @@ class Tunnel_model extends CI_Model
 
     public function getunnelsExpenseList($id,$draw, $start, $length, $search = '') {
         // Get total records count
+        $this->db->from('tunnel_expense AS e');
+        $this->db->join('tunnels AS t', 't.id = e.tunnel_id');
         $this->db->where('t.id', $id);
-        $totalRecords = $this->db->count_all_results('tunnel_expense AS e JOIN tunnels AS t ON t.id = e.tunnel_id');
-    
+        $totalRecords = $this->db->count_all_results();
+        
         // Construct the base query with joins
         $this->db->select('
             e.id,
@@ -349,18 +351,18 @@ class Tunnel_model extends CI_Model
         // Process each record for additional data
         foreach ($res as $c => $re) {
             if ($re['expense_type'] == "issueStockPurchase") {
-                $pq = $this->getIssueProQty($id, $re['pid']);
-                $res[$c]['head'] = $this->productName_($re['pid']);
+                $pq = getIssueProQty($id, $re['pid']);
+                $res[$c]['head'] = productName_($re['pid']);
                 $res[$c]['qty'] = $pq['qty'];
                 $res[$c]['rate'] = $re['amount'];
                 $res[$c]['amount'] = $pq['qty'] * $re['amount'];
             } elseif ($re['expense_type'] == "Jamandari") {
-                $pq = $this->getIssueProQty($id, $re['pid'], $re['edate']);
+                $pq = getIssueProQty($id, $re['pid'], $re['edate']);
                 $res[$c]['head'] = $this->jamandarName($re['pid']);
                 $res[$c]['qty'] = 1;
                 $res[$c]['rate'] = 0;
             } else {
-                $lb = $this->getLabourQty($id, $re['eid']);
+                $lb = getLabourQty($id, $re['eid']);
                 $res[$c]['head'] = $lb['jname'];
                 $res[$c]['qty'] = $lb['qty'];
                 $res[$c]['rate'] = $lb['rate'];
@@ -430,12 +432,68 @@ class Tunnel_model extends CI_Model
         s.`freight`,
         s.`expences`,
         sd.`id` as sdID,
-        g.`Name` as grade,
+       
         sd.`Quantity`,
         sd.`Rate`,
         sd.`amount`,
         c.`Name` as customer,
+        t.`id` as tid,
         t.`TName` as tunnel
+        FROM 
+        `sells` AS s
+        JOIN 
+        `customers` AS c ON c.`id` = s.`customer`
+        JOIN 
+        `selldetails` AS sd ON sd.`SellId` = s.`id`
+        JOIN 
+        `tunnels` AS t ON t.`id` = sd.`tunnel`
+        WHERE t.`id` =$id");
+        $result = $query->result_array(); 
+        // dd($result);
+        $newData = [];
+
+        foreach ($result as $record) {
+            // Split comma-separated values
+            $quantities = explode(',', $record['Quantity']);
+            $rates = explode(',', $record['Rate']);
+            $amounts = explode(',', $record['amount']);
+            
+            // Determine the maximum length to iterate through
+            $maxLength = max(count($quantities), count($rates), count($amounts));
+            
+            for ($i = 0; $i < $maxLength; $i++) {
+                $newRecord = $record;
+                $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
+                $newRecord['Rate'] = $rates[$i] ?? $rates[0];
+                $newRecord['amount'] = $amounts[$i] ?? $amounts[0];
+                $newData[] = $newRecord;
+            }
+        }
+
+
+        return $newData;
+        return $result;
+    }
+    public function getunnelsProfitList($id,$draw, $start, $length, $search = ''){
+        $totalRecords = $this->db->query("SELECT COUNT(*) as count FROM `selldetails` WHERE `tunnel`=$id")->row()->count;
+        $sql = "
+        SELECT 
+        s.`id` AS sid,
+        s.`selldate`,
+        s.`total_amount`,
+        s.`labour`,
+        s.`freight`,
+        s.`expences`,
+        sd.`id` AS sdID,
+        g.`Name` AS grade,
+        sd.`Quantity`,
+        sd.`Rate`,
+        sd.`NetAmount`,
+        sd.`amount`,
+        c.`Name` AS customer,
+        t.`id` AS tid,
+        sd.`GradeId`,
+        t.`TName` AS tunnel
         FROM 
         `sells` AS s
         JOIN 
@@ -446,9 +504,53 @@ class Tunnel_model extends CI_Model
         `tunnels` AS t ON t.`id` = sd.`tunnel`
         JOIN 
         `grades` AS g ON g.`id` = sd.`GradeId`
-        WHERE t.`id` =$id");
+        WHERE t.`id` = $id
+    ";
+
+    // Apply pagination
+    $sql .= " LIMIT $start, $length";
+
+    // Execute the query
+    $query = $this->db->query($sql);
+    
+    $result = $query->result_array();
         $result = $query->result_array(); 
-        return $result;
+        $newData = [];
+
+        foreach ($result as $record) {
+            // Split comma-separated values
+            $quantities = explode(',', $record['Quantity']);
+            $rates = explode(',', $record['Rate']);
+            $amounts = explode(',', $record['amount']);
+            $GradeId = explode(',', $record['GradeId']);
+            $NetAmount = explode(',', $record['NetAmount']);
+            
+            // Determine the maximum length to iterate through
+            $maxLength = max(count($quantities), count($rates), count($amounts));
+            
+            for ($i = 0; $i < $maxLength; $i++) {
+                $newRecord = $record;
+                $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
+                $newRecord['Rate'] = $rates[$i] ?? $rates[0];
+                $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
+                $newRecord['amount'] = $amounts[$i] ?? $amounts[0];
+                $grade=$GradeId[$i] ?? $GradeId[0];
+                if($grade==1){
+                    $newRecord['GradeId'] = "A";
+                }
+                else{
+                    $newRecord['GradeId'] = "B";
+                }
+                $newData[] = $newRecord;
+            }
+        }
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => count($newData),
+            "recordsFiltered" => count($newData),  // Update this if server-side filtering is applied
+            "data" => $newData
+        );
+        return $response;
     }
 
 }

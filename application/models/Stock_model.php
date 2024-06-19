@@ -537,6 +537,31 @@ class Stock_model extends CI_Model {
         return $expenses;
     }
     
+
+    public function issueListPdf(){
+        $query = $this->db->query("
+        SELECT 
+            i.`id` AS issue_stock_id,
+            i.`PqId`,
+            i.`pid`,
+            i.`Quantity`,
+            i.`i_date`,
+            p.`Name` AS product_name,
+            t.`TName`,
+            e.`Name` AS employee
+        FROM 
+        `issuestock` AS i
+        JOIN 
+        `products` AS p ON i.`pid` = p.`id`
+        JOIN 
+        `tunnels` AS t ON i.`tunnel_id` = t.`id`
+        JOIN 
+        `employees` AS e ON e.`id` = i.`empoyee_id`
+
+        ");
+        $result = $query->result();
+        return $result;
+    }
     
     public function issueList($draw, $start, $length, $search = '') {
         // Get total records count

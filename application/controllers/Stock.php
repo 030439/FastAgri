@@ -156,7 +156,7 @@ class Stock extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$data=$this->Stock_model->issueList($draw,$start = 0, $length = 10,$search);
+			$data=$this->Stock_model->issueList($draw,$start, $length,$search);
 			echo jsonOutPut($data);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -164,7 +164,7 @@ class Stock extends CI_Controller {
 		}
 	}
 	public function issuePdf(){
-		$data=$this->Stock_model->issueList();
+		$data=$this->Stock_model->issueListPdf();
         $mpdf = new \Mpdf\Mpdf([
             'format'=>'A4',
             'margin_top'=>0,

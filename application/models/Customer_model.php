@@ -132,6 +132,100 @@ class Customer_model extends CI_Model {
         }
         return $newResult;
     }
+    public function customerDetailListing($id, $draw, $start, $length, $search = ''){
+        $searchQuery = "";
+        if($search != ''){
+            $searchQuery = " AND (
+                c.`Name` LIKE '%".$search."%' OR 
+                c.`contact` LIKE '%".$search."%' OR 
+                c.`Address` LIKE '%".$search."%' OR 
+                s.`dno` LIKE '%".$search."%' OR 
+                s.`vno` LIKE '%".$search."%' OR 
+                sd.`GradeId` LIKE '%".$search."%' OR 
+                sd.`tunnel` LIKE '%".$search."%'
+            )";
+        }
+        
+        // Fetch total records
+        $totalQuery = $this->db->query("
+            SELECT COUNT(*) AS total
+            FROM `sells` AS s
+            JOIN `customers` AS c ON c.`id` = s.`customer`
+            JOIN `selldetails` AS sd ON sd.`SellId` = s.`id`
+            WHERE s.`customer`=$id
+        ");
+        $totalRecords = $totalQuery->row()->total;
+    
+        // Fetch filtered records
+        $query = $this->db->query("
+            SELECT 
+            s.`id` AS sid,
+            s.`selldate`,
+            s.`dno`,
+            s.`vno`,
+            s.`status` as status,
+            s.`labour` as labour,
+            s.`freight` as kraya,
+            sd.`GradeId`,
+            sd.`id` as sdID,
+            sd.`tunnel`,
+            sd.`Quantity`,
+            sd.`Rate`,
+            sd.`amount`,
+            c.`Name` as customer,
+            c.`contact` as cno,
+            c.`Address` as caddress
+            FROM 
+            `sells` AS s
+            JOIN 
+            `customers` AS c ON c.`id` = s.`customer`
+            JOIN 
+            `selldetails` AS sd ON sd.`SellId` = s.`id`
+            WHERE s.`customer`=$id
+            $searchQuery
+            LIMIT $start, $length
+        ");
+        $result = $query->result_array(); 
+    
+        // Process results
+        $newResult = [];
+        foreach ($result as $row) {
+            $quantities = explode(',', $row['Quantity']);
+            $tunnels = explode(',', $row['tunnel']);
+            $GradeId=explode(',', $row['GradeId']);
+            $rate_=explode(',',$row['Rate']);
+            $amount=explode(',',$row['amount']);
+            foreach ($quantities as $index => $quantity) {
+                $newRow = [
+                    'sid'        => $row['sid'],
+                    'selldate'   => $row['selldate'],
+                    'labour'     => $row['labour'],
+                    'sdID'       => $row['sdID'],
+                    'grade'      => $this->gradeName($GradeId[$index]),
+                    'Quantity'   => $quantity,
+                    'status'     => $row['status'],
+                    'Fasal'      => $this->faslaName($tunnels[$index]),
+                    'Rate'       => $rate_[$index],
+                    'freight'    => $row['kraya'],
+                    'amount'     => $amount[$index],
+                    'customer'   => $row['customer'],
+                    'tunnel'     => $this->tunnelName($tunnels[$index]),
+                ];
+                $newResult[] = $newRow;
+            }
+        }
+    
+        // Prepare DataTables response
+        $response = [
+            "draw" => intval($draw),
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords, // update if you are using search query
+            "data" => $newResult
+        ];
+        
+        return $response;
+    }
+    
     // public function customerDetailList($draw, $start, $length, $search = '', $id) {
     //     // Count total records
     //     $this->db->select('COUNT(*) as total');

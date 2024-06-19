@@ -1,5 +1,5 @@
 <script>
-  var tid=$("#tunnel-expense-id").val();
+  var tid=$("#customer-indi-id").val();
 $('#user-list').DataTable({
     responsive: true,
     "processing": true,
@@ -9,7 +9,7 @@ $('#user-list').DataTable({
               'excel'
           ],
           "ajax": {
-              url : "<?php echo base_url(); ?>tunnel/getunnelsExpenseList",
+              url : "<?php echo base_url(); ?>customer/customerDetailListing",
               type : 'post',
               data:{id:tid},
               error: function(xhr, error, thrown) {
@@ -17,13 +17,13 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
-                  { "data": "expense_type" },
-                  { "data": "head" },
-                  { "data": "rate" },
-                  { "data": "qty" },
+                  { "data": "tunnel" },
+                  { "data": "Fasal" },
+                  { "data": "grade" },
+                  { "data": "Quantity" },
+                  { "data": "Rate" },
                   { "data": "amount" },
-                  { "data": "edate" },
-                  // { "data": "edate" },
+                  { "data": "selldate" },
               ]
       });
     </script>

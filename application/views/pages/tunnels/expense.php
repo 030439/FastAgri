@@ -1,7 +1,7 @@
 <div class="cashier-content-area mt-[30px] px-7">
-    <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-        <div class="cashier-transection-selectors flex items-center justify-between pb-5 maxSm:block">
-            <h4 class="text-[20px] text-heading mb-2.5 font-bold"><?php if($data['expenses']): echo $data['expenses']['0']->tunnel; endif;?> : Expenses</h4>
+    <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 ">
+        <div class="cashier-transection-selectors flex items-center justify-between  maxSm:block">
+            <h4 class="text-[20px] text-heading  font-bold"><?php if($data['expenses']): echo $data['expenses']['0']->tunnel; endif;?> : Expenses</h4>
             </div>
        <style>
         @media (max-width: 1400px) {
@@ -12,10 +12,10 @@
 }
        </style>
         <div class="cashier-table-header-search-area">
-            <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
+            <div class="grid grid-cols-12 gap-x-5  pb-0.5">
                 <div class="lg:col-span-5 md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search relative maxSm:mb-4">
-                        
+                        <input id="tunnel-expense-id" type="hidden" value="<?php echo $data['expenses'][0]->tid?>">
                     </div>
                 </div>
                 <div class="lg:col-span-7 md:col-span-6 col-span-12">
@@ -42,96 +42,19 @@
         </div>
 
         <div class="cashier-salereturns-table-area">
-        <table id="expense-list"  class="table table-bordered borderd table-striped display table-hover">
-                        <thead>
-                            <tr>
-                                <th>Expense Type</th>
-                                <th>Product/Person</th>
-                                <th>Rate</th>
-                                <th>Quantity</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Detail</th>
-                            </tr>
-                        </thead>
-                    </table> 
-            <div class="cashier-salereturns-table-innerS">
-                <div
-                    class="cashier-salereturns-table-inner-wrapperS border border-solid border-grayBorder border-b-0 mb-7">
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Expense Type</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Product/Person</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Rate</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Quantity</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Amount</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Date</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Detail</h5>
-                        </div>
-                    </div>
-                    <?php $total=0;if($data['expenses']):foreach($data['expenses'] as $d):?>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->expense_type;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->head;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->rate;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->qty;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <span><?php echo $d->amount; $total+=$d->amount;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                        <span><?php echo $d->edate;?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <span> Detail</span>
-                        </div>
-                    </div>
-                    <?php endforeach; endif;?>
-                    <div style="background-color:#dfd9d9;margin-top:10px;" class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5>Total Amount :</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5><?= $total;?></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateP">
-                            <h5></h5>
-                        </div>
-                    </div>
-                </div>
-         
-            </div>
+            <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
+                <thead>
+                    <tr>
+                        <th>Expense Type</th>
+                        <th>Product/Person</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <!-- <th>Detail</th> -->
+                    </tr>
+                </thead>
+            </table> 
         </div>
     </div>
 </div>
