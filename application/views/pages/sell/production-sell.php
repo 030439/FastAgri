@@ -49,7 +49,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Driver Number</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" placeholder="number" name="dnumber">
+                            <input type="text" placeholder="number" name="dnumber">
                         </div>
                     </div>
                 </div>

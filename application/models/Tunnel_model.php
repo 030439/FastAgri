@@ -358,7 +358,7 @@ class Tunnel_model extends CI_Model
                 $res[$c]['amount'] = $pq['qty'] * $re['amount'];
             } elseif ($re['expense_type'] == "Jamandari") {
                 $pq = getIssueProQty($id, $re['pid'], $re['edate']);
-                $res[$c]['head'] = $this->jamandarName($re['pid']);
+                $res[$c]['head'] = jamandarName($re['pid']);
                 $res[$c]['qty'] = 1;
                 $res[$c]['rate'] = 0;
             } else {

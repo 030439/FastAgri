@@ -42,11 +42,11 @@ class Employee extends CI_Controller {
 	}
 	public function listing()
 	{
-		$start = $this->input->get("start") ?? 0;
-		$length = $this->input->get("length") ?? 10;
-		$draw = $this->input->get("draw") ?? 0;
+		$start = $this->input->post("start") ?? 0;
+		$length = $this->input->post("length") ?? 10;
+		$draw = $this->input->post("draw") ?? 0;
 
-		$vendor = $this->input->get('vendor', TRUE);
+		$vendor = $this->input->post('vendor', TRUE);
 		$this->load->database();
 		
 		$this->db->select('
@@ -81,12 +81,11 @@ class Employee extends CI_Controller {
 		$filtered = count($result);
 		$totalRows = $this->db->count_all_results('employees', false);
 		$response = array(
-			"draw" => $draw,
-			"recordsTotal" => $totalRows,
-			"recordsFiltered" => $totalRows,
-			"data" => $result,
-		);
-
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRows),
+            "recordsFiltered" => intval($filtered),
+            "data" => $result
+        );
 		echo jsonOutPut($response);
 		exit();
 	}

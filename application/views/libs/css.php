@@ -21,4 +21,7 @@
         margin-left:5px;
         background-color:#eaf6f6
     }
+    .cashier-menu ul li a {
+        padding: 4px 20px; 
+    }
 </style>

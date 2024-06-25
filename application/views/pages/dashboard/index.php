@@ -98,13 +98,6 @@
                                                 </div>
                                             </a>
                                         </div>
-
-                                        <div
-                                            class="cashier-quickview-last rounded-lg border-[1.5px] border-dashed p-[30px] mb-5 border-[#DCE0EB] h-full flex flex-col justify-center items-center">
-                                            <div class="cashier-quickview-box ">
-                                                <i class="far fa-plus text-[#B4BBD2] text-[20px]"></i>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

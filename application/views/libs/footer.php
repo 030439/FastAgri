@@ -388,6 +388,7 @@
       var cashtype=$(this).val();
       if(cashtype=="cash-in"){
         var options = [
+        { value: '', text: 'Select Party' },
         { value: 'customer', text: 'Customer' },
         { value: 'shareholder', text: 'Shareholder' },
         { value: 'direct', text: 'Direct' }
@@ -399,6 +400,7 @@
       }
       else if(cashtype=="cash-out"){
         var options = [
+        { value: '', text: 'Select Party' },
         { value: 'supplier', text: 'Supplier' },
         { value: 'shareholder', text: 'Share Holder' },
         { value: 'pay', text: 'Salary' },

@@ -1224,8 +1224,8 @@ div .cashier-input-field-file input {
 }
 @media (max-width: 1400px) {
   .cashier-quickview {
-    min-width: 0px;
-    width: 31.33%;
+    /* min-width: 0px;
+    width: 31.33%; */
   }
 }
 @media (max-width: 991px) {
