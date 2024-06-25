@@ -27,7 +27,6 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Cash Selection Type</h5>
                     <div class="cashier-select-field-style">
                         <select id="cash-selection-type" class="block" name="cash-selection-type">
-                        <option value="default" selected disabled>Select an option</option>
                         </select>
                         <?php validator('designation_id')?>
                     </div>

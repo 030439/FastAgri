@@ -388,7 +388,7 @@
       var cashtype=$(this).val();
       if(cashtype=="cash-in"){
         var options = [
-        { value: '', text: 'Select Party' },
+        { value: '', text: 'Select Selection Type' },
         { value: 'customer', text: 'Customer' },
         { value: 'shareholder', text: 'Shareholder' },
         { value: 'direct', text: 'Direct' }
@@ -400,7 +400,7 @@
       }
       else if(cashtype=="cash-out"){
         var options = [
-        { value: '', text: 'Select Party' },
+        { value: '', text: 'Select Selection Type' },
         { value: 'supplier', text: 'Supplier' },
         { value: 'shareholder', text: 'Share Holder' },
         { value: 'pay', text: 'Salary' },
@@ -422,6 +422,9 @@
         if(cst=="customer"){
           getcustomers();
         }
+        else if(cst==""){
+          $("#cash-selection-party").html("");
+        }
         else if(cst=="shareholder"){
           getShareSolders();
           $("#narration-field").show();
@@ -435,6 +438,9 @@
         if(cst=="supplier"){
           getSuppliers();
           $("#narration-field").show();
+        }
+        else if(cst==""){
+          $("#cash-selection-party").html("");
         }
         else if(cst=="pay"){
           getEmployees();
