@@ -45,7 +45,15 @@ $('#user-list').DataTable({
                         }
                     }
                 },
-                  { "data": "famount" },  
+                  { "data": "famount" }, 
+                  { // Actions column
+                     "data": "id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="cashbook/invoice/'+data+'"><span>Print</span></a>';
+                        }
+                                      
+                  } 
               ]
       });
     </script>

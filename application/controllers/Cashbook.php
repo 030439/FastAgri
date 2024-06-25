@@ -31,6 +31,7 @@ class Cashbook extends CI_Controller {
 			}
 
 	}
+	public 
 	public function customerDetail($id){
 		try {
 			$data=$this->Customer_model->customerDetail($id);
