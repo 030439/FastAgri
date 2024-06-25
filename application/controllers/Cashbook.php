@@ -31,8 +31,13 @@ class Cashbook extends CI_Controller {
 			}
 
 	}
-	public function invoice(){
-		
+	public function invoice($id){
+		$res=$this->Cashbook_model->invoice($id);
+		if($res[0]['cash_s']=="cash-out"){
+			$this->load->view("pages/cashbook/credit",['data'=>$res]);
+		}else{
+			$this->load->view("pages/cashbook/debit",['data'=>$res]);
+		}
 	}
 	public function customerDetail($id){
 		try {

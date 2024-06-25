@@ -17,12 +17,22 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
-                        { 
-                        "data": "created_at",
+                   {
+                        "data": null,
                         "render": function(data, type, full, meta) {
-                            return moment(data).format('YYYY-MM-DD');
+                            if (full.cash_s === 'cash-in') {
+                                return "CR-"+data.id;
+                            } else {
+                                return "PV-"+data.id;
+                            }
                         }
                     },
+                    { 
+                    "data": "created_at",
+                    "render": function(data, type, full, meta) {
+                        return moment(data).format('YYYY-MM-DD');
+                    }
+                },
                   { "data": "name" },
                   { "data": "narration" },
                   {

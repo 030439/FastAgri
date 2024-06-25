@@ -140,7 +140,47 @@ class Cashbook_model extends CI_Model {
         return $response;
     }
     
-
+    public function invoice($id){
+        $this->db->select('*');
+        $this->db->from('cash_in_out');
+        $this->db->WHERE('id', $id);
+        $cash = $this->db->get()->result_array();
+        foreach($cash as $c=>$d){
+            if($d['cash_s']=="cash-in"){
+                $credit+=$d['amount'];
+                if($d['case_sT']=="customer"){
+                    $cash[$c]['pname']=$this->customerName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->CustomerCurrentAmount($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="shareholder") {
+                    $cash[$c]['pname']=$this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->ShareHolderCurrentAmount($d['cash_sP']);
+                }
+            }elseif($d['cash_s']=="cash-out"){
+                if($d['case_sT']=="supplier"){
+                    $cash[$c]['pname']=$this->SupplierName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->SupplierCurrentAmount($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="shareholder") {
+                    $cash[$c]['pname']=$this->ShareHolderName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->ShareHolderCurrentAmount($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="pay") {
+                    $cash[$c]['pname']=$this->EmployeeName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->EmployeeCurrentAmount($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="jamandari") {
+                    $cash[$c]['pname']=$this->jamandarName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->JamandarCurrentAmount($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="expense") {
+                    $cash[$c]['pname']=$this->accountHeadName($d['cash_sP']);
+                    $cash[$c]['current_amount']="-";
+                }
+            }
+        }
+        return ($cash);
+    }
     public function cashbookById($id) {
         $this->db->select('c.*,a.amount as famount');
         $this->db->from('cash_in_out c');
@@ -196,12 +236,26 @@ class Cashbook_model extends CI_Model {
         $customer = $this->db->get()->result();
         return $customer[0]->Name;
     }
+    public function CustomerCurrentAmount($id){
+        $this->db->select('closing');
+        $this->db->from('customer_detail');
+        $this->db->WHERE('cid', $id);
+        $customer = $this->db->get()->result();
+        return $customer[0]->closing;
+    }
     public function jamandarName($id){
         $this->db->select('name');
         $this->db->from('jamandars');
         $this->db->WHERE('id', $id);
         $customer = $this->db->get()->result();
         return $customer[0]->name;
+    }
+    public function JamandarCurrentAmount($id){
+        $this->db->select('payable');
+        $this->db->from('jamandartotal');
+        $this->db->WHERE('jamandar_id', $id);
+        $customer = $this->db->get()->result();
+        return $customer[0]->payable;
     }
     public function SupplierName($id){
         $this->db->select('Name');
@@ -210,6 +264,13 @@ class Cashbook_model extends CI_Model {
         $supplier = $this->db->get()->result();
         return $supplier[0]->Name;
     }
+    public function SupplierCurrentAmount($id){
+        $this->db->select('closing');
+        $this->db->from('supplier_detail');
+        $this->db->WHERE('sid', $id);
+        $supplier = $this->db->get()->result();
+        return $supplier[0]->closing;
+    }
     public function ShareHolderName($id){
         $this->db->select('Name');
         $this->db->from('shareholders');
@@ -217,12 +278,26 @@ class Cashbook_model extends CI_Model {
         $shareholder = $this->db->get()->result();
         return $shareholder[0]->Name;
     }
+    public function ShareHolderCurrentAmount($id){
+        $this->db->select('balance');
+        $this->db->from('shareholders');
+        $this->db->WHERE('id', $id);
+        $shareholder = $this->db->get()->result();
+        return $shareholder[0]->balance;
+    }
     public function EmployeeName($id){
         $this->db->select('Name');
         $this->db->from('employees');
         $this->db->WHERE('id', $id);
         $shareholder = $this->db->get()->result();
         return $shareholder[0]->Name;
+    }
+    public function EmployeeCurrentAmount($id){
+        $this->db->select('payable');
+        $this->db->from('employees');
+        $this->db->WHERE('id', $id);
+        $shareholder = $this->db->get()->result();
+        return $shareholder[0]->payable;
     }
     public function accountHeadName($id){
         $this->db->select('Name');

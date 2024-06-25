@@ -90,6 +90,7 @@
                     <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
                         <thead>
                             <tr>
+                                <th>Voucher No</th>
                                 <th>Date</th>
                                 <th>Head</th>
                                 <th>Narration</th>
