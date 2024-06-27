@@ -134,6 +134,56 @@ class Employee_model extends CI_Model {
         $stocks = $this->db->get()->result();
         return $stocks;
     }
+
+    public function employeeLoanListing($draw, $start, $length, $search)
+    {
+        // Total records without filtering
+        $totalRecords = $this->db->count_all_results('employee_loan');
+    
+        // Start the query with the necessary joins
+        $this->db->select('
+            employee_loan.id, 
+            employee_loan.amount, 
+            employee_loan.date_, 
+            employee_loan.installment,
+            employees.Name as employee, 
+            employeecategory.Name as category 
+        ');
+        $this->db->from('employee_loan');
+        $this->db->join('employees', 'employees.id = employee_loan.employee_id', 'left');
+        $this->db->join('employeecategory', 'employee_loan.employee_type = employeecategory.id', 'left');
+    
+        
+    
+        // Apply search filter if provided
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('employee_loan.amount', $search);
+            $this->db->or_like('employees.Name', $search);
+            $this->db->or_like('employee_loan.installment', $search);
+            $this->db->or_like('employee_loan.date_', $search);
+            $this->db->or_like('employeecategory.Name', $search);
+            $this->db->group_end();
+        }
+        // Apply pagination
+        $this->db->limit($length, $start);
+        $this->db->order_by('employee_loan.id', 'desc');
+    
+        // Get the data
+        $data = $this->db->get()->result();
+    
+        // Prepare the response
+        $response = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data" => $data
+        );
+    
+        return $response;
+    }
+    
+
     public function saveDesignation($data) {
         return $this->db->insert('designations', $data);
     }

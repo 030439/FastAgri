@@ -1,11 +1,10 @@
 <script>
 $('#user-list').DataTable({
     "processing": true,
+    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "serverSide": true,
       dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ],
+         
 
           "ajax": {
               url : "<?php echo base_url(); ?>tunnels-list-js",

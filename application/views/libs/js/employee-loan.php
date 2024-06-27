@@ -1,30 +1,27 @@
 <script>
-  var tid=$("#tunnel-expense-id").val();
+    var jid=$("#jid-detail").val();
 $('#user-list').DataTable({
     responsive: true,
     buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
-         
+      buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
           "ajax": {
-              url : "<?php echo base_url(); ?>tunnel/getunnelsExpenseList",
+              url : "<?php echo base_url(); ?>employee-loan-listing",
               type : 'post',
-              data:{id:tid},
+              data:{id:jid},
               error: function(xhr, error, thrown) {
               alert('Error: ' + xhr.responseText);
           }
           },        
            "columns": [
-                  { "data": "expense_type" },
-                  { "data": "head" },
-                  { "data": "rate" },
-                  { "data": "qty" },
+                  { "data": "employee" },
+                  { "data": "category" },
                   { "data": "amount" },
-                  { "data": "edate" },
-                  // { "data": "edate" },
+                  { "data": "installment" },
+                  { "data": "date_" },
+                  
               ]
       });
     </script>
-
-

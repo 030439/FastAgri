@@ -2,12 +2,11 @@
   var tid=$("#customer-indi-id").val();
 $('#user-list').DataTable({
     responsive: true,
+    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ],
+         
           "ajax": {
               url : "<?php echo base_url(); ?>customer/customerDetailListing",
               type : 'post',

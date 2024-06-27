@@ -1,12 +1,36 @@
 <script>
 $('#user-list').DataTable({
     responsive: true,
+    buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the last column
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the last column
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the last column
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: ':not(:last-child)' // Exclude the last column
+                }
+            }
+        ],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ],
+          
           "ajax": {
               url : "<?php echo base_url(); ?>shareholders-list-js",
               type : 'post',

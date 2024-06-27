@@ -205,6 +205,34 @@ class Jamandar_model extends CI_Model {
         $stocks = $this->db->get()->result();
         return $stocks;
     }
+    
+    public function jamandarsLoanListing($draw,$start, $length,$search){
+        $totalRecords = $this->db->count_all_results('jamandar_loan');
+
+        $this->db->select('
+        jamandar_loan.id as jlid, jamandar_loan.amount as amount, jamandar_loan.installment as installment, jamandar_loan.date_ as date_, jamandars.name as name
+       ');
+        $this->db->from('jamandar_loan');
+        $this->db->join('jamandars', 'jamandars.id = jamandar_loan.jid', 'left');
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('jamandar_loan.amount', $search);
+            $this->db->or_like('jamandar_loan.installment', $search);
+            $this->db->or_like('jamandar_loan.date_', $search);
+            $this->db->or_like('jamandars.name', $search);
+            $this->db->group_end();
+        }
+        $this->db->limit($length, $start);
+        $this->db->order_by('jamandar_loan.id', 'desc');
+        $stocks = $this->db->get()->result();
+        $response = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $stocks
+        );
+        return $response;
+    }
 
 
     function getJmanadarsReports(){

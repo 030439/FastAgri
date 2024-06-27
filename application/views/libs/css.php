@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="assets/output.css" />
 <link rel="stylesheet" href="assets/css/toaster.css" />
 <link rel="stylesheet" href="assets/css/datatable.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
 <style>
     .dt-search{
         float:right;

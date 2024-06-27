@@ -131,6 +131,7 @@ $route['generate-pays']='Employee/generatePays';
 $route['getEmployees']="Employee/getEmployees";
 $route['getEmployeeById']="Employee/getEmployeePayById";
 $route['getEmployeesList']="Employee/getEmployeesList";
+$route['employee-loan-listing']="Employee/employeeLoanListing";
 //Jammandar 
 $route['jamandars']='Jamandar/index';
 $route['getJamandars']='Jamandar/getJamandars';
@@ -138,6 +139,7 @@ $route['add-jamandar']='Jamandar/add';
 $route['save-jamandar']='Jamandar/save';
 $route['jamandar-detail/(:num)']="Jamandar/detail/$1";
 $route['jamandars/Advance']="Jamandar/Advance";
+$route['jamandars-loan-listing']="Jamandar/jamandarsLoanListing";
 $route['jamandar-advance-add']="Jamandar/jamandarAdvanceAdd";
 $route['jamandariAccount']="Jamandar/jamandariAccount";
 $route['getJamandariById']="Jamandar/getJamandariById";

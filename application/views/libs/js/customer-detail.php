@@ -1,12 +1,10 @@
 <script>
 $('#user-list').DataTable({
     responsive: true,
+    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ],
           "ajax": {
               url : "<?php echo base_url(); ?>customer-detail/12",
               type : 'post',

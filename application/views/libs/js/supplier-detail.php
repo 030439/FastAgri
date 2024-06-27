@@ -2,12 +2,11 @@
 var sid=$("#supplier-detail-id").attr('title');
 $('#user-list').DataTable({
     responsive: true,
+    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
-          buttons: [
-              'excel'
-          ],
+         
           "ajax": {
               url : "<?php echo base_url(); ?>supplier/detail/listing/"+sid,
               type : 'post',

@@ -1,5 +1,5 @@
 <script>
-  var tid=$("#tunnel-expense-id").val();
+    var jid=$("#jid-detail").val();
 $('#user-list').DataTable({
     responsive: true,
     buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
@@ -8,23 +8,19 @@ $('#user-list').DataTable({
       dom: 'Bfrtip',
          
           "ajax": {
-              url : "<?php echo base_url(); ?>tunnel/getunnelsExpenseList",
+              url : "<?php echo base_url(); ?>jamandars-loan-listing",
               type : 'post',
-              data:{id:tid},
+              data:{id:jid},
               error: function(xhr, error, thrown) {
               alert('Error: ' + xhr.responseText);
           }
           },        
            "columns": [
-                  { "data": "expense_type" },
-                  { "data": "head" },
-                  { "data": "rate" },
-                  { "data": "qty" },
+                  { "data": "name" },
                   { "data": "amount" },
-                  { "data": "edate" },
-                  // { "data": "edate" },
+                  { "data": "installment" },
+                  { "data": "date_" },
+                  
               ]
       });
     </script>
-
-

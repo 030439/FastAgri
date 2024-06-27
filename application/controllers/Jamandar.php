@@ -63,10 +63,24 @@ class Jamandar extends CI_Controller{
 	}
     public function advance() 
 	{
-		$data=$this->Jamandar_model->getLoans();
         $jamandar=$this->Jamandar_model->getAll();
-		$this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar-advance",'data'=>$data,'jamandar'=>$jamandar]);
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/jamandar-advance",'jamandar'=>$jamandar]);
 	}
+
+	public function jamandarsLoanListing(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Jamandar_model->jamandarsLoanListing($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
+
     public function jamandarAdvanceAdd(){
 		$data = $this->input->post(NULL, TRUE);
 		try {
