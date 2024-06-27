@@ -147,7 +147,6 @@ class Cashbook_model extends CI_Model {
         $cash = $this->db->get()->result_array();
         foreach($cash as $c=>$d){
             if($d['cash_s']=="cash-in"){
-                $credit+=$d['amount'];
                 if($d['case_sT']=="customer"){
                     $cash[$c]['pname']=$this->customerName($d['cash_sP']);
                     $cash[$c]['current_amount']=$this->CustomerCurrentAmount($d['cash_sP']);

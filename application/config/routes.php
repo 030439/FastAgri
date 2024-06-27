@@ -185,3 +185,6 @@ $route['OtherExpense']="AccountHeads/OtherExpense";
 $route['addAccountHead']="AccountHeads/addAccountHead";
 $route['cashbook/print/(:num)']="Cashbook/printSlip/$1";
 $route['cash-flow']="Cashbook/cashFlow";
+$route['daily-expenses']="Report/dailyExpense";
+$route['expense-listing']="Report/dailyExpenseListing";
+$route['add/expense']="Report/addExpense";

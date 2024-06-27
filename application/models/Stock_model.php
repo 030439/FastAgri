@@ -536,6 +536,53 @@ class Stock_model extends CI_Model {
     
         return $expenses;
     }
+
+    public function dailyExpenseListing($draw, $start, $length, $search = '') {
+        // Get the total number of records
+        $this->db->from('expenses');
+        $totalRecords = $this->db->count_all_results();
+    
+        // Create the query with query builder
+        $this->db->select('
+            e.id,
+            e.narration,
+            e.amount,
+            e.created_at,
+            a.name
+        ');
+        $this->db->from('expenses AS e');
+        $this->db->join('account_head AS a', 'a.id = e.head');
+    
+        // Apply search filter if any
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('e.narration', $search);
+            $this->db->or_like('e.amount', $search);
+            $this->db->or_like('a.name', $search);
+            $this->db->or_like('e.created_at', $search);
+            $this->db->group_end();
+        }
+    
+        // Get the filtered records count
+        $filteredRecords = $this->db->count_all_results('', FALSE);
+        // $this->db->order_by('e.id', 'DESC');
+        // Limit the results for pagination
+        $this->db->limit($length, $start);
+    
+        // Execute the query
+        $query = $this->db->get();
+        $result = $query->result();
+    
+        // Prepare the final output
+        $expenses = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($filteredRecords),
+            "data" => $result
+        );
+    
+        return $expenses;
+    }
     
 
     public function issueListPdf(){

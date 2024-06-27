@@ -228,12 +228,7 @@
                         <ul class="mm-collapse">
                             <li><a href="cashbook">CashBook</a></li>
                             <li><a href="AccountHeads">Account Heads</a></li>
-                            <li><a href="javascript:void(0)" class="has-arrow">Expenses</a>
-                                <ul class="mm-collapse">
-                                    <li><a href="#">Add Expenses</a></li>
-                                    <li><a href="#">List Expenses</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="daily-expenses">Expenses</a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">Assets</a>
                                 <ul class="mm-collapse">
                                     <li><a href="#">Add Assets</a></li>

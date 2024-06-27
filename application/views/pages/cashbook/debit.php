@@ -103,10 +103,10 @@ span{
           <img src="<?php echo base_url()?>assets/img/logo/logo-fatf.png" alt="" />
         </div>
         <div class="heading">
-          <h1>Payment Receipt </h1>
+          <h1>Cash Receipt </h1>
         </div>
         <div class="detail">
-            <h4>Receipt No: <span>C-0<?php echo $data[0]['id']?></span></h4>
+            <h4>Receipt No: <span>inv-0<?php echo $data[0]['id']?></span></h4>
             <h4>Date: 
                 <span>
                     <?php $new_date_format = date('Y-m-d', strtotime($data[0]['created_at'])); echo $new_date_format;?>
@@ -115,7 +115,7 @@ span{
         </div>
       </div>
       <div class="content">
-        <h4 class="w-50">Paid To: <span><?php echo $data['0']['pname'];?></span></h4>
+        <h4 class="w-50">Received From: <span><?php echo $data['0']['pname'];?></span></h4>
       </div>
       <h4 class="margin">Narration: <span><?php echo $data['0']['narration'];?></span></h4>
       <div class="div">
