@@ -7,6 +7,7 @@ class AccountHeads extends CI_Controller
         parent::__construct();
         $this->load->model('Customer_model');
         $this->load->model('Cashbook_model');
+        $this->load->model('ShareHolder_model');
         $this->load->library('form_validation');
 		// if (!is_authorized()) {
 		// 	redirect('auth/login');
@@ -54,5 +55,10 @@ class AccountHeads extends CI_Controller
             redirect($route);
 		   }
 	}
+
+    public function addAsset(){
+        $data['shareholders']= $this->ShareHolder_model->getshareholders();
+        $this->load->view('layout/parts',['page'=>"pages/asset/add",'data'=>$data]);
+    }
 
 }

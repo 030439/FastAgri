@@ -190,3 +190,6 @@ $route['cash-flow']="Cashbook/cashFlow";
 $route['daily-expenses']="Report/dailyExpense";
 $route['expense-listing']="Report/dailyExpenseListing";
 $route['add/expense']="Report/addExpense";
+
+//assets
+$route['asset/add']="AccountHeads/addAsset";
