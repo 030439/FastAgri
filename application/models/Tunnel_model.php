@@ -25,7 +25,7 @@ class Tunnel_model extends CI_Model
             $res['sh_id']=implode(',', $data['shareholder']);
             $res['cDate']=$data['cdate'];
            
-        $this->db->insert(' tunnels', $res);
+        $this->db->insert('tunnels', $res);
         $sid =$this->db->insert_id();
         $Qt=[
             'tunnel'  => $sid,

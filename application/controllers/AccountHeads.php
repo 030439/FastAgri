@@ -60,5 +60,63 @@ class AccountHeads extends CI_Controller
         $data['shareholders']= $this->ShareHolder_model->getshareholders();
         $this->load->view('layout/parts',['page'=>"pages/asset/add",'data'=>$data]);
     }
+    
+    public function saveAsset(){
+        try{
+			$this->form_validation->set_rules('shares[]', 'Shares', 'required');
+			$this->form_validation->set_rules('shareholder[]', 'Shareholder ', 'required');
+			$this->form_validation->set_rules('area', 'Asset Cost ', 'required');
+			$this->form_validation->set_rules('name', 'Asset Name ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->add();
+			}
+
+            else {
+				$data = $this->input->post(NULL, TRUE);
+                $data['shareholder'];
+                $t_share=0;
+                foreach($data['shares'] as $share){
+                    $t_share+=$share;
+                }
+                if($t_share>100){
+                    $res=false;
+                    response($res,'asset/add','',"shares can't be greater then 100");
+                }elseif($t_share<100){
+                    $res=false;
+                    response($res,'asset/add','',"shares can't be less then 100");
+                }
+			
+                $res= $this->ShareHolder_model->saveAsset($data);
+                if($res){
+                    response($res,'asset/list',"Data Inserted Successfully");
+                   }
+                   else{
+                    response($res,'asset/list',"Something went Wrong");
+                   }
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+    }
+    
+    public function asset(){
+        $this->load->view('layout/parts',['page'=>"pages/asset/list"]);
+    }
+
+    public function tunnelJsList(){
+        try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+            
+			$res=$this->Tunnel_model->tunnelJsList($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+    }
 
 }

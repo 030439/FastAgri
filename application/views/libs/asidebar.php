@@ -231,8 +231,8 @@
                             <li><a href="daily-expenses">Expenses</a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">Assets</a>
                                 <ul class="mm-collapse">
-                                    <li><a href="#">Add Assets</a></li>
-                                    <li><a href="#">List Assets</a></li>
+                                    <li><a href="asset/add">Add Assets</a></li>
+                                    <li><a href="asset/list">List Assets</a></li>
                                 </ul>
                             </li>
 

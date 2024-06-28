@@ -7,11 +7,46 @@ class ShareHolder_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
+    public function saveAsset($data)
+    {
+        $existingTunnel = $this->db->get_where('tunnels', ['TName' => $data['name']])->row();
+        if ($existingTunnel) {
+            // Tunnel name already exists, return false
+            return false;
+        }
+
+        $this->db->trans_start(); // Start Transaction
+            $res['cost']=$data['area'];
+            $res['asset']=$data['name'];
+            $res['share_id']=implode(',', $data['shares']);
+            $res['sh_id']=implode(',', $data['shareholder']);
+           
+        $this->db->insert('assets', $res);
+        $sid =$this->db->insert_id();
+        foreach ($data['shares'] as $key => $quantity) {
+            $shares['sh_id']=intval($data['shareholder'][$key]);
+            $shares['shares_values']=intval($data['shares'][$key]);
+            $shares['asset_id']=$sid;
+            $res=$this->db->insert('asset_shares', $shares);
+        }
+        $this->db->trans_complete(); // Complete Transaction
+        
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return true;
+        }   
+    }
     public function getshareholders() {
         $this->db->where('status', 1);
         $shareholders = $this->db->get('shareholders')->result();
         return $shareholders;
     }
+
     public function getshareholdersListing($draw, $start, $length,$search="") {
         $this->db->where('status', 1);
         $totalRecords = $this->db->count_all_results('shareholders');

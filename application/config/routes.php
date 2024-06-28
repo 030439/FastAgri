@@ -193,3 +193,4 @@ $route['add/expense']="Report/addExpense";
 
 //assets
 $route['asset/add']="AccountHeads/addAsset";
+$route['asset/save']="AccountHeads/saveAsset";
