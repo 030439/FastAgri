@@ -23,7 +23,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3"> Name</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="" name="name">
+                        <input type="text"  value="<?php echo set_value('name'); ?>"  name="name">
                         <?php if (form_error('name')): ?>
                         <div class="error-message" ><?= form_error('name'); ?></div>
                     <?php endif ?>
@@ -37,7 +37,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Phone</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" name="phone" min="0" placeholder="">
+                        <input type="number" name="phone" min="0"  value="<?php echo set_value('phone'); ?>" >
                         <?php if (form_error('phone')): ?>
                         <div class="error-message" ><?= form_error('phone'); ?></div>
                         <?php endif ?>
@@ -52,7 +52,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" name="address" placeholder="Address">
+                        <input type="text" name="address"  value="<?php echo set_value('address'); ?>" >
                         <?php if (form_error('address')): ?>
                         <div class="error-message" ><?= form_error('address'); ?></div>
                         <?php endif ?>
@@ -65,7 +65,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC Number</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" id="cnic" maxlength="15" name="cnic" pattern="\d{5}-\d{7}-\d{1}" placeholder="">
+                        <input type="number" id="cnic" maxlength="15" name="cnic" pattern="\d{5}-\d{7}-\d{1}"  value="<?php echo set_value('cnic'); ?>" >
                         <p id="cnicValidationMessage"></p>
                         <?php if (form_error('cnic')): ?>
                         <div class="error-message" ><?= form_error('cnic'); ?></div>
@@ -80,7 +80,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Capital Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" min="0"  name="capital_amount" placeholder="">
+                        <input type="number" min="0"  name="capital_amount"  value="<?php echo set_value('capital_amount'); ?>" >
                         <?php if (form_error('capital_amount')): ?>
                         <div class="error-message" ><?= form_error('capital_amount'); ?></div>
                         <?php endif ?>
