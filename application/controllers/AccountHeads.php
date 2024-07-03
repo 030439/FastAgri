@@ -104,19 +104,32 @@ class AccountHeads extends CI_Controller
         $this->load->view('layout/parts',['page'=>"pages/asset/list"]);
     }
 
-    public function tunnelJsList(){
+    public function assetJsList(){
         try{
 			$draw = intval($this->input->post("draw"));
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
             
-			$res=$this->Tunnel_model->tunnelJsList($draw,$start, $length,$search);
+			$res=$this->ShareHolder_model->assetJsList($draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
     }
+    public function getAssetShares(){
+        $id=$this->input->post('id');
+		$result=$this->ShareHolder_model->getAssetShares($id);
+		$html="";
+		foreach ($result as $key => $res) {
+            $html.="<tr>";
+            $html.="<td colspan='4' style='text-align:center'>".$key."</td>";
+			$html.="<td colspan='4' style='text-align:center'>".$res->Name."</td>";
+            $html.="<td colspan='4' style='text-align:center'>".$res->shares_values."</td>";
+            $html.="</tr>";
+		}
+		echo $html;
+	}
 
 }

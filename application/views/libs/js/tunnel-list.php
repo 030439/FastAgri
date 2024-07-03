@@ -1,7 +1,7 @@
 <script>
 $('#user-list').DataTable({
     "processing": true,
-    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+    buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "serverSide": true,
       dom: 'Bfrtip',
          

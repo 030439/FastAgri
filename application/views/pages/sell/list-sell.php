@@ -48,6 +48,17 @@
                             <th>Action</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                        <tr>
+                            <th colspan="3"></th>
+                            <th >Total</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
                     </table> 
             </div>
           

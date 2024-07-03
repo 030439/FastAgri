@@ -25,6 +25,14 @@
                             <th>Sell Date</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4"></th>
+                            <th >Total</th>
+                            <th id="total-net"></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

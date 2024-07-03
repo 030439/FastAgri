@@ -41,6 +41,41 @@ class ShareHolder_model extends CI_Model {
             return true;
         }   
     }
+
+    public function assetJsList($draw, $start, $length,$search=""){
+        $this->db->where('status', 1);
+        $totalRecords = $this->db->count_all_results('assets');
+
+        $this->db->select('assets.id,assets.status,assets.asset,assets.cost,assets.cDate');
+        $this->db->from('assets');
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('assets.', $search);
+            $this->db->or_like('assets.cost', $search);
+            $this->db->or_like('assets.cDate', $search);
+            $this->db->group_end();
+        }
+        $this->db->where('assets.status', 1);
+
+        $data = $this->db->get()->result();
+        $tunnels = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,  // Total records without pagination
+            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "data" => $data
+        );
+        return $tunnels; 
+    }
+
+    public function getAssetShares($id){
+        $this->db->select('a.shares_values, s.Name');
+        $this->db->from('asset_shares a');
+        $this->db->join('shareholders s', 's.id = a.sh_id', 'left');
+        $this->db->where('a.asset_id', $id);
+        $res =$this->db->get()->result();
+        return $res;
+    }
+
     public function getshareholders() {
         $this->db->where('status', 1);
         $shareholders = $this->db->get('shareholders')->result();

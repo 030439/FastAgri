@@ -2,7 +2,7 @@
   var tid=$("#tunnel-expense-id").val();
 $('#user-list').DataTable({
     responsive: true,
-    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+    buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
@@ -23,7 +23,16 @@ $('#user-list').DataTable({
                   { "data": "amount" },
                   { "data": "edate" },
                   // { "data": "edate" },
-              ]
+              ],
+              "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api();
+            var totalBalance = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
+                return a + (parseFloat(b) || 0);
+            }, 0);
+
+            // Update footer
+            $(api.column(4).footer()).html(totalBalance.toFixed(2));
+        }
       });
     </script>
 

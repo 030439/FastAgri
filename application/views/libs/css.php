@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/css/toaster.css" />
 <link rel="stylesheet" href="assets/css/datatable.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
     .dt-search{
         float:right;

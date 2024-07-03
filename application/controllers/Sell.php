@@ -79,12 +79,12 @@ class Sell extends CI_Controller {
 		$net = [];
 		foreach ($data_ as $c => $dd){
 			$rate = $data['rate'][$c]; // Assuming $data['rate'] is an array
-			$rateArr[] = $rate;
-			$amount[] = $dd['Quantity'] * $rate;
-			$labour[] = $labourPerItem;
-			$expences[] = $expencesPerItem;
-			$freight[] = $kraya;
-			$net[] = $amount[$c] - $labour[$c] - $expences[$c] - $freight[$c];
+			$rateArr[$c] = $rate;
+			$amount[$c] = $dd['Quantity'] * $rate;
+			$labour[$c] = $labourPerItem;
+			$expences[$c] = $expencesPerItem;
+			$freight[$c] = $kraya;
+			$net[$c] = $amount[$c] - $labour[$c] - $expences[$c] - $freight[$c];
 		}
 		$dataUpdate=$this->Stock_model->sellDetailUpdate($id,$rateArr,$amount,$labour,$expences,$freight,$net);
 		redirect('sell');

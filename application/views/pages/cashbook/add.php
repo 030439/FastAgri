@@ -70,7 +70,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" name="amount" placeholder="Contact">
+                        <input type="number" name="amount" placeholder="amount">
                         <?php if (form_error('amount')): ?>
                         <div class="error-message" ><?= form_error('amount'); ?></div>
                         <?php endif ?>

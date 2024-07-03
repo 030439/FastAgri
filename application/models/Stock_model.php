@@ -87,6 +87,7 @@ class Stock_model extends CI_Model {
         return $newResult;
     }
     public function sellDetailUpdate($id,$rate,$amount,$labour,$expences,$freight,$net){
+       
         $rate_     = implode(',', $rate);
         $amount_   = implode(',', $amount);
         $labour_   = implode(',', $labour);
@@ -217,7 +218,7 @@ class Stock_model extends CI_Model {
     
         // Limit the results for pagination
         $this->db->limit($length, $start);
-    
+        $this->db->order_by('s.id', 'DESC');
         // Execute the query
         $query = $this->db->get();
     

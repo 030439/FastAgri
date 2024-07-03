@@ -1,7 +1,7 @@
 <script>
 $('#user-list').DataTable({
     responsive: true,
-    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+    buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
@@ -20,15 +20,19 @@ $('#user-list').DataTable({
                   { "data": "unit" },
                   { "data":"qty"},
                   { "data":"pdate"},
-                  {
-                     "data": "id",
-                        "render": function(data, type, row) {
-                            
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="load-product/'+data+'"><span>Sell Out</span></a></div>';
-                        }
-                                      
-                  }
-                  
-              ]
+              ],
+              "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api();
+
+                    // Recalculate total for dynamically rendered column
+                    var total = 0;
+                    data.forEach(function(row) {
+                        var quantity = parseFloat(row.qty) || 0;
+                        total += quantity ;
+                    });
+
+                    // Update footer
+                    $(api.column(4).footer()).html(total.toFixed(2));
+                }
       });
     </script>

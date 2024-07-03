@@ -1,7 +1,8 @@
 <script>
 $('#user-list').DataTable({
     responsive: true,
-    buttons: [
+    buttons: ['pageLength',
+    
             {
                 extend: 'copyHtml5',
                 exportOptions: {

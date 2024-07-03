@@ -165,7 +165,7 @@
 
                         </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="Vehicle/add">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
 
@@ -175,7 +175,7 @@
                             </svg>Vehicle
                         </a>
 
-                    </li>
+                    </li> -->
                     <li>
                         <a href="javascript:void(0)" class="has-arrow">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -194,7 +194,7 @@
                             <li><a href="issued-labour-list">Issued Labour List</a></li>
                             <li><a href="javascript:void(0)" class="has-arrow">PayRoll</a>
                                 <ul class="mm-collapse">
-                                    <li><a href="payroll/add">Add payroll</a></li>
+                                    <!-- <li><a href="payroll/add">Add payroll</a></li> -->
                                     <li><a href="payroll/generate">Generate payroll</a></li>
                                     <li><a href="payroll">Genterative List PayRoll</a></li>
                                 </ul>
@@ -229,16 +229,13 @@
                             <li><a href="cashbook">CashBook</a></li>
                             <li><a href="AccountHeads">Account Heads</a></li>
                             <li><a href="daily-expenses">Expenses</a></li>
-                            <li><a href="javascript:void(0)" class="has-arrow">Assets</a>
+                            <li><a href="asset/list">Assets</a></li>
+                            <!-- <li><a href="javascript:void(0)" class="has-arrow">Assets</a>
                                 <ul class="mm-collapse">
                                     <li><a href="asset/add">Add Assets</a></li>
                                     <li><a href="asset/list">List Assets</a></li>
                                 </ul>
-                            </li>
-
-
-
-
+                            </li> -->
                         </ul>
                     </li>
                     <li>

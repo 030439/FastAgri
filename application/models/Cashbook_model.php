@@ -57,7 +57,7 @@ class Cashbook_model extends CI_Model {
         $cash[0]['cashIn']=$debit;
         return $cash;
     }
-    public function cashbookList_($draw, $start = 0, $length = 10, $search = '') {
+    public function cashbookList_($startDate, $endDate,$draw, $start = 0, $length = 10, $search = '') {
         // Get the total number of records
         $this->db->from('cash_in_out');
         $totalRecords = $this->db->count_all_results();
@@ -76,6 +76,9 @@ class Cashbook_model extends CI_Model {
             $this->db->or_like('c.narration', $search);
             $this->db->or_like('a.amount', $search);
             $this->db->group_end();
+        }
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('c.cdate BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
         }
     
         // Get the filtered records count

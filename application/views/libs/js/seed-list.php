@@ -1,6 +1,6 @@
 <script>
 $('#user-list').DataTable({
-  buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+  buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
@@ -27,6 +27,13 @@ $('#user-list').DataTable({
                 //                       '<button class="dropdown-menu-item"><img src="assets/img/icon/action-2.png"><span>Update</span></button>'+
                 //                       '<button class="dropdown-menu-item"><img src="assets/img/icon/action-6.png"><span>Delete</span></button></div></div>'
                 //   }
-              ]
+              ],
+              "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api();
+            var totalBalance = api.column(3, { page: 'current'} ).data().reduce(function(a, b) {
+                return a + (parseFloat(b) || 0);
+            }, 0);
+            $(api.column(3).footer()).html(totalBalance.toFixed(2));
+        }
       });
     </script>

@@ -1,7 +1,7 @@
 <script>
 $('#user-list').DataTable({
     responsive: true,
-    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+    buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
@@ -40,6 +40,7 @@ $('#user-list').DataTable({
                                       
                   }
                   
-              ]
+              ],
+              
       });
     </script>

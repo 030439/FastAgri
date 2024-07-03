@@ -166,9 +166,16 @@
                             <th>Unit</th>
                             <th>Quantity</th>
                             <th>Production Date</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3"></th>
+                            <th >Total Qty</th>
+                            <th id="total-net"></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
                 </table>
         </div>
     </div>

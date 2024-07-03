@@ -2,7 +2,7 @@
 var sid=$("#supplier-detail-id").attr('title');
 $('#user-list').DataTable({
     responsive: true,
-    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+    buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
@@ -27,6 +27,20 @@ $('#user-list').DataTable({
                     },
                   { "data": "purchase_date" },
                   
-              ]
+              ],
+              "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api();
+
+                    // Recalculate total for dynamically rendered column
+                    var total = 0;
+                    data.forEach(function(row) {
+                        var quantity = parseFloat(row.purchased_quantity) || 0;
+                        var rate = parseFloat(row.rate) || 0;
+                        total += quantity * rate;
+                    });
+
+                    // Update footer
+                    $(api.column(3).footer()).html(total.toFixed(2));
+                }
       });
     </script>
