@@ -41,7 +41,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Date</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="date" name="issueDate" placeholder="Quantity" id="issue--val">
+                            <input type="date" name="issueDate"  value="<?php echo set_value('issueDate'); ?>"  id="issue--val">
                             <?php validator('issueDate')?>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Quantity</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" name="qty" onkeyup="checkQty(this)" placeholder="Quantity">
+                            <input type="text" name="qty" onkeyup="checkQty(this)"  value="<?php echo set_value('qty'); ?>" >
                             <p id="issue-stock-qty-" class="text-danger"></p>
                             <?php validator('qty')?>
                         </div>

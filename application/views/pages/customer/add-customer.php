@@ -7,7 +7,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Name</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" name="Name" placeholder=" Name">
+                        <input type="text" name="Name"  value="<?php echo set_value('Name'); ?>" >
                         <?php if (form_error('Name')): ?>
                         <div class="error-message" ><?= form_error('Name'); ?></div>
                         <?php endif ?>
@@ -21,7 +21,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Company</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text"  name="company" placeholder="Company">
+                        <input type="text"  name="company"  value="<?php echo set_value('company'); ?>" >
                         <?php if (form_error('company')): ?>
                         <div class="error-message" ><?= form_error('company'); ?></div>
                         <?php endif ?>
@@ -36,7 +36,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Contact</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" name="contact" placeholder="Contact">
+                        <input type="text" name="contact" value="<?php echo set_value('contact'); ?>" >
                         <?php if (form_error('contact')): ?>
                         <div class="error-message" ><?= form_error('contact'); ?></div>
                         <?php endif ?>
@@ -49,7 +49,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" name="cnic" placeholder="Contact">
+                        <input type="text" name="cnic" value="<?php echo set_value('cnic'); ?>" >
                         <?php if (form_error('cnic')): ?>
                         <div class="error-message" ><?= form_error('cnic'); ?></div>
                         <?php endif ?>
@@ -62,7 +62,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" name="address" placeholder="Address">
+                        <input type="text" name="address"  value="<?php echo set_value('address'); ?>" >
                         <?php if (form_error('address')): ?>
                         <div class="error-message" ><?= form_error('address'); ?></div>
                         <?php endif ?>

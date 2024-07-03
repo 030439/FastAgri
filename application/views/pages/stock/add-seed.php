@@ -8,7 +8,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Seed Name</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Seed Name" name="Name">
+                            <input type="text"  value="<?php echo set_value('Name'); ?>"  name="Name">
                             <?php if (form_error('Name')): ?>
                                 <div class="error-message" ><?= form_error('Name'); ?></div>
                             <?php endif ?>
