@@ -68,7 +68,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Quantity</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" min="0" placeholder="Quantity" name="qty[]">
+                            <input type="number" min="0" value="<?php echo set_value('qty[]'); ?>"  name="qty[]">
                             <?php validator('qty[]')?>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Rate</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" min="0" placeholder="Rate" name="rate[]">
+                        <input type="number" min="0"  value="<?php echo set_value('rate[]'); ?>"  name="rate[]">
                         <?php validator('rate[]')?>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Select Date</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="date" placeholder="date" name='pdate'>
+                        <input type="date"  value="<?php echo set_value('pdate'); ?>"  name='pdate'>
                         <?php validator('pdate')?>
                     </div>
                 </div>
@@ -104,8 +104,8 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Transport Charges</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" min="0" placeholder="Charges"  name='charges'>
-                        <?php validator('rate[]')?>
+                        <input type="number" min="0"  value="<?php echo set_value('charges'); ?>"   name='charges'>
+                        <?php validator('charges')?>
                     </div>
                 </div>
             </div>

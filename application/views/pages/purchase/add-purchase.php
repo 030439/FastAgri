@@ -36,7 +36,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Bill Number </h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text" placeholder="bill number" name='bno'>
+                        <input type="text"  value="<?php echo set_value('bno'); ?>"  name='bno'>
                         <?php validator('bno')?>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Select Date</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="date" placeholder="date" name='pdate'>
+                        <input type="date"  value="<?php echo set_value('pdate'); ?>"  name='pdate'>
                         <?php validator('pdate')?>
                     </div>
                 </div>
