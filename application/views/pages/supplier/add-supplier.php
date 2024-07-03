@@ -7,7 +7,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Name</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" name="Name" placeholder=" Name">
+                            <input type="text" name="Name"  value="<?php echo set_value('Name'); ?>" >
                             <?php validator('Name');?>
                         </div>
                     </div>
@@ -18,7 +18,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" id="cnic" maxlength="15" name="cnic" pattern="\d{5}-\d{7}-\d{1}" placeholder="">
+                            <input type="number" id="cnic" maxlength="15" name="cnic" pattern="\d{5}-\d{7}-\d{1}"  value="<?php echo set_value('cnic'); ?>" >
                             <p id="cnicValidationMessage"></p>
                             <?php validator('cnic');?>
                         </div>
@@ -30,7 +30,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Company</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Company" name="company_name">
+                            <input type="text"  value="<?php echo set_value('company_name'); ?>" name="company_name">
                             <?php validator('company_name');?>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Contact</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" placeholder="Contact" name="contact">
+                            <input type="number"  value="<?php echo set_value('contact'); ?>"  name="contact">
                             <?php validator('contact');?>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Address" name="Address">
+                            <input type="text"  value="<?php echo set_value('Address'); ?>"  name="Address">
                             <?php validator('Address');?>
                         </div>
                     </div>
