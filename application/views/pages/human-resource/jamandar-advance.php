@@ -22,7 +22,7 @@
                         <h5 class="text-[15px] text-heading font-semibold mb-3">Amount</h5>
                         <div class="cashier-input-field-style">
                             <div class="single-input-field w-full">
-                                <input type="number" placeholder="Amount" name="amount">
+                                <input type="number" value="<?php echo set_value('amount'); ?>" name="amount">
                                 <?php validator('amount')?>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                         <h5 class="text-[15px] text-heading font-semibold mb-3">Installment</h5>
                         <div class="cashier-input-field-style">
                             <div class="single-input-field w-full">
-                                <input type="number" placeholder="Installment" name="installment">
+                                <input type="number" value="<?php echo set_value('installment'); ?>" name="installment">
                                 <?php validator('installment')?>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                         <h5 class="text-[15px] text-heading font-semibold mb-3">Date</h5>
                         <div class="cashier-input-field-style">
                             <div class="single-input-field w-full">
-                                <input type="date" placeholder="Installment" name="date_">
+                                <input type="date" value="<?php echo set_value('date_'); ?>" name="date_">
                                 <?php validator('date_')?>
                             </div>
                         </div>
