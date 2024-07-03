@@ -34,7 +34,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Covered Area</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" min='0' placeholder="" name="area">
+                        <input type="number" min='0'  value="<?php echo set_value('area'); ?>"  name="area">
                         <?php validator('area')?>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Fasal</h5>
                 <div class="cashier-select-field-style">
-                <select class="block" name="product">
+                <select class="block" name="product"   >
                         <option selected="selected" disabled="disabled">Select Product</option>
                             <?php if(!empty($data['products'])):foreach($data['products'] as $product):?>
                             <option value="<?php ShowVal($product->pid);?>"><?php ShowVal($product->FasalName); echo "-";?></option>
@@ -64,7 +64,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Croping/Swing Date</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="date" placeholder="date" name='cdate'>
+                        <input type="date"  value="<?php echo set_value('cdate'); ?>"  name='cdate'>
                         <?php validator('cdate')?>
                     </div>
                 </div>
