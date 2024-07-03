@@ -27,7 +27,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Select Date</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="date" placeholder="date" name="rdate">
+                            <input type="date"  value="<?php echo set_value('rdate'); ?>"  name="rdate">
                             <?php validator('rdate')?>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Driver Name </h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Driver" name="driver">
+                            <input type="text"  value="<?php echo set_value('driver'); ?>"  name="driver">
                             <?php validator('driver')?>
                         </div>
                     </div>
@@ -49,7 +49,8 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Driver Number</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="number" name="dnumber">
+                            <input type="text" value="<?php echo set_value('dnumber'); ?>"  name="dnumber">
+                            <?php validator('dnumber');?>
                         </div>
                     </div>
                 </div>
@@ -59,7 +60,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Vehicle No</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" placeholder="vehicle number" name="vno">
+                            <input type="number"  value="<?php echo set_value('vno'); ?>"  name="vno">
                             <?php validator('vno')?>
                         </div>
                     </div>

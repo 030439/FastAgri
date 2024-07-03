@@ -7,7 +7,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3"> Name</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder=" Name" name="name">
+                            <input type="text" value="<?php echo set_value('name'); ?>"name="name">
                             <?php validator('name')?>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">CNIC</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" placeholder="CNIC" name="cnic">
+                            <input type="number" value="<?php echo set_value('cnic'); ?>" name="cnic">
                             <?php validator('cnic')?>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder="Address" name="address">
+                            <input type="text" value="<?php echo set_value('address'); ?>" name="address">
                             <?php validator('address')?>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Contact</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" min="0" placeholder="Contact" name="contact">
+                            <input type="number" min="0" value="<?php echo set_value('contact'); ?>" name="contact">
                             <?php validator('contact')?>
                         </div>
                     </div>

@@ -12,7 +12,7 @@
                                 <option value="<?= $jaamandar->id;?>"><?php echo $jaamandar->name;?></option>
                             <?php endforeach; endif;?>
                         </select>
-                    
+                        <?php validator('jamandar')?>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                                 <option value="<?= $tunnel->id;?>"><?php echo $tunnel->TName;?></option>
                             <?php endforeach; endif;?>
                         </select>
-                    
+                        <?php validator('tunnel')?>
                     </div>
                 </div>
             </div>
@@ -36,6 +36,7 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="number" name="labour" min="1" placeholder="  Enter no of labour">
+                            <?php validator('labour')?>
                         </div>
                     </div>
                 </div>
