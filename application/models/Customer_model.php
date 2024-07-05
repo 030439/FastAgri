@@ -124,6 +124,7 @@ class Customer_model extends CI_Model {
                     'id' => $row->sell_id,
                     'date' => $this->dater($row->sell_created_at),
                     'amount' => $row->total_amount,
+                    'total_amount' => $row->amount,
                     'running_balance' => $running_balance,
                 ];
             } else {
@@ -131,7 +132,8 @@ class Customer_model extends CI_Model {
                     'type' => "Receive",
                     'id' => $row->debit_date,
                     'date' => $this->dater($row->c_created),
-                    'amount' => $row->amount,
+                    'amount' => $row->total_amount,
+                    'total_amount' => $row->amount,
                     'running_balance' => $running_balance,
                 ];
             }

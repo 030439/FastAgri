@@ -4,7 +4,7 @@
         <div>
             <div class="cashier-header-profile relative pl-5 flex flex-wrap items-center maxMd:pr-0 mb-7">
                 <div class="cashier-header-profile-img w-12 maxSm:mr-0 md:mr-0 cursor-pointer">
-                    <a href="profile.html" class="rounded-[50%] overflow-hidden block"><img
+                    <a href="#" class="rounded-[50%] overflow-hidden block"><img
                             src="assets/img/icon/watson.png" class="object-cover" alt="profile not found"></a>
                 </div>
                 <div class="cashier-header-profile-info pl-2.5 cursor-pointer">

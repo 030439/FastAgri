@@ -17,7 +17,8 @@
                         <tr>
                             <th>Sell/Receive</th>
                             <th>Date</th>
-                            <th> Amount</th>
+                            <th> Credit</th>
+                            <th> Debit</th>
                             <th>Running Balance</th>
                             <th> Detail</th>
                         </tr>

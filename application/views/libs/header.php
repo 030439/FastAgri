@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="cashier-quick-dropdown cashier-quick-lang-dropdown">
                                     <ul class="lang-dropdown-wrapper">
-                                        <li>
+                                        <!-- <li>
                                             <a href="profile.html">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="15.186"
                                                     viewBox="0 0 17 15.186">
@@ -67,7 +67,7 @@
                                                     </g>
                                                 </svg>Edit Profile
                                             </a>
-                                        </li>
+                                        </li> -->
 
 
                                         <li>

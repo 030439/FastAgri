@@ -38,7 +38,22 @@ class Supplier extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
-
+	public function supplierLedger($id){
+		$this->load->view('layout/parts',['page'=>"pages/supplier/ledger",'id'=>$id]);
+	}
+	public function supplierLedgerList($id){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Supplier_model->get_supplier_ledger($id,$draw,$start, $length ,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function getSuppliers(){
 		$data= $this->Supplier_model->getSuppliers();
 		$html="";

@@ -18,6 +18,7 @@ $('#user-list').DataTable({
                   { "data": "type" },
                   { "data": "date" },
                   { "data": "amount" },
+                  { "data": "total_amount" },
                   { "data": "running_balance" },
                   { 
                         "data": "type",
