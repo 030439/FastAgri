@@ -37,7 +37,8 @@ $('#user-list').DataTable({
                         "render": function(data, type, row) {
                             
                             return '<div style="display:flex"><a class="dropdown-menu-item edit" href="supplier/'+data+'"><span>Edit</span></a>'+
-                                      '<a class="dropdown-menu-item detail" href="supplier/'+data+'"><span>Detail</span></a></div>';
+                                      '<a class="dropdown-menu-item detail" href="supplier/'+data+'"><span>Detail</span></a>'+
+                                      '<a class="dropdown-menu-item detail" href="supplier/ledger/'+data+'"><span>Detail</span></a></div>';
                         }
                                       
                   }

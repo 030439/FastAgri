@@ -29,6 +29,22 @@ class Customer extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+	public function customerLedger($id){
+        $this->load->view('layout/parts',['page'=>"pages/customer/ledger",'id'=>$id]);
+	}
+	public function customerLedgerList($id){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Customer_model->get_customer_ledger($id,$draw,$start, $length ,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function getcustomers(){
 		$data= $this->Customer_model->customerDetailInfo();
 		$html="";
