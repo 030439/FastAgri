@@ -116,6 +116,33 @@ public function updateSupplier($s,$b){
     $this->db->where('sid', $s);
     return $this->db->update('supplier_detail');
 }
+function getPurchaseDetail($draw, $start, $length, $search){
+    $totalRecords = $this->db->count_all_results('purchasesdetail');
+        $this->db->select('purchasesdetail.id,purchasesdetail.total_amount,purchasesdetail.created_at, supplier.name as supplier_name');
+        $this->db->from('purchasesdetail');
+        $this->db->join('supplier', 'purchasesdetail.Supplier_id = supplier.id');
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('purchasesdetail.id', $search);
+            $this->db->or_like('purchasesdetail.total_amount', $search);
+            $this->db->or_like('supplier.name', $search);
+            $this->db->or_like('purchasesdetail.created_at', $search);
+            $this->db->group_end();
+        }
+    
+        // Apply limit and offset for pagination
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $results = $query->result_array();
+        $shareholders = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data" => $results
+        );
+    
+        return $shareholders;
+}
 public function getPurchaseDetails($draw, $start, $length, $search) {
     // Calculate total records
     $totalRecords = $this->db->count_all_results('purchasesdetail');

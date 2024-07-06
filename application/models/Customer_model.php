@@ -43,41 +43,30 @@ class Customer_model extends CI_Model {
         $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
             SELECT s.id FROM sells s WHERE s.customer = ?
             UNION ALL
-            SELECT t.id FROM cash_in_out t WHERE t.cash_sP = ? AND t.case_sT = ?
-        ) AS total_records", array($customer_id, $customer_id, 'customer'));
+            SELECT t.id FROM cash_in_out t WHERE t.cash_sP = ? AND t.case_sT = 'customer'
+        ) AS total_records", array($customer_id, $customer_id));
         $total_records = $total_query->row()->total;
     
         // Main query with search and pagination
         $query = $this->db->query("
             SELECT 
-                sell_id,
-                selldate,
-                total_amount,
-                sell_created_at,
-                sell_updated_at,
-                cash_s,
-                case_sT,
-                cash_sP,
-                narration,
+                s_id,
+                cid,
                 amount,
-                cdate,
-                IF(transaction_id IS NOT NULL, transaction_id, NULL) AS debit_date,
-                IF(c_created IS NOT NULL, c_created, NULL) AS c_created
+                sell_created_at,
+                pay_created_at,
+                total_amount,
+                created,
+                @running_balance := @running_balance + (IFNULL(total_amount, 0) - IFNULL(amount, 0)) AS running_balance
             FROM (
                 SELECT 
-                    s.id AS sell_id,
-                    s.selldate,
-                    s.total_amount,
+                    s.id AS s_id,
+                    NULL AS cid,
+                    NULL AS amount,
                     s.created_at AS sell_created_at,
-                    s.updated_at AS sell_updated_at,
-                    NULL AS cash_s,
-                    NULL AS case_sT,
-                    NULL AS cash_sP,
-                    NULL AS narration,
-                    0 AS amount,
-                    s.selldate AS cdate,
-                    NULL AS transaction_id,
-                    NULL AS c_created
+                    NULL AS pay_created_at,
+                    s.total_amount,
+                    s.created_at AS created
                 FROM 
                     sells s
                 WHERE 
@@ -86,55 +75,47 @@ class Customer_model extends CI_Model {
                 UNION ALL
                 
                 SELECT 
-                    NULL AS sell_id,
-                    t.cdate AS selldate,
-                    0 AS total_amount,
-                    NULL AS sell_created_at,
-                    NULL AS sell_updated_at,
-                    t.cash_s,
-                    t.case_sT,
-                    t.cash_sP,
-                    t.narration,
+                    NULL AS s_id,
+                    t.id AS cid,
                     t.amount,
-                    t.cdate,
-                    t.id AS transaction_id,
-                    t.created_at AS c_created
+                    NULL AS sell_created_at,
+                    t.created_at AS pay_created_at,
+                    NULL AS total_amount,
+                    t.created_at AS created
                 FROM 
                     cash_in_out t
                 WHERE 
                     t.cash_sP = ?
-                    AND t.case_sT = ?
-            ) AS ledger
+                    AND t.case_sT = 'customer'
+            ) AS combined_data, (SELECT @running_balance := 0) AS rb
             $search_clause
             ORDER BY 
-                cdate ASC
+                created ASC
             LIMIT ? OFFSET ?
-        ", array($customer_id, $customer_id, 'customer', $length, $start));
+        ", array($customer_id, $customer_id, $length, $start));
     
         $result = $query->result();
     
-        // Calculate running balance
+        // Process the result to format it for DataTables
         $arr = [];
-        foreach ($result as $c => $row) {
-            $row->running_balance = $running_balance + (isset($row->total_amount) ? $row->total_amount : 0) - (isset($row->amount) ? $row->amount : 0);
-            $running_balance = $row->running_balance;
+        foreach ($result as $row) {
             if ($row->total_amount) {
                 $arr[] = [
-                    'type' => $row->sell_created_at ? "Sell" : "Receive",
-                    'id' => $row->sell_id,
+                    'type' => "Sell",
+                    'id' => $row->s_id,
                     'date' => $this->dater($row->sell_created_at),
-                    'amount' => $row->total_amount,
-                    'total_amount' => $row->amount,
-                    'running_balance' => $running_balance,
+                    'total_amount' => $row->total_amount,
+                    'amount' => $row->amount,
+                    'running_balance' => $row->running_balance,
                 ];
             } else {
                 $arr[] = [
                     'type' => "Receive",
-                    'id' => $row->debit_date,
-                    'date' => $this->dater($row->c_created),
-                    'amount' => $row->total_amount,
-                    'total_amount' => $row->amount,
-                    'running_balance' => $running_balance,
+                    'id' => $row->cid,
+                    'date' => $this->dater($row->pay_created_at),
+                    'total_amount' => $row->total_amount,
+                    'amount' => $row->amount,
+                    'running_balance' => $row->running_balance,
                 ];
             }
         }
@@ -142,7 +123,7 @@ class Customer_model extends CI_Model {
         $response = array(
             "draw" => intval($draw),
             "recordsTotal" => $total_records,
-            "recordsFiltered" => $total_records,  // Adjust if necessary
+            "recordsFiltered" => $total_records,  // Adjust if necessary based on search
             "data" => $arr
         );
         return $response;

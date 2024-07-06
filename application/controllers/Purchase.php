@@ -37,6 +37,19 @@ class Purchase extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+	public function getPurchaseDetail(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Purchase_model->getPurchaseDetail($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	public function purchasedSeedList()
 	{
 		try{

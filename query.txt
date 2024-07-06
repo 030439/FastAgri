@@ -5,3 +5,12 @@ SELECT * FROM (
 ) AS combined_data
 ORDER BY created ASC
 LIMIT 0, 25;
+
+
+SELECT * FROM (
+    (SELECT s.id as s_id, NULL AS cid, NULL AS amount,s.created_at as sell_created_at, NULL AS pay_created_at, s.total_amount, s.created_at as created FROM sells s  WHERE s.customer = 15)
+    UNION ALL
+    (SELECT NULL AS s_id, co.id as cid, co.amount, NULL AS sell_created_at, co.created_at as pay_created_at, NULL AS total_amount, co.created_at as created FROM cash_in_out co WHERE co.cash_sP = 15 AND co.case_sT = 'customer')
+) AS combined_data
+ORDER BY created ASC
+LIMIT 0, 25;
