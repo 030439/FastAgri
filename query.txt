@@ -1,0 +1,7 @@
+SELECT * FROM (
+    (SELECT pd.id as pid, NULL AS cid, NULL AS amount,pd.created_at as purchaseDate, NULL AS pay_created_at, pd.total_amount, pd.created_at as created FROM purchasesdetail pd  WHERE pd.Supplier_id = 15)
+    UNION ALL
+    (SELECT NULL AS pid, co.id as cid, co.amount, NULL AS purchaseDate, co.created_at as pay_created_at, NULL AS total_amount, co.created_at as created FROM cash_in_out co WHERE co.cash_sP = 15 AND co.case_sT = 'supplier')
+) AS combined_data
+ORDER BY created ASC
+LIMIT 0, 25;

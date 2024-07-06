@@ -12,130 +12,119 @@ class Supplier_model extends CI_Model {
         return $customers;
     }
     public function get_supplier_ledger($supplier_id, $draw, $start, $length, $search) {
-      $running_balance = 0;
-  
-      // Define the searchable columns
-      $searchable_columns = [
-          'pd.id',
-          'pd.Date',
-          'pd.total_amount',
-          'pd.created_at',
-          'co.amount',
-          'co.cdate'
-      ];
-  
-      // Construct the WHERE clause for search
-      $search_clause = '';
-      if (!empty($search)) {
-          $search_value = $this->db->escape_like_str($search);
-          $search_terms = array_map(function ($col) use ($search_value) {
-              return "$col LIKE '%$search_value%'";
-          }, $searchable_columns);
-          $search_clause = 'WHERE ' . implode(' OR ', $search_terms);
-      }
-  
-      // Fetch the total records count
-      $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
-          SELECT pd.id FROM purchasesdetail pd WHERE pd.Supplier_id = ?
-          UNION ALL
-          SELECT co.id FROM cash_in_out co WHERE co.case_sT = 'supplier' AND co.cash_sP = ?
-      ) AS total_records", array($supplier_id, $supplier_id));
-      $total_records = $total_query->row()->total;
-  
-      // Main query with search and pagination
-      $query = $this->db->query("
-          SELECT 
-              purchase_id,
-              Date,
-              total_amount,
-              created_at,
-              updated_at,
-              cash_s,
-              case_sT,
-              cash_sP,
-              narration,
-              amount,
-              cdate
-          FROM (
-              SELECT 
-                  pd.id AS purchase_id,
-                  pd.Date,
-                  pd.total_amount,
-                  pd.created_at,
-                  pd.updated_at,
-                  NULL AS cash_s,
-                  NULL AS case_sT,
-                  NULL AS cash_sP,
-                  NULL AS narration,
-                  0 AS amount,
-                  pd.Date AS cdate
-              FROM 
-                  purchasesdetail pd
-              WHERE 
-                  pd.Supplier_id = ?
-              
-              UNION ALL
-              
-              SELECT 
-                  NULL AS purchase_id,
-                  NULL AS Date,
-                  0 AS total_amount,
-                  NULL AS created_at,
-                  NULL AS updated_at,
-                  co.cash_s,
-                  co.case_sT,
-                  co.cash_sP,
-                  co.narration,
-                  co.amount,
-                  co.cdate
-              FROM 
-                  cash_in_out co
-              WHERE 
-                  co.case_sT = 'supplier'
-                  AND co.cash_sP = ?
-          ) AS ledger
-          $search_clause
-          ORDER BY 
-              cdate ASC
-          LIMIT ? OFFSET ?
-      ", array($supplier_id, $supplier_id, $length, $start));
-  
-      $result = $query->result();
-  
-      // Calculate running balance
-      $arr = [];
-      foreach ($result as $c => $row) {
-          $row->running_balance = $running_balance + (isset($row->total_amount) ? $row->total_amount : 0) - (isset($row->amount) ? $row->amount : 0);
-          $running_balance = $row->running_balance;
-          if ($row->total_amount>0) {
-              $arr[] = [
-                  'type' => "Purchase",
-                  'id' => $row->purchase_id,
-                  'date' => $this->dater($row->Date),
-                  'amount' => $row->amount,
-                  'total_amount' => $row->total_amount,
-                  'running_balance' => $running_balance,
-              ];
-          } else {
-              $arr[] = [
-                  'type' => "Payment",
-                  'id' => null,  // Modify as needed based on your requirement
-                  'date' => $this->dater($row->cdate),
-                  'amount' => $row->amount,
-                  'total_amount' => $row->total_amount,
-                  'running_balance' => $running_balance,
-              ];
-          }
-      }
-  
-      $response = array(
-          "draw" => intval($draw),
-          "recordsTotal" => $total_records,
-          "recordsFiltered" => $total_records,  // Adjust if necessary
-          "data" => $arr
-      );
-      return $response;
-  }
+        $running_balance = 0;
+    
+        // Define the searchable columns
+        $searchable_columns = [
+            'pid',
+            'cid',
+            'amount',
+            'purchaseDate',
+            'pay_created_at',
+            'total_amount',
+            'created'
+        ];
+    
+        // Construct the WHERE clause for search
+        $search_clause = '';
+        if (!empty($search)) {
+            $search_value = $this->db->escape_like_str($search);
+            $search_terms = array_map(function ($col) use ($search_value) {
+                return "$col LIKE '%$search_value%'";
+            }, $searchable_columns);
+            $search_clause = 'HAVING ' . implode(' OR ', $search_terms);
+        }
+    
+        // Fetch the total records count
+        $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
+            SELECT pd.id FROM purchasesdetail pd WHERE pd.Supplier_id = ?
+            UNION ALL
+            SELECT co.id FROM cash_in_out co WHERE co.cash_sP = ? AND co.case_sT = 'supplier'
+        ) AS total_records", array($supplier_id, $supplier_id));
+        $total_records = $total_query->row()->total;
+    
+        // Main query with search and pagination
+        $sql = "
+            SELECT 
+                pid,
+                cid,
+                amount,
+                purchaseDate,
+                pay_created_at,
+                total_amount,
+                created,
+                @running_balance := @running_balance + (IFNULL(total_amount, 0) - IFNULL(amount, 0)) AS running_balance
+            FROM (
+                SELECT 
+                    pd.id as pid, 
+                    NULL AS cid, 
+                    NULL AS amount,
+                    pd.created_at as purchaseDate, 
+                    NULL AS pay_created_at, 
+                    pd.total_amount, 
+                    pd.created_at as created 
+                FROM 
+                    purchasesdetail pd  
+                WHERE 
+                    pd.Supplier_id = ?
+                UNION ALL
+                SELECT 
+                    NULL AS pid, 
+                    co.id as cid, 
+                    co.amount, 
+                    NULL AS purchaseDate, 
+                    co.created_at as pay_created_at, 
+                    NULL AS total_amount, 
+                    co.created_at as created 
+                FROM 
+                    cash_in_out co 
+                WHERE 
+                    co.cash_sP = ? 
+                    AND co.case_sT = 'supplier'
+            ) AS combined_data, (SELECT @running_balance := 0) AS rb
+            $search_clause
+            ORDER BY 
+                created ASC
+            LIMIT ? OFFSET ?
+        ";
+    
+        $query = $this->db->query($sql, array($supplier_id, $supplier_id, $length, $start));
+    
+        $result = $query->result();
+    
+        // Process the result to format it for DataTables
+        $arr = [];
+        foreach ($result as $row) {
+            if ($row->total_amount) {
+                $arr[] = [
+                    'type' => "Purchase",
+                    'id' => $row->pid,
+                    'date' => $this->dater($row->purchaseDate),
+                    'total_amount' => $row->total_amount,
+                    'amount' => $row->amount,
+                    'running_balance' => $row->running_balance,
+                ];
+            } else {
+                $arr[] = [
+                    'type' => "Payment",
+                    'id' => $row->cid,
+                    'date' => $this->dater($row->pay_created_at),
+                    'total_amount' => $row->total_amount,
+                    'amount' => $row->amount,
+                    'running_balance' => $row->running_balance,
+                ];
+            }
+        }
+    
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => $total_records,
+            "recordsFiltered" => $total_records,  // Adjust if necessary based on search
+            "data" => $arr
+        );
+        return $response;
+    }
+    
   function dater($date){
    if($date){
        return  date('Y-m-d', strtotime($date));
