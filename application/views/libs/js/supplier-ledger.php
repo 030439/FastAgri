@@ -25,7 +25,7 @@ $('#user-list').DataTable({
                         "render": function(data, type, row) {
                           var linker='';
                             if(data=="Purchase"){
-                                linker="sell-detail/"+row.id;
+                                linker="purchase/detail/"+row.id;
                             }else{
                               linker="cashbook/invoice/"+row.id;
                             }

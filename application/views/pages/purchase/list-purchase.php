@@ -14,19 +14,22 @@
                 <table id="user-list" class="table display table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Product</th>
                             <th>Supplier</th>
-                            <th>Rate</th>
+                            <th>Purchase Date</th>
                             <th>Amount</th>
-                            <th>PurchaseQty</th>
-                            <th>RemainingQty</th>
+                            <th>Expense</th>
+                            <th>Paid Amount</th>
+                            <th>Total Amout</th>
+                            <th>Detail</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="2"></th>
+                             <th></th>
                             <th >Total</th>
-                            <th id="total-net"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </tfoot>

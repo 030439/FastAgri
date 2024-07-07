@@ -116,16 +116,16 @@ public function updateSupplier($s,$b){
     $this->db->where('sid', $s);
     return $this->db->update('supplier_detail');
 }
-function getPurchaseDetail($draw, $start, $length, $search){
+function getPurchaseList($draw, $start, $length, $search){
     $totalRecords = $this->db->count_all_results('purchasesdetail');
-        $this->db->select('purchasesdetail.id,purchasesdetail.total_amount,purchasesdetail.created_at, supplier.name as supplier_name');
+        $this->db->select('purchasesdetail.id,purchasesdetail.total_amount,purchasesdetail.amount,purchasesdetail.paid_amount,purchasesdetail.expenses,purchasesdetail.created_at as pdate, suppliers.Name as supplier_name');
         $this->db->from('purchasesdetail');
-        $this->db->join('supplier', 'purchasesdetail.Supplier_id = supplier.id');
+        $this->db->join('suppliers', 'purchasesdetail.Supplier_id = suppliers.id');
         if (!empty($search)) {
             $this->db->group_start();
             $this->db->like('purchasesdetail.id', $search);
             $this->db->or_like('purchasesdetail.total_amount', $search);
-            $this->db->or_like('supplier.name', $search);
+            $this->db->or_like('suppliers.Name', $search);
             $this->db->or_like('purchasesdetail.created_at', $search);
             $this->db->group_end();
         }
@@ -143,7 +143,7 @@ function getPurchaseDetail($draw, $start, $length, $search){
     
         return $shareholders;
 }
-public function getPurchaseDetails($draw, $start, $length, $search) {
+public function getPurchaseDetail($id,$draw, $start, $length, $search) {
     // Calculate total records
     $totalRecords = $this->db->count_all_results('purchasesdetail');
 
@@ -153,7 +153,8 @@ public function getPurchaseDetails($draw, $start, $length, $search) {
     $this->db->join('suppliers s', 'pd.Supplier_id = s.id', 'INNER');
     $this->db->join('products p', 'pd.product_id = p.id', 'INNER');
     $this->db->join('purchaseqty pq', 'pd.id = pq.purchase_id AND pd.product_id = pq.product_id', 'LEFT');
-    $this->db->order_by('pd.id, pq.product_id');
+    $this->db->where('pd.id',$id);
+    $this->db->order_by('pq.product_id');
 
     // Apply search condition if search term is provided
     if (!empty($search)) {
@@ -192,7 +193,7 @@ public function getPurchaseDetails($draw, $start, $length, $search) {
                 'rate' => $purchased_rates[$index],
                 'amount' => $row['amount'],
                 'expenses' => $row['expenses'],
-                'total_amount' => $row['total_amount'],
+                'total_amount' =>  $purchased_quantities[$index]*$purchased_rates[$index],
                 'purchase_date' => $row['purchase_date']
             );
         }
@@ -201,8 +202,8 @@ public function getPurchaseDetails($draw, $start, $length, $search) {
     // Construct response array
     $shareholders = array(
         "draw" => $draw,
-        "recordsTotal" => $totalRecords,
-        "recordsFiltered" => $totalRecords,
+        "recordsTotal" => count($individual_records),
+        "recordsFiltered" => count($individual_records),
         "data" => $individual_records
     );
 

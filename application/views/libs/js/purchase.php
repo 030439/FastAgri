@@ -14,19 +14,39 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
-                  { "data": "product_name" },
                   { "data": "supplier_name" },
-                  { "data": "rate" },
+                  { "data": "pdate" },
                   { "data": "amount" },
-                  { "data": "purchased_quantity" },
-                  { "data": "RemainingQuantity" },
+                  { "data": "expenses" },
+                  { "data": "paid_amount" },
+                  { "data": "total_amount" },
+                  { // Actions column
+                     "data": "id",
+                        "render": function(data, type, row) {
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="purchase/detail/'+data+'"><span>Detail</span></a></div>';
+                        }
+                                      
+                  }
+                  
               ],
               "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api();
-            var totalBalance = api.column(3, { page: 'current'} ).data().reduce(function(a, b) {
+            var amount = api.column(2, { page: 'current'} ).data().reduce(function(a, b) {
                 return a + (parseFloat(b) || 0);
             }, 0);
+            var exp = api.column(3, { page: 'current'} ).data().reduce(function(a, b) {
+                return a + (parseFloat(b) || 0);
+            }, 0);
+            var paid = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
+                return a + (parseFloat(b) || 0);
+            }, 0);
+            var totalBalance = api.column(5, { page: 'current'} ).data().reduce(function(a, b) {
+                return a + (parseFloat(b) || 0);
+            }, 0);
+            $(api.column(2).footer()).html(totalBalance.toFixed(2));
             $(api.column(3).footer()).html(totalBalance.toFixed(2));
+            $(api.column(4).footer()).html(totalBalance.toFixed(2));
+            $(api.column(5).footer()).html(totalBalance.toFixed(2));
         }
       });
     </script>
