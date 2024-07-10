@@ -6,7 +6,7 @@
                     Supplier List
                 </button>
             </div>
-            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403">Supplier Ledger</span></h4>
+            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403"><?php echo supplierName($id);?> Ledger</span></h4>
         </div>
 
         <div class="cashier-salereturns-table-area">

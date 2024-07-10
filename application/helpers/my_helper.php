@@ -213,6 +213,27 @@ if (!function_exists('customerName')) {
         }
     }
 }
+if (!function_exists('supplierName')) {
+    function supplierName($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  s.Name as sname  FROM suppliers s WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['sname'];
+        } else {
+            return "data not found";
+        }
+    }
+}
+
 
 
 ?>
