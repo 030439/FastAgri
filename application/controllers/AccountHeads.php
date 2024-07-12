@@ -131,5 +131,8 @@ class AccountHeads extends CI_Controller
 		}
 		echo $html;
 	}
+    function assetDetail($id){
+        $this->load->view('layout/parts',['page'=>"pages/asset/detail"]);
+    }
 
 }
