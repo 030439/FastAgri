@@ -34,7 +34,7 @@ $('#user-list').DataTable({
                 "data": "id",
                 "render": function(data, type, row) {
                     
-                    return '<button style="background-color:#ec6f16;padding:3px 5px;color:#fff" onclick="handleButtonClick(\'' + data + '\')" class="btn btn-primary">Shares</button> ';
+                    return '<a style="background-color:#ec6f16;padding:3px 5px;color:#fff" href="asset-detail/'+data+'" class="btn btn-primary">Detail</a> ';
                 }
             }, 
             ]

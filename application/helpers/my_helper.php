@@ -213,8 +213,8 @@ if (!function_exists('customerName')) {
         }
     }
 }
-if (!function_exists('supplierName')) {
-    function supplierName($id)
+if (!function_exists('supplierName_')) {
+    function supplierName_($id)
     {
         $CI =& get_instance();
         $CI->load->database();
