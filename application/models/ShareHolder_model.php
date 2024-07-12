@@ -68,9 +68,10 @@ class ShareHolder_model extends CI_Model {
     }
 
     public function getAssetShares($id){
-        $this->db->select('a.shares_values, s.Name');
+        $this->db->select('a.shares_values, s.Name,as.cost,as.asset');
         $this->db->from('asset_shares a');
         $this->db->join('shareholders s', 's.id = a.sh_id', 'left');
+        $this->db->join('assets as', 'as.id = a.asset_id', 'left');
         $this->db->where('a.asset_id', $id);
         $res =$this->db->get()->result();
         return $res;

@@ -21,7 +21,7 @@
                                 <th>Asset Name</th>
                                 <th>Cost</th>
                                 <th>Date</th>
-                                <th>Status</th>
+                                <th>Edit</th>
                                 <th>Shares</th>
                             </tr>
                         </thead>
@@ -70,23 +70,4 @@ th ,td{
     text-align:center;
 }
 </style>
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <table class="table">
-        <thead>
-            <tr>
-                <th colspan="2">#</th>
-                <th colspan="5">ShareHolder</th>
-                <th colspan="5">Share</th>
-            </tr>
-        </thead>
-        <tbody id="tbody-display">
-        </tbody>
-    </table>
-  </div>
-
-</div>
 <?php $file="asset-list.php";?>
