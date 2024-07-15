@@ -16,7 +16,15 @@ $('#user-list').DataTable({
            "columns": [
                   { "data": "Name" },
                   { "data": "unit" },
-                  { "data":"RemainingQuality"}
+                  { "data":"RemainingQuality"},
+                  { // Actions column
+                     "data": "id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="products/ledger/'+data+'"><span>Ledger</span></div>';
+                        }
+                                      
+                  }
                   
               ]
       });

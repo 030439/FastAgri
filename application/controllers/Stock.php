@@ -41,6 +41,7 @@ class Stock extends CI_Controller {
 		$data=$this->Stock_model->getProducts();
 		$this->load->view('layout/parts',['page'=>"pages/stock/products",'data'=>$data]);
 	}
+	
 	public function addProduct()
 	{
 		$data=$this->Setup_model->getunit();

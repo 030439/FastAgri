@@ -72,6 +72,7 @@ $route['getStockRate']="Stock/getStockRate";
 $route['getStockQty']="Stock/getStockQty";
 $route['issue-product']="Stock/issueProduct";
 $route['issue-stock/issuePdf']="Stock/issuePdf";
+$route['products/ledger/(:num)']="Stock/productLedger/$1";
 //Employee 
 $route['add-employee']='Employee/add';
 $route['designation']='Employee/designation';
