@@ -7,7 +7,7 @@
     <base href="<?= base_url() ?>">
     <?php include(APPPATH . 'views/libs/css.php'); ?>
     <link rel="stylesheet" href="assets/css/index.css">
-    <title>Cashiar</title>
+    <title>Fast Agri</title>
 </head>
 
 <body class="bg-bodyBg">

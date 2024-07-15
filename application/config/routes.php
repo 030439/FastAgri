@@ -154,3 +154,5 @@ $route['asset-list-js']="AccountHeads/assetJsList";
 $route['asset/list']="AccountHeads/asset";
 $route['getAssetShares']="AccountHeads/getAssetShares";
 $route["asset-detail/(:num)"]="AccountHeads/assetDetail/$1";
+$route["asset-edit/(:num)"]="AccountHeads/assetEdit/$1";
+$route['asset/update']="AccountHeads/updateAsset";

@@ -41,6 +41,46 @@ class ShareHolder_model extends CI_Model {
             return true;
         }   
     }
+   function getAssetDetail($id){
+        $this->db->where('id', $id);
+        $all = $this->db->get('assets')->result();
+        return $all[0];
+   }
+   public function updateAsset($id,$data)
+   {
+       $existingTunnel = $this->db->get_where('tunnels', ['TName' => $data['name']])->row();
+       if ($existingTunnel) {
+           // Tunnel name already exists, return false
+           return false;
+       }
+
+       $this->db->trans_start(); // Start Transaction
+           $res['cost']=$data['area'];
+           $res['asset']=$data['name'];
+           $res['share_id']=implode(',', $data['shares']);
+           $res['sh_id']=implode(',', $data['shareholder']);
+          
+       $this->db->where('id', $id);
+       $ok=$this->db->update('assets', $res);
+       $this->deleteAssetShares($id);
+       foreach ($data['shares'] as $key => $quantity) {
+        $shares['sh_id']=intval($data['shareholder'][$key]);
+        $shares['shares_values']=intval($data['shares'][$key]);
+        $shares['asset_id']=$id;
+        $res=$this->db->insert('asset_shares', $shares);
+       }
+       $this->db->trans_complete(); // Complete Transaction
+       
+       if ($this->db->trans_status() === FALSE) {
+           // Transaction failed, handle the error
+           $this->db->trans_rollback(); // Roll back changes
+           return false;
+       } else {
+           // Transaction succeeded
+           $this->db->trans_commit(); // Commit changes
+           return true;
+       }   
+   }
 
     public function assetJsList($draw, $start, $length,$search=""){
         $this->db->where('status', 1);
@@ -169,5 +209,8 @@ class ShareHolder_model extends CI_Model {
 
     public function deleteshareholder($id) {
         return $this->db->delete('shareholders', ['id' => $id]);
+    }
+    public function deleteAssetShares($id) {
+        return $this->db->delete('asset_shares', ['asset_id' => $id]);
     }
 }

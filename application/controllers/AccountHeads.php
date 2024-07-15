@@ -135,5 +135,50 @@ class AccountHeads extends CI_Controller
         $data=$this->ShareHolder_model->getAssetShares($id);
         $this->load->view('layout/parts',['page'=>"pages/asset/detail",'data'=>$data]);
     }
+    public function assetEdit($id){
+        $data['asset']=$this->ShareHolder_model->getAssetDetail($id);
+        $data['shareholders']= $this->ShareHolder_model->getshareholders();
+        $this->load->view('layout/parts',['page'=>"pages/asset/edit",'data'=>$data]);
+    }
+
+       
+    public function updateAsset(){
+        $id=$this->input->post('id');
+        try{
+			$this->form_validation->set_rules('shares[]', 'Shares', 'required');
+			$this->form_validation->set_rules('shareholder[]', 'Shareholder ', 'required');
+			$this->form_validation->set_rules('area', 'Asset Cost ', 'required');
+			$this->form_validation->set_rules('name', 'Asset Name ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->assetEdit($id);
+			}
+
+            else {
+				$data = $this->input->post(NULL, TRUE);
+                $data['shareholder'];
+                $t_share=0;
+                foreach($data['shares'] as $share){
+                    $t_share+=$share;
+                }
+                if($t_share>100){
+                    $res=false;
+                    response($res,'asset-edit/'.$id,'',"shares can't be greater then 100");
+                }elseif($t_share<100){
+                    $res=false;
+                    response($res,'asset-edit/'.$id,'',"shares can't be less then 100");
+                }
+                $res= $this->ShareHolder_model->updateAsset($id,$data);
+                if($res){
+                    response($res,'asset/list',"Data Inserted Successfully");
+                   }
+                   else{
+                    response($res,'asset/list',"Something went Wrong");
+                   }
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+    }
 
 }
