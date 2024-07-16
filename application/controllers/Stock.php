@@ -41,7 +41,11 @@ class Stock extends CI_Controller {
 		$data=$this->Stock_model->getProducts();
 		$this->load->view('layout/parts',['page'=>"pages/stock/products",'data'=>$data]);
 	}
-	
+
+	public function productLedger($id){
+		$res= $this->Stock_model->combinedLedger($id);
+		$this->load->view('layout/parts',['page'=>"pages/stock/product-ledger",'id'=>$id]);
+	}
 	public function addProduct()
 	{
 		$data=$this->Setup_model->getunit();

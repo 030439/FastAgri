@@ -883,7 +883,209 @@ class Stock_model extends CI_Model {
     }
 
 
+    public function productLedgerDetail($id){
+        $this->db->select('pd.id AS purchase_detail_id, pd.product_id, p.Name AS product_name, pd.quantity AS purchased_quantity, pq.product_id AS purchase_product_id, pq.RemainingQuantity, s.Name AS supplier_name, s.company_name AS supplier_company, pd.rate, pd.amount, pd.expenses, pd.total_amount, pd.Date AS purchase_date');
+        $this->db->from('purchasesdetail pd');
+        $this->db->join('suppliers s', 'pd.Supplier_id = s.id', 'INNER');
+        $this->db->join('products p', 'pd.product_id = p.id', 'INNER');
+        $this->db->join('purchaseqty pq', 'pd.id = pq.purchase_id AND pd.product_id = pq.product_id', 'LEFT');
+        $this->db->where('pq.product_id',$id);
+        $this->db->order_by('pq.product_id');
+            // Execute query
+            $query = $this->db->get();
+            $results = $query->result_array();
+            $individual_records = [];
+            foreach ($results as $row) {
+                $product_ids = explode(',', $row['product_id']);
+                $purchased_quantities = explode(',', $row['purchased_quantity']);
+                $purchased_rates = explode(',', $row['rate']);
 
+                foreach ($product_ids as $index => $product_id) {
+                    if($product_id==$id){
+                        $individual_records[] = array(
+                            'purchase_detail_id' => $row['purchase_detail_id'],
+                            'product_id' => $product_id,
+                            'product_name' => $row['product_name'],
+                            'purchased_quantity' => $purchased_quantities[$index],
+                            'purchase_product_id' => $row['purchase_product_id'],
+                            'RemainingQuantity' => $row['RemainingQuantity'],
+                            'supplier_name' => $row['supplier_name'],
+                            'supplier_company' => $row['supplier_company'],
+                            'rate' => $purchased_rates[$index],
+                            'amount' => $row['amount'],
+                            'expenses' => $row['expenses'],
+                            'total_amount' =>  $purchased_quantities[$index]*$purchased_rates[$index],
+                            'date' => $row['purchase_date']
+                        );
+                    }
+                }
+            }
+            return ($individual_records);
+    }
+
+    public function issueListByProduct($id,$draw, $start, $length, $search = '') {
+        $totalRecords = $this->db->count_all('issuestock');
+        $this->db->select('i.id AS issue_stock_id, i.PqId, i.pid, i.Quantity, i.i_date, p.Name AS product_name, t.TName, e.Name AS employee');
+        $this->db->from('issuestock i');
+        $this->db->join('products p', 'i.pid = p.id');
+        $this->db->join('tunnels t', 'i.tunnel_id = t.id');
+        $this->db->join('employees e', 'e.id = i.empoyee_id');
+        $this->db->where('i.pid',$id);
+    
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('i.id', $search);
+            $this->db->or_like('p.Name', $search);
+            $this->db->or_like('t.TName', $search);
+            $this->db->or_like('e.Name', $search);
+            $this->db->group_end();
+        }
+    
+        $this->db->order_by('i.id', 'ASC');
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        $new = [];
+        foreach ($result as $i => $re) {
+            if (!is_array($re)) continue; // Skip if re is not an array
+            $new[$i] = array(
+                'TName' => $re['TName'],
+                'employee' => $re['employee'],
+                'product_name' => $re['product_name'],
+                'quantity' => $re['Quantity'],
+                'date' => $re['i_date'],  // Ensure this key is present
+                'pqrate' => pqrate($re['PqId'], $re['pid']),
+                'type' => 'issue'
+            );
+        }
+        return $new;
+    }
+    
+    public function combinedLedger($product_id) {
+        $id = 1; // Example id for demonstration purposes
+$limit = 10; // Example limit for demonstration purposes
+$offset = 0; // Example offset for demonstration purposes
+
+// Start with initializing the running balance
+$this->db->query("SET @running_balance := 0");
+
+// First query part
+$subquery1 = $this->db->select([
+        'i.id AS issue_stock_id', 
+        'i.PqId', 
+        'i.pid', 
+        'i.Quantity', 
+        'i.i_date', 
+        'p.Name AS product_name', 
+        't.TName', 
+        'e.Name AS employee', 
+        'NULL AS purchase_detail_id', 
+        'NULL AS product_id', 
+        'NULL AS purchased_quantity', 
+        'NULL AS purchase_product_id', 
+        'NULL AS RemainingQuantity', 
+        'NULL AS supplier_name', 
+        'NULL AS supplier_company', 
+        'NULL AS rate', 
+        'NULL AS amount', 
+        'NULL AS expenses', 
+        'NULL AS total_amount', 
+        'i.i_date AS created'
+    ])
+    ->from('issuestock i')
+    ->join('products p', 'i.pid = p.id')
+    ->join('tunnels t', 'i.tunnel_id = t.id')
+    ->join('employees e', 'e.id = i.empoyee_id')
+    ->where('i.pid', $id)
+    ->get_compiled_select();
+
+// Second query part
+$subquery2 = $this->db->select([
+        'NULL AS issue_stock_id', 
+        'NULL AS PqId', 
+        'NULL AS pid', 
+        'NULL AS Quantity', 
+        'NULL AS i_date', 
+        'p.Name AS product_name', 
+        'NULL AS TName', 
+        'NULL AS employee', 
+        'pd.id AS purchase_detail_id', 
+        'pd.product_id', 
+        'pd.quantity AS purchased_quantity', 
+        'pq.product_id AS purchase_product_id', 
+        'pq.RemainingQuantity', 
+        's.Name AS supplier_name', 
+        's.company_name AS supplier_company', 
+        'pd.rate', 
+        'pd.amount', 
+        'pd.expenses', 
+        'pd.total_amount', 
+        'pd.Date AS created'
+    ])
+    ->from('purchasesdetail pd')
+    ->join('suppliers s', 'pd.Supplier_id = s.id', 'INNER')
+    ->join('products p', 'pd.product_id = p.id', 'INNER')
+    ->join('purchaseqty pq', 'pd.id = pq.purchase_id AND pd.product_id = pq.product_id', 'LEFT')
+    ->where('pq.product_id', $id)
+    ->get_compiled_select();
+
+// Combine the subqueries with UNION ALL
+$combined_query = "
+    ($subquery1)
+    UNION ALL
+    ($subquery2)
+    ORDER BY created ASC
+    LIMIT $limit OFFSET $offset
+";
+
+// Execute the combined query
+$query = $this->db->query($combined_query);
+$results = $query->result_array();
+
+// Process results
+foreach ($results as $row) {
+    echo "<pre>";
+    print_r($row);
+    echo "</pre>";
+}
+dd("SDF");
+        // Get purchase records
+        $purchase_records = $this->productLedgerDetail($product_id);
+        
+        // Get issue records
+        $issue_records = $this->issueListByProduct(42,1, 0 ,10, $search="");
+        
+        // Combine records
+        $combined_records = array_merge($purchase_records, $issue_records);
+        
+        //Sort records by date
+        usort($combined_records, function($a, $b) {
+            return strtotime($a['date']) - strtotime($b['date']);
+        });
+        
+        //dd($combined_records);
+        $arr=[];
+        foreach($combined_records as $c=> $record){
+            if(isset($record['TName'])){
+                $arr[$c]['TName'] = $record['TName'];
+                $arr[$c]['employee'] = $record['employee'];
+                $arr[$c]['product_name'] = $record['product_name'];
+                $arr[$c]['quantity'] = $record['quantity'];
+                $arr[$c]['date'] = $record['date'];
+                $arr[$c]['pqrate'] = $record['pqrate']; 
+                $arr[$c]['type'] =$record['type'];
+            }else{
+                $arr[$c]['purchase_detail_id'] = $record['purchase_detail_id'];
+                $arr[$c]['purchased_quantity'] = $record['purchased_quantity'];
+                $arr[$c]['supplier_name'] = $record['supplier_name'];
+                $arr[$c]['rate'] = $record['rate'];
+                $arr[$c]['amount'] = $record['amount'];
+                $arr[$c]['type'] ='purchase';
+            }
+        }
+        dd($arr);
+    }
+    
     public function getPassBysellDetailId($id){
         $query = $this->db->query("
         SELECT 
