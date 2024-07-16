@@ -43,7 +43,7 @@ class Stock extends CI_Controller {
 	}
 
 	public function productLedger($id){
-		$res= $this->Stock_model->combinedLedger($id);
+		$res= $this->Stock_model->productLedgerDetail($id);
 		$this->load->view('layout/parts',['page'=>"pages/stock/product-ledger",'id'=>$id]);
 	}
 	public function addProduct()

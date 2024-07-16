@@ -884,16 +884,121 @@ class Stock_model extends CI_Model {
 
 
     public function productLedgerDetail($id){
-        $this->db->select('pd.id AS purchase_detail_id, pd.product_id, p.Name AS product_name, pd.quantity AS purchased_quantity, pq.product_id AS purchase_product_id, pq.RemainingQuantity, s.Name AS supplier_name, s.company_name AS supplier_company, pd.rate, pd.amount, pd.expenses, pd.total_amount, pd.Date AS purchase_date');
-        $this->db->from('purchasesdetail pd');
-        $this->db->join('suppliers s', 'pd.Supplier_id = s.id', 'INNER');
-        $this->db->join('products p', 'pd.product_id = p.id', 'INNER');
-        $this->db->join('purchaseqty pq', 'pd.id = pq.purchase_id AND pd.product_id = pq.product_id', 'LEFT');
-        $this->db->where('pq.product_id',$id);
-        $this->db->order_by('pq.product_id');
-            // Execute query
-            $query = $this->db->get();
+        $query=$this->db->query("
+            SELECT
+                issue_stock_id,
+                pqid,
+                quantity,
+                i_date,
+                tname,
+                employee,
+                purchase_detail_id,
+                purchased_quantity,
+                supplier_name,
+                rate,
+                product_id,
+                amount,
+                pcreated,
+                total_amount,
+                purchaseQ,
+                issueQ,
+                @running_balance := @running_balance +(
+                    IFNULL(purchased_quantity, 0) - IFNULL(quantity, 0)
+                ) AS running_balance
+            FROM
+                (
+                SELECT
+                    i.id as issue_stock_id,
+                    i.pqid,
+                    i.quantity,
+                    i.created_at as i_date,
+                    i.i_date as issueQ,
+                    t.TName as tname,
+                    e.Name as employee,
+                    NULL AS purchase_detail_id,
+                    NULL AS purchased_quantity,
+                    NULL AS supplier_name,
+                    NULL AS rate,
+                    NULL AS amount,
+                    NULL AS pcreated,
+                    NULL AS total_amount,
+                    NULL AS product_id,
+                    NULL AS purchaseQ
+
+                FROM
+                    `issuestock` `i`
+                JOIN `products` `p` ON
+                    `i`.`pid` = `p`.`id`
+                JOIN `tunnels` `t` ON
+                    `i`.`tunnel_id` = `t`.`id`
+                JOIN `employees` `e` ON
+                    `e`.`id` = `i`.`empoyee_id`
+                WHERE
+                    `i`.`pid` = $id
+                UNION ALL
+            SELECT 
+                    NULL AS issue_stock_id,
+                    NULL AS pqid,
+                    NULL AS quantity,
+                    NULL AS i_date,
+                    NULL AS issueQ,
+                    NULL AS  tname,
+                    NULL AS employee,
+                    
+                    pd.id as purchase_detail_id,
+                    pd.quantity as purchased_quantity,
+                    s.Name AS supplier_name,
+                    pd.rate,
+                    pd.amount,
+                    pd.created_at as pcreated,
+                    pd.total_amount,
+                    pd.product_id,
+                    pq.id as purchaseQ
+            FROM
+                    `purchasesdetail` `pd`
+                INNER JOIN `suppliers` `s` ON
+                    `pd`.`Supplier_id` = `s`.`id`
+                INNER JOIN `products` `p` ON
+                    `pd`.`product_id` = `p`.`id`
+                LEFT JOIN `purchaseqty` `pq` ON
+                    `pd`.`id` = `pq`.`purchase_id` AND `pd`.`product_id` = `pq`.`product_id`
+                WHERE
+                    `pq`.`product_id` = $id
+            ) AS combined_data,
+             (SELECT @running_balance := 0) AS rb
+            ORDER BY
+                pcreated,i_date ASC;
+            ");
             $results = $query->result_array();
+            dd($results);
+            $final=[];
+            foreach($results as $c=> $result){
+                if($result['issue_stock_id']){
+                    $final[$c]['detail']=$result['issue_stock_id'];
+                    $final[$c]['quantity']=$result['quantity'];
+                    $final[$c]['date_']=$result['i_date'];
+                    $final[$c]['tname']=$result['tname'];
+                    $final[$c]['employee']=$result['employee'];
+                    $final[$c]['purchased_quantity']=$result['purchased_quantity'];
+                    $final[$c]['supplier_name']=$result['supplier_name'];
+                    $final[$c]['rate']=$result['rate'];
+                    $final[$c]['amount']=$result['amount'];
+                    $final[$c]['running_balance']=$result['running_balance'];
+                }else{
+                    $final[$c]['detail']=$result['purchase_detail_id'];
+                    $final[$c]['quantity']=$result['quantity'];
+                    $final[$c]['date_']=$result['pcreated'];
+                    $final[$c]['tname']=$result['tname'];
+                    $final[$c]['employee']=$result['employee'];
+                    $final[$c]['purchased_quantity']=$this->getPQ($id,$result['purchased_quantity']);
+                    $final[$c]['supplier_name']=$result['supplier_name'];
+                    $final[$c]['rate']=$result['rate'];
+                    $final[$c]['amount']=$result['amount'];
+                    $final[$c]['running_balance']=$result['running_balance'];
+                }
+            }
+            dd('sdf');
+            dd($results);
             $individual_records = [];
             foreach ($results as $row) {
                 $product_ids = explode(',', $row['product_id']);
@@ -962,84 +1067,6 @@ class Stock_model extends CI_Model {
     }
     
     public function combinedLedger($product_id) {
-$Q="
-(
-    SELECT
-        `i`.`id` AS `issue_stock_id`,
-        `i`.`PqId` AS `pqid`,
-        `i`.`pid` AS `pid`,
-        `i`.`Quantity` AS `quantity`,
-        `i`.`i_date` AS `date`,
-        `p`.`Name` AS `product_name`,
-        `t`.`TName` AS `tname`,
-        `e`.`Name` AS `employee`,
-        `NULL` AS `purchase_detail_id`,
-        `NULL` as `product_id`,
-        `NULL` AS `purchased_quantity`,
-        `NULL` AS `purchase_product_id`,
-        `NULL` AS `supplier_name`,
-        `NULL` as `rate`,
-        `NULL`as `amount`,
-        `NULL` AS `pcreated`,
-        `i`.`i_date` AS `icreated`
-    FROM
-        `issuestock` `i`
-    JOIN `products` `p` ON
-        `i`.`pid` = `p`.`id`
-    JOIN `tunnels` `t` ON
-        `i`.`tunnel_id` = `t`.`id`
-    JOIN `employees` `e` ON
-        `e`.`id` = `i`.`empoyee_id`
-    WHERE
-        `i`.`pid` = 1
-)
-UNION ALL
-    (
-    SELECT
-        `NULL` AS `issue_stock_id`,
-        `NULL` AS `pqid`,
-        `NULL` AS `pid`,
-        `NULL` AS `quantity`,
-        `NULL` AS `date`,
-        `NULL` AS `product_name`,
-        `NULL` AS `tname`,
-        `NULL` AS `employee`,
-        `NULL` as `icreated`,
-        `pd`.`id` AS `purchase_detail_id`,
-        `pd`.`product_id`,
-        `pd`.`quantity` AS `purchased_quantity`,
-        `pq`.`product_id` AS `purchase_product_id`,
-        `s`.`Name` AS `supplier_name`,
-        `pd`.`rate`,
-        `pd`.`amount`,
-        `pd`.`Date` AS `pcreated`
-    FROM
-        `purchasesdetail` `pd`
-    INNER JOIN `suppliers` `s` ON
-        `pd`.`Supplier_id` = `s`.`id`
-    INNER JOIN `products` `p` ON
-        `pd`.`product_id` = `p`.`id`
-    LEFT JOIN `purchaseqty` `pq` ON
-        `pd`.`id` = `pq`.`purchase_id` AND `pd`.`product_id` = `pq`.`product_id`
-    WHERE
-        `pq`.`product_id` = 1
-)
-ORDER BY
-    icreated ASC
-LIMIT 10 OFFSET 0
-";
-
-// Execute the combined queqqry
-$query = $this->db->query($Q);
-$results = $query->result_array();
-
-// Process results
-foreach ($results as $row) {
-    echo "<pre>";
-    print_r($row);
-    echo "</pre>";
-}
-die;
         // Get purchase records
         $purchase_records = $this->productLedgerDetail($product_id);
         
