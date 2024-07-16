@@ -990,7 +990,7 @@ class Stock_model extends CI_Model {
                     $final[$c]['date_']=$result['pcreated'];
                     $final[$c]['tname']=$result['tname'];
                     $final[$c]['employee']=$result['employee'];
-                    $final[$c]['purchased_quantity']=$this->getPQ($id,$result['purchased_quantity']);
+                    $final[$c]['purchased_quantity']=$this->getPQ($id,$result['purchased_quantity'],$result['product_id']);
                     $final[$c]['supplier_name']=$result['supplier_name'];
                     $final[$c]['rate']=$result['rate'];
                     $final[$c]['amount']=$result['amount'];
@@ -1027,7 +1027,15 @@ class Stock_model extends CI_Model {
             }
             return ($individual_records);
     }
-
+    public function PQ($pid,$quantities,$pids){
+        $purchased_quantities = explode(',',$quantities);
+        $product_ids = explode(',',$pids);
+        foreach ($product_ids as $index => $product_id) {
+            if($product_id==$pid){
+                return $purchased_quantities[$index];
+            }
+        }
+    }
     public function issueListByProduct($id,$draw, $start, $length, $search = '') {
         $totalRecords = $this->db->count_all('issuestock');
         $this->db->select('i.id AS issue_stock_id, i.PqId, i.pid, i.Quantity, i.i_date, p.Name AS product_name, t.TName, e.Name AS employee');
