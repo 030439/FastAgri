@@ -118,6 +118,23 @@ class Tunnels extends CI_Controller{
 			show_error('An unexpected error occurred. Please try again later.');
 		}
     }
+    public function tunnleLedger($id){
+        $this->load->view('layout/parts',['page'=>"pages/tunnels/tunnle-ledger",'id'=>$id]);
+    }
+    public function tunnleLedgerListing($id){
+        try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+            
+			$res=$this->Tunnel_model->tunnelLedger($id);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+    }
     public function getunnelsProfitList(){
         $id=$this->input->post('id');
         try{

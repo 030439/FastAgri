@@ -552,5 +552,169 @@ class Tunnel_model extends CI_Model
         );
         return $response;
     }
+    public function tunnelLedger($id,$draw, $start, $length, $search = '')
+    {
+        $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
+            SELECT e.id FROM tunnel_expense e WHERE e.tunnel_id = ?
+            UNION ALL
+            SELECT s.id FROM selldetails s WHERE s.tunnel = ?
+        ) AS total_records", array($id, $id));
+        $total_records = $total_query->row()->total;
+
+        $Q="
+            SELECT
+            eid,
+            expense_type,
+            eamount,
+            epid,
+            edate,
+            ecreated
+            sid,
+            selldate,
+            total_amount,
+            labour,
+            freight,
+            expences,
+            sdID,
+            grade,
+            Quantity,
+            Rate,
+            NetAmount,
+            amount,
+            customer,
+            GradeId
+        FROM
+            (
+            SELECT
+                e.`eid`,
+                e.`expense_type`,
+                e.`amount` AS eamount,
+                e.`pid` AS epid,
+                e.`edate`,
+                e.`created_at` AS ecreated,
+                NULL AS sid,
+                NULL AS selldate,
+                NULL AS total_amount,
+                NULL AS labour,
+                NULL AS freight,
+                NULL AS expences,
+                NULL AS sdID,
+                NULL AS grade,
+                NULL AS Quantity,
+                NULL AS Rate,
+                NULL AS NetAmount,
+                NULL AS amount,
+                NULL AS customer,
+                NULL AS GradeId
+            FROM
+                `tunnel_expense` AS e
+            JOIN `tunnels` AS t
+            ON
+                t.`id` = e.`tunnel_id`
+            WHERE
+                t.`id` = 28
+            UNION ALL
+        SELECT NULL AS
+            expense_type,
+            NULL AS eid,
+            NULL AS eamount,
+            NULL AS epid,
+            NULL AS edate,
+            NULL AS created_at,
+            s.`id` AS sid,
+            s.`selldate`,
+            s.`total_amount`,
+            s.`labour`,
+            s.`freight`,
+            s.`expences`,
+            sd.`id` AS sdID,
+            g.`Name` AS grade,
+            sd.`Quantity`,
+            sd.`Rate`,
+            sd.`NetAmount`,
+            sd.`amount`,
+            c.`Name` AS customer,
+            sd.`GradeId`
+        FROM
+            `sells` AS s
+        JOIN `customers` AS c
+        ON
+            c.`id` = s.`customer`
+        JOIN `selldetails` AS sd
+        ON
+            sd.`SellId` = s.`id`
+        JOIN `tunnels` AS t
+        ON
+            t.`id` = sd.`tunnel`
+        JOIN `grades` AS g
+        ON
+            g.`id` = sd.`GradeId`
+        WHERE
+            t.`id` = 28
+        ) AS combined_data
+        ORDER BY
+            edate,
+            ecreated ASC;
+        ";
+        $query = $this->db->query($Q);
+        $result = $query->result_array();
+        $newData = [];
+        foreach ($result as $c => $re) {
+            if($re['eid']){
+                if ($re['expense_type'] == "issueStockPurchase") {
+                    $pq = getIssueProQty($id, $re['epid']);
+                    $result[$c]['head'] = productName_($re['epid']);
+                    $result[$c]['qty'] = $pq['qty'];
+                    $result[$c]['rate'] = $re['amount'];
+                    $result[$c]['amount'] = $pq['qty'] * $re['amount'];
+                } elseif ($re['expense_type'] == "Jamandari") {
+                    $pq = getIssueProQty($id, $re['epid'], $re['edate']);
+                    $result[$c]['head'] = jamandarName($re['epid']);
+                    $result[$c]['qty'] = 1;
+                    $result[$c]['rate'] = 0;
+                } else {
+                    $lb = getLabourQty($id, $re['eid']);
+                    $result[$c]['head'] = $lb['jname'];
+                    $result[$c]['qty'] = $lb['qty'];
+                    $result[$c]['rate'] = $lb['rate'];
+                }
+            }
+            else
+            {
+                $quantities = explode(',', $re['Quantity']);
+                $rates = explode(',', $re['Rate']);
+                $amounts = explode(',', $re['amount']);
+                $GradeId = explode(',', $re['GradeId']);
+                $NetAmount = explode(',', $re['NetAmount']);
+                
+                // Determine the maximum length to iterate through
+                $maxLength = max(count($quantities), count($rates), count($amounts));
+                
+                for ($i = 0; $i < $maxLength; $i++) {
+                    $newRecord = $re;
+                    $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
+                    $newRecord['Rate'] = $rates[$i] ?? $rates[0];
+                    $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
+                    $newRecord['amount'] = $amounts[$i] ?? $amounts[0];
+                    $grade=$GradeId[$i] ?? $GradeId[0];
+                    if($grade==1){
+                        $newRecord['GradeId'] = "A";
+                    }
+                    else{
+                        $newRecord['GradeId'] = "B";
+                    }
+                    $newData[] = $newRecord;
+                }
+            }
+        }
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => $total_records,
+            "recordsFiltered" => $total_records,  // Adjust if necessary based on search
+            "data" => $result
+        );
+        return $response;
+    
+    }
 
 }

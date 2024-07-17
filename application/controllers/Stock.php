@@ -43,8 +43,20 @@ class Stock extends CI_Controller {
 	}
 
 	public function productLedger($id){
-		$res= $this->Stock_model->productLedgerDetail($id);
 		$this->load->view('layout/parts',['page'=>"pages/stock/product-ledger",'id'=>$id]);
+	}
+	public function productLederList($id){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res= $this->Stock_model->productLedgerDetail($id,$draw,$start , $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
 	}
 	public function addProduct()
 	{

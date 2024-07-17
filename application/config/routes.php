@@ -27,6 +27,8 @@ $route['tunnel/tunnle-profit/(:num)']="tunnels/tunnleProfit/$1";
 $route['tunnel/detailPdf/(:num)']="tunnels/detailPdf/$1";
 $route['tunnels-list-js'] = "tunnels/tunnelJsList"; //tunnels list
 $route['tunnels/summary']="tunnels/summary";
+$route['tunnels/tunnle-ledger/(:num)']="tunnels/tunnleLedger/$1";
+$route['tunnels/tunnle-ledger-listing/(:num)']="tunnels/tunnleLedgerListing/$1";
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 $route['customer/ledger/(:num)']="customer/customerLedger/$1";
@@ -73,6 +75,7 @@ $route['getStockQty']="Stock/getStockQty";
 $route['issue-product']="Stock/issueProduct";
 $route['issue-stock/issuePdf']="Stock/issuePdf";
 $route['products/ledger/(:num)']="Stock/productLedger/$1";
+$route['product/productLederList/(:num)']="Stock/productLederList/$1";
 //Employee 
 $route['add-employee']='Employee/add';
 $route['designation']='Employee/designation';

@@ -883,8 +883,15 @@ class Stock_model extends CI_Model {
     }
 
 
-    public function productLedgerDetail($id){
-        $query=$this->db->query("
+    public function productLedgerDetail($id,$draw, $start, $length, $search){
+        $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
+            SELECT pD.id FROM purchaseqty pD WHERE pd.product_id = ?
+            UNION ALL
+            SELECT i.id FROM issuestock i WHERE i.pid = ?
+        ) AS total_records", array($id, $id));
+        $total_records = $total_query->row()->total;
+
+        $sql=("
             SELECT
                 issue_stock_id,
                 pqid,
@@ -967,13 +974,14 @@ class Stock_model extends CI_Model {
             ) AS combined_data,
              (SELECT @running_balance := 0) AS rb
             ORDER BY
-                pcreated,i_date ASC;
+                i_date,pcreated ASC;
             ");
+            $query = $this->db->query($sql);
             $results = $query->result_array();
-            dd($results);
             $final=[];
             foreach($results as $c=> $result){
                 if($result['issue_stock_id']){
+                    $final[$c]['type']="issue";
                     $final[$c]['detail']=$result['issue_stock_id'];
                     $final[$c]['quantity']=$result['quantity'];
                     $final[$c]['date_']=$result['i_date'];
@@ -985,6 +993,7 @@ class Stock_model extends CI_Model {
                     $final[$c]['amount']=$result['amount'];
                     $final[$c]['running_balance']=$result['running_balance'];
                 }else{
+                    $final[$c]['type']="purchase";
                     $final[$c]['detail']=$result['purchase_detail_id'];
                     $final[$c]['quantity']=$result['quantity'];
                     $final[$c]['date_']=$result['pcreated'];
@@ -997,37 +1006,15 @@ class Stock_model extends CI_Model {
                     $final[$c]['running_balance']=$result['running_balance'];
                 }
             }
-            dd('sdf');
-            dd($results);
-            $individual_records = [];
-            foreach ($results as $row) {
-                $product_ids = explode(',', $row['product_id']);
-                $purchased_quantities = explode(',', $row['purchased_quantity']);
-                $purchased_rates = explode(',', $row['rate']);
-
-                foreach ($product_ids as $index => $product_id) {
-                    if($product_id==$id){
-                        $individual_records[] = array(
-                            'purchase_detail_id' => $row['purchase_detail_id'],
-                            'product_id' => $product_id,
-                            'product_name' => $row['product_name'],
-                            'purchased_quantity' => $purchased_quantities[$index],
-                            'purchase_product_id' => $row['purchase_product_id'],
-                            'RemainingQuantity' => $row['RemainingQuantity'],
-                            'supplier_name' => $row['supplier_name'],
-                            'supplier_company' => $row['supplier_company'],
-                            'rate' => $purchased_rates[$index],
-                            'amount' => $row['amount'],
-                            'expenses' => $row['expenses'],
-                            'total_amount' =>  $purchased_quantities[$index]*$purchased_rates[$index],
-                            'date' => $row['purchase_date']
-                        );
-                    }
-                }
-            }
-            return ($individual_records);
+            $response = array(
+                "draw" => intval($draw),
+                "recordsTotal" => $total_records,
+                "recordsFiltered" => $total_records,  // Adjust if necessary based on search
+                "data" => $final
+            );
+            return $response;
     }
-    public function PQ($pid,$quantities,$pids){
+    public function getPQ($pid,$quantities,$pids){
         $purchased_quantities = explode(',',$quantities);
         $product_ids = explode(',',$pids);
         foreach ($product_ids as $index => $product_id) {

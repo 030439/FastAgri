@@ -42,6 +42,12 @@ $('#user-list').DataTable({
                     }
                     return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">'+statusName+'</button> ';
                 }
+            },
+            { 
+                "data": "id",
+                "render": function(data, type, row) {
+                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" onclick="ledgerButtonClick(\'' + data + '\')" class="btn btn-primary">Ledger</button> ';
+                }
             },  
             ]
       });
@@ -50,5 +56,8 @@ $('#user-list').DataTable({
         }
         function profitButtonClick(id) {
             window.location.href="tunnel/tunnle-profit/"+id
+        }
+        function ledgerButtonClick(id) {
+            window.location.href="tunnels/tunnle-ledger/"+id
         }
     </script>

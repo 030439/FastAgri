@@ -278,7 +278,9 @@ class Cashbook_model extends CI_Model {
         $this->db->from('shareholders');
         $this->db->WHERE('id', $id);
         $shareholder = $this->db->get()->result();
-        return $shareholder[0]->Name;
+        if(!empty($shareholder)){
+            return $shareholder[0]->Name;
+        }
     }
     public function ShareHolderCurrentAmount($id){
         $this->db->select('balance');
