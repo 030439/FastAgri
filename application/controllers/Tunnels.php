@@ -128,7 +128,7 @@ class Tunnels extends CI_Controller{
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
             
-			$res=$this->Tunnel_model->tunnelLedger($id);
+			$res=$this->Tunnel_model->tunnelLedger($id,$draw, $start, $length, $search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
