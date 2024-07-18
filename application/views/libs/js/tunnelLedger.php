@@ -15,12 +15,24 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
-                  { "data": "expense_type" },
+                  { "data": "type" },
                   { "data": "head" },
-                  { "data": "rate" },
-                  { "data": "qty" },
+                  { "data": "rate_" },
+                  { "data": "qty_" },
                   { "data": "amount" },
-                  { "data": "edate" },
+                  { "data": "entryDate" },
+                  { 
+                        "data": "type",
+                        "render": function(data, type, row) {
+                          var linker='';
+                            if(data=="Sell"){
+                                linker="sell-detail/"+row.entry_id;
+                            }else{
+                              linker="report/"+row.entry_id;
+                            }
+                            return '<a href='+linker+' style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">Detail</a> ';
+                        }
+                    }, 
                   // { "data": "edate" },
               ],
         //       "footerCallback": function ( row, data, start, end, display ) {

@@ -563,13 +563,14 @@ class Tunnel_model extends CI_Model
 
         $Q="
             SELECT
-            eid,
+            eid_,
             expense_type,
             eamount,
             epid,
             edate,
             ecreated
             sid,
+            sid_,
             selldate,
             total_amount,
             labour,
@@ -586,13 +587,14 @@ class Tunnel_model extends CI_Model
         FROM
             (
             SELECT
-                e.`eid`,
+                e.`eid` as eid_,
                 e.`expense_type`,
                 e.`amount` AS eamount,
                 e.`pid` AS epid,
                 e.`edate`,
                 e.`created_at` AS ecreated,
                 NULL AS sid,
+                NULL AS sid_,
                 NULL AS selldate,
                 NULL AS total_amount,
                 NULL AS labour,
@@ -612,16 +614,17 @@ class Tunnel_model extends CI_Model
             ON
                 t.`id` = e.`tunnel_id`
             WHERE
-                t.`id` = 28
+                t.`id` = $id
             UNION ALL
         SELECT NULL AS
             expense_type,
-            NULL AS eid,
+            NULL AS eid_,
             NULL AS eamount,
             NULL AS epid,
             NULL AS edate,
             NULL AS created_at,
             s.`id` AS sid,
+            sd.`SellId` AS sid_,
             s.`selldate`,
             s.`total_amount`,
             s.`labour`,
@@ -650,7 +653,7 @@ class Tunnel_model extends CI_Model
         ON
             g.`id` = sd.`GradeId`
         WHERE
-            t.`id` = 28
+            t.`id` = $id
         ) AS combined_data
         ORDER BY
             edate,
@@ -660,27 +663,34 @@ class Tunnel_model extends CI_Model
         $result = $query->result_array();
         $newData = [];
         foreach ($result as $c => $re) {
-            if($re['eid']){
+            if($re['eid_']){
+                $result[$c]['entry_id'] = $re['eid_'];
+                $result[$c]['type']=$re['expense_type'];
+                $result[$c]['entryDate'] = $re['edate'];
                 if ($re['expense_type'] == "issueStockPurchase") {
                     $pq = getIssueProQty($id, $re['epid']);
                     $result[$c]['head'] = productName_($re['epid']);
-                    $result[$c]['qty'] = $pq['qty'];
-                    $result[$c]['rate'] = $re['amount'];
+                    $result[$c]['qty_'] = $pq['qty'];
+                    $result[$c]['rate_'] = $re['amount'];
                     $result[$c]['amount'] = $pq['qty'] * $re['amount'];
                 } elseif ($re['expense_type'] == "Jamandari") {
                     $pq = getIssueProQty($id, $re['epid'], $re['edate']);
                     $result[$c]['head'] = jamandarName($re['epid']);
-                    $result[$c]['qty'] = 1;
-                    $result[$c]['rate'] = 0;
+                    $result[$c]['qty_'] = 1;
+                    $result[$c]['rate_'] = 0;
                 } else {
-                    $lb = getLabourQty($id, $re['eid']);
+                    $lb = getLabourQty($id, $re['eid_']);
                     $result[$c]['head'] = $lb['jname'];
-                    $result[$c]['qty'] = $lb['qty'];
-                    $result[$c]['rate'] = $lb['rate'];
+                    $result[$c]['qty_'] = $lb['qty'];
+                    $result[$c]['rate_'] = $lb['rate'];
                 }
             }
             else
             {
+                $result[$c]['type']='Sell';
+                $result[$c]['entryDate'] = $re['selldate'];
+                $result[$c]['entry_id'] = $re['sid_'];
+                $result[$c]['head']=$re['customer'];
                 $quantities = explode(',', $re['Quantity']);
                 $rates = explode(',', $re['Rate']);
                 $amounts = explode(',', $re['amount']);
@@ -692,16 +702,16 @@ class Tunnel_model extends CI_Model
                 
                 for ($i = 0; $i < $maxLength; $i++) {
                     $newRecord = $re;
-                    $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
-                    $newRecord['Rate'] = $rates[$i] ?? $rates[0];
-                    $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
-                    $newRecord['amount'] = $amounts[$i] ?? $amounts[0];
+                    $result[$c]['qty_'] = $quantities[$i] ?? $quantities[0];
+                    $result[$c]['rate_'] = $rates[$i] ?? $rates[0];
+                    $result[$c]['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
+                    $result[$c]['amount'] = $amounts[$i] ?? $amounts[0];
                     $grade=$GradeId[$i] ?? $GradeId[0];
                     if($grade==1){
-                        $newRecord['GradeId'] = "A";
+                        $result[$c]['GradeId'] = "A";
                     }
                     else{
-                        $newRecord['GradeId'] = "B";
+                        $result[$c]['GradeId'] = "B";
                     }
                     $newData[] = $newRecord;
                 }

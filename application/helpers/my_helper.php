@@ -233,6 +233,26 @@ if (!function_exists('supplierName_')) {
         }
     }
 }
+if (!function_exists('tunnelName_')) {
+    function tunnelName_($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  t.TName as tunnel  FROM tunnels t WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['tunnel'];
+        } else {
+            return "data not found";
+        }
+    }
+}
 
 
 

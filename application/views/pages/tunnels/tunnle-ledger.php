@@ -1,7 +1,7 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 ">
         <div class="cashier-transection-selectors flex items-center justify-between  maxSm:block">
-            <h4 class="text-[20px] text-heading  font-bold">: Expenses</h4>
+            <h4 class="text-[20px] text-heading  font-bold"><?php echo tunnelName_($id)?>: Expenses</h4>
             </div>
        <style>
         @media (max-width: 1400px) {
@@ -25,8 +25,8 @@
             <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
                 <thead>
                     <tr>
-                        <th>Expense Type</th>
-                        <th>Product/Person</th>
+                        <th>Sell/Expense</th>
+                        <th>Product/Employee/Customer</th>
                         <th>Rate</th>
                         <th>Quantity</th>
                         <th>Amount</th>
