@@ -90,7 +90,18 @@ class Employee extends CI_Controller {
 		exit();
 	}
 	public function employeeLedger($id){
-		echo $id;
+		try{
+			$draw = 0;//intval($this->input->post("draw"));
+			$start =0;// intval($this->input->post("start"));
+			$length = 10;//intval($this->input->post("length"));
+            $search = '';//$this->input->post('search')['value'];
+			$res=$this->Employee_model->getPaysListById($id,$draw,$start, $length,$search);
+			dd($res);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
 	}
 	public function getPermanentEmployees(){
 		$result=$this->Employee_model->permanentEmployee(0,10);

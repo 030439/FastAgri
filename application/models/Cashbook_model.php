@@ -47,8 +47,15 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['narration']=$this->jamandarName($d['cash_sP']);
                     $cash[$c]['name']="Share Holder";
                 }
+                elseif ($d['case_sT']=="advance") {
+                    $cash[$c]['narration']=$this->EmployeeName($d['cash_sP']);
+                    $cash[$c]['name']=$this->EmployeeName($d['cash_sP']);
+                }
                 elseif ($d['case_sT']=="expense") {
                     $cash[$c]['name']=$this->accountHeadName($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="advance") {
+                    $cash[$c]['name']=$this->EmployeeName($d['cash_sP']);
                 }
             }
         }
@@ -112,19 +119,22 @@ class Cashbook_model extends CI_Model {
             } elseif ($d['cash_s'] == "cash-out") {
                 $debit += $d['amount'];
                 if ($d['case_sT'] == "supplier") {
-                    $cash[$c]['narration'] = $this->SupplierName($d['cash_sP']);
-                    $cash[$c]['name'] = $d['narration'];
+                    $cash[$c]['name'] = $this->SupplierName($d['cash_sP']);
+                    $cash[$c]['narration'] = $d['narration'];
                 } elseif ($d['case_sT'] == "shareholder") {
                     $cash[$c]['narration'] = $this->ShareHolderName($d['cash_sP']);
                     $cash[$c]['name'] = "Share Holder";
                 } elseif ($d['case_sT'] == "pay") {
-                    $cash[$c]['narration'] = $this->EmployeeName($d['cash_sP']);
-                    $cash[$c]['name'] = "Share Holder";
+                   // $cash[$c]['narration'] = $this->EmployeeName($d['cash_sP']);
+                    $cash[$c]['name'] = $this->EmployeeName($d['cash_sP']);
                 } elseif ($d['case_sT'] == "jamandari") {
                     $cash[$c]['narration'] = $this->jamandarName($d['cash_sP']);
                     $cash[$c]['name'] = "Jamandar";
                 } elseif ($d['case_sT'] == "expense") {
                     $cash[$c]['name'] = $this->accountHeadName($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="advance") {
+                    $cash[$c]['name']=$this->EmployeeName($d['cash_sP']);
                 }
             }
         }
@@ -179,6 +189,10 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['pname']=$this->accountHeadName($d['cash_sP']);
                     $cash[$c]['current_amount']="-";
                 }
+                elseif ($d['case_sT']=="advance") {
+                    $cash[$c]['pname']=$this->EmployeeName($d['cash_sP']);
+                    $cash[$c]['current_amount']="-";
+                }
             }
         }
         return ($cash);
@@ -222,6 +236,9 @@ class Cashbook_model extends CI_Model {
                 }
                 elseif ($d['case_sT']=="expense") {
                     $cash[$c]['name']=$this->accountHeadName($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="advance") {
+                    $cash[$c]['name']=$this->EmployeeName($d['cash_sP']);
                 }
             }
         }
@@ -362,6 +379,9 @@ class Cashbook_model extends CI_Model {
             elseif($data['cash-selection-type']=="pay"){
                 $this->SalaryGiven($data);
             }
+             elseif($data['cash-selection-type']=="advance"){
+                $this->employeeAdvance($data);
+            }
             elseif($data['cash-selection-type']=="expense"){
                 $this->Expense($data);
             }
@@ -402,6 +422,31 @@ class Cashbook_model extends CI_Model {
         $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
         $this->db->where('id', $customerId);
         return $this->db->update('employees');
+    }
+    public function employeeAdvance($data){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+        $installment=$data['installment'];
+        $date_=date('y-m-d');
+        $data_=['employee_id'=>$customerId,'employee_type'=>1,'amount'=>$amount,'installment'=>$installment,'date_'=>$date_];
+
+        $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
+        $this->db->where('id', $customerId);
+        $res=$this->db->update('employees');
+        if($res){
+            $this->db->insert('employee_loan', $data_);
+            $employee = $this->db->get_where('loans', ['employee_id' => $customerId])->row();
+            $loan=$employee->load;
+            $loan+=$data['amount'];
+            $installment_=$employee->load;
+            $installment_+=$data['installment'];
+            $loan=[
+                'loan'=>$loan,
+                'installment'=>$installment_
+            ];
+            $this->db->where('employee_id', $customerId);
+            return $this->db->update('loans', $loan);
+        }
     }
     public function JamandarCashOut($data){
         $amount = $data['amount'];

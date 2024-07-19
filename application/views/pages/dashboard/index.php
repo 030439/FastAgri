@@ -42,8 +42,6 @@
                                                     <span
                                                         class="block text-[15px] font-semibold text-bodyText mb-8">Active 
                                                         Tunnels</span>
-                                                    <span
-                                                        class="h-[35px] rounded-[17px] bg-white inline-block text-[14px] font-semibold leading-[35px] px-3 min-w-[70px] text-center text-heading">+65%</span>
                                                 </div>
                                             </a>
                                         </div>
@@ -59,9 +57,7 @@
                                                     <span
                                                         class="block text-[15px] font-semibold text-bodyText mb-8"> Share Holders
                                                         </span>
-                                                    <span
-                                                        class="h-[35px] rounded-[17px] bg-white inline-block text-[14px] font-semibold leading-[35px] px-3 min-w-[70px] text-center text-heading">+3.47%</span>
-                                                </div>
+                                                   </div>
                                             </a>
                                         </div>
 
@@ -73,11 +69,8 @@
                                                             class="inline-block rounded-[15px]">
                                                     </div>
                                                     <h4 class="text-[22px] font-extrabold text-heading"><?php echo $data['employees'];?></h4>
-                                                    <span
-                                                        class="block text-[15px] font-semibold text-bodyText mb-8">Total Employees
-                                                        </span>
-                                                    <span
-                                                        class="h-[35px] rounded-[17px] bg-white inline-block text-[14px] font-semibold leading-[35px] px-3 min-w-[70px] text-center text-heading">-2.8%</span>
+                                                    <span class="block text-[15px] font-semibold text-bodyText mb-8">Total Employees
+                                                    </span>
                                                 </div>
                                             </a>
                                         </div>
@@ -93,9 +86,7 @@
                                                     <span
                                                         class="block text-[15px] font-semibold text-bodyText mb-8">Runnig Balance
                                                         </span>
-                                                    <span
-                                                        class="h-[35px] rounded-[17px] bg-white inline-block text-[14px] font-semibold leading-[35px] px-3 min-w-[70px] text-center text-heading">+65%</span>
-                                                </div>
+                                                    </div>
                                             </a>
                                         </div>
                                     </div>

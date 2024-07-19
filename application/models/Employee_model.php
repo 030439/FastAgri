@@ -274,6 +274,43 @@ class Employee_model extends CI_Model {
     
         return $response; 
     }
+    public function getPaysListById($id,$draw,$start, $length,$search){
+        $totalRecords = $this->db->count_all_results('pays');
+
+        $this->db->select('
+        employees.id as eid,employees.Name as employee,
+        employees.BasicSalary as basic,employees.Allowances as allowance,employees.Medical as medical,employees.status,
+        pays.total,pays.installment,pays.additon as addition,pays.deduction,pays.net,pays.date_ as pdate,pays.status as status
+       ');
+        $this->db->from('pays');
+        $this->db->join('employees', 'employees.id = pays.employee_id', 'left');
+        $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
+        $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
+        $this->db->where('employeecategory.id', 1);
+        $this->db->where('pays.employee_id',$id);
+
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('employees.Name', $search);
+            $this->db->or_like('pays.date_', $search);
+            $this->db->or_like('pays.net', $search);
+            $this->db->or_like('pays.total', $search);
+            $this->db->group_end();
+        }
+
+        $this->db->order_by('pays.id', 'desc');
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $pays = $query->result_array();
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+            "data" => $pays
+        );
+    
+        return $response; 
+    }
     public function updatecustomer($id, $data) {
       $this->db->where('id', $id);
        return  $this->db->update('customers', $data);

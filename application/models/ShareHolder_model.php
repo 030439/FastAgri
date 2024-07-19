@@ -178,8 +178,11 @@ class ShareHolder_model extends CI_Model {
         $this->db->join('shareholders_pays sp', 'sp.sid = s.id', 'right');
         $this->db->where('s.id', $id); // Assuming $id is a valid shareholder ID
         $this->db->where('c.case_sT', 'shareholder');
-        $this->db->limit($length, $start);
         $this->db->group_by('sp.created');
+        $this->db->order_by('sp.id', 'DESC');
+        $this->db->limit($length, $start);
+       
+       // $this->db->order_by('cash_in_out.id', 'DESC');
 
         $res =$this->db->get()->result();
         $shareholders = array(

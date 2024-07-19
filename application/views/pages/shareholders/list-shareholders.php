@@ -6,7 +6,7 @@
                 <i class="fa-light fa-plus"></i> Add Shareholder
             </button>
         </div>
-        <h4 class="text-[20px] font-bold text-heading " style="width:60%;text-align:center">Shareholders List</h4>
+        <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center"><span style="border-bottom:5px solid #ffc403">Shareholders List</span></h4>
         
         </div>
         <style>th{border:1px solid gray;}</style>

@@ -421,6 +421,7 @@
         { value: 'supplier', text: 'Supplier' },
         { value: 'shareholder', text: 'Share Holder' },
         { value: 'pay', text: 'Salary' },
+        { value: 'advance', text: 'Employee-Advance' },
         { value: 'expense', text: 'Expense' },
         { value: 'jamandari', text: 'Jamandar' }
         ];
@@ -435,6 +436,8 @@
       var cashtype=$("#cash-selection").val();
       $("#narration-field").hide();
       $("#e-amount").hide();
+      $("#tunnel-field").hide();
+      $("#e-installment").hide();
       if(cashtype=="cash-in"){
         if(cst=="customer"){
           getcustomers();
@@ -463,6 +466,11 @@
           getEmployees();
           $("#narration-field").show();
         }
+        else if(cst=="advance"){
+          getEmployees();
+          $("#e-installment").show();
+          $("#narration-field").show();
+        }
         else if(cst=="shareholder"){
           getShareSolders();
           $("#narration-field").show();
@@ -470,6 +478,7 @@
         else if(cst=="expense"){
           OtherExpense();
           getTunnels();
+          $("#tunnel-field").show();
           $("#narration-field").show();
         }
         else if(cst=="jamandari"){

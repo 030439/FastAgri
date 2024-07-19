@@ -57,7 +57,7 @@
 
 
             
-            <div class="lg:col-span-4 md:col-span-6 col-span-12">
+            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Select Tunnel</h5>
                     <div class="cashier-select-field-style">
@@ -75,6 +75,16 @@
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="text" readonly id="e-pay" name="e-amount" placeholder="Payable Amount">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="e-installment" style="display:none">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Installment</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="number" name="installment" value="0" >
                         </div>
                     </div>
                 </div>

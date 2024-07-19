@@ -1,4 +1,4 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="assets/js/moment.js"></script>
 
 <script>
 $(document).ready(function() {
