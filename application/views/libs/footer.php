@@ -349,6 +349,16 @@
         }
       });
     }
+    function getTunnels(){
+      $.ajax({
+        url: "getTunnels",
+        method: 'post',
+        success: function(result){
+           $("#select-tunnel").html(result);
+           $('#select-tunnel').css('display', 'block');
+        }
+      });
+    }
     function getShareSolders(){
       $.ajax({
         url: "getShareSolders",
@@ -459,6 +469,7 @@
         }
         else if(cst=="expense"){
           OtherExpense();
+          getTunnels();
           $("#narration-field").show();
         }
         else if(cst=="jamandari"){

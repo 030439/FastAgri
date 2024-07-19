@@ -417,7 +417,48 @@ class Cashbook_model extends CI_Model {
             'narration'   => $data['narration'],
             'amount'     => $data['amount']
         ];
-        return $this->db->insert('expenses', $arr);
+        $date=date("y-m-d");
+        $this->db->insert('expenses', $arr);
+        $eid = $this->db->insert_id();
+        $tunnels=$data['select-tunnel'];
+        $all=$this->getAllTunnels();
+        $allTunnel=count($this->getAllTunnels());
+        $perTunnel=$data['amount']/$allTunnel;
+        if($tunnels==0){
+            foreach($all as $tunnel){
+                    $expense=[
+                        'tunnel_id'=>$tunnel->id,
+                        'expense_type'=>'EXP',
+                        'eid'=>$eid,
+                        'amount'=>$perTunnel,
+                        'edate'=>$date,
+                        'pid'=>$data['cash-selection-party']
+                    ];
+                    $res=$this->db->insert('tunnel_expense', $expense);
+            }
+        }else{
+            $expense=[
+                'tunnel_id'=>$tunnels,
+                'expense_type'=>'EXP',
+                'eid'=>$eid,
+                'amount'=>$data['amount'],
+                'edate'=>$date,
+                'pid'=>$data['cash-selection-party']
+            ];
+          return $this->db->insert('tunnel_expense', $expense);
+        }
+       return;
+    }
+    public function getAllTunnels(){
+        $this->db->select('tunnels.id');
+        $this->db->from('tunnels');
+        $this->db->WHERE('status', 1);
+        $products = $this->db->get()->result();
+        return $products;
+
+        $this->db->where('status', 1);
+        $all = $this->db->get('tunnels')->result();
+        return $all[0]->TName;
     }
     public function balance($data, $id) {
         // Validate the input data

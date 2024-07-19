@@ -29,6 +29,7 @@ $route['tunnels-list-js'] = "tunnels/tunnelJsList"; //tunnels list
 $route['tunnels/summary']="tunnels/summary";
 $route['tunnels/tunnle-ledger/(:num)']="tunnels/tunnleLedger/$1";
 $route['tunnels/tunnle-ledger-listing/(:num)']="tunnels/tunnleLedgerListing/$1";
+$route['getTunnels']="tunnels/getTunnels";
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 $route['customer/ledger/(:num)']="customer/customerLedger/$1";

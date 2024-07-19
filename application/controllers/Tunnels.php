@@ -16,6 +16,15 @@ class Tunnels extends CI_Controller{
     public function index(){
         $this->load->view('layout/parts',['page'=>"pages/tunnels/list-tunnel"]);
     }
+    public function getTunnels(){
+        $tunnels=$this->Common_model->getAll('tunnels');
+        $html="";
+        $html.="<option value='0'>All</option>";
+        foreach($tunnels as $tunnel){
+            $html.="<option value='".$tunnel->id."'>".$tunnel->TName."</option>";
+        }
+        echo $html;
+    }
     public function summary(){
         $data=$this->Tunnel_model->tunnelSummary();
         $this->load->view('layout/parts',['page'=>"pages/tunnels/summary",'data'=>$data]);

@@ -361,7 +361,13 @@ class Tunnel_model extends CI_Model
                 $res[$c]['head'] = jamandarName($re['pid']);
                 $res[$c]['qty'] = 1;
                 $res[$c]['rate'] = 0;
-            } else {
+            } 
+            elseif($re['expense_type'] == "EXP"){
+                $res[$c]['head']   = $this->accountHeadName($re['pid']);
+                $res[$c]['qty']    = 0;
+                $res[$c]['rate']   = 0;
+            }
+            else {
                 $lb = getLabourQty($id, $re['eid']);
                 $res[$c]['head'] = $lb['jname'];
                 $res[$c]['qty'] = $lb['qty'];
@@ -412,6 +418,12 @@ class Tunnel_model extends CI_Model
                 $res[$c]->qty    = 1;
                 $res[$c]->rate   = 0;
             }
+            elseif($re->expense_type == "EXP"){
+                $pq=getIssueProQty($id, $re->pid, $re->edate);
+                $res[$c]->head   = $this->accountHeadName($re->pid);
+                $res[$c]->qty    = 0;
+                $res[$c]->rate   = 0;
+            }
             else{
                 $lb=getLabourQty($id,$re->eid);
                 $res[$c]->head = $lb['jname'];
@@ -421,6 +433,13 @@ class Tunnel_model extends CI_Model
             }
         }
         return $res;
+    }
+    public function accountHeadName($id){
+        $this->db->select('Name');
+        $this->db->from('account_head');
+        $this->db->WHERE('id', $id);
+        $shareholder = $this->db->get()->result();
+        return $shareholder[0]->Name;
     }
     public function tunnleProfit($id){
         $query = $this->db->query("
@@ -657,8 +676,9 @@ class Tunnel_model extends CI_Model
         ) AS combined_data
         ORDER BY
             edate,
-            ecreated ASC;
+            ecreated ASC
         ";
+        $Q .= " LIMIT $start, $length";
         $query = $this->db->query($Q);
         $result = $query->result_array();
         $newData = [];
@@ -671,18 +691,27 @@ class Tunnel_model extends CI_Model
                     $pq = getIssueProQty($id, $re['epid']);
                     $result[$c]['head'] = productName_($re['epid']);
                     $result[$c]['qty_'] = $pq['qty'];
-                    $result[$c]['rate_'] = $re['amount'];
-                    $result[$c]['amount'] = $pq['qty'] * $re['amount'];
+                    $result[$c]['rate_'] = $re['eamount'];
+                    $result[$c]['amount'] = $pq['qty'] * $re['eamount'];
                 } elseif ($re['expense_type'] == "Jamandari") {
                     $pq = getIssueProQty($id, $re['epid'], $re['edate']);
                     $result[$c]['head'] = jamandarName($re['epid']);
                     $result[$c]['qty_'] = 1;
                     $result[$c]['rate_'] = 0;
-                } else {
+                    $result[$c]['amount'] = $re['eamount'];
+                }
+                elseif($re['expense_type'] == "EXP"){
+                    $result[$c]['head']   = $this->accountHeadName($re['epid']);
+                    $result[$c]['qty_']    = 0;
+                    $result[$c]['rate_']   = 0;
+                    $result[$c]['amount'] = $re['eamount'];
+                }
+                 else {
                     $lb = getLabourQty($id, $re['eid_']);
                     $result[$c]['head'] = $lb['jname'];
                     $result[$c]['qty_'] = $lb['qty'];
                     $result[$c]['rate_'] = $lb['rate'];
+                    $result[$c]['amount'] = $re['eamount'];
                 }
             }
             else

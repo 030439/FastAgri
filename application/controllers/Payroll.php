@@ -17,6 +17,9 @@ class Payroll extends CI_Controller{
         $data['pays']=$this->Employee_model->getPays();
         $this->load->view('layout/parts',['page'=>"pages/human-resource/payroll/list-payroll",'data'=>$data]);
     }
+    public function getPaysList(){
+        $data['pays']=$this->Employee_model->getPays();
+    }
     public function generate(){
         try{
 			$this->load->library('pagination');
