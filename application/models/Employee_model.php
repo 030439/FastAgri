@@ -238,7 +238,7 @@ class Employee_model extends CI_Model {
         }
         return true;
     }
-    public function getPays($draw,$start, $length,$search){
+    public function getPaysList($draw,$start, $length,$search){
         $totalRecords = $this->db->count_all_results('pays');
 
         $this->db->select('

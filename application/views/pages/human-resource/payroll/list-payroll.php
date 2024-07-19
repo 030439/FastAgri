@@ -105,87 +105,26 @@
                 width: 80%;
             }
         </style>
-        <div class="cashier-salereturns-table-area">
+         <div class="cashier-salereturns-table-area">
             <div class="cashier-salereturns-table-innerC">
-                <div class="cashier-salereturns-table-inner-wrapperC border border-solid border-grayBorder border-b-0 mb-7">
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Date</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Employee</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Basic </h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Medical </h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Allowance</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Total</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Installment</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Addition</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Deduction</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Net Sallary</h5>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <h5>Status</h5>
-                        </div>
-                    </div>
-                        
-                    <?php if(!empty($data)): foreach($data['pays'] as $c=> $d):?>
-                    <div class="cashier-salereturns-table-list flex border-b border-solid border-grayBorder h-12">
-                       
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->pdate);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->employee);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->basic);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->medical);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->allowance);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->total);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->addition);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->addition);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->deduction);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span><?php ShowVal($d->net);?></span>
-                        </div>
-                        <div class="cashier-salereturns-table-dateB">
-                            <span style="width:60px;" class="status-tag text-[12px] font-semibold leading-[20px] text-white px-2.5 h-5 rounded-[3px] inline-block <?php echo $d->status==0? 'bg-themeWarn':'bg-themeGreen';?>">
-                                <?php echo $d->status==0? 'Unpaid':'Paid';?>
-                            </span>
-                        </div>
-                       
-                    </div>
-                    <?php endforeach;endif;?>
-                </div>
+                <table id="user-list" class="table display table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Employee</th>
+                            <th>Basic</th>
+                            <th>Medical</th>
+                            <th>Allowance</th>
+                            <th>Total</th>
+                            <th>Installment</th>
+                            <th>Addition</th>
+                            <th>Deduction</th>
+                            <th>Net</th>
+                            <!-- <th>Status</th>
+                            <th>Action</th> -->
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>

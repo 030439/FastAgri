@@ -14,12 +14,16 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
-                  { "data": "Name" },
-                  { "data": "designation" },
-                  { "data": "category" },
-                  { "data": "Address" },
-                  { "data": "ContactNo" },
-                  { "data": "BasicSalary" },
+                  { "data": "pdate" },
+                  { "data": "employee" },
+                  { "data": "basic" },
+                  { "data": "medical" },
+                  { "data": "allowance" },
+                  { "data": "total" },
+                  { "data": "installment" },
+                  { "data": "addition" },
+                  { "data": "deduction" },
+                  { "data": "net" },
                   // { "data": "ContactNo" },
                   // { "data": "ContactNo" }
                   
