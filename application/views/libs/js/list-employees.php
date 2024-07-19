@@ -20,18 +20,14 @@ $('#user-list').DataTable({
                   { "data": "Address" },
                   { "data": "ContactNo" },
                   { "data": "BasicSalary" },
-                  // { "data": "ContactNo" },
-                  // { "data": "ContactNo" }
-                  
-                  // { // Actions column
-                  //    "data": "id",
-                  //       "render": function(data, type, row) {
+                  { // Actions column
+                     "data": "id",
+                        "render": function(data, type, row) {
                             
-                  //           return '<div style="display:flex"><a class="dropdown-menu-item edit" href="shareholders/edit/'+data+'"><span>Edit</span></a>'+
-                  //                     '<a class="dropdown-menu-item detail" href="customer/detail/'+data+'"><span>Detail</span></a></div>';
-                  //       }
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="employee/ledger/'+data+'"><span>Ledger</span></div>';
+                        }
                                       
-                  // }
+                  }
                   
               ]
       });

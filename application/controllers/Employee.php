@@ -89,6 +89,9 @@ class Employee extends CI_Controller {
 		echo jsonOutPut($response);
 		exit();
 	}
+	public function employeeLedger($id){
+		echo $id;
+	}
 	public function getPermanentEmployees(){
 		$result=$this->Employee_model->permanentEmployee(0,10);
 		$html="";

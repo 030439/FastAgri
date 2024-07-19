@@ -94,6 +94,7 @@ $route['getEmployees']="Employee/getEmployees";
 $route['getEmployeeById']="Employee/getEmployeePayById";
 $route['getEmployeesList']="Employee/getEmployeesList";
 $route['employee-loan-listing']="Employee/employeeLoanListing";
+$route['employee/ledger/(:num)']="Employee/employeeLedger/$1";
 //Jammandar 
 $route['jamandars']='Jamandar/index';
 $route['getJamandars']='Jamandar/getJamandars';
