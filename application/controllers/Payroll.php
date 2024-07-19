@@ -18,8 +18,18 @@ class Payroll extends CI_Controller{
         $this->load->view('layout/parts',['page'=>"pages/human-resource/payroll/list-payroll",'data'=>$data]);
     }
     public function getPaysList(){
-        $data['pays']=$this->Employee_model->getPays();
-    }
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Employee_model->getPaysList($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
     public function generate(){
         try{
 			$this->load->library('pagination');

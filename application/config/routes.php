@@ -89,6 +89,7 @@ $route['getPermanentEmployees']='Employee/getPermanentEmployees';
 $route['getDailyEmployees']='Employee/getDailyEmployees';
 $route['employee-advance-add']="Employee/employeeAdvanceAdd";
 $route['generate-pays']='Employee/generatePays';
+$route['pays-list']='Payroll/getPaysList';
 $route['getEmployees']="Employee/getEmployees";
 $route['getEmployeeById']="Employee/getEmployeePayById";
 $route['getEmployeesList']="Employee/getEmployeesList";
