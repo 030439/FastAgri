@@ -181,6 +181,7 @@ class ShareHolder_model extends CI_Model {
         $this->db->group_by('sp.created');
         $this->db->order_by('sp.id', 'DESC');
         $this->db->limit($length, $start);
+        
        
        // $this->db->order_by('cash_in_out.id', 'DESC');
 
