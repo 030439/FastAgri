@@ -253,7 +253,26 @@ if (!function_exists('tunnelName_')) {
         }
     }
 }
+if (!function_exists('employeeName_')) {
+    function employeeName_($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
 
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  e.Name as employee  FROM employees e WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['employee'];
+        } else {
+            return "data not found";
+        }
+    }
+}
 
 
 
