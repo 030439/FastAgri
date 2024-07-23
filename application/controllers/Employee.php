@@ -90,6 +90,12 @@ class Employee extends CI_Controller {
 		exit();
 	}
 	public function employeeLedger($id){
+		// $draw = 0;//intval($this->input->post("draw"));
+		// 	$start = 0;//intval($this->input->post("start"));
+		// 	$length =10;// intval($this->input->post("length"));
+        //     $search ='';// $this->input->post('search')['value'];
+		// 	$res=$this->Employee_model->getPaysListById($id,$draw,$start, $length,$search);
+		// 	dd("SDF");
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/employee-ledger",'id'=>$id]);
 	}
 	public function employeeLedgerListing($id){

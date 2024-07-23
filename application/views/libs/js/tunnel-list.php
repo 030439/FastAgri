@@ -40,7 +40,7 @@ $('#user-list').DataTable({
                     }else{
                         statusName="Close";
                     }
-                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">'+statusName+'</button> ';
+                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" onclick="statusButtonClick(\'' + row.id + '\')" class="btn btn-primary">'+statusName+'</button> ';
                 }
             },
             { 
@@ -53,6 +53,17 @@ $('#user-list').DataTable({
       });
         function handleButtonClick(id) {
             window.location.href="tunnel/tunnle-expense/"+id
+        }
+        function statusButtonClick(id) {
+            $.ajax({
+                url:"tunnel-status",
+                method:"post",
+                data:{id:id},
+                success:function(e){
+                    window.location.reload();
+                }
+
+            })
         }
         function profitButtonClick(id) {
             window.location.href="tunnel/tunnle-profit/"+id

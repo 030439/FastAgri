@@ -275,7 +275,21 @@ class Employee_model extends CI_Model {
         return $response; 
     }
     public function getPaysListById($id,$draw,$start, $length,$search){
-        $totalRecords = $this->db->count_all_results('pays');
+        $total_query = $this->db->query("
+            SELECT COUNT(*) as total FROM (
+                SELECT p.id 
+                FROM pays p 
+                WHERE p.employee_id = ?
+                UNION ALL
+                SELECT c.id 
+                FROM cash_in_out c 
+                WHERE (c.case_sT = 'advance' OR c.case_sT = 'pay') 
+                AND c.cash_sP = ?
+            ) AS total_records", 
+            array($id, $id)
+        );
+        $total_records = $total_query->row()->total;
+        
     
         $Q="
             SELECT
@@ -287,6 +301,8 @@ class Employee_model extends CI_Model {
                 pay_id,
                 type,
                 pay,
+                pdate,
+                cdate,
                 @running_balance := @running_balance +(
                     IFNULL(net, 0) - IFNULL(pay, 0)
                 ) AS running_balance
@@ -349,10 +365,20 @@ class Employee_model extends CI_Model {
         $Q .= " LIMIT $start, $length";
         $query = $this->db->query($Q);
         $pays = $query->result_array();
+        $arr=[];
+        foreach($pays as $p=> $pay){
+            if(!empty($pay['cdate'])){
+                $pays[$p]['_date_']=date("d-m-Y", strtotime($pay['cdate']));
+            }
+            else{
+                $pays[$p]['type']="Payable";
+                $pays[$p]['_date_']=date("d-m-Y", strtotime($pay['pdate']));
+            }
+        }
         $response=array(
             "draw" => intval($draw),
-            "recordsTotal" => intval($totalRecords),
-            "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+            "recordsTotal" => intval($total_records),
+            "recordsFiltered" => intval($total_records),  // Update this if server-side filtering is applied
             "data" => $pays
         );
     

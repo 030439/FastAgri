@@ -14,6 +14,7 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
+                  { "data": "_date_" },
                   { "data": "total" },
                   { "data": "additon" },
                   { "data": "deduction" },
@@ -26,10 +27,10 @@ $('#user-list').DataTable({
                         "data": "type",
                         "render": function(data, type, row) {
                           var linker='';
-                            if(data=="issue"){
-                                linker="stock/listissue";
+                            if(data=="Payable"){
+                                linker="payroll";
                             }else{
-                              linker="purchase/detail/"+row.detail;
+                              linker="report";
                             }
                             return '<a href='+linker+' style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">Detail</a> ';
                         }

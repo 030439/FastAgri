@@ -6,7 +6,7 @@
                     Product List
                 </button>
             </div>
-            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403"><?php echo productName_($id);?> Ledger</span></h4>
+            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403"><?php echo employeeName_($id);?> Ledger</span></h4>
         </div>
 
         <div class="cashier-salereturns-table-area">
@@ -15,6 +15,7 @@
                 <table id="user-list" class="table display table-bordered table-striped table-hover">
                     <thead>
                         <tr>
+                            <th>Date</th>
                             <th>Total</th>
                             <th>Addition</th>
                             <th>Deduction</th>
