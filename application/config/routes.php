@@ -135,7 +135,7 @@ $route['tunnels/expense']="Report/expense";
 $route['tunnels/profit']="Report/profit";
 $route['tunnels/profitListing']="Report/profitListing";
 $route['tunnels/expenseListing']="Report/expenseListing";
-
+$route['tunnel-status']="tunnels/tunnelStatus";
 
 //loan
 

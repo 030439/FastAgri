@@ -34,19 +34,20 @@ $('#user-list').DataTable({
             { 
                 "data": "status",
                 "render": function(data, type, row) {
-                    console.log(data);
-                    if(data==1){
+                    if(row.status==1){
                         statusName="Active";
+                        color_="#27DB8D";
                     }else{
                         statusName="Close";
+                        color_="#FFC403";
                     }
-                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" onclick="statusButtonClick(\'' + row.id + '\')" class="btn btn-primary">'+statusName+'</button> ';
+                    return '<button style="background-color:'+color_+';padding:3px 5px;color:#fff" onclick="statusButtonClick(\'' + row.id + '\')" class="btn btn-primary">'+statusName+'</button> ';
                 }
             },
             { 
                 "data": "id",
                 "render": function(data, type, row) {
-                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" onclick="ledgerButtonClick(\'' + data + '\')" class="btn btn-primary">Ledger</button> ';
+                    return '<button style="background-color:#FF9720;padding:3px 5px;color:#fff" onclick="ledgerButtonClick(\'' + data + '\')" class="btn btn-primary">Ledger</button> ';
                 }
             },  
             ]

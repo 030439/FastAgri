@@ -9,6 +9,21 @@ class Tunnel_model extends CI_Model
         $this->load->database();
         $this->load->library('form_validation');
     }
+    public function tunnelStatus($id){
+        $this->db->select('status');
+        $this->db->from('tunnels');
+        $this->db->where('id', $id);
+        $tunnel = $this->db->get()->result();
+        
+        if($tunnel[0]->status==1){
+            $st=0;
+        }
+        else{
+            $st=1;
+        }
+        $this->db->where('id', $id);
+        return  $this->db->update('tunnels', ['status'=>$st]);
+    }
     public function createTunnel($data)
     {
         $existingTunnel = $this->db->get_where('tunnels', ['TName' => $data['name']])->row();
@@ -271,7 +286,6 @@ class Tunnel_model extends CI_Model
             $this->db->or_like('crops.SeedQuality', $search);
             $this->db->group_end();
         }
-        $this->db->where('tunnels.status', 1);
 
         $data = $this->db->get()->result();
         $tunnels = array(
