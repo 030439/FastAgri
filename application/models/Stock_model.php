@@ -986,22 +986,22 @@ class Stock_model extends CI_Model {
                     $final[$c]['quantity']=$result['quantity'];
                     $final[$c]['date_']=$result['i_date'];
                     $final[$c]['tname']=$result['tname'];
-                    $final[$c]['employee']=$result['employee'];
-                    $final[$c]['purchased_quantity']=$result['purchased_quantity'];
-                    $final[$c]['supplier_name']=$result['supplier_name'];
+                    $final[$c]['employeeOrSupplier']=$result['employee'];
+                    //$final[$c]['purchased_quantity']=$result['purchased_quantity'];
+                   // $final[$c]['supplier_name']=$result['supplier_name'];
                     $final[$c]['rate']=$result['rate'];
                     $final[$c]['amount']=$result['amount'];
                     $final[$c]['running_balance']=$result['running_balance'];
                 }else{
                     $final[$c]['type']="purchase";
                     $final[$c]['detail']=$result['purchase_detail_id'];
-                    $final[$c]['quantity']=$result['quantity'];
+                   // $final[$c]['quantity']=$result['quantity'];
                     $final[$c]['date_']=$result['pcreated'];
-                    $final[$c]['tname']=$result['tname'];
-                    $final[$c]['employee']=$result['employee'];
-                    $final[$c]['purchased_quantity']=$this->getPQ($id,$result['purchased_quantity'],$result['product_id']);
-                    $final[$c]['supplier_name']=$result['supplier_name'];
-                    $final[$c]['rate']=$result['rate'];
+                    $final[$c]['tname']="-";
+                    //$final[$c]['employeeOrSupplier']=$result['employee'];
+                    $final[$c]['quantity']=$this->getPQ($id,$result['purchased_quantity'],$result['product_id']);
+                    $final[$c]['employeeOrSupplier']=$result['supplier_name'];
+                    $final[$c]['rate']=$this->getPRate($id,$result['rate'],$result['product_id']);
                     $final[$c]['amount']=$result['amount'];
                     $final[$c]['running_balance']=$result['running_balance'];
                 }
@@ -1015,6 +1015,15 @@ class Stock_model extends CI_Model {
             return $response;
     }
     public function getPQ($pid,$quantities,$pids){
+        $purchased_quantities = explode(',',$quantities);
+        $product_ids = explode(',',$pids);
+        foreach ($product_ids as $index => $product_id) {
+            if($product_id==$pid){
+                return $purchased_quantities[$index];
+            }
+        }
+    }
+    public function getPRate($pid,$quantities,$pids){
         $purchased_quantities = explode(',',$quantities);
         $product_ids = explode(',',$pids);
         foreach ($product_ids as $index => $product_id) {

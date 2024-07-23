@@ -15,15 +15,14 @@
                 <table id="user-list" class="table display table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Sell/Receive</th>
+                            <th>Type</th>
                             <th>Date</th>
-                            <th> Credit</th>
-                            <th> Debit</th>
-                            <th>Running Balance</th>
-                            <th> Detail</th>
-                            <th> Detail</th>
-                            <th> Detail</th>
-                            <th> Detail</th>
+                            <th>Tunnel</th>
+                            <th>Employee/Supplier</th>
+                            <th> Quantity</th>
+                            <th> Rate </th>
+                            <th> Amount</th>
+                            <th> Running Qty</th>
                             <th> Detail</th>
                         </tr>
                     </thead>

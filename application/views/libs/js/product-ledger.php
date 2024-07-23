@@ -6,7 +6,6 @@ $('#user-list').DataTable({
     "processing": true,
     "serverSide": true,
       dom: 'Bfrtip',
-         
           "ajax": {
               url : "<?php echo base_url(); ?>product/productLederList/"+tid,
               type : 'post',
@@ -15,12 +14,11 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
-                  { "data": "quantity" },
+                  { "data": "type" },
                   { "data": "date_" },
                   { "data": "tname" },
-                  { "data": "employee" },
-                  { "data": "purchased_quantity" },
-                  { "data": "supplier_name" },
+                  { "data": "employeeOrSupplier" },
+                  { "data": "quantity" },
                   { "data": "rate" },
                   { "data": "amount" },
                   { "data": "running_balance" },
@@ -29,7 +27,7 @@ $('#user-list').DataTable({
                         "render": function(data, type, row) {
                           var linker='';
                             if(data=="issue"){
-                                linker="sell-detail/"+row.detail;
+                                linker="stock/listissue";
                             }else{
                               linker="purchase/detail/"+row.detail;
                             }

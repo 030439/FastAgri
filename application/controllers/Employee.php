@@ -90,13 +90,15 @@ class Employee extends CI_Controller {
 		exit();
 	}
 	public function employeeLedger($id){
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/employee-ledger",'id'=>$id]);
+	}
+	public function employeeLedgerListing($id){
 		try{
-			$draw = 0;//intval($this->input->post("draw"));
-			$start =0;// intval($this->input->post("start"));
-			$length = 10;//intval($this->input->post("length"));
-            $search = '';//$this->input->post('search')['value'];
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
 			$res=$this->Employee_model->getPaysListById($id,$draw,$start, $length,$search);
-			dd($res);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

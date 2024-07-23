@@ -276,33 +276,80 @@ class Employee_model extends CI_Model {
     }
     public function getPaysListById($id,$draw,$start, $length,$search){
         $totalRecords = $this->db->count_all_results('pays');
+    
+        $Q="
+            SELECT
+                total,
+                additon,
+                deduction,
+                net,
+                pay_month,
+                pay_id,
+                type,
+                pay,
+                @running_balance := @running_balance +(
+                    IFNULL(net, 0) - IFNULL(pay, 0)
+                ) AS running_balance
+            FROM
+                (
+                SELECT
+                    p.total as total,
+                    p.additon,
+                    p.deduction,
+                    p.net,
+                    p.date_ as pay_month,
+                    p.created_at as pdate,
+                    NULL AS pay_id,
+                    NULL AS type,
+                    NULL AS pay,
+                    NULL AS cdate
 
-        $this->db->select('
-        employees.id as eid,employees.Name as employee,
-        employees.BasicSalary as basic,employees.Allowances as allowance,employees.Medical as medical,employees.status,
-        pays.total,pays.installment,pays.additon as addition,pays.deduction,pays.net,pays.date_ as pdate,pays.status as status
-       ');
-        $this->db->from('pays');
-        $this->db->join('employees', 'employees.id = pays.employee_id', 'left');
-        $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
-        $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
-        $this->db->where('employeecategory.id', 1);
-        $this->db->where('pays.employee_id',$id);
-
+                FROM
+                    `pays` `p`
+                JOIN `employees` `e` ON
+                    `e`.`id` = `p`.`employee_id`
+                WHERE
+                    `e`.`id` = $id
+                UNION ALL
+            SELECT 
+                    NULL AS total,
+                    NULL AS additon,
+                    NULL AS deduction,
+                    NULL AS net,
+                    NULL AS pay_month,
+                    NULL AS pdate,
+                    c.id AS pay_id,
+                    c.case_sT AS type,
+                    c.amount AS pay,
+                    c.created_at as cdate
+            FROM
+                    `cash_in_out` `c`
+            
+                WHERE
+                    `c`.`case_sT` = 'advance'
+                Or
+                    `c`.`case_sT` = 'pay'
+                AND 
+                    `c`.`cash_sP` = $id
+            ) AS combined_data,
+            (SELECT @running_balance := 0) AS rb
+            ORDER BY
+                cdate,pdate ASC
+        ";
         if (!empty($search)) {
-            $this->db->group_start();
-            $this->db->like('employees.Name', $search);
-            $this->db->or_like('pays.date_', $search);
-            $this->db->or_like('pays.net', $search);
-            $this->db->or_like('pays.total', $search);
-            $this->db->group_end();
+            $Q .= "
+            AND (
+                employees.Name LIKE '%" . $this->db->escape_like_str($search) . "%'
+                OR pays.date_ LIKE '%" . $this->db->escape_like_str($search) . "%'
+                OR pays.net LIKE '%" . $this->db->escape_like_str($search) . "%'
+                OR pays.total LIKE '%" . $this->db->escape_like_str($search) . "%'
+            )";
         }
-
-        $this->db->order_by('pays.id', 'desc');
-        $this->db->limit($length, $start);
-        $query = $this->db->get();
+        
+        $Q .= " LIMIT $start, $length";
+        $query = $this->db->query($Q);
         $pays = $query->result_array();
-        $response = array(
+        $response=array(
             "draw" => intval($draw),
             "recordsTotal" => intval($totalRecords),
             "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
