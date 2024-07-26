@@ -11,7 +11,7 @@ class Customer_model extends CI_Model {
         $customers = $this->db->get('customers')->result();
         return $customers;
     }
-    public function get_customer_ledger($customer_id, $draw, $start, $length, $search) {
+    public function get_customer_ledger($customer_id,$startDate, $endDate, $draw, $start, $length, $search) {
         $running_balance = 0;
     
         // Define the searchable columns
@@ -37,6 +37,16 @@ class Customer_model extends CI_Model {
                 return "$col LIKE '%$search_value%'";
             }, $searchable_columns);
             $search_clause = 'WHERE ' . implode(' OR ', $search_terms);
+        }
+        $date_filter="";
+        if (!empty($startDate) && !empty($endDate)) {
+            $date_filter=' WHERE created BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+        }
+        if (!empty($searchTerm)) {
+            $conditions[] = '(p.Name LIKE "%' . $searchTerm . '%" OR pd.amount LIKE "%' . $searchTerm .'%" OR pd.total_amount LIKE "%' . $searchTerm .'%" OR pd.rate LIKE "%' . $searchTerm . '%" OR s.Name LIKE "%' . $searchTerm . '%" OR s.company_name LIKE "%' . $searchTerm . '%")';
+        }
+        if (!empty($conditions)) {
+            $Q .= ' WHERE ' . implode(' AND ', $conditions);
         }
     
         // Fetch the total records count
@@ -99,7 +109,7 @@ NULL AS freight,
                     t.cash_sP = ?
                     AND t.case_sT = 'customer'
             ) AS combined_data, (SELECT @running_balance := 0) AS rb
-            $search_clause
+            $search_clause $date_filter
             ORDER BY 
                 created ASC
             LIMIT ? OFFSET ?

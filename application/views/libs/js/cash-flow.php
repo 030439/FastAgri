@@ -67,7 +67,7 @@ $(document).ready(function() {
         ]
     });
     $('#filter').on('click', function() {
-                table.ajax.reload();
-            });
+        table.ajax.reload();
+    });
 });
 </script>
