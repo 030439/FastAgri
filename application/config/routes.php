@@ -53,6 +53,7 @@ $route['supplier/list']="Supplier/listing";
 $route['supplier/detail/listing/(:num)']="Supplier/detailListing/$1";
 // purchase routes
 $route['purchase/add'] = "purchase/add"; //purchase form view
+$route['purchase/edit/(:num)'] = "purchase/edit/$1"; //purchase form edit
 $route['purchase'] = "purchase/index"; //purchase list
 $route['create-purchase'] = "purchase/save"; //purchase form data submission
 $route['purchase-seed']='purchase/purchaseSeedFrom';

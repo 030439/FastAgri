@@ -1,5 +1,5 @@
 <script>
-$('#user-list').DataTable({
+var table =$('#user-list').DataTable({
     responsive: true,
     buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
@@ -9,6 +9,10 @@ $('#user-list').DataTable({
           "ajax": {
               url : "<?php echo base_url(); ?>sell/sellListting",
               type : 'post',
+              data: function(d) {
+                d.startDate = $('#start-date').val();
+                d.endDate = $('#end-date').val();
+              },
               error: function(xhr, error, thrown) {
               alert('Error: ' + xhr.responseText);
           }
@@ -74,4 +78,7 @@ $('#user-list').DataTable({
                     $(api.column(8).footer()).html(net.toFixed(2));
                 }
       });
+      $('#filter').on('click', function() {
+            table.ajax.reload();
+        });
     </script>

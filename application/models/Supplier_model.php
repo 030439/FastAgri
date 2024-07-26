@@ -11,9 +11,12 @@ class Supplier_model extends CI_Model {
         $customers = $this->db->get('customers')->result();
         return $customers;
     }
-    public function get_supplier_ledger($supplier_id, $draw, $start, $length, $search) {
+    public function get_supplier_ledger($supplier_id,$startDate, $endDate, $draw, $start, $length, $search) {
         $running_balance = 0;
-    
+        $date_filter="";
+        if (!empty($startDate) && !empty($endDate)) {
+            $date_filter=' WHERE created BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+        }
         // Define the searchable columns
         $searchable_columns = [
             'pid',
@@ -82,7 +85,7 @@ class Supplier_model extends CI_Model {
                     co.cash_sP = ? 
                     AND co.case_sT = 'supplier'
             ) AS combined_data, (SELECT @running_balance := 0) AS rb
-            $search_clause
+            $search_clause $date_filter
             ORDER BY 
                 created ASC
             LIMIT ? OFFSET ?

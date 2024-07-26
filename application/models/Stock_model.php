@@ -178,7 +178,7 @@ class Stock_model extends CI_Model {
         $products = $this->db->get()->result();
         return $products[0]->Name;
     }
-    public function sellList($draw, $start = 0, $length = 10, $search = '') {
+    public function sellList($startDate, $endDate, $draw, $start = 0, $length = 10, $search = '') {
         // Get the total number of records
         $totalRecords = $this->db->count_all_results('sells');
     
@@ -215,7 +215,10 @@ class Stock_model extends CI_Model {
             $this->db->or_like('s.expences', $search);
             $this->db->group_end();
         }
-    
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('s.selldate BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
+        }
         // Limit the results for pagination
         $this->db->limit($length, $start);
         $this->db->order_by('s.id', 'DESC');
@@ -724,7 +727,11 @@ class Stock_model extends CI_Model {
             return false;
         }
     }
-    public function getProductionListing($draw, $start, $length,$search=""){
+    public function getProductionListing($startDate, $endDate,$draw,$start, $length,$search){
+        $date_filter="";
+        if (!empty($startDate) && !empty($endDate)) {
+            $date_filter=' WHERE created BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+        }
         $totalRecords = $this->db->count_all('productions');
         $sql=("
         SELECT p.id as id, p.Quantity as qty,p.pdate,
@@ -737,9 +744,12 @@ class Stock_model extends CI_Model {
         JOIN units u ON u.id = p.UnitId 
         JOIN crops c ON c.id = p.CropId 
         JOIN products pd ON pd.id = c.pid 
-        JOIN grades g ON g.id = p.GradeId  order BY p.id desc
+        JOIN grades g ON g.id = p.GradeId 
         ");
-        $sql .= " LIMIT $start, $length";
+        if (!empty($startDate) && !empty($endDate)) {
+            $sql.='WHERE p.pdate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+        }
+        $sql .= " order BY p.id desc LIMIT $start, $length";
 
         // Execute the query
         $query = $this->db->query($sql);

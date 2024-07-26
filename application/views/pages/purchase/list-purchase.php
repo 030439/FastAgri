@@ -28,6 +28,7 @@
                             <th>Paid Amount</th>
                             <th>Total Amout</th>
                             <th>Detail</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                     <tfoot>

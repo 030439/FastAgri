@@ -30,6 +30,14 @@
                             return '<div style="display:flex"><a class="dropdown-menu-item edit" href="purchase/detail/'+data+'"><span>Detail</span></a></div>';
                         }
                                       
+                  },
+                  { // Actions column
+                     "data": "id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="purchase/edit/'+data+'"><span>Edit</span></div>';
+                        }
+                                      
                   }
                   
               ],
