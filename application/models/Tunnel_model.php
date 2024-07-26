@@ -381,6 +381,16 @@ class Tunnel_model extends CI_Model
                 $res[$c]['qty']    = 0;
                 $res[$c]['rate']   = 0;
             }
+            elseif($re['expense_type'] == "EMP"){
+                $res[$c]['head']   = employeeName_($re['pid']);
+                $res[$c]['qty']    = 0;
+                $res[$c]['rate']   = 0;
+            }
+            elseif($re['expense_type'] == "ADV"){
+                $res[$c]['head']   = employeeName_($re['pid']);
+                $res[$c]['qty']    = 0;
+                $res[$c]['rate']   = 0;
+            }
             else {
                 $lb = getLabourQty($id, $re['eid']);
                 $res[$c]['head'] = $lb['jname'];
@@ -416,6 +426,7 @@ class Tunnel_model extends CI_Model
         JOIN 
         `tunnels` AS t ON t.`id` = e.`tunnel_id`
         WHERE t.`id` =$id
+        order by e.`id` desc
         ");
         $res= $query->result();
         foreach($res as $c => $re) {
@@ -435,6 +446,18 @@ class Tunnel_model extends CI_Model
             elseif($re->expense_type == "EXP"){
                 $pq=getIssueProQty($id, $re->pid, $re->edate);
                 $res[$c]->head   = $this->accountHeadName($re->pid);
+                $res[$c]->qty    = 0;
+                $res[$c]->rate   = 0;
+            }
+            elseif($re->expense_type == "EMP"){
+                $pq=getIssueProQty($id, $re->pid, $re->edate);
+                $res[$c]->head   = employeeName_($re->pid);
+                $res[$c]->qty    = 0;
+                $res[$c]->rate   = 0;
+            }
+            elseif($re->expense_type == "ADV"){
+                $pq=getIssueProQty($id, $re->pid, $re->edate);
+                $res[$c]->head   = employeeName_($re->pid);
                 $res[$c]->qty    = 0;
                 $res[$c]->rate   = 0;
             }
@@ -522,6 +545,9 @@ class Tunnel_model extends CI_Model
         sd.`Quantity`,
         sd.`Rate`,
         sd.`NetAmount`,
+ sd.`Freight` AS fre,
+ sd.`commission`,
+ sd.`Labour`,
         sd.`amount`,
         c.`Name` AS customer,
         t.`id` AS tid,
@@ -557,6 +583,9 @@ class Tunnel_model extends CI_Model
             $amounts = explode(',', $record['amount']);
             $GradeId = explode(',', $record['GradeId']);
             $NetAmount = explode(',', $record['NetAmount']);
+ $fre = explode(',', $record['fre']);
+$commission = explode(',', $record['commission']);
+$Labour = explode(',', $record['Labour']);
             
             // Determine the maximum length to iterate through
             $maxLength = max(count($quantities), count($rates), count($amounts));
@@ -565,8 +594,12 @@ class Tunnel_model extends CI_Model
                 $newRecord = $record;
                 $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
                 $newRecord['Rate'] = $rates[$i] ?? $rates[0];
-                $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
+               // $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
+$newRecord['Labour'] = number_format($Labour[$i] ?? $Labour[0]*$newRecord['Quantity'],2);
+$newRecord['commission'] = number_format($commission[$i] ?? $commission[0]*$newRecord['Quantity'],2);
+$newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity'],2);
                 $newRecord['amount'] = $amounts[$i] ?? $amounts[0];
+ $newRecord['NetAmount']= number_format($newRecord['amount']- $newRecord['Labour']-$newRecord['commission']-$newRecord['fre'],2);
                 $grade=$GradeId[$i] ?? $GradeId[0];
                 if($grade==1){
                     $newRecord['GradeId'] = "A";

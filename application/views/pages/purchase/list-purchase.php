@@ -7,6 +7,13 @@
                 </button>
                 <h4 class="text-[20px] font-bold text-heading " style="width:60%;text-align:center">Purchase List</h4>
             </div>
+            <div style="float:right;margin-bottom:10px">
+                <label for="start-date">Start Date:</label>
+                <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
+                <label for="end-date">End Date:</label>
+                <input type="text" id="end-date" class="datepicker"  style="border:2px solid #057C89">
+                <button id="filter" style="background-color:#057C89;color:#fff;padding:5px 10px">Filter</button>
+            </div>
             
         <div>
         <div class="cashier-salereturns-table-area">

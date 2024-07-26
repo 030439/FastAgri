@@ -2,7 +2,14 @@
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 ">
         <div class="cashier-transection-selectors flex items-center justify-between  maxSm:block">
             <h4 class="text-[20px] text-heading  font-bold"><?php echo tunnelName_($id)?>: Expenses</h4>
+            <div style="float:right">
+                <label for="start-date">Start Date:</label>
+                <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
+                <label for="end-date">End Date:</label>
+                <input type="text" id="end-date" class="datepicker"  style="border:2px solid #057C89">
+                <button id="filter" style="background-color:#057C89;color:#fff;padding:5px 10px">Filter</button>
             </div>
+        </div>
        <style>
         @media (max-width: 1400px) {
     .cashier-salereturns-table-dateP {

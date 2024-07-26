@@ -16,24 +16,26 @@ $('#user-list').DataTable({
           }
           },        
            "columns": [
+                 { "data": "date_" },
                   { "data": "TName" },
                   { "data": "lq" },
                   { "data": "rate" },
                   { "data": "total_amount" },
-                  { "data": "create_at" },
+                  { "data": "amount_" },
+                  { "data": "running_balance" },
               ],
-              "footerCallback": function (row, data, start, end, display) {
-                    var api = this.api();
+            //   "footerCallback": function (row, data, start, end, display) {
+            //         var api = this.api();
 
-                    // Recalculate total for dynamically rendered column
-                    var total = 0;
-                    data.forEach(function(row) {
-                        var quantity = parseFloat(row.total_amount) || 0;
-                        total += quantity ;
-                    });
+            //         // Recalculate total for dynamically rendered column
+            //         var total = 0;
+            //         data.forEach(function(row) {
+            //             var quantity = parseFloat(row.total_amount) || 0;
+            //             total += quantity ;
+            //         });
 
-                    // Update footer
-                    $(api.column(3).footer()).html(total.toFixed(2));
-                }
+            //         // Update footer
+            //         $(api.column(3).footer()).html(total.toFixed(2));
+            //     }
       });
     </script>

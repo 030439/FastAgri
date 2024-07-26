@@ -26,4 +26,8 @@
     .cashier-menu ul li a {
         padding: 4px 20px; 
     }
+    .ui-datepicker-title{
+        background-color:#057C89;
+        color:#fff;
+    }
 </style>

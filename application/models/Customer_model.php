@@ -57,10 +57,17 @@ class Customer_model extends CI_Model {
                 pay_created_at,
                 total_amount,
                 created,
-                @running_balance := @running_balance + (IFNULL(total_amount, 0) - IFNULL(amount, 0)) AS running_balance
+labour,
+
+expences,
+freight,
+                @running_balance := @running_balance + (IFNULL(total_amount, 0) - IFNULL(amount, 0) - IFNULL(expences, 0)-IFNULL(labour, 0)-IFNULL(freight, 0)) AS running_balance
             FROM (
                 SELECT 
-                    s.id AS s_id,
+                    s.id AS s_id, 
+                    s.labour ,
+s.expences,
+s.freight,
                     NULL AS cid,
                     NULL AS amount,
                     s.created_at AS sell_created_at,
@@ -76,6 +83,10 @@ class Customer_model extends CI_Model {
                 
                 SELECT 
                     NULL AS s_id,
+NULL AS labour,
+
+NULL AS expences,
+NULL AS freight,
                     t.id AS cid,
                     t.amount,
                     NULL AS sell_created_at,
@@ -104,7 +115,7 @@ class Customer_model extends CI_Model {
                     'type' => "Sell",
                     'id' => $row->s_id,
                     'date' => $this->dater($row->sell_created_at),
-                    'total_amount' => $row->total_amount,
+                    'total_amount' => $row->total_amount-$row->labour-$row->freight-$row->expences,
                     'amount' => $row->amount,
                     'running_balance' => $row->running_balance,
                 ];
@@ -113,7 +124,7 @@ class Customer_model extends CI_Model {
                     'type' => "Receive",
                     'id' => $row->cid,
                     'date' => $this->dater($row->pay_created_at),
-                    'total_amount' => $row->total_amount,
+                     'total_amount' => $row->total_amount-$row->labour-$row->freight-$row->expences,
                     'amount' => $row->amount,
                     'running_balance' => $row->running_balance,
                 ];

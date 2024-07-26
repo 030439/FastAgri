@@ -43,12 +43,6 @@
         </div>
         <div class="cashier-transection-selectors flex items-center justify-between pb-5 maxSm:block">
             <h4 class="text-[20px] text-heading mb-2.5 font-bold">Transection</h4>
-            <style>
-            .ui-datepicker-title{
-                background-color:#057C89;
-                color:#fff;
-            }
-        </style>
             <div>
                 <label for="start-date">Start Date:</label>
                 <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">

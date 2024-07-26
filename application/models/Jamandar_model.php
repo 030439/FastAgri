@@ -117,24 +117,77 @@ class Jamandar_model extends CI_Model {
         $this->db->where('jamandar', $id);
         $totalRecords = $this->db->count_all_results('issuelabour');
         $query = $this->db->query("
-        SELECT 
-            i.`id` AS issue_stock_id,
-            i.`create_at`,
-            i.`total_amount`,
-            i.`rate`,
-            i.`lq`,
-            j.`name` AS jamander,
-            t.`TName`
-        FROM 
-        `issuelabour` AS i
-        JOIN 
-        `jamandars` AS j ON i.`jamandar` = j.`id`
-        JOIN 
-        `tunnels` AS t ON i.`tunnel` = t.`id`
-        WHERE j.id=$id
+        SELECT
+                issue_stock_id,
+                create_at,
+                total_amount,
+                rate,
+                lq,
+                jamander,
+                TName,
+                pay_id,
+               type,
+               amount_,
+                 cdate,
+                @running_balance := @running_balance +(
+                    IFNULL(total_amount, 0) - IFNULL(amount_, 0)
+                ) AS running_balance
+            FROM
+                (
+                SELECT
+                    i.`id` AS issue_stock_id,
+                    i.`create_at`,
+                    i.`total_amount`,
+                    i.`rate`,
+                    i.`lq`,
+                    j.`name` AS jamander,
+                    t.`TName`,
+                    NULL AS pay_id,
+                    NULL AS type,
+                    NULL AS  amount_,
+                    NULL AS  cdate
+
+                FROM 
+                    `issuelabour` AS i
+                    JOIN 
+                    `jamandars` AS j ON i.`jamandar` = j.`id`
+                    JOIN 
+                    `tunnels` AS t ON i.`tunnel` = t.`id`
+                    WHERE j.id=$id
+                UNION ALL
+            SELECT 
+                    NULL AS issue_stock_id,
+                    NULL AS create_at,
+                    NULL AS total_amount,
+                    NULL AS rate,
+                    NULL AS lq,
+                    NULL AS jamander,
+                    NULL AS TName,
+                    c.id AS pay_id,
+                    c.case_sT AS type,
+                    c.amount AS amount_,
+                    c.created_at as cdate
+            FROM
+                    `cash_in_out` `c`
+            
+                WHERE
+                    `c`.`case_sT` = 'jamandari'
+                AND 
+                    `c`.`cash_sP` = $id
+            ) AS combined_data,
+            (SELECT @running_balance := 0) AS rb
+            ORDER BY
+                cdate ASC
         LIMIT $start, $length
         ");
         $result = $query->result_array();
+        foreach($result as $c=>$res){
+            if(!empty($res['issue_stock_id'])){
+                $result[$c]['date_']=$res['create_at'];
+            }else{
+                $result[$c]['date_']=$res['cdate'];
+            }
+        }
         $response = array(
             "draw" => $draw,
             "recordsTotal" => $totalRecords,  // Total records without pagination

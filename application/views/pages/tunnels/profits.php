@@ -2,6 +2,13 @@
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 ">
         <div class="cashier-transection-selectors flex items-center justify-between pb-5 maxSm:block">
             <h4 class="text-[20px] text-heading  font-bold"><?php if($data['profits']): echo $data['profits'][0]['tunnel'];endif;?>-Profits</h4>
+            <div style="float:right">
+                <label for="start-date">Start Date:</label>
+                <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
+                <label for="end-date">End Date:</label>
+                <input type="text" id="end-date" class="datepicker"  style="border:2px solid #057C89">
+                <button id="filter" style="background-color:#057C89;color:#fff;padding:5px 10px">Filter</button>
+            </div>
         </div>
        
         <div class="cashier-table-header-search-area">
@@ -26,6 +33,9 @@
                                 <th>Quantity</th>
                                 <th>Rate</th>
                                 <th>Amount</th>
+ <th>Labour</th>
+ <th>Commission</th>
+ <th>Freight</th>
                                 <th>Net Amount</th>
                                 <th>Sell Date</th>
                             </tr>

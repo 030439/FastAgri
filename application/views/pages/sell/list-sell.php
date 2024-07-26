@@ -1,9 +1,9 @@
 <div class="cashier-content-area mt-[30px] px-7">
-    <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
-        <h4 class="text-[20px] font-bold text-heading mb-9">Sell List</h4>
+    <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg">
+        <h4 class="text-[20px] font-bold text-heading">Sell List</h4>
       
         <div class="cashier-table-header-search-area">
-            <div class="grid grid-cols-12 gap-x-5 mb-7 pb-0.5">
+            <div class="grid grid-cols-12 gap-x-5 pb-0.5">
                 <div class="md:col-span-6 col-span-12">
                     
                 </div>
@@ -28,6 +28,13 @@
                         </a>
                     </div>
                 </div>
+            </div>
+            <div style="">
+                <label for="start-date">From</label>
+                <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
+                <label for="end-date">To</label>
+                <input type="text" id="end-date" class="datepicker"  style="border:2px solid #057C89">
+                <button id="filter" style="background-color:#057C89;color:#fff;padding:5px 10px">Filter</button>
             </div>
         </div>
 

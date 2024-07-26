@@ -36,9 +36,9 @@
                 </div>
             </div>
             </div>
-            <div class="cashier-login-footer-forgot mb-5">
+            <!-- <div class="cashier-login-footer-forgot mb-5">
             <a href="forgotpassword.html" class="text-[16px] inline-block text-themeBlue">Forgot Password?</a>
-            </div>
+            </div> -->
             <div class="cashier-login-btn mb-7">
             <div class="cashier-login-btn-full default-light-theme">
                 <button class="btn-primary" type="submit">Log

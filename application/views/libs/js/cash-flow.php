@@ -1,8 +1,6 @@
-<script src="assets/js/moment.js"></script>
-
 <script>
 $(document).ready(function() {
-    $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+    
     var table = $('#user-list').DataTable({
         responsive: true,
         buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],

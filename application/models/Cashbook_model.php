@@ -418,10 +418,27 @@ class Cashbook_model extends CI_Model {
     public function SalaryGiven($data){
         $amount = $data['amount'];
         $customerId = $data['cash-selection-party'];
-
+        $date=date("y-m-d");
         $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
         $this->db->where('id', $customerId);
-        return $this->db->update('employees');
+        $this->db->update('employees');
+
+        $tunnels=$data['select-tunnel'];
+        $all=$this->getAllTunnels();
+        $allTunnel=count($tunnels);
+        $perTunnel=$data['amount']/$allTunnel;
+
+            foreach($tunnels as $tunnel){
+                    $expense=[
+                        'tunnel_id'=>$tunnel,
+                        'expense_type'=>'EMP',
+                        'eid'=>$customerId,
+                        'amount'=>$perTunnel,
+                        'edate'=>$date,
+                        'pid'=>$customerId
+                    ];
+                    $res=$this->db->insert('tunnel_expense', $expense);
+            }
     }
     public function employeeAdvance($data){
         $amount = $data['amount'];
@@ -435,6 +452,7 @@ class Cashbook_model extends CI_Model {
         $res=$this->db->update('employees');
         if($res){
             $this->db->insert('employee_loan', $data_);
+            $eid = $this->db->insert_id();
             $employee = $this->db->get_where('loans', ['employee_id' => $customerId])->row();
             $loan=$employee->load;
             $loan+=$data['amount'];
@@ -446,6 +464,23 @@ class Cashbook_model extends CI_Model {
             ];
             $this->db->where('employee_id', $customerId);
             return $this->db->update('loans', $loan);
+            
+            $tunnels=$data['select-tunnel'];
+            $all=$this->getAllTunnels();
+            $allTunnel=count($tunnels);
+            $perTunnel=$data['amount']/$allTunnel;
+    
+                foreach($tunnels as $tunnel){
+                        $expense=[
+                            'tunnel_id'=>$tunnel,
+                            'expense_type'=>'ADV',
+                            'eid'=>$eid,
+                            'amount'=>$perTunnel,
+                            'edate'=>$date_,
+                            'pid'=>$customerId
+                        ];
+                        $res=$this->db->insert('tunnel_expense', $expense);
+                }
         }
     }
     public function JamandarCashOut($data){
@@ -467,12 +502,13 @@ class Cashbook_model extends CI_Model {
         $eid = $this->db->insert_id();
         $tunnels=$data['select-tunnel'];
         $all=$this->getAllTunnels();
-        $allTunnel=count($this->getAllTunnels());
+        $allTunnel=count($tunnels);
         $perTunnel=$data['amount']/$allTunnel;
-        if($tunnels==0){
-            foreach($all as $tunnel){
+
+        // if($tunnels==0){
+            foreach($tunnels as $tunnel){
                     $expense=[
-                        'tunnel_id'=>$tunnel->id,
+                        'tunnel_id'=>$tunnel,
                         'expense_type'=>'EXP',
                         'eid'=>$eid,
                         'amount'=>$perTunnel,
@@ -481,17 +517,17 @@ class Cashbook_model extends CI_Model {
                     ];
                     $res=$this->db->insert('tunnel_expense', $expense);
             }
-        }else{
-            $expense=[
-                'tunnel_id'=>$tunnels,
-                'expense_type'=>'EXP',
-                'eid'=>$eid,
-                'amount'=>$data['amount'],
-                'edate'=>$date,
-                'pid'=>$data['cash-selection-party']
-            ];
-          return $this->db->insert('tunnel_expense', $expense);
-        }
+        // }else{
+        //     $expense=[
+        //         'tunnel_id'=>$tunnels,
+        //         'expense_type'=>'EXP',
+        //         'eid'=>$eid,
+        //         'amount'=>$data['amount'],
+        //         'edate'=>$date,
+        //         'pid'=>$data['cash-selection-party']
+        //     ];
+        //   return $this->db->insert('tunnel_expense', $expense);
+        // }
        return;
     }
     public function getAllTunnels(){

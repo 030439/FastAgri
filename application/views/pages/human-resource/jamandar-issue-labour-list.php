@@ -36,21 +36,23 @@
                 <table id="user-list" class="table display table-bordered table-striped table-hover">
                     <thead>
                         <tr>
+                            <th>Date-Time</th>
                             <th>Tunnel</th>
                             <th>Labour Quantity</th>
                             <th>Rate</th>
-                            <th>Total Amount</th>
-                            <th>Date-Time</th>
+                            <th>Credit</th>
+                            <th>Debit</th>
+                            <th>Running Balance</th>
                         </tr>
                     </thead>
-                    <tfoot>
+                    <!-- <tfoot>
                         <tr>
                             <th colspan="2"></th>
                             <th >Total</th>
                             <th id="total-net"></th>
                             <th></th>
                         </tr>
-                    </tfoot>
+                    </tfoot> -->
                 </table>
             </div>
         </div>

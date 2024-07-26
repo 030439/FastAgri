@@ -23,11 +23,20 @@ class Tunnels extends CI_Controller{
     public function getTunnels(){
         $tunnels=$this->Common_model->getAll('tunnels');
         $html="";
-        $html.="<option value='0'>All</option>";
+    //     $html.='<label>
+    //      <input type="checkbox" value="0" name="select-tunnel[]" class="ckkBox all" checked />
+    //      <span>All </span>
+    //    </label><br>';
         foreach($tunnels as $tunnel){
-            $html.="<option value='".$tunnel->id."'>".$tunnel->TName."</option>";
-        }
-        echo $html;
+        
+       $html.='
+ 
+       <label>
+         <input type="checkbox" name="select-tunnel[]" value="'.$tunnel->id.'" class="ckkBox val" />
+        '.$tunnel->TName.'</span>
+       </label><br>';
+    }
+         echo $html;
     }
     public function summary(){
         $data=$this->Tunnel_model->tunnelSummary();

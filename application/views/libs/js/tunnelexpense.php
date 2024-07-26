@@ -1,6 +1,7 @@
 <script>
+  $(document).ready(function() {
   var tid=$("#tunnel-expense-id").val();
-$('#user-list').DataTable({
+  var table =  $('#user-list').DataTable({
     responsive: true,
     buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
@@ -8,9 +9,12 @@ $('#user-list').DataTable({
       dom: 'Bfrtip',
          
           "ajax": {
-              url : "<?php echo base_url(); ?>tunnel/getunnelsExpenseList",
+              url : "<?php echo base_url(); ?>tunnel/getunnelsExpenseList/"+tid,
               type : 'post',
-              data:{id:tid},
+              data: function(d) {
+                        d.startDate = $('#start-date').val();
+                        d.endDate = $('#end-date').val();
+                    },
               error: function(xhr, error, thrown) {
               alert('Error: ' + xhr.responseText);
           }
@@ -34,6 +38,10 @@ $('#user-list').DataTable({
             $(api.column(4).footer()).html(totalBalance.toFixed(2));
         }
       });
+      $('#filter').on('click', function() {
+                table.ajax.reload();
+            });
+});
     </script>
 
 

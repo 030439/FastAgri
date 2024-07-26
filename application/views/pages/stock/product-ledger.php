@@ -8,7 +8,13 @@
             </div>
             <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403"><?php echo productName_($id);?> Ledger</span></h4>
         </div>
-
+            <div style="float:right">
+                <label for="start-date">Start Date:</label>
+                <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
+                <label for="end-date">End Date:</label>
+                <input type="text" id="end-date" class="datepicker"  style="border:2px solid #057C89">
+                <button id="filter" style="background-color:#057C89;color:#fff;padding:5px 10px">Filter</button>
+            </div>
         <div class="cashier-salereturns-table-area">
             <input  type="hidden" id="product-ledger-id" value="<?php echo $id;?>">
             <div class="cashier-salereturns-table-innerC">

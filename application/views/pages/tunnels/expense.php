@@ -1,15 +1,22 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 ">
-        <div class="cashier-transection-selectors flex items-center justify-between  maxSm:block">
+        <div class="cashier-transection-selectors flex items-center justify-between  maxSm:block mb-5">
             <h4 class="text-[20px] text-heading  font-bold"><?php if($data['expenses']): echo $data['expenses']['0']->tunnel; endif;?> : Expenses</h4>
+            <div style="float:right">
+                <label for="start-date">Start Date:</label>
+                <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
+                <label for="end-date">End Date:</label>
+                <input type="text" id="end-date" class="datepicker"  style="border:2px solid #057C89">
+                <button id="filter" style="background-color:#057C89;color:#fff;padding:5px 10px">Filter</button>
             </div>
+        </div>
        <style>
         @media (max-width: 1400px) {
-    .cashier-salereturns-table-dateP {
-        width: 16%;
-        min-width: 150px;
-    }
-}
+            .cashier-salereturns-table-dateP {
+                width: 16%;
+                min-width: 150px;
+            }
+        }
        </style>
         <div class="cashier-table-header-search-area">
             <div class="grid grid-cols-12 gap-x-5  pb-0.5">
@@ -18,7 +25,7 @@
                         <input id="tunnel-expense-id" type="hidden" value="<?php echo $data['expenses'][0]->tid?>">
                     </div>
                 </div>
-                <div class="lg:col-span-7 md:col-span-6 col-span-12">
+                <!-- <div class="lg:col-span-7 md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search-action-btn text-right maxSm:text-left">
                         <a href="tunnel/detailPdf/<?php if($data['expenses']): echo ($data['expenses'][0]->tid); endif; ?>" class="pdf"><svg id="pdf-file" xmlns="http://www.w3.org/2000/svg"
                                 width="19.027" height="19.72" viewBox="0 0 19.027 19.72">
@@ -37,7 +44,7 @@
                             </svg>
                         </a>                      
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 

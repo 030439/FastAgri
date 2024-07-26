@@ -55,15 +55,64 @@
                 </div>
             </div>
 
+<style>
+ .toggle-next {
+  border-radius: 0;
+}
 
+label {
+  cursor: pointer;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.apply-selection {
+  display: none;
+  width: 100%;
+  margin: 0;
+  padding: 5px 10px;
+  border-bottom: 1px solid #ccc;
+}
+.apply-selection .ajax-link {
+  display: none;
+}
+
+.checkboxes {
+  margin: 0;
+  display: none;
+  border: 1px solid #ccc;
+  border-top: 0;
+}
+.checkboxes .inner-wrap {
+  padding: 5px 10px;
+  max-height: 140px;
+  overflow: auto;
+}
+</style>
             
-            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Select Tunnel</h5>
-                    <div class="cashier-select-field-style">
-                        <select id="select-tunnel" class="block" name="select-tunnel">
-                       
-                        </select>
+            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field" style="display:none">
+                <div class="cashier-select-field mb-5 select-list">
+                    <div class="cashier-select-field-style block select-options" id="select-"  name="select-tunnel">
+                    <div class="col-md-4">
+                        <div class="wrapper">
+                        <a class="form-control toggle-next ellipsis">Select Tunnel </a>
+                        <div class="checkboxes" id="Lorems">
+                            <label class="apply-selection">
+                            <input type="checkbox" value="" class="ajax-link" />
+                            &#x2714; apply selection
+                            </label>
+                            
+                            <div class="inner-wrap" id="select-tunnel">
+                            
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>

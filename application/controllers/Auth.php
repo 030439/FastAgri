@@ -8,9 +8,9 @@ class Auth extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->library('session');
         $this->load->model('user_model'); // Assuming you have a User model
-        if (is_authorized()) {
-			redirect('/');
-		}
+        // if (is_authorized()) {
+		// 	redirect('/');
+		// }
     }
 
     public function login() {
