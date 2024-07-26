@@ -116,7 +116,7 @@ public function updateSupplier($s,$b){
     $this->db->where('sid', $s);
     return $this->db->update('supplier_detail');
 }
-function getPurchaseList($draw, $start, $length, $search){
+function getPurchaseList($startDate, $endDate,$draw, $start, $length, $search){
     $totalRecords = $this->db->count_all_results('purchasesdetail');
         $this->db->select('purchasesdetail.id,purchasesdetail.total_amount,purchasesdetail.amount,purchasesdetail.paid_amount,purchasesdetail.expenses,purchasesdetail.created_at as pdate, suppliers.Name as supplier_name');
         $this->db->from('purchasesdetail');
@@ -125,15 +125,23 @@ function getPurchaseList($draw, $start, $length, $search){
             $this->db->group_start();
             $this->db->like('purchasesdetail.id', $search);
             $this->db->or_like('purchasesdetail.total_amount', $search);
+            $this->db->or_like('purchasesdetail.amount', $search);
+            $this->db->or_like('purchasesdetail.expenses', $search);
             $this->db->or_like('suppliers.Name', $search);
             $this->db->or_like('purchasesdetail.created_at', $search);
             $this->db->group_end();
         }
-    
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('purchasesdetail.Date BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
+        }
+        
         // Apply limit and offset for pagination
         $this->db->limit($length, $start);
         $query = $this->db->get();
         $results = $query->result_array();
+        foreach($results as $c=> $result){
+            $results[$c]['pdate']=getOnlyDate($result['pdate']);
+        }
         $shareholders = array(
             "draw" => $draw,
             "recordsTotal" => $totalRecords,
@@ -267,14 +275,13 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
         return $individual_records;
     }
 
-    public function getSeedDetailsJS($draw, $start, $length)
+    public function getSeedDetailsJS($startDate,$endDate,$draw, $start, $length,$searchTerm)
     {
         // Count total records without pagination
         $totalRecords = $this->db->count_all_results('purchasesdetail');
     
         // Get records with pagination
-        $query = $this->db->query("
-            SELECT 
+        $Q="   SELECT 
                 pd.id AS purchase_detail_id,
                 pd.product_id,
                 p.Name AS product_name,
@@ -295,11 +302,21 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
             JOIN 
                 products p ON pd.product_id = p.id
             LEFT JOIN
-                purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id
-            ORDER BY 
+                purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id";
+            if (!empty($startDate) && !empty($endDate)) {
+                $Q.=' WHERE pd.Date BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+            }
+            if (!empty($searchTerm)) {
+                $conditions[] = '(p.Name LIKE "%' . $searchTerm . '%" OR pd.amount LIKE "%' . $searchTerm .'%" OR pd.total_amount LIKE "%' . $searchTerm .'%" OR pd.rate LIKE "%' . $searchTerm . '%" OR s.Name LIKE "%' . $searchTerm . '%" OR s.company_name LIKE "%' . $searchTerm . '%")';
+            }
+            if (!empty($conditions)) {
+                $Q .= ' WHERE ' . implode(' AND ', $conditions);
+            }
+            $Q.=" ORDER BY
                 pd.id, pq.product_id
             LIMIT $start, $length
-        ");
+        ";
+        $query = $this->db->query($Q);
         $results = $query->result_array();
     
         $individual_records = [];

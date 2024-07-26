@@ -125,15 +125,16 @@ class Tunnels extends CI_Controller{
 		}
     }
 
-    public function getunnelsExpenseList(){
-        $id=$this->input->post('id');
+    public function getunnelsExpenseList($id){
+        //$id=$this->input->post('id');
         try{
 			$draw = intval($this->input->post("draw"));
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-            
-			$res=$this->Tunnel_model->getunnelsExpenseList($id,$draw,$start, $length,$search);
+            $startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
+			$res=$this->Tunnel_model->getunnelsExpenseList($id,$startDate, $endDate,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -149,23 +150,27 @@ class Tunnels extends CI_Controller{
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
+            $startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
             
-			$res=$this->Tunnel_model->tunnelLedger($id,$draw, $start, $length, $search);
+			$res=$this->Tunnel_model->tunnelLedger($id,$startDate, $endDate,$draw, $start, $length, $search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
     }
-    public function getunnelsProfitList(){
-        $id=$this->input->post('id');
+    public function getunnelsProfitList($id){
+       // $id=$this->input->post('id');
         try{
 			$draw = intval($this->input->post("draw"));
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
+            $startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
             
-			$res=$this->Tunnel_model->getunnelsProfitList($id,$draw,$start, $length,$search);
+			$res=$this->Tunnel_model->getunnelsProfitList($id,$startDate, $endDate,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

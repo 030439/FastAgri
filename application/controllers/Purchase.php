@@ -30,7 +30,9 @@ class Purchase extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res=$this->Purchase_model->getPurchaseList($draw,$start, $length,$search);
+			$startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
+			$res=$this->Purchase_model->getPurchaseList($startDate, $endDate,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -76,7 +78,10 @@ class Purchase extends CI_Controller {
 			$draw = intval($this->input->post("draw"));
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
-			$res=$this->Purchase_model->getSeedDetailsJS($draw,$start, $length);
+			$search = $this->input->post('search')['value'];
+			$startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
+			$res=$this->Purchase_model->getSeedDetailsJS($startDate,$endDate,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

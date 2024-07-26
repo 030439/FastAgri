@@ -315,7 +315,7 @@ class Tunnel_model extends CI_Model
         return $stocks[0]->id; 
     }
 
-    public function getunnelsExpenseList($id,$draw, $start, $length, $search = '') {
+    public function getunnelsExpenseList($id,$startDate, $endDate,$draw, $start, $length, $search = '') {
         // Get total records count
         $this->db->from('tunnel_expense AS e');
         $this->db->join('tunnels AS t', 't.id = e.tunnel_id');
@@ -345,6 +345,9 @@ class Tunnel_model extends CI_Model
             $this->db->or_like('e.edate', $search);
             $this->db->or_like('t.TName', $search);
             $this->db->group_end();
+        }
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('e.edate BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
         }
     
         // Apply ordering
@@ -530,7 +533,7 @@ class Tunnel_model extends CI_Model
         return $newData;
         return $result;
     }
-    public function getunnelsProfitList($id,$draw, $start, $length, $search = ''){
+    public function getunnelsProfitList($id,$startDate, $endDate,$draw, $start, $length, $searchTerm){
         $totalRecords = $this->db->query("SELECT COUNT(*) as count FROM `selldetails` WHERE `tunnel`=$id")->row()->count;
         $sql = "
         SELECT 
@@ -545,9 +548,9 @@ class Tunnel_model extends CI_Model
         sd.`Quantity`,
         sd.`Rate`,
         sd.`NetAmount`,
- sd.`Freight` AS fre,
- sd.`commission`,
- sd.`Labour`,
+        sd.`Freight` AS fre,
+        sd.`commission`,
+        sd.`Labour`,
         sd.`amount`,
         c.`Name` AS customer,
         t.`id` AS tid,
@@ -562,10 +565,25 @@ class Tunnel_model extends CI_Model
         JOIN 
         `tunnels` AS t ON t.`id` = sd.`tunnel`
         JOIN 
-        `grades` AS g ON g.`id` = sd.`GradeId`
-        WHERE t.`id` = $id
-    ";
-
+        `grades` AS g ON g.`id` = sd.`GradeId`";
+        // if (!empty($search)) {
+        //     $this->db->group_start();
+        //     $this->db->like('e.expense_type', $search);
+        //     $this->db->or_like('e.amount', $search);
+        //     $this->db->or_like('e.edate', $search);
+        //     $this->db->or_like('t.TName', $search);
+        //     $this->db->group_end();
+        // }
+        $sql.="WHERE t.`id` = $id";
+    if (!empty($startDate) && !empty($endDate)) {
+        $sql.=' AND s.selldate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+    }
+    if (!empty($searchTerm)) {
+        $conditions[] = '(c.Name LIKE "%' . $searchTerm . '%" OR g.Name LIKE "%' . $searchTerm . '%" OR s.selldate LIKE "%' . $searchTerm . '%" OR sd.Quantity LIKE "%' . $searchTerm . '%")';
+    }
+    if (!empty($conditions)) {
+        $sql .= ' AND ' . implode(' AND ', $conditions);
+    }
     // Apply pagination
     $sql .= " LIMIT $start, $length";
 
@@ -618,7 +636,7 @@ $newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity']
         );
         return $response;
     }
-    public function tunnelLedger($id,$draw, $start, $length, $search = '')
+    public function tunnelLedger($id,$draw,$startDate, $endDate, $start, $length, $search = '')
     {
         $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
             SELECT e.id FROM tunnel_expense e WHERE e.tunnel_id = ?
@@ -717,10 +735,16 @@ $newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity']
             t.`id` = sd.`tunnel`
         JOIN `grades` AS g
         ON
-            g.`id` = sd.`GradeId`
+            g.`id` = sd.`GradeId`";
+        $Q.="
         WHERE
             t.`id` = $id
-        ) AS combined_data
+        ) AS combined_data";
+         
+        if (!empty($startDate) && !empty($endDate)) {
+            $Q.='AND s.edate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+        }
+         $Q.="
         ORDER BY
             edate,
             ecreated ASC

@@ -69,16 +69,16 @@ if (!function_exists('pqrate')) {
         $CI->load->database();
         $stockWithRate = array();
         $query = $CI->db->query("SELECT * FROM purchasesdetail WHERE id = $pqid");
-
+        $Arr=[0][0];
         if ($query && $query->num_rows() > 0) {
             $result = $query->row_array();
             $products = explode(",", $result['product_id']);
             $fprices = explode(",", $result['fu_price']);
             foreach($products as $c=>$p){
                 if($p==$pid){
-                    echo $fprices[$c];
+                    return $fprices[$c];
                 }else{
-                    echo 0;
+                    return $Arr;
                 }
             }
             // Do something with $products or $result if needed
@@ -271,6 +271,13 @@ if (!function_exists('employeeName_')) {
         } else {
             return "data not found";
         }
+    }
+}
+function getOnlyDate($date){
+    if($date){
+        return  date('Y-m-d', strtotime($date));
+    }else{
+        return "-";
     }
 }
 

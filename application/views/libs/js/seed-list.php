@@ -1,5 +1,5 @@
 <script>
-$('#user-list').DataTable({
+var table =$('#user-list').DataTable({
   buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
     "serverSide": true,
@@ -8,6 +8,10 @@ $('#user-list').DataTable({
           "ajax": {
               url : "<?php echo base_url(); ?>purchased/seed-list-js",
               type : 'post',
+              data: function(d) {
+                d.startDate = $('#start-date').val();
+                d.endDate = $('#end-date').val();
+              },
               error: function(xhr, error, thrown) {
               alert('Error: ' + xhr.responseText);
           }
@@ -36,4 +40,7 @@ $('#user-list').DataTable({
             $(api.column(3).footer()).html(totalBalance.toFixed(2));
         }
       });
+      $('#filter').on('click', function() {
+            table.ajax.reload();
+        });
     </script>

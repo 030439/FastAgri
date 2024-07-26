@@ -51,7 +51,9 @@ class Stock extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res= $this->Stock_model->productLedgerDetail($id,$draw,$start , $length,$search);
+			$startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
+			$res= $this->Stock_model->productLedgerDetail($id,$startDate, $endDate,$draw,$start , $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -173,7 +175,9 @@ class Stock extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$data=$this->Stock_model->issueList($draw,$start, $length,$search);
+			$startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
+			$data=$this->Stock_model->issueList($startDate, $endDate,$draw,$start, $length,$search);
 			echo jsonOutPut($data);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

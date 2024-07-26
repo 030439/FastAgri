@@ -611,7 +611,7 @@ class Stock_model extends CI_Model {
         return $result;
     }
     
-    public function issueList($draw, $start, $length, $search = '') {
+    public function issueList($startDate, $endDate,$draw, $start, $length, $search = '') {
         // Get total records count
         $totalRecords = $this->db->count_all('issuestock');
     
@@ -640,7 +640,9 @@ class Stock_model extends CI_Model {
             $this->db->or_like('e.Name', $search);
             $this->db->group_end();
         }
-    
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('i.i_dat BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
+        }
         // Apply pagination and ordering
         $this->db->order_by('i.id', 'ASC');
         $this->db->limit($length, $start);
@@ -648,6 +650,7 @@ class Stock_model extends CI_Model {
         $result = $query->result_array();
         $new=[];
         foreach($result as $i=> $re){
+            $arr_=pqrate($re['PqId'],$re['pid']);
             $new[$i]['TName']=$re['TName'];
             $new[$i]['employee']=$re['employee'];
             $new[$i]['product_name']=$re['product_name'];
@@ -657,6 +660,7 @@ class Stock_model extends CI_Model {
             $new[$i]['pqrate']=pqrate($re['PqId'],$re['pid']);
         }
     
+       // dd($new);
         // Prepare the final output
         $response = array(
             "draw" => intval($draw),
