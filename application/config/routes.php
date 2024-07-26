@@ -38,7 +38,7 @@ $route['customer/detail/(:num)']='customer/customerDetail/$1';
 $route['getcustomers']="customer/getcustomers";
 $route['customer/list']="customer/listing";
 $route['customer-detail/(:num)']="customer/customerDetailList/$1";
-$route['customer/customerDetailListing']="customer/customerDetailListing";
+$route['customer/customerDetailListing/(:num)']="customer/customerDetailListing/$1";
 //supplier
 $route['fetch-suppliers']="Supplier/fetchAll";
 $route['supplier/ledger/(:num)']='Supplier/supplierLedger/$1';

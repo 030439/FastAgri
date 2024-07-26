@@ -278,7 +278,7 @@ NULL AS freight,
         }
         return $newResult;
     }
-    public function customerDetailListing($id, $draw, $start, $length, $search = ''){
+    public function customerDetailListing($id,$startDate, $endDate, $draw, $start, $length, $search = ''){
         $searchQuery = "";
         if($search != ''){
             $searchQuery = " AND (
@@ -293,15 +293,22 @@ NULL AS freight,
         }
         
         // Fetch total records
+        $date_filter="";
+        if (!empty($startDate) && !empty($endDate)) {
+            $date_filter=' AND s.selldate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+        }
         $totalQuery = $this->db->query("
             SELECT COUNT(*) AS total
             FROM `sells` AS s
             JOIN `customers` AS c ON c.`id` = s.`customer`
             JOIN `selldetails` AS sd ON sd.`SellId` = s.`id`
-            WHERE s.`customer`=$id
+            WHERE s.`customer`=$id $date_filter
         ");
         $totalRecords = $totalQuery->row()->total;
-    
+       
+        // if (!empty($startDate) && !empty($endDate)) {
+        //     $date_filter=' AND s.selldate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+        // }
         // Fetch filtered records
         $query = $this->db->query("
             SELECT 
@@ -328,7 +335,7 @@ NULL AS freight,
             JOIN 
             `selldetails` AS sd ON sd.`SellId` = s.`id`
             WHERE s.`customer`=$id
-            $searchQuery
+            $searchQuery $date_filter
             LIMIT $start, $length
         ");
         $result = $query->result_array(); 

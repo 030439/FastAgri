@@ -225,7 +225,11 @@ class Supplier_model extends CI_Model {
       }
       return $individual_records;
   }
-  public function detailListing($id ,$draw, $start, $length, $search = ''){
+  public function detailListing($id,$startDate, $endDate,$draw, $start, $length, $search = ''){
+    $date_filter="";
+    if (!empty($startDate) && !empty($endDate)) {
+        $date_filter=' AND pd.selldate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+    }
    $query = $this->db->query("SELECT * From purchasesdetail WHERE Supplier_id=$id");
    $counter = $query->result_array();
    $totalRecords = count($counter);
@@ -250,6 +254,18 @@ class Supplier_model extends CI_Model {
    $this->db->join('products p', 'pd.product_id = p.id');
    $this->db->join('purchaseqty pq', 'pd.id = pq.purchase_id AND pd.product_id = pq.product_id', 'left');
    $this->db->where('pd.Supplier_id', $id);
+   if (!empty($search)) {
+    $this->db->group_start();
+    $this->db->like('p.Name', $search);
+    $this->db->or_like('pd.amount', $search);
+    $this->db->or_like('pd.quantity', $search);
+    $this->db->or_like('pd.total_amount', $search);
+    $this->db->or_like('pd.Date', $search);
+    $this->db->group_end();
+}
+   if (!empty($startDate) && !empty($endDate)) {
+    $this->db->where('pd.Date BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
+}
    $this->db->order_by('pd.id DESC, pq.product_id DESC');
    $this->db->limit($length, $start);
    $query = $this->db->get();

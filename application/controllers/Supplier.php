@@ -82,7 +82,9 @@ class Supplier extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res=$this->Supplier_model->detailListing($id,$draw,$start, $length,$search);
+			$startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
+			$res=$this->Supplier_model->detailListing($id,$startDate, $endDate,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
