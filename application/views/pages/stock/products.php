@@ -26,7 +26,8 @@
                             <th>Product</th>
                             <th>Unit</th>
                             <th>RemainingQuality</th>
-                            <th></th>
+                            <th>Ledger</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                 </table> 

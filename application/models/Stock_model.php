@@ -8,6 +8,19 @@ class Stock_model extends CI_Model {
         $this->load->database();
         $this->load->library('form_validation');
     }
+    function getProductById($id){
+        $this->db->select('*');
+        $this->db->from('products');
+        $this->db->where('id',$id);
+        $products = $this->db->get()->result();
+        return $products[0];
+    }
+    public function updateProduct($id,$data){
+        $date=date("y-m-d h i s");
+        $data['updated_at']=$date;
+        $this->db->where('id', $id);
+        return  $this->db->update('products', $data);
+    }
     public function readyProduct($data,$st){
         
          if($this->db->insert('productions', $data)){
@@ -15,6 +28,13 @@ class Stock_model extends CI_Model {
             return $this->db->update('production_stock', $st);
          }
          return false;
+    }
+    function getPurchase($id){
+        $this->db->select('*');
+        $this->db->from('purchasesdetail');
+        $this->db->where('id',$id);
+        $products = $this->db->get()->result();
+        return $products[0];
     }
     function getOnlyPro(){
         $this->db->select('products.*, units.Name as unit,crops.id as ci');

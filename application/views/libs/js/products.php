@@ -24,6 +24,14 @@ $('#user-list').DataTable({
                             return '<div style="display:flex"><a class="dropdown-menu-item edit" href="products/ledger/'+data+'"><span>Ledger</span></div>';
                         }
                                       
+                  },
+                  { // Actions column
+                     "data": "id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="stock/editProduct/'+data+'"><span>Edit</span></div>';
+                        }
+                                      
                   }
                   
               ]

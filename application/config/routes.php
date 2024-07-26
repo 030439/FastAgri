@@ -78,6 +78,7 @@ $route['issue-product']="Stock/issueProduct";
 $route['issue-stock/issuePdf']="Stock/issuePdf";
 $route['products/ledger/(:num)']="Stock/productLedger/$1";
 $route['product/productLederList/(:num)']="Stock/productLederList/$1";
+$route["update-product"]="Stock/updateProduct";
 //Employee 
 $route['add-employee']='Employee/add';
 $route['designation']='Employee/designation';

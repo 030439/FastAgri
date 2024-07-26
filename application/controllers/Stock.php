@@ -65,6 +65,26 @@ class Stock extends CI_Controller {
 		$data=$this->Setup_model->getunit();
 		$this->load->view('layout/parts',['page'=>"pages/stock/add-product",'data'=>$data]);
 	}
+	public function editProduct($id)
+	{
+		$data=$this->Setup_model->getunit();
+		$product=$this->Stock_model->getProductById($id);
+		$this->load->view('layout/parts',['page'=>"pages/stock/edit-product",'data'=>$data,'product'=>$product]);
+	}
+	public function updateProduct() {
+		$id=$this->input->post('id');
+        $this->form_validation->set_rules('Name', 'Name', 'required');
+        $this->form_validation->set_rules('unit_id', 'Unit ', 'required');
+        if ($this->form_validation->run() == FALSE) {
+			$this->editProduct($id);
+        }
+		 else {
+            $data = $this->input->post(NULL, TRUE);
+		
+           $res= $this->Stock_model->updateProduct($id,$data);
+		   $this->response($res,'stock/products',"Data Inserted Successfully");
+        }
+    }
     public function insertProduct() {
 		
         $this->form_validation->set_rules('Name', 'Name', 'required');
@@ -79,6 +99,7 @@ class Stock extends CI_Controller {
 		   $this->response($res,'stock/products',"Data Inserted Successfully");
         }
     }
+	
     public function seedList()
 	{
 		try{
