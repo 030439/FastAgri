@@ -156,9 +156,10 @@ class Purchase extends CI_Controller {
 	}
 	public function seedPurchaseEdit($id){
 		try{
-			pqid
+		
 			$data['suppliers']=$this->Common_model->getAll('suppliers');
 			$data['products']=$this->Common_model->getAll('crops');
+			$data['puchase']=$this->Purchase_model->getSeedPurchase($id);
 		    $this->load->view('layout/parts',['page'=>"pages/purchase/edit-fasal","data"=>$data]);
 	    } catch (Exception $e) {
 			log_message('error', $e->getMessage());
