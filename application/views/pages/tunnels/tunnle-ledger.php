@@ -38,7 +38,7 @@
                         <th>Quantity</th>
                         <th>Amount</th>
                         <th>Date</th>
-                        <!-- <th>Detail</th> -->
+                        <th>Detail</th>
                     </tr>
                 </thead>
                 <tfoot>

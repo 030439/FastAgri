@@ -58,6 +58,7 @@ $route['purchase'] = "purchase/index"; //purchase list
 $route['create-purchase'] = "purchase/save"; //purchase form data submission
 $route['purchase-seed']='purchase/purchaseSeedFrom';
 $route['seed-purchase']='purchase/purchaseSeed';
+$route['seed-purchase/edit/(:num)']="purchase/seedPurchaseEdit/$1";
 $route['purchased/seed-list']='purchase/purchasedSeedList';
 $route['purchased/seed-list-js']='purchase/purchasedSeedListJS';
 
@@ -120,6 +121,7 @@ $route['issued-labour-listing']="hr/issuedLabourListing";
 //Production 
 $route['tunnelProduct']="tunnels/tunnelProduct";
 $route['ready-product']="Production/ready";
+$route['ready-product-update']="Production/readyProductUpdate";
 $route['load-product/(:num)']="Production/load/$1";
 $route['ready-production-sell']="Production/sell";
 $route['readyQuantity']="Production/readyQuantity";

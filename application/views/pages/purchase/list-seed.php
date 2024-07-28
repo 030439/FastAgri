@@ -24,7 +24,7 @@
                             <th>Amount</th>
                             <th>Purchase QTY</th>
                             <th>Remaining QTY</th>
-                            <!-- <th>Action</th> -->
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>

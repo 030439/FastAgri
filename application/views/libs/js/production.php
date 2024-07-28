@@ -24,6 +24,14 @@ var table =$('#user-list').DataTable({
                   { "data": "unit" },
                   { "data":"qty"},
                   { "data":"pdate"},
+                  { // Actions column
+                     "data": "id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="production/edit/'+data+'"><span>Update</span></div>';
+                        }
+                                      
+                  },
               ],
               "footerCallback": function (row, data, start, end, display) {
                     var api = this.api();

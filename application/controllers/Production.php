@@ -16,12 +16,12 @@ class Production extends CI_Controller {
     }
 	public function index()
 	{
-		$data['tunnels']=$this->Common_model->getAll('tunnels');
-		$data['quality']=$this->Common_model->getAll('grades');
-		$data['units'] = $this->Setup_model->getunit();
-		$date=date('Y-m-d');
-		$data['production']=$this->Stock_model->getProduction($date);
-		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
+		// $data['tunnels']=$this->Common_model->getAll('tunnels');
+		// $data['quality']=$this->Common_model->getAll('grades');
+		// $data['units'] = $this->Setup_model->getunit();
+		// $date=date('Y-m-d');
+		// $data['production']=$this->Stock_model->getProduction($date);
+		$this->load->view('layout/parts',['page'=>"pages/production/fasal"]);
 	}
 	public function getProductionListing(){
 		try{
@@ -37,6 +37,15 @@ class Production extends CI_Controller {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
+	}
+	public function edit($id){
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$data['quality']=$this->Common_model->getAll('grades');
+		$data['units'] = $this->Setup_model->getunit();
+		//$date=date('Y-m-d');
+		//$data['production']=$this->Stock_model->getProduction($date);
+		$data['production']=$this->Stock_model->getProductionById($id);
+		$this->load->view('layout/parts',['page'=>"pages/production/edit",'data'=>$data]);
 	}
 	public function dailyProductionReports(){
 		$date=date('Y-m-d');
@@ -112,6 +121,49 @@ class Production extends CI_Controller {
 			}
 			
             $res = $this->Stock_model->readyProduct($arr,$Qt);
+                response($res, 'Production', '"Data Inserted Successfully'); 
+        }
+	}
+	public function readyProductUpdate(){
+		$id=$this->input->post("id");
+		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
+		$this->form_validation->set_rules('units', 'units', 'required');
+		$this->form_validation->set_rules('quantity', 'quantity', 'required');
+		$this->form_validation->set_rules('quality', 'quality', 'required');
+        if ($this->form_validation->run() == false) {
+			$data['tunnels']=$this->Common_model->getAll('tunnels');
+			$data['quality']=$this->Common_model->getAll('grades');
+			$data['units'] = $this->Setup_model->getunit();
+			$date=date('Y-m-d');
+		    $data['production']=$this->Stock_model->getProduction($date);
+			$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
+        } else {
+            // XSS cleaning for input data
+			$data = $this->input->post(NULL, TRUE);
+			$res=$this->Tunnel_model->tunnelProduct($data['tunnel']);
+			$arr=[
+				'TunnelId'  => $data['tunnel'],
+				'UnitId'    => $data['units'],
+				'CropId'    => $this->crop($res->product),
+				'GradeId'   => $data['quality'],
+				'Quantity'  => $data['quantity']
+  			];
+			if($data['quality']==1){
+				$Qt=[
+					'tunnel'  => $data['tunnel'],
+					'pro'    => $this->crop($res->id),
+					'ACQ'  => $data['quantity']
+				  ];
+			}
+			else{
+				$Qt=[
+					'tunnel'  => $data['tunnel'],
+					'pro'    => $this->crop($res->id),
+					'BCQ'  => $data['quantity']
+				  ];
+			}
+			
+            $res = $this->Stock_model->readyProductUpdate($id,$arr,$Qt);
                 response($res, 'Production', '"Data Inserted Successfully'); 
         }
 	}

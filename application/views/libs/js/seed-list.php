@@ -23,6 +23,14 @@ var table =$('#user-list').DataTable({
                   { "data": "amount" },
                   { "data": "purchased_quantity" },
                   { "data": "RemainingQuantity" },
+                  { // Actions column
+                     "data": "purchase_detail_id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="seed-purchase/edit/'+data+'"><span>Edit</span></div>';
+                        }
+                                      
+                  }
                 //   { "data": "purchase_detail_id" },
                 //   { // Actions column
                 //       "data": null,

@@ -15,6 +15,13 @@ class Stock_model extends CI_Model {
         $products = $this->db->get()->result();
         return $products[0];
     }
+    function getProductionById($id){
+        $this->db->select('*');
+        $this->db->from('productions');
+        $this->db->where('id',$id);
+        $products = $this->db->get()->result();
+        return $products[0];
+    }
     public function updateProduct($id,$data){
         $date=date("y-m-d h i s");
         $data['updated_at']=$date;
@@ -29,6 +36,15 @@ class Stock_model extends CI_Model {
          }
          return false;
     }
+    public function readyProductUpdate($id,$data,$st){
+        $this->db->where('id', $id);
+        $updated=$this->db->update('productions', $data);
+        if($updated){
+           $this->db->where('tunnel', $st['tunnel']);
+           return $this->db->update('production_stock', $st);
+        }
+        return false;
+   }
     function getPurchase($id){
         $this->db->select('*');
         $this->db->from('purchasesdetail');

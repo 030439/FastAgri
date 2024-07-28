@@ -274,11 +274,17 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
         }
         return $individual_records;
     }
-
+    public function getSeedPurchase($id){
+        $this->db->select('*');
+    $this->db->from('purchaseseeddetail p');
+    $this->db->WHERE('p.pqid',$id);
+    $query = $this->db->get();
+    return $query->result_array();
+    }
     public function getSeedDetailsJS($startDate,$endDate,$draw, $start, $length,$searchTerm)
     {
         // Count total records without pagination
-        $totalRecords = $this->db->count_all_results('purchasesdetail');
+        //$totalRecords = $this->db->count_all_results('purchasesdetail');
     
         // Get records with pagination
         $Q="   SELECT 
@@ -301,6 +307,8 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
                 suppliers s ON pd.Supplier_id = s.id
             JOIN 
                 products p ON pd.product_id = p.id
+            JOIN 
+                crops c ON c.pid =p.id
             LEFT JOIN
                 purchaseqty pq ON pd.id = pq.purchase_id AND pd.product_id = pq.product_id";
             if (!empty($startDate) && !empty($endDate)) {
@@ -312,6 +320,8 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
             if (!empty($conditions)) {
                 $Q .= ' WHERE ' . implode(' AND ', $conditions);
             }
+        $get_total=$this->db->query($Q);
+        $totalRecords=$get_total->result_array();
             $Q.=" ORDER BY
                 pd.id, pq.product_id
             LIMIT $start, $length
@@ -346,8 +356,8 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
     
         $result = array(
             "draw" => $draw,
-            "recordsTotal" => $totalRecords,  // Total records without pagination
-            "recordsFiltered" => $totalRecords,  // Same as recordsTotal since we're not filtering
+            "recordsTotal" => count($totalRecords),  // Total records without pagination
+            "recordsFiltered" => count($totalRecords),  // Same as recordsTotal since we're not filtering
             "data" => $individual_records
         );
     

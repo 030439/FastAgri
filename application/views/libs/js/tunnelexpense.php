@@ -1,5 +1,4 @@
 <script>
-  $(document).ready(function() {
   var tid=$("#tunnel-expense-id").val();
   var table =  $('#user-list').DataTable({
     responsive: true,
@@ -39,9 +38,8 @@
         }
       });
       $('#filter').on('click', function() {
-                table.ajax.reload();
-            });
-});
+          table.ajax.reload();
+      });
     </script>
 
 

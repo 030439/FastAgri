@@ -154,6 +154,17 @@ class Purchase extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 	   }
 	}
+	public function seedPurchaseEdit($id){
+		try{
+			pqid
+			$data['suppliers']=$this->Common_model->getAll('suppliers');
+			$data['products']=$this->Common_model->getAll('crops');
+		    $this->load->view('layout/parts',['page'=>"pages/purchase/edit-fasal","data"=>$data]);
+	    } catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+	   }	
+	}
 	public function purchaseSeed(){
 		try {
 			$this->form_validation->set_rules('qty[]', 'Quantity', 'required');

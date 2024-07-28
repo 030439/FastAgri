@@ -42,9 +42,10 @@
 
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
     <h4 class="text-[20px] font-bold text-heading mb-9">Production Ready items</h4>
-    <form action="ready-product" method="post">
+    <form action="ready-product-update" method="post">
         <div class="grid grid-cols-12 gap-x-5">
             <!-- auto fill -->
+             <input type="hidden" name="id" value="<?php echo $data['production']->id?>">
             <div class="lg:col-span-2 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Tunnel</h5>
@@ -52,7 +53,7 @@
                         <select class="block" style="display: none;" name="tunnel"onchange="productionTunnel(this)" id="production-tunnel">
                             <option selected="selected" disabled="disabled">Select Supplier</option>
                             <?php if(!empty($data['tunnels'])):foreach($data['tunnels'] as $tunnel):?>
-                            <option value="<?php ShowVal($tunnel->id);?>"><?php echo ($tunnel->TName);?></option>
+                            <option <?php if($data['production']->TunnelId==$tunnel->id){echo "selected";}?> value="<?php ShowVal($tunnel->id);?>"><?php echo ($tunnel->TName);?></option>
                             <?php endforeach; endif;?>
                         </select>
                         <?php validator('tunnel')?>
@@ -65,7 +66,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Product</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" placeholder=" Product" name="product" id="production-product">
+                            <input type="text" value="<?= productName_($data['production']->CropId)?>" placeholder=" Product" name="product" id="production-product">
                         </div>
                     </div>
                 </div>
@@ -76,9 +77,9 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Unit</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" style="display: none;" name="units">
-                            <option selected="selected" disabled="disabled">Select Supplier</option>
+                            <option selected="selected" disabled="disabled">Select Unit</option>
                             <?php if(!empty($data['units'])):foreach($data['units'] as $unit):?>
-                            <option value="<?php ShowVal($unit->id);?>"><?php echo ($unit->Name);?></option>
+                            <option <?php if($data['production']->UnitId==$unit->id){echo "selected";}?> value="<?php ShowVal($unit->id);?>"><?php echo ($unit->Name);?></option>
                             <?php endforeach; endif;?>
                         </select>
                         <?php validator('units')?>
@@ -91,7 +92,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Quantity</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" min="0" placeholder="Quantity" name="quantity">
+                            <input type="number" min="0" placeholder="Quantity" name="quantity" value="<?php echo $data['production']->Quantity?>">
                             <?php validator('quantity')?>
                         </div>
                     </div>
@@ -105,7 +106,7 @@
                         <select class="block" style="display: none;" name="quality">
                             <option selected="selected" disabled="disabled">Select Quality</option>
                             <?php if(!empty($data['quality'])):foreach($data['quality'] as $quality):?>
-                            <option value="<?php ShowVal($quality->id);?>"><?php echo ($quality->Name);?></option>
+                            <option <?php if($data['production']->GradeId==$quality->id){echo "selected";}?> value="<?php ShowVal($quality->id);?>"><?php echo ($quality->Name);?></option>
                             <?php endforeach; endif;?>
                         </select>
                         <?php validator('quality')?>
