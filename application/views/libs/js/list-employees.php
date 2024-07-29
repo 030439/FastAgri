@@ -24,7 +24,8 @@ $('#user-list').DataTable({
                      "data": "id",
                         "render": function(data, type, row) {
                             
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="employee/ledger/'+data+'"><span>Ledger</span></div>';
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="employee/ledger/'+data+'"><span>Ledger</span></a>'+
+                            '<a style="margin:0px 2px" class="dropdown-menu-item edit" href="employee/edit/'+data+'"><span>Edit</span></div>';
                         }
                                       
                   }

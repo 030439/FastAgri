@@ -161,5 +161,27 @@ class Supplier extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+	public function updateSupplier() {
+        try {
+			$id=$this->input->post('id');
+			$this->form_validation->set_rules('Name', 'Name', 'required');
+			$this->form_validation->set_rules('company_name', 'Company ', 'required');
+			$this->form_validation->set_rules('contact', 'Contact ', 'required');
+			$this->form_validation->set_rules('Address', 'Address ', 'required');
+			$this->form_validation->set_rules('cnic', 'CNIC ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->supplierEdit($id);
+			}
+			 else {
+				$data = $this->input->post(NULL, TRUE);
+			
+			   $res= $this->Supplier_model->updateSupplier($id,$data);
+			   response($res,'supplier',"Data Updated Successfully");
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+    }
 	
 }

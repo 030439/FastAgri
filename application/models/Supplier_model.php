@@ -395,5 +395,13 @@ class Supplier_model extends CI_Model {
         $supplier = $this->db->get_where('suppliers', ['id' => $id])->row();
         return $supplier;
     }
+    public function updateSupplier($id, $data) {
+        $date=date("y-m-d h i s");
+        $data['update_at']=$date;
+          $this->db->where('id', $id);
+           return  $this->db->update('suppliers', $data);
+        }
+    
+    
 }
    

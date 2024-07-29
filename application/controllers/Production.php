@@ -16,12 +16,12 @@ class Production extends CI_Controller {
     }
 	public function index()
 	{
-		// $data['tunnels']=$this->Common_model->getAll('tunnels');
-		// $data['quality']=$this->Common_model->getAll('grades');
-		// $data['units'] = $this->Setup_model->getunit();
-		// $date=date('Y-m-d');
-		// $data['production']=$this->Stock_model->getProduction($date);
-		$this->load->view('layout/parts',['page'=>"pages/production/fasal"]);
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$data['quality']=$this->Common_model->getAll('grades');
+		$data['units'] = $this->Setup_model->getunit();
+		$date=date('Y-m-d');
+		$data['production']=$this->Stock_model->getProduction($date);
+		$this->load->view('layout/parts',['page'=>"pages/production/fasal",'data'=>$data]);
 	}
 	public function getProductionListing(){
 		try{

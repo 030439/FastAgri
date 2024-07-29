@@ -54,6 +54,13 @@ class Sell extends CI_Controller {
 		$data= $this->Stock_model->sellBillDetail($id);
 		$this->load->view('layout/parts',['page'=>"pages/sell/bill-detail",'data'=>$data]);
 	}
+	public function editSell($id){
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$data['quality']=$this->Common_model->getAll('grades');
+		$data['customers']=$this->Common_model->getAll('customers');
+		$data['sell']= $this->Stock_model->sellDetail($id);
+		$this->load->view('layout/parts',['page'=>"pages/sell/sell-edit",'data'=>$data]);
+	}
 	public function billDetailInvoice(){
 		$data = $this->input->post(NULL, TRUE);
 		$id = $data['sid'];
@@ -140,6 +147,22 @@ class Sell extends CI_Controller {
 			$this->load->view('layout/parts',['page'=>"pages/sell/production-sell",'data'=>$data]);
 		}else{
 			echo $this->Stock_model->loadForSale($data);
+		    redirect('sell');
+		}
+	}
+	public function updateloadForSale(){
+		$id=$this->input->post('sid');
+		$data = $this->input->post(NULL, TRUE);
+		$this->form_validation->set_rules('customer', 'Customer', 'required');
+		$this->form_validation->set_rules('driver', 'Driver ', 'required');
+		$this->form_validation->set_rules('grades[]', 'Grade ', 'required');
+		$this->form_validation->set_rules('tunnels[]', 'Grade ', 'required');
+		$this->form_validation->set_rules('bags[]', 'Grade ', 'required');
+		$this->form_validation->set_rules('vno', 'vehicle no ', 'required');
+		if ($this->form_validation->run() == FALSE) {
+			$this->editSell($id);
+		}else{
+			echo $this->Stock_model->updateloadForSale($id,$data);
 		    redirect('sell');
 		}
 	}

@@ -75,6 +75,7 @@ class Stock_model extends CI_Model {
         s.`id` AS sid,
         s.`selldate`,
         s.`dno`,
+        s.`driver`,
         s.`vno`,
         s.`freight` as kraya,
         sd.`GradeId`,
@@ -90,6 +91,7 @@ class Stock_model extends CI_Model {
         `sells` AS s
         JOIN 
         `customers` AS c ON c.`id` = s.`customer`
+        
         JOIN 
         `selldetails` AS sd ON sd.`SellId` = s.`id`
         WHERE s.`id`=$id
@@ -114,6 +116,11 @@ class Stock_model extends CI_Model {
                     'freight' =>$row['kraya'],
                     'amount' => $amount[$index],
                     'customer' => $row['customer'],
+                    'driver'   =>$row['driver'],
+                    'dno'   =>$row['dno'],
+                    'vno'   =>$row['vno'],
+                    'tid'      => $tunnels[$index],
+                    'pid'     => $this->productByTunnel($tunnels[$index]),
                     'tunnel' => $this->tunnelName($tunnels[$index]), // Use corresponding tunnel value
                 ];
                 $newResult[] = $newRow;
@@ -121,6 +128,14 @@ class Stock_model extends CI_Model {
         }
 
         return $newResult;
+    }
+    public function productByTunnel($id){
+        $this->db->select('p.Name');
+        $this->db->from('products p');
+        $this->db->join('tunnels t', 'p.id = t.product__id', 'left');
+        $this->db->where('t.id',$id);
+        $products = $this->db->get()->result();
+        return $products[0]->Name;
     }
     public function sellDetailUpdate($id,$rate,$amount,$labour,$expences,$freight,$net){
        
@@ -379,6 +394,93 @@ class Stock_model extends CI_Model {
             return false;
         }
     }
+
+
+    public function updateloadForSale($sid,$data){
+        $exe=false;
+        $sell=[
+            'customer' => $data['customer'],
+            'driver' => $data['driver'],
+            'dno' => $data['dnumber'],
+            'vno' => $data['vno'],
+            // 'freight' => $data['frieght'],
+            'selldate' => $data['rdate'],
+        ];
+        $this->db->trans_start();
+        $this->db->where('id', $sid);
+        $ok=$this->db->update('sells', $sell);
+
+    //    $this->db->insert('sells', $sell);
+    //    $sid = $this->db->insert_id();
+        if($ok){
+            $grade= implode(',', $data['grades']);
+            $tunnels=implode(',', $data['tunnels']);
+            $bags=implode(',', $data['bags']);
+            $selldetail=[
+                'SellId'=> $sid,
+                'CustomerId'=>$data['customer'],
+                'tunnel'=>$tunnels,
+                'ProductionId'=>1,
+                'GradeId'=>$grade,
+                'Quantity' =>$bags,  
+            ];
+            $arr_=[];
+            foreach($data['tunnels'] as $c_=> $tunnel){
+                $arr_[$c_]['qty']=$this->getCurrentQtyForTunnel($sid,$tunnel);
+            }
+            $deleted=$this->db->delete('selldetails', ['SellId' => $sid]);
+            if($deleted){
+                if($this->db->insert('selldetails', $selldetail)){
+                    foreach($data['tunnels'] as $c=> $tunnel){
+                        $exe=false;
+                        $gd=$data['grades'][$c];
+                        $bg=$data['bags'][$c];
+                       // if($executed){
+                            $this->updatereduceProductionStock($arr_[$c]['qty'],$tunnel,$gd,$bg);
+                            $exe=true;
+                        //}
+                    }
+                }
+            }
+       }
+
+       $this->db->trans_complete(); // Complete Transaction
+        
+       if ($this->db->trans_status() === FALSE) {
+           // Transaction failed, handle the error
+           $this->db->trans_rollback(); // Roll back changes
+           return false;
+       } else {
+           // Transaction succeeded
+           $this->db->trans_commit(); // Commit changes
+           return $true;
+       } 
+        // if($exe){
+        //     return true;
+        // }
+        // else{
+        //     return false;
+        // }
+    }
+    public function getCurrentQtyForTunnel($sid,$tid){
+        $query = $this->db->query("
+        SELECT 
+            sd.`Quantity`,sd.`tunnel`
+        FROM 
+        `selldetails` AS sd
+        WHERE 
+         SellId=$sid 
+        ");
+        $row = $query->result_array();
+        $quantities = explode(',', $row[0]['Quantity']);
+        $tunnels = explode(',', $row[0]['tunnel']);
+        // Loop through each quantity and tunnel value to create individual records
+        foreach ($quantities as $index => $quantity) {
+            if($tid==$tunnels[$index]){
+                return $quantity;
+            }
+        }
+    }
     public function productionStocks(){
         $query = $this->db->query("
         SELECT 
@@ -409,6 +511,26 @@ class Stock_model extends CI_Model {
         }
         else{
              $new=$quantity[0]->BCQ-$bg;
+             $data=[
+                'ACQ'=>$new
+             ];
+        }
+        $this->db->where('tunnel', $tunnel);
+       return  $this->db->update('production_stock', $data);
+    }
+    public function updatereduceProductionStock($qty,$tunnel,$g,$bg){
+        $this->db->select('production_stock.*');
+        $this->db->from('production_stock');
+        $this->db->where('tunnel',$tunnel);
+        $quantity = $this->db->get()->result();
+        if($g==1){
+             $new=$quantity[0]->ACQ-$bg+$qty;
+             $data=[
+                'ACQ'=>$new
+             ];
+        }
+        else{
+             $new=$quantity[0]->BCQ-$bg+$qty;
              $data=[
                 'ACQ'=>$new
              ];

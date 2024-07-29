@@ -40,6 +40,7 @@ var table =$('#user-list').DataTable({
                             return '<div style="display:flex"><a class="dropdown-menu-item edit" href="sell-detail/'+data+'"><span>Detail</span></a>'+
                                       '<a class="dropdown-menu-item detail" href="sell-gate-pass/'+data+'"><span>Get Pass</span></a>'+
                                       '<a class="dropdown-menu-item detail" href="sell-bill-detail/'+data+'"><span>Bill</span></a>'+
+                                      '<a class="dropdown-menu-item" style="background-color:#00bcd4" href="sell-edit-detail/'+data+'"><span>Edit</span></a>'+
                                       '</div>';
                         }
                                       

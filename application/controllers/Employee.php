@@ -146,6 +146,17 @@ class Employee extends CI_Controller {
 		$id=$this->input->post('id');
 		echo $this->Employee_model->getEmployeePayById($id);
 	}
+	public function employeEdit($id){
+		try{
+			$data['employee']=$this->Employee_model->getEmployeePayById($id);
+			$data['designation']=$this->Common_model->getAll('designations');
+			$data['category']=$this->Common_model->getAll('employeecategory');
+			$this->load->view('layout/parts',['page'=>"pages/human-resource/edit-employee",'data'=>$data]);
+	    } catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+	   }
+	}
 	public function employeeAdvanceAdd(){
 		$data = $this->input->post(NULL, TRUE);
 		try {
