@@ -130,4 +130,13 @@ class Customer extends CI_Controller {
             redirect($route);
 		   }
 	}
+	public function customerEdit($id){
+		try {
+			$data=$this->Customer_model->getcustomerById($id);
+			$this->load->view('layout/parts',['page'=>"pages/customer/edit",'data'=>$data,'id'=>$id]);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 }

@@ -33,6 +33,7 @@ $route['getTunnels']="tunnels/getTunnels";
 //Custmer routes
 $route['customer/create'] = 'customer/create';
 $route['customer/ledger/(:num)']="customer/customerLedger/$1";
+$route['customer/edit/(:num)']="customer/customerEdit/$1";
 $route['customer/ledger/list/(:num)']="customer/customerLedgerList/$1";
 $route['customer/detail/(:num)']='customer/customerDetail/$1';
 $route['getcustomers']="customer/getcustomers";
@@ -59,6 +60,7 @@ $route['create-purchase'] = "purchase/save"; //purchase form data submission
 $route['purchase-seed']='purchase/purchaseSeedFrom';
 $route['seed-purchase']='purchase/purchaseSeed';
 $route['seed-purchase/edit/(:num)']="purchase/seedPurchaseEdit/$1";
+$route['update-seed-purchase']='purchase/purchaseSeedUpdate';
 $route['purchased/seed-list']='purchase/purchasedSeedList';
 $route['purchased/seed-list-js']='purchase/purchasedSeedListJS';
 

@@ -83,34 +83,34 @@ class Purchase_model extends CI_Model
             return true;
         }   
     }
-public function checkRecord($pid){
-    $this->db->select('qunatity, id');
-$this->db->where('pid', $pid);
-$query = $this->db->get('stocks');
+    public function checkRecord($pid){
+        $this->db->select('qunatity, id');
+        $this->db->where('pid', $pid);
+        $query = $this->db->get('stocks');
 
-if ($query->num_rows() > 0) {
-    // Record exists, fetch the data
-    $result = $query->row();
-    return $result;
-} else {
-    // Record doesn't exist, create it
-    $data = array(
-        'pid' => $pid,
-        // Add other columns and their values as needed
-    );
-    $this->db->insert('stocks', $data);
+        if ($query->num_rows() > 0) {
+            // Record exists, fetch the data
+            $result = $query->row();
+            return $result;
+        } else {
+            // Record doesn't exist, create it
+            $data = array(
+                'pid' => $pid,
+                // Add other columns and their values as needed
+            );
+            $this->db->insert('stocks', $data);
 
-    // Fetch the newly created record
-    $new_query = $this->db->get_where('stocks', array('pid' => $pid));
-    $new_result = $new_query->row();
-    return $new_result;
-    $quantity = $new_result->quantity;
-    $id = $new_result->id;
-}
+            // Fetch the newly created record
+            $new_query = $this->db->get_where('stocks', array('pid' => $pid));
+            $new_result = $new_query->row();
+            return $new_result;
+            $quantity = $new_result->quantity;
+            $id = $new_result->id;
+        }
 
-// Now you have either fetched an existing record or created a new one
+    // Now you have either fetched an existing record or created a new one
 
-}
+    }
 public function updateSupplier($s,$b){
     $this->db->set('closing', 'closing + ' . $this->db->escape($b), FALSE);
     $this->db->where('sid', $s);
@@ -275,11 +275,114 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
         return $individual_records;
     }
     public function getSeedPurchase($id){
-        $this->db->select('*');
-    $this->db->from('purchaseseeddetail p');
-    $this->db->WHERE('p.pqid',$id);
+        $this->db->select('p.*,ps.quality');
+    $this->db->from('purchasesdetail p');
+    $this->db->join('purchaseseeddetail ps', 'p.id = ps.pid');
+    $this->db->WHERE('p.id',$id);
     $query = $this->db->get();
-    return $query->result_array();
+    $data = $query->result_array();
+    return $data[0];
+    }
+    public function getpurchaseAmount($id){
+        $this->db->select('amount,quantity');
+        $this->db->from('purchasesdetail');
+        $this->db->where('id',$id);
+        $products = $this->db->get()->result();
+        return $products[0];
+    }
+    public function purchaseSeedUpdate($id,$data)
+    {
+        //dd($data);
+        $purchase_amount=$this->getpurchaseAmount($id);
+        $this->db->trans_start(); // Start Transaction
+
+        $total_amount = 0;
+        $bno=0;//$data['bno'];
+        $totalQty=0;
+        $c_=$data['charges'];
+        foreach ($data['qty'] as $key => $quantity) {
+            $totalQty+=$quantity;
+            
+        }
+       
+        $perunitExpense=$c_/$totalQty;
+        
+       $finalArr=array();
+        foreach ($data['qty'] as $key => $quantity) {
+           
+            $finalArr[$key]=round($perunitExpense + $data['rate'][$key],2); 
+            $total_amount += $quantity * $data['rate'][$key];
+        }
+        
+       $finaValue=implode(',',$finalArr);
+        $pro= implode(',', $data['product']);
+        $sup=$data['supplier'];
+        $Q=implode(',', $data['qty']);
+        $rate_ =implode(',', $data['rate']);
+        $pdate= $data['pdate'];
+        // $ex= $data['gt'];
+        // $paid=$data['pa'];
+        $psd=['bno'=> $bno,
+            'product_id'=>$pro ,
+             'Supplier_id'=>$sup ,
+              'quantity'=> $Q, 
+              'rate'=> $rate_,
+               'fu_price'=> $finaValue,
+                'amount'=>$total_amount ,
+                 //'paid_amount'=> $paid,
+                 'Date'=> $pdate,
+                //  'expenses'=>$c_ , 
+                 'total_amount'=>$total_amount
+        ];
+        $this->db->where('id', $id);
+        $updated=$this->db->update('purchasesdetail',$psd);
+        
+        foreach ($data['qty'] as $key => $quantity) {
+            $purchase['purchase_id'] = $id;
+            $purchase['product_id'] = intval($data['product'][$key]);
+            $purchase['RemainingQuantity'] = $data['qty'][$key];
+            $sb=$data['qty'][$key]*$data['rate'][$key];
+
+            $this->updateSupplierPurchase($sup,$sb,$purchase_amount->amount);
+            // $this->db->insert('purchaseqty', $purchase);
+            // $pqid =$this->db->insert_id();
+
+            $result=$this->checkRecord($purchase['product_id']);
+            // $this->db->select('qunatity,id');
+            // $this->db->where('pid',$purchase['product_id']);
+            // $query = $this->db->get('stocks');
+            // $result = $query->row();
+
+            $newQty=$result->qunatity+$purchase['RemainingQuantity']-$purchase_amount->quantity;
+            $sql = "UPDATE stocks SET qunatity = ? WHERE id = ?";
+            $this->db->query($sql, array($newQty, $result->id));
+           
+            if($data['quality']){
+                 $purchaseSeed=['pid'=>$id,'qty'=>$purchase['RemainingQuantity'],'quality'=>$data['quality']];
+                //   $this->db->insert('purchaseseeddetail', $purchaseSeed);
+                  $this->db->where('pid', $id);
+                  $updated=$this->db->update('purchaseseeddetail',$purchaseSeed);
+            }
+        }
+        $this->db->trans_complete(); // Complete Transaction
+        
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return true;
+        }   
+    }
+    public function updateSupplierPurchase($s,$b,$p){
+        $this->db->set('closing', 'closing - ' . $this->db->escape($p), FALSE);
+        $this->db->where('sid', $s);
+        $ok=$this->db->update('supplier_detail');
+        $this->db->set('closing', 'closing + ' . $this->db->escape($b), FALSE);
+        $this->db->where('sid', $s);
+        $this->db->update('supplier_detail');
     }
     public function getSeedDetailsJS($startDate,$endDate,$draw, $start, $length,$searchTerm)
     {

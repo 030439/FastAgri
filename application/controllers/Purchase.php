@@ -154,18 +154,6 @@ class Purchase extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 	   }
 	}
-	public function seedPurchaseEdit($id){
-		try{
-		
-			$data['suppliers']=$this->Common_model->getAll('suppliers');
-			$data['products']=$this->Common_model->getAll('crops');
-			$data['puchase']=$this->Purchase_model->getSeedPurchase($id);
-		    $this->load->view('layout/parts',['page'=>"pages/purchase/edit-fasal","data"=>$data]);
-	    } catch (Exception $e) {
-			log_message('error', $e->getMessage());
-			show_error('An unexpected error occurred. Please try again later.');
-	   }	
-	}
 	public function purchaseSeed(){
 		try {
 			$this->form_validation->set_rules('qty[]', 'Quantity', 'required');
@@ -183,6 +171,49 @@ class Purchase extends CI_Controller {
 			   $res= $this->Purchase_model->createPurchase($data);
 			   if($res){
 				response($res,'purchased/seed-list',"Data Inserted Successfully");
+			   }
+			   else{
+				response($res,'purchased/seed-list',"Something went Wrong");
+			   }
+			  
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+       
+    }
+	public function seedPurchaseEdit($id){
+		try{
+		
+			$data['suppliers']=$this->Common_model->getAll('suppliers');
+			$data['products']=$this->Common_model->getAll('crops');
+			$data['purchase']=$this->Purchase_model->getSeedPurchase($id);
+			$data['id']=$id;
+		    $this->load->view('layout/parts',['page'=>"pages/purchase/edit-fasal","data"=>$data]);
+	    } catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+	   }	
+	}
+	public function purchaseSeedUpdate(){
+		try {
+			$id=$this->input->post('id');
+			$this->form_validation->set_rules('qty[]', 'Quantity', 'required');
+			$this->form_validation->set_rules('quality', 'Quality', 'required');
+			$this->form_validation->set_rules('product[]', 'Product ', 'required');
+			$this->form_validation->set_rules('rate[]', 'Rate ', 'required');
+			$this->form_validation->set_rules('supplier', 'Supplier ', 'required');
+			$this->form_validation->set_rules('pdate', 'Date ', 'required');
+			$this->form_validation->set_rules('charges', 'Charges ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->seedPurchaseEdit($id);
+			}
+			 else {
+				$data = $this->input->post(NULL, TRUE);
+			   $res= $this->Purchase_model->purchaseSeedUpdate($id,$data);
+			   if($res){
+				response($res,'purchased/seed-list',"Data Updated Successfully");
 			   }
 			   else{
 				response($res,'purchased/seed-list',"Something went Wrong");
