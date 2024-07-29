@@ -152,6 +152,14 @@ class Supplier extends CI_Controller {
             show_error('An unexpected error occurred. Please try again later.');
         }
     }
-
+	public function supplierEdit($id){
+		try {
+			$data=$this->Supplier_model->getSupplierrById($id);
+			$this->load->view('layout/parts',['page'=>"pages/supplier/edit",'data'=>$data]);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
+	}
 	
 }

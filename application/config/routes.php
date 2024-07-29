@@ -43,6 +43,7 @@ $route['customer-detail/(:num)']="customer/customerDetailList/$1";
 $route['customer/customerDetailListing/(:num)']="customer/customerDetailListing/$1";
 //supplier
 $route['fetch-suppliers']="Supplier/fetchAll";
+$route['supplier/edit/(:num)']="Supplier/supplierEdit/$1";
 $route['supplier/ledger/(:num)']='Supplier/supplierLedger/$1';
 $route['supplier/ledger/list/(:num)']="Supplier/supplierLedgerList/$1";
 $route['createAlgo']="Stock/createAlgo";

@@ -390,6 +390,10 @@ class Supplier_model extends CI_Model {
       $this->db->join('supplier_detail sd', 's.id = sd.sid');
       $products = $this->db->get()->result();
       return $products;
-}
+    }
+    public function getSupplierrById($id) {
+        $supplier = $this->db->get_where('suppliers', ['id' => $id])->row();
+        return $supplier;
+    }
 }
    
