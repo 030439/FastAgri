@@ -330,16 +330,16 @@ class Jamandar_model extends CI_Model {
     }
     public  function jamandariAmount($id){
         $this->db->select('jamandari');
-        $query = $this->db->get('jamandars');
-        $this->db->where('id', $id);
-        $result=$query->result();
+        $this->db->from(' jamandars');
+       $this->db->where('id', $id);
+        $result=$this->db->get()->result();
         return $result[0]->jamandari;
     }
     public  function getJamandarById($id){
-        $this->db->select('*');
-        $query = $this->db->get('jamandars');
-        $this->db->where('id', $id);
-        $result=$query->result();
+        $this->db->select(' *');
+        $this->db->from(' jamandars');
+        $this->db->WHERE('id', $id);
+        $result = $this->db->get()->result();
         return $result[0];
     }
     public function getJamandariById($id) {
