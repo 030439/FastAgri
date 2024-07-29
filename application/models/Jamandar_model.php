@@ -327,9 +327,16 @@ class Jamandar_model extends CI_Model {
     public  function jamandariAmount($id){
         $this->db->select('jamandari');
         $query = $this->db->get('jamandars');
-        $this->db->where('id', $jid);
+        $this->db->where('id', $id);
         $result=$query->result();
         return $result[0]->jamandari;
+    }
+    public  function getJamandarById($id){
+        $this->db->select('*');
+        $query = $this->db->get('jamandars');
+        $this->db->where('id', $id);
+        $result=$query->result();
+        return $result[0];
     }
     public function getJamandariById($id) {
         $this->db->select(' jamandartotal.payable');
@@ -340,6 +347,13 @@ class Jamandar_model extends CI_Model {
     }
      public function getIssuedLabour($id) {
         $this->db->select('*');
+        $this->db->from(' issuelabour');
+        $this->db->WHERE('id', $id);
+        $products = $this->db->get()->result();
+        return $products[0];
+    }
+    public function jamandarAmountByIssuedLabourId($id){
+        $this->db->select('total_amount,jamandar');
         $this->db->from(' issuelabour');
         $this->db->WHERE('id', $id);
         $products = $this->db->get()->result();
@@ -419,6 +433,16 @@ class Jamandar_model extends CI_Model {
         
      
     }
+    public function deductJamandarPay($j,$amount){
+        $this->db->select('payable');
+            $this->db->where('jamandar_id', $j);
+            $query = $this->db->get('jamandartotal');
+            $result=$query->result();
+            $last=$result[0]->payable;
+            $amount=$last-$amount;
+            $sql = "UPDATE jamandartotal SET payable = ? WHERE jamandar_id = ?";
+            return $this->db->query($sql, array($amount, $j));
+    }
     public function updateLabourIssue($id,$data){
         $rate=$this->getRate();
         $labor=$data['labour'];
@@ -426,22 +450,30 @@ class Jamandar_model extends CI_Model {
         $rate=$rate[0]->amount;
         $total_amount=$rate*$labor;
         $udate=date("y-m-d h i s");
+        $first=$this->jamandarAmountByIssuedLabourId($id);
+        
+        $first_amount=$first->total_amount;
+        $fjamnadar=$first->jamandar;
+
         $record=[
             'tunnel'=>$data['tunnel'],
             'jamandar'=>$j,
             'lq'=>$labor,
             'rate'=>$rate,
             'total_amount'=>$total_amount,
-            'updated_at'=>$udate
+            'update_at'=>$udate
         ];
         $idate=date("Y-m-d");
         $this->db->trans_start();
+        $this->deductJamandarPay($fjamnadar,$first_amount);
 
         $this->db->where('id', $id);
         $ok=$this->db->update('issuelabour', $record);
+        // if($ok){
+        //     dd($record);
+        // }
 
         if($ok){
-            $insert_id = $this->db->insert_id();
             $expense=[
                 'tunnel_id'=>$data['tunnel'],
                 'expense_type'=>"Labour",
@@ -471,7 +503,7 @@ class Jamandar_model extends CI_Model {
                 $amount+=$jamount;
             }
             $sql = "UPDATE jamandartotal SET payable = ? WHERE jamandar_id = ?";
-            return $this->db->query($sql, array($amount, $j));
+            $this->db->query($sql, array($amount, $j));
         }
 
         $this->db->trans_complete(); // Complete Transaction
@@ -483,7 +515,7 @@ class Jamandar_model extends CI_Model {
        } else {
            // Transaction succeeded
            $this->db->trans_commit(); // Commit changes
-           return $true;
+           return true;
        }
         
      

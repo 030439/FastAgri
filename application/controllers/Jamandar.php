@@ -146,12 +146,17 @@ class Jamandar extends CI_Controller{
     public function add(){
         $this->load->view('layout/parts',['page'=>"pages/human-resource/add-jamandar"]);
     }
+	public function editJamandar($id){
+		$data=$this->Jamandar_model->getJamandarById($id);
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/edit-jamandar",'data'=>$data]);
+	}
     public function save(){
 		try {
 			$this->form_validation->set_rules('name', 'Name ', 'required');
             $this->form_validation->set_rules('cnic', 'CNIC ', 'required');
             $this->form_validation->set_rules('contact', 'Contact ', 'required');
             $this->form_validation->set_rules('address', 'Address ', 'required');
+			$this->form_validation->set_rules('jamandari', 'Jamandari ', 'required');
 			if ($this->form_validation->run() == FALSE) {
                 $this->load->view('layout/parts',['page'=>"pages/human-resource/add-jamandar"]);
 			}
