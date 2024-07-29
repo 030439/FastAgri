@@ -195,6 +195,10 @@ class Employee_model extends CI_Model {
         $customer = $this->db->get_where('customers', ['id' => $id])->row();
         return $customer;
     }
+    public function getEmployeeById($id) {
+        $customer = $this->db->get_where('employees', ['id' => $id])->row();
+        return $customer;
+    }
     public function updateLoan($eid,$pay){
         $employee = $this->db->get_where('loans', ['employee_id' => $eid])->row();
         $loan=$employee->loan;
@@ -387,6 +391,21 @@ class Employee_model extends CI_Model {
     public function updatecustomer($id, $data) {
       $this->db->where('id', $id);
        return  $this->db->update('customers', $data);
+    }
+    public function updateEmployee($id,$data) {
+        $date=date("y-m-d h i s");
+        $data['updated_at']=$date;
+        $this->db->where('id', $id);
+        $ok=$this->db->update('employees', $data);
+        if($ok){
+            $loan=[
+                'employee_id'=>$id,
+                'category' =>$data['employee_cat_id'],
+            ];
+            $loan['updated_at']=$date;
+            $this->db->where('employee_id', $id);
+           return $this->db->update('loans', $loan);
+        }
     }
 
     public function deletecustomer($id) {

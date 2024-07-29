@@ -148,7 +148,7 @@ class Employee extends CI_Controller {
 	}
 	public function employeEdit($id){
 		try{
-			$data['employee']=$this->Employee_model->getEmployeePayById($id);
+			$data['employee']=$this->Employee_model->getEmployeeById($id);
 			$data['designation']=$this->Common_model->getAll('designations');
 			$data['category']=$this->Common_model->getAll('employeecategory');
 			$this->load->view('layout/parts',['page'=>"pages/human-resource/edit-employee",'data'=>$data]);
@@ -157,6 +157,40 @@ class Employee extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 	   }
 	}
+	public function updateEmployee(){
+		
+		try {
+			$id=$this->input->post('id');
+			$this->form_validation->set_rules('Name', 'Name ', 'required');
+			$this->form_validation->set_rules('FatherName', 'Father Name ', 'required');
+			$this->form_validation->set_rules('Nic', 'CNIC ', 'required');
+			$this->form_validation->set_rules('Address', 'Address ', 'required');
+			$this->form_validation->set_rules('ContactNo', 'Contact ', 'required');
+			$this->form_validation->set_rules('employee_cat_id', 'Category ', 'required');
+			$this->form_validation->set_rules('designation_id', 'Designation ', 'required');
+			$this->form_validation->set_rules('BasicSalary', 'Basic Salary ', 'required');
+			$this->form_validation->set_rules('Allowances', 'Allowance ', 'required');
+			$this->form_validation->set_rules('Medical', 'Medical ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->employeEdit($id);
+			}
+			 else {
+				$data = $this->input->post(NULL, TRUE);
+			   $res= $this->Employee_model->updateEmployee($id,$data);
+			   if($res){
+				response($res,'employees',"Data Updated Successfully");
+			   }
+			   else{
+				response($res,'employees',"Something went Wrong");
+			   }
+			  
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+       
+    }
 	public function employeeAdvanceAdd(){
 		$data = $this->input->post(NULL, TRUE);
 		try {
