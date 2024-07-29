@@ -124,6 +124,8 @@ $route['labour-rate']='hr/labourRate';
 $route['add-rate']='hr/updateRate';
 $route['labour-issue']='hr/labourIssue';
 $route['issued-labour-list']='hr/labourList';
+$route['issued-labour-edit/(:num)']="hr/issuedLabourEdit/$1";
+$route['update-labour-issue']="hr/updateLabourIssue";
 $route['issued-labour-listing']="hr/issuedLabourListing";
 //Production 
 $route['tunnelProduct']="tunnels/tunnelProduct";

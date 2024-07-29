@@ -45,7 +45,13 @@ class Hr extends CI_Controller {
 		
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/add-employee"]);
 	}
-	
+	public function issuedLabourEdit($id)
+	{  
+		$data['labour']=$this->Jamandar_model->getIssuedLabour($id);
+		$data['jamandars']=$this->Common_model->getAll('jamandars');
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour-edit",'data'=>$data]);
+	}
 	public function issuelabour()
 	{  
 		// $data = $this->input->post(NULL, TRUE);
@@ -85,7 +91,8 @@ class Hr extends CI_Controller {
         }
 	}
 	public function labourList(){
-		$data=$this->Jamandar_model->labourList();$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour-list",'data'=>$data]);
+		$data=$this->Jamandar_model->labourList();
+		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour-list",'data'=>$data]);
 		
 	}
 	public function Advance()

@@ -20,6 +20,14 @@ $('#user-list').DataTable({
                   { "data": "rate" },
                   { "data": "total_amount" },
                   { "data": "create_at" },
+                  { // Actions column
+                     "data": "issue_stock_id",
+                        "render": function(data, type, row) {
+                            
+                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="issued-labour-edit/'+data+'"><span>Edit</span></div>';
+                        }
+                                      
+                  }
               ],
               "footerCallback": function (row, data, start, end, display) {
                     var api = this.api();

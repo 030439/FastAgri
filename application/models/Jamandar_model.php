@@ -337,6 +337,13 @@ class Jamandar_model extends CI_Model {
         $products = $this->db->get()->result();
         return $products[0]->payable;
     }
+     public function getIssuedLabour($id) {
+        $this->db->select('*');
+        $this->db->from(' issuelabour');
+        $this->db->WHERE('id', $id);
+        $products = $this->db->get()->result();
+        return $products[0];
+    }
     public function addJamandari($data){
 
         $this->db->insert('jamandari', $data);

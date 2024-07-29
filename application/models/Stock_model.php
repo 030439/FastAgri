@@ -398,12 +398,13 @@ class Stock_model extends CI_Model {
 
     public function updateloadForSale($sid,$data){
         $exe=false;
+        $date=date("y-m-d h i s");
         $sell=[
             'customer' => $data['customer'],
             'driver' => $data['driver'],
             'dno' => $data['dnumber'],
             'vno' => $data['vno'],
-            // 'freight' => $data['frieght'],
+            'updated_at' => $date,
             'selldate' => $data['rdate'],
         ];
         $this->db->trans_start();
