@@ -52,6 +52,21 @@ class Hr extends CI_Controller {
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour-edit",'data'=>$data]);
 	}
+	public function updateLabourIssue(){
+		$id=$this->input->post('id');
+		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
+		$this->form_validation->set_rules('jamandar', 'jamandar', 'required');
+		$this->form_validation->set_rules('labour', 'labour', 'required');
+        if ($this->form_validation->run() == FALSE) {
+			$this->issuedLabourEdit($id);
+        } else {
+            // XSS cleaning for input data
+            $data = $this->input->post(NULL, TRUE);
+            $data = ($data);
+            $res=$this->Jamandar_model->updateLabourIssue($id,$data);
+			response($res,'issued-labour-list' ,"Data Update Successfully");
+        }
+	}
 	public function issuelabour()
 	{  
 		// $data = $this->input->post(NULL, TRUE);
