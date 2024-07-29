@@ -133,10 +133,29 @@ class Customer extends CI_Controller {
 	public function customerEdit($id){
 		try {
 			$data=$this->Customer_model->getcustomerById($id);
-			$this->load->view('layout/parts',['page'=>"pages/customer/edit",'data'=>$data,'id'=>$id]);
+			$this->load->view('layout/parts',['page'=>"pages/customer/edit",'data'=>$data]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
+	public function updateCustomer() {
+		$id=$this->input->post('id');
+        $this->form_validation->set_rules('Name', 'Name', 'required');
+        $this->form_validation->set_rules('contact', 'Phone', 'required');
+        $this->form_validation->set_rules('address', 'Address', 'required');
+        $this->form_validation->set_rules('company', 'Company ', 'required');
+        $this->form_validation->set_rules('cnic', 'CNIC', 'required');
+        if ($this->form_validation->run() == FALSE) {
+			
+			$this->customerEdit($id);
+        }
+		 else {
+            // XSS cleaning for input data
+            $data = $this->input->post(NULL, TRUE);
+		
+           $res= $this->Customer_model->updatecustomer($id,$data);
+		   $this->response($res,'customer',"Data Updated Successfully");
+        }
+    }
 }

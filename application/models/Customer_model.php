@@ -214,6 +214,8 @@ NULL AS freight,
     }
 
     public function updatecustomer($id, $data) {
+    $date=date("y-m-d h i s");
+    $data['updated_at']=$date;
       $this->db->where('id', $id);
        return  $this->db->update('customers', $data);
     }

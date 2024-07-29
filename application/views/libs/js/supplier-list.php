@@ -38,7 +38,8 @@ $('#user-list').DataTable({
                             
                             return '<div style="display:flex">'+
                                       '<a class="dropdown-menu-item" style="background-color:#16ced4; margin:0px 2px" href="supplier/'+data+'"><span>Detail</span></a>'+
-                                      '<a class="dropdown-menu-item" style="background-color:#18c173" href="supplier/ledger/'+data+'"><span>Ledger</span></a></div>';
+                                      '<a class="dropdown-menu-item" style="background-color:#18c173" href="supplier/ledger/'+data+'"><span>Ledger</span></a>'+
+                                      '<a class="dropdown-menu-item" style="background-color:#f5bc11;margin:0px 2px" href="supplier/edit/'+data+'"><span>Edit</span></a></div>';
                         }
                                       
                   }
