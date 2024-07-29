@@ -21,6 +21,10 @@ class Jamandar_model extends CI_Model {
         }
         return false;
     }
+    public function updateJamandar($id,$data) {
+        $this->db->where('id', $id);
+        return $this->db->update('jamandars', $data);
+    }
     public function getAll(){
         $query = $this->db->query("
         SELECT 

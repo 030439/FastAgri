@@ -150,6 +150,35 @@ class Jamandar extends CI_Controller{
 		$data=$this->Jamandar_model->getJamandarById($id);
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/edit-jamandar",'data'=>$data]);
 	}
+	public function updateJamandar(){
+		try {
+			$id=$this->input->post('id');
+			$this->form_validation->set_rules('name', 'Name ', 'required');
+            $this->form_validation->set_rules('cnic', 'CNIC ', 'required');
+            $this->form_validation->set_rules('contact', 'Contact ', 'required');
+            $this->form_validation->set_rules('address', 'Address ', 'required');
+			$this->form_validation->set_rules('jamandari', 'Jamandari ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+                $this->editJamandar($id);
+			}
+			 else {
+				$data = $this->input->post(NULL, TRUE);
+			   $res= $this->Jamandar_model->updateJamandar($id,$data);
+			   if($res){
+				response($res,'jamandars',"Data Updated Successfully");
+			   }
+			   else{
+              
+				response($res,'jamandars',"Something went Wrong");
+			   }
+			  
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+       
+    }
     public function save(){
 		try {
 			$this->form_validation->set_rules('name', 'Name ', 'required');

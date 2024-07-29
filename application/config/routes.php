@@ -113,6 +113,7 @@ $route['add-jamandar']='Jamandar/add';
 $route['save-jamandar']='Jamandar/save';
 $route['jamandar-detail/(:num)']="Jamandar/detail/$1";
 $route['jamandar-edit/(:num)']="Jamandar/editJamandar/$1";
+$route['update-jamandar']="Jamandar/updateJamandar";
 $route['jamandars/Advance']="Jamandar/Advance";
 $route['jamandars-loan-listing']="Jamandar/jamandarsLoanListing";
 $route['jamandar-advance-add']="Jamandar/jamandarAdvanceAdd";
