@@ -35,7 +35,7 @@
                      "data": "id",
                         "render": function(data, type, row) {
                             
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="purchase/edit/'+data+'"><span>Edit</span></div>';
+                            return '<div style="display:flex"><a class="btn-edit" href="purchase/edit/'+data+'"><span>Edit</span></div>';
                         }
                                       
                   }

@@ -15,7 +15,7 @@
             <div class="grid grid-cols-12 gap-x-5  pb-0.5">
                 <div class="lg:col-span-5 md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search relative maxSm:mb-4">
-                        <input id="tunnel-expense-id" type="hidden" value="<?php echo $data['profits'][0]['tid']?>">
+                        <input id="tunnel-expense-id" type="hidden" value="<?php if($data['profits']){echo $data['profits'][0]['tid'];}?>">
                     </div>
                 </div>
             </div>

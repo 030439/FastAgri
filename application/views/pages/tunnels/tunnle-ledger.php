@@ -1,7 +1,7 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 ">
         <div class="cashier-transection-selectors flex items-center justify-between  maxSm:block">
-            <h4 class="text-[20px] text-heading  font-bold"><?php echo tunnelName_($id)?>: Expenses</h4>
+            <h4 class="text-[20px] text-heading  font-bold"><?php echo tunnelName_($id)?>: Ledger</h4>
             <div style="float:right">
                 <label for="start-date">Start Date:</label>
                 <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
@@ -27,7 +27,6 @@
                 </div>
             </div>
         </div>
-
         <div class="cashier-salereturns-table-area">
             <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
                 <thead>

@@ -19,19 +19,6 @@ $('#user-list').DataTable({
             { "data": "CoveredArea" },
             { "data": "cDate" },
             { 
-                "data": "id",
-                "render": function(data, type, row) {
-                    
-                    return '<button style="background-color:#ec6f16;padding:3px 5px;color:#fff" onclick="handleButtonClick(\'' + data + '\')" class="btn btn-primary">Expense</button> ';
-                }
-            },
-            { 
-                "data": "id",
-                "render": function(data, type, row) {
-                    return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" onclick="profitButtonClick(\'' + data + '\')" class="btn btn-primary">Profit</button> ';
-                }
-            },
-            { 
                 "data": "status",
                 "render": function(data, type, row) {
                     if(row.status==1){
@@ -41,15 +28,13 @@ $('#user-list').DataTable({
                         statusName="Close";
                         color_="#FFC403";
                     }
-                    return '<button style="background-color:'+color_+';padding:3px 5px;color:#fff" onclick="statusButtonClick(\'' + row.id + '\')" class="btn btn-primary">'+statusName+'</button> ';
+                    return '<button style="background-color:#ec6f16;padding:3px 5px;color:#fff;margin:0px 3px" onclick="handleButtonClick(\'' + data + '\')" class="btn btn-primary">Expense</button>'+
+                    '<button style="background-color:#86af49;padding:3px 5px;color:#fff; margin:0px 3px" onclick="profitButtonClick(\'' + data + '\')" class="btn btn-primary">Profit</button>'+
+                    '<button style="background-color:'+color_+';padding:3px 5px;color:#fff; margin:0px 3px" onclick="statusButtonClick(\'' + row.id + '\')" class="btn btn-primary">'+statusName+'</button>'+
+                    '<button  onclick="editButtonClick(\'' + data + '\')" class="btn btn-primary btn-edit">Edit</button>'+
+                    '<button  onclick="ledgerButtonClick(\'' + row.id + '\')" class="btn btn-primary btn-ledger">Ledger</button> ';
                 }
-            },
-            { 
-                "data": "id",
-                "render": function(data, type, row) {
-                    return '<button style="background-color:#FF9720;padding:3px 5px;color:#fff" onclick="ledgerButtonClick(\'' + data + '\')" class="btn btn-primary">Ledger</button> ';
-                }
-            },  
+            }, 
             ]
       });
         function handleButtonClick(id) {
