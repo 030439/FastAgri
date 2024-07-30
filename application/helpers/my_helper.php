@@ -135,12 +135,14 @@ if (!function_exists('getIssueProQty')) {
         WHERE i.tunnel_id = ? AND i.pid = ? ", array($tid,$pid));
 
         // Fetch the result as an associative array
-        $result = $query->row_array();
+        $result = $query->result_array();
+        $result=$result[0];
         if(!empty($result['product_id'])){
             $product_ids = explode(',', $result['product_id']);
+            $rates = explode(',', $result['rate']);
             foreach ($product_ids as $index => $product_id) {
                 if($pid==$product_id){
-                    $result['price']=$product_id[$index]['fu_price'];
+                    $result['price']=$rates[$index];
                 }
             }
         }

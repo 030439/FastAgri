@@ -1,7 +1,7 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-salereturns-area bg-white p-7 custom-shadow rounded-lg pt-5 ">
         <div class="cashier-transection-selectors flex items-center justify-between  maxSm:block mb-5">
-            <h4 class="text-[20px] text-heading  font-bold"><?php if($data['expenses']): echo $data['expenses']['0']->tunnel; endif;?> : Expenses</h4>
+            <h4 class="text-[20px] text-heading  font-bold"><?php  echo tunnelName_($id);?> : Expenses</h4>
             <div style="float:right">
                 <label for="start-date">Start Date:</label>
                 <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
@@ -22,7 +22,7 @@
             <div class="grid grid-cols-12 gap-x-5  pb-0.5">
                 <div class="lg:col-span-5 md:col-span-6 col-span-12">
                     <div class="cashier-table-header-search relative maxSm:mb-4">
-                        <input id="tunnel-expense-id" type="hidden" value="<?php if($data['expenses']){echo $data['expenses'][0]->tid;}?>">
+                        <input id="tunnel-expense-id" type="hidden" value="<?php echo $id;?>">
                     </div>
                 </div>
                 <!-- <div class="lg:col-span-7 md:col-span-6 col-span-12">

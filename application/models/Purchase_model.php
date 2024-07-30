@@ -136,6 +136,7 @@ function getPurchaseList($startDate, $endDate,$draw, $start, $length, $search){
         }
         
         // Apply limit and offset for pagination
+        $this->db->order_by('purchasesdetail.id', 'desc');
         $this->db->limit($length, $start);
         $query = $this->db->get();
         $results = $query->result_array();

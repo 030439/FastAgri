@@ -107,7 +107,7 @@ class Tunnels extends CI_Controller{
     }
     public function tunnleExpense($id){
          $data['expenses']=$this->Tunnel_model->getunnelsExpense($id);
-        $this->load->view('layout/parts',['page'=>"pages/tunnels/expense",'data'=>$data]);
+        $this->load->view('layout/parts',['page'=>"pages/tunnels/expense",'data'=>$data,'id'=>$id]);
     }
 
     public function individualExpense($id){
@@ -179,7 +179,7 @@ class Tunnels extends CI_Controller{
     }
     public function tunnleProfit($id){
         $data['profits']=$this->Tunnel_model->tunnleProfit($id);
-        $this->load->view('layout/parts',['page'=>"pages/tunnels/profits",'data'=>$data]);
+        $this->load->view('layout/parts',['page'=>"pages/tunnels/profits",'data'=>$data,'id'=>$id]);
     }
     public function tunnelProduct(){
         try{

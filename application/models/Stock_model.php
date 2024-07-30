@@ -806,7 +806,7 @@ class Stock_model extends CI_Model {
             $this->db->where('i.i_dat BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
         }
         // Apply pagination and ordering
-        $this->db->order_by('i.id', 'ASC');
+        $this->db->order_by('i.id', 'DESC');
         $this->db->limit($length, $start);
         $query = $this->db->get();
         $result = $query->result_array();
