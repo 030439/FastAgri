@@ -23,26 +23,20 @@ $('#user-list').DataTable({
                   { 
                         "data": "status",
                         "render": function(data, type, row) {
-                            console.log(data);
-                            if(data==1){
+                            if(row.status==1){
                                 statusName="Active";
+                                color_="#27DB8D";
                             }else{
                                 statusName="Close";
+                                color_="#FFC403";
                             }
-                            return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">'+statusName+'</button> ';
+
+                            return '<a href="supplier/'+row.id+'" class="btn-design btn-exp">Detail</a>'+
+                            '<a style="background-color:'+color_+';" class="btn-design">'+statusName+'</a>'+
+                            '<a  href="supplier/edit/'+row.id+'" class="btn-design btn-edit">Edit</a>'+
+                            '<a  href="supplier/ledger/'+row.id+'" class="btn-design btn-ledger">Ledger</a> ';
                         }
                     }, 
-                  { // Actions column
-                     "data": "id",
-                        "render": function(data, type, row) {
-                            
-                            return '<div style="display:flex">'+
-                                      '<a class="dropdown-menu-item" style="background-color:#16ced4; margin:0px 2px" href="supplier/'+data+'"><span>Detail</span></a>'+
-                                      '<a class="dropdown-menu-item" style="background-color:#18c173" href="supplier/ledger/'+data+'"><span>Ledger</span></a>'+
-                                      '<a class="dropdown-menu-item" style="background-color:#f5bc11;margin:0px 2px" href="supplier/edit/'+data+'"><span>Edit</span></a></div>';
-                        }
-                                      
-                  }
                   
               ]
       });

@@ -49,8 +49,7 @@
                             <th>Address</th>
                             <th>Phone</th>
                             <th>Basic Salary</th>
-                            <!-- <th>Status</th>
-                            <th>Action</th> -->
+                            <th>Ledger | Edit</th>
                         </tr>
                     </thead>
                 </table>

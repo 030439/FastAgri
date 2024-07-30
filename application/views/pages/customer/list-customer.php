@@ -19,8 +19,7 @@
                             <th>Contact No</th>
                             <th>CNIC</th>
                             <th>Address</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Detail | Status | Edit | Ledger</th>
                         </tr>
                     </thead>
                 </table> 

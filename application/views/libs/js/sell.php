@@ -37,11 +37,10 @@ var table =$('#user-list').DataTable({
                      "data": "sid",
                     
                         "render": function(data, type, row) {
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="sell-detail/'+data+'"><span>Detail</span></a>'+
-                                      '<a class="dropdown-menu-item detail" href="sell-gate-pass/'+data+'"><span>Get Pass</span></a>'+
-                                      '<a class="dropdown-menu-item detail" href="sell-bill-detail/'+data+'"><span>Bill</span></a>'+
-                                      '<a class="dropdown-menu-item" style="background-color:#00bcd4" href="sell-edit-detail/'+data+'"><span>Edit</span></a>'+
-                                      '</div>';
+                            return '<a  href="sell-gate-pass/'+data+'" class="btn-design btn-exp">GP</a>'+
+                            '<a href="sell-bill-detail/'+data+'" class="btn-design btn-detail">Bill</a>'+
+                            '<a  href="sell-edit-detail/'+data+'" class="btn-design btn-edit">Edit</a>'+
+                            '<a  href="sell-detail/'+data+'" class="btn-design btn-ledger">Ledger</a> ';
                         }
                                       
                   }

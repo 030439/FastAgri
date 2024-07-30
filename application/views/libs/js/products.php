@@ -21,15 +21,8 @@ $('#user-list').DataTable({
                      "data": "id",
                         "render": function(data, type, row) {
                             
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="products/ledger/'+data+'"><span>Ledger</span></div>';
-                        }
-                                      
-                  },
-                  { // Actions column
-                     "data": "id",
-                        "render": function(data, type, row) {
-                            
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="stock/editProduct/'+data+'"><span>Edit</span></div>';
+                            return '<div style="display:flex"><a class="btn-design btn-ledger" href="products/ledger/'+data+'"><span>Ledger</span></a>'+
+                            '<a class="btn-design btn-edit" href="stock/editProduct/'+data+'"><span>Edit</span></a></div>';
                         }
                                       
                   }

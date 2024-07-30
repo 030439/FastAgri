@@ -51,8 +51,8 @@
                             <th>Labour</th>
                             <th>Freight</th>
                             <th>Commission</th>
-                            <th>Net Amount</th>
-                            <th>Action</th>
+                            <th>Net-Amount</th>
+                            <th>GPASS|Bill|Edit|Detail</th>
                             </tr>
                         </thead>
                         <tfoot>

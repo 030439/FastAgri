@@ -17,6 +17,7 @@ class Cashbook_model extends CI_Model {
         $cash = $this->db->get()->result_array();
         $debit=0;
         $credit=0;
+        $balance=0;
         foreach($cash as $c=>$d){
             $balance=$d['famount'];
             if($d['cash_s']=="cash-in"){
@@ -143,6 +144,9 @@ class Cashbook_model extends CI_Model {
         $cash[0]['cashIn'] = $debit;
     
         // Prepare the final output
+        if($$cash[0]['fb']==0){
+            $cash=[];
+        }
         $response = array(
             "draw" => intval($draw),
             "recordsTotal" => intval($totalRecords),

@@ -27,19 +27,11 @@
                   { // Actions column
                      "data": "id",
                         "render": function(data, type, row) {
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="purchase/detail/'+data+'"><span>Detail</span></a></div>';
-                        }
-                                      
-                  },
-                  { // Actions column
-                     "data": "id",
-                        "render": function(data, type, row) {
-                            
-                            return '<div style="display:flex"><a class="btn-edit" href="purchase/edit/'+data+'"><span>Edit</span></div>';
+                            return '<div style="display:flex"><a class="btn-design btn-detail" href="purchase/detail/'+data+'"><span>Detail</span></a>'+
+                            '<a class="btn-design btn-edit" href="purchase/edit/'+data+'"><span>Edit</span></a></div>';
                         }
                                       
                   }
-                  
               ],
               "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api();

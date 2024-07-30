@@ -192,7 +192,7 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
             $individual_records[] = array(
                 'purchase_detail_id' => $row['purchase_detail_id'],
                 'product_id' => $product_id,
-                'product_name' => $row['product_name'],
+                'product_name' => productName_($product_id),
                 'purchased_quantity' => $purchased_quantities[$index],
                 'purchase_product_id' => $row['purchase_product_id'],
                 'RemainingQuantity' => $row['RemainingQuantity'],

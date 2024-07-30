@@ -30,18 +30,22 @@
         background-color:#057C89;
         color:#fff;
     }
-    .btn-edit{
-        background-color:#009688c9;
+    .btn-design{
         padding:3px 5px;
         color:#fff; 
         margin:0px 3px;
         border-radius:5px;
     }
+    .btn-edit{
+        background-color:#009688c9;
+    }
     .btn-ledger{
         background-color:#FF9720;
-        padding:3px 5px;
-        color:#fff;
-         margin:0px 3px;
-         border-radius:5px;
+    }
+    .btn-detail{
+        background-color:#86af49;
+    }
+    .btn-exp{
+        background-color:#ec6f16;
     }
 </style>

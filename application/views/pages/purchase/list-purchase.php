@@ -27,8 +27,7 @@
                             <th>Expense</th>
                             <th>Paid Amount</th>
                             <th>Total Amout</th>
-                            <th>Detail</th>
-                            <th>Edit</th>
+                            <th>Detail | Edit</th>
                         </tr>
                     </thead>
                     <tfoot>

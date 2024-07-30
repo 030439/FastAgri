@@ -22,26 +22,19 @@ $('#user-list').DataTable({
                   { 
                         "data": "status",
                         "render": function(data, type, row) {
-                            console.log(data);
-                            if(data==1){
+                            if(row.status==1){
                                 statusName="Active";
+                                color_="#27DB8D";
                             }else{
                                 statusName="Close";
+                                color_="#FFC403";
                             }
-                            return '<button style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">'+statusName+'</button> ';
+                            return '<a href="customer/detail/'+row.id+'" class="btn-design btn-exp">Detail</a>'+
+                            '<a style="background-color:'+color_+';" class="btn-design">'+statusName+'</a>'+
+                            '<a  href="customer/edit/'+row.id+'" class="btn-design btn-edit">Edit</a>'+
+                            '<a  href="customer/ledger/'+row.id+'" class="btn-design btn-ledger">Ledger</a> ';
                         }
-                    }, 
-                  { // Actions column
-                     "data": "id",
-                        "render": function(data, type, row) {
-                            
-                            return '<div style="display:flex"><a class="dropdown-menu-item edit" href="customer/ledger/'+data+'"><span>Ledger</span></a>'+
-                                      '<a class="dropdown-menu-item detail" href="customer/detail/'+data+'"><span>Detail</span></a>'+
-                                      '<a style="background-color:#00bcd4cf;padding:3px 5px;color:#fff" class="dropdown-menu-item  " href="customer/edit/'+data+'"><span>Edit</span></a>'+
-                                      '</div>';
-                        }
-                                      
-                  }
+                    }
                   
               ]
       });

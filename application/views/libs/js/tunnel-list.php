@@ -28,11 +28,11 @@ $('#user-list').DataTable({
                         statusName="Close";
                         color_="#FFC403";
                     }
-                    return '<button style="background-color:#ec6f16;padding:3px 5px;color:#fff;margin:0px 3px" onclick="handleButtonClick(\'' + data + '\')" class="btn btn-primary">Expense</button>'+
-                    '<button style="background-color:#86af49;padding:3px 5px;color:#fff; margin:0px 3px" onclick="profitButtonClick(\'' + data + '\')" class="btn btn-primary">Profit</button>'+
+                    return '<button  onclick="handleButtonClick(\'' + data + '\')" class="btn-design btn-exp">Expense</button>'+
+                    '<button  onclick="profitButtonClick(\'' + data + '\')" class="btn-design btn-detail">Profit</button>'+
                     '<button style="background-color:'+color_+';padding:3px 5px;color:#fff; margin:0px 3px" onclick="statusButtonClick(\'' + row.id + '\')" class="btn btn-primary">'+statusName+'</button>'+
-                    '<button  onclick="editButtonClick(\'' + data + '\')" class="btn btn-primary btn-edit">Edit</button>'+
-                    '<button  onclick="ledgerButtonClick(\'' + row.id + '\')" class="btn btn-primary btn-ledger">Ledger</button> ';
+                    '<button  onclick="editButtonClick(\'' + data + '\')" class="btn-design btn-edit">Edit</button>'+
+                    '<button  onclick="ledgerButtonClick(\'' + row.id + '\')" class="btn-design btn-ledger">Ledger</button> ';
                 }
             }, 
             ]

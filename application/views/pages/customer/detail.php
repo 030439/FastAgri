@@ -1,6 +1,6 @@
 <div class="cashier-content-area mt-[30px] px-7">
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg">
-        <h4 class="text-[20px] font-bold text-heading ">Customer Name : <?php echo  $data[0]['customer'];?></h4>
+        <h4 class="text-[20px] font-bold text-heading ">Customer Name : <?php echo  customerName($id);?></h4>
             <div style="float:right">
                 <label for="start-date">Start Date:</label>
                 <input type="text" id="start-date" class="datepicker" style="border:2px solid #057C89">
