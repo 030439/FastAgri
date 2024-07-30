@@ -240,71 +240,21 @@ class Tunnel_model extends CI_Model
     $this->db->join('tunnels t', 't.id = e.tunnel_id');
     $this->db->where('t.id', $id);
 
-    // Apply search filter if provided
-    if (!empty($search)) {
-        $this->db->group_start();
-        $this->db->like('e.expense_type', $search);
-        $this->db->or_like('e.amount', $search);
-        $this->db->or_like('e.edate', $search);
-        $this->db->or_like('t.TName', $search);
-        $this->db->group_end();
-    }
-    if (!empty($startDate) && !empty($endDate)) {
-        $this->db->where('e.edate BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
-    }
-
-    // Apply ordering
-    if (!empty($order)) {
-        $column = $order[0]['column'];
-        $dir = $order[0]['dir'];
-        $columns = ['e.id', 'e.expense_type', 'e.amount', 'e.edate', 't.TName'];
-        $this->db->order_by($columns[$column], $dir);
-    } else {
-        $this->db->order_by('e.id', 'ASC');
-    }
-
-    // Apply pagination
-    $this->db->limit($length, $start);
     $query = $this->db->get();
     $res = $query->result_array();
 
     // Process each record for additional data
+    $total=0;
     foreach ($res as $c => $re) {
         if ($re['expense_type'] == "issueStockPurchase") {
             $pq = getIssueProQty($id, $re['pid']);
-            $res[$c]['head'] = productName_($re['pid']);
-            $res[$c]['qty'] = $pq['qty'];
-            $res[$c]['rate'] = $re['amount'];
-            $res[$c]['amount'] = $pq['qty'] * $re['amount'];
-        } elseif ($re['expense_type'] == "Jamandari") {
-            $pq = getIssueProQty($id, $re['pid'], $re['edate']);
-            $res[$c]['head'] = jamandarName($re['pid']);
-            $res[$c]['qty'] = 1;
-            $res[$c]['rate'] = 0;
-        } 
-        elseif($re['expense_type'] == "EXP"){
-            $res[$c]['head']   = $this->accountHeadName($re['pid']);
-            $res[$c]['qty']    = 0;
-            $res[$c]['rate']   = 0;
+           $total+= $pq['qty'] * $re['amount'];
         }
-        elseif($re['expense_type'] == "EMP"){
-            $res[$c]['head']   = employeeName_($re['pid']);
-            $res[$c]['qty']    = 0;
-            $res[$c]['rate']   = 0;
-        }
-        elseif($re['expense_type'] == "ADV"){
-            $res[$c]['head']   = employeeName_($re['pid']);
-            $res[$c]['qty']    = 0;
-            $res[$c]['rate']   = 0;
-        }
-        else {
-            $lb = getLabourQty($id, $re['eid']);
-            $res[$c]['head'] = $lb['jname'];
-            $res[$c]['qty'] = $lb['qty'];
-            $res[$c]['rate'] = $lb['rate'];
+        else{
+            $total+=$re['amount'];
         }
     }
-
+    return $total;
     }
     function tunnelExpenses($id){
         $query = $this->db->query("
@@ -522,25 +472,21 @@ class Tunnel_model extends CI_Model
                 $res[$c]->amount = $pq['qty']*$re->amount;
             }
             elseif($re->expense_type == "Jamandari"){
-                $pq=getIssueProQty($id, $re->pid, $re->edate);
                 $res[$c]->head   = jamandarName($re->pid);
                 $res[$c]->qty    = 1;
                 $res[$c]->rate   = 0;
             }
             elseif($re->expense_type == "EXP"){
-                $pq=getIssueProQty($id, $re->pid, $re->edate);
                 $res[$c]->head   = $this->accountHeadName($re->pid);
                 $res[$c]->qty    = 0;
                 $res[$c]->rate   = 0;
             }
             elseif($re->expense_type == "EMP"){
-                $pq=getIssueProQty($id, $re->pid, $re->edate);
                 $res[$c]->head   = employeeName_($re->pid);
                 $res[$c]->qty    = 0;
                 $res[$c]->rate   = 0;
             }
             elseif($re->expense_type == "ADV"){
-                $pq=getIssueProQty($id, $re->pid, $re->edate);
                 $res[$c]->head   = employeeName_($re->pid);
                 $res[$c]->qty    = 0;
                 $res[$c]->rate   = 0;
