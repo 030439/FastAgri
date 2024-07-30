@@ -37,7 +37,7 @@
                     <thead>
                         <tr>
                             <th>Date-Time</th>
-                            <th>Tunnel</th>
+                            <th>Tunnel/Jamandari</th>
                             <th>Labour Quantity</th>
                             <th>Rate</th>
                             <th>Credit</th>

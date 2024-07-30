@@ -129,12 +129,14 @@ class Jamandar_model extends CI_Model {
                 lq,
                 jamander,
                 TName,
+                jamandari,
+                jdate,
                 pay_id,
                type,
                amount_,
                  cdate,
                 @running_balance := @running_balance +(
-                    IFNULL(total_amount, 0) - IFNULL(amount_, 0)
+                    IFNULL(total_amount, 0) - IFNULL(amount_, 0)+  IFNULL(jamandari, 0)
                 ) AS running_balance
             FROM
                 (
@@ -146,6 +148,8 @@ class Jamandar_model extends CI_Model {
                     i.`lq`,
                     j.`name` AS jamander,
                     t.`TName`,
+                    NULL AS jamandari,
+                    NULL AS jdate,
                     NULL AS pay_id,
                     NULL AS type,
                     NULL AS  amount_,
@@ -159,6 +163,26 @@ class Jamandar_model extends CI_Model {
                     `tunnels` AS t ON i.`tunnel` = t.`id`
                     WHERE j.id=$id
                 UNION ALL
+
+                SELECT
+                    NULL AS issue_stock_id,
+                    NULL AS create_at,
+                    NULL AS total_amount,
+                    NULL AS rate,
+                    NULL AS lq,
+                    NULL AS jamander,
+                    NULL AS TName,
+                    ja.amount as jamandari,
+                    ja.date_ as jdate,
+                    NULL AS pay_id,
+                    NULL AS type,
+                    NULL AS  amount_,
+                    NULL AS  cdate
+
+                FROM 
+                    `jamandari`AS ja
+                    WHERE ja.jid=$id
+                UNION ALL
             SELECT 
                     NULL AS issue_stock_id,
                     NULL AS create_at,
@@ -167,6 +191,8 @@ class Jamandar_model extends CI_Model {
                     NULL AS lq,
                     NULL AS jamander,
                     NULL AS TName,
+                    NULL AS jamandari,
+                    NULL AS jdate,
                     c.id AS pay_id,
                     c.case_sT AS type,
                     c.amount AS amount_,
@@ -188,7 +214,11 @@ class Jamandar_model extends CI_Model {
         foreach($result as $c=>$res){
             if(!empty($res['issue_stock_id'])){
                 $result[$c]['date_']=$res['create_at'];
-            }else{
+            }elseif(empty($res['issue_stock_id']) && !empty($res['jamandari']) ){
+                $result[$c]['date_']=$res['jdate'];
+                $result[$c]['TName']="Jamandari";
+            }
+            else{
                 $result[$c]['date_']=$res['cdate'];
             }
         }
