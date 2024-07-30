@@ -144,7 +144,7 @@ class Cashbook_model extends CI_Model {
         $cash[0]['cashIn'] = $debit;
     
         // Prepare the final output
-        if($$cash[0]['fb']==0){
+        if($cash[0]['fb']==0){
             $cash=[];
         }
         $response = array(

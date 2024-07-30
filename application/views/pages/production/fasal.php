@@ -50,7 +50,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Tunnel</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" style="display: none;" name="tunnel"onchange="productionTunnel(this)" id="production-tunnel">
-                            <option selected="selected" disabled="disabled">Select Supplier</option>
+                            <option selected="selected" disabled="disabled">Select Tunnel</option>
                             <?php if(!empty($data['tunnels'])):foreach($data['tunnels'] as $tunnel):?>
                             <option value="<?php ShowVal($tunnel->id);?>"><?php echo ($tunnel->TName);?></option>
                             <?php endforeach; endif;?>
