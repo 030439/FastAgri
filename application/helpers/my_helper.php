@@ -68,17 +68,16 @@ if (!function_exists('pqrate')) {
         $CI =& get_instance();
         $CI->load->database();
         $stockWithRate = array();
-        $query = $CI->db->query("SELECT * FROM purchasesdetail WHERE id = $pqid");
+        $query = $CI->db->query("SELECT * FROM purchasesdetail WHERE id =$pqid");
         $Arr=[0][0];
-        if ($query && $query->num_rows() > 0) {
-            $result = $query->row_array();
-            $products = explode(",", $result['product_id']);
-            $fprices = explode(",", $result['fu_price']);
+        $result = $query->result_array();
+        if ($result) {
+            $products = explode(",", $result[0]['product_id']);
+            $fprices = explode(",", $result[0]['fu_price']);
             foreach($products as $c=>$p){
+                echo $p;
                 if($p==$pid){
                     return $fprices[$c];
-                }else{
-                    return $Arr;
                 }
             }
             // Do something with $products or $result if needed
