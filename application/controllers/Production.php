@@ -64,8 +64,20 @@ class Production extends CI_Controller {
         $mpdf->Output();
 	}
 	public function stocks(){
-		$data=$this->Stock_model->productionStocks();
-		$this->load->view('layout/parts',['page'=>"pages/production/stock",'data'=>$data]);
+		$this->load->view('layout/parts',['page'=>"pages/production/stock"]);
+	}
+	public function stocksList(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$res=$this->Stock_model->productionStocks($draw,$start, $length,$search);
+			echo jsonOutPut($res);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
 	}
 	public function sell(){
 		$data['tunnels']=$this->Common_model->getAll('tunnels');

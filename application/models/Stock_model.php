@@ -482,21 +482,30 @@ class Stock_model extends CI_Model {
             }
         }
     }
-    public function productionStocks(){
-        $query = $this->db->query("
-        SELECT 
-            ps.`id` AS pid,
-            ps.`ACQ`,
-            ps.`BCQ`,
-            p.`Name` as product
-        FROM 
-        `production_stock` AS ps
-        JOIN 
-        `tunnels` AS t ON t.`id` = ps.`tunnel`
-        JOIN 
-        `products` AS p ON p.`id` = t.`product__id`
-        ");
-        $result = $query->result();
+    public function productionStocks($draw, $start, $length,$search){
+        $totalRecords = $this->db->count_all_results('production_stock');
+        $this->db->select('ps.id AS pid, ps.ACQ ac, ps.BCQ bc, p.Name as product');
+        $this->db->from('production_stock ps');
+        $this->db->join('tunnels t', 'ps.tunnel = t.id', 'left');
+        $this->db->join('products p', 'p.id = t.product__id', 'left');
+        $this->db->limit($length, $start);
+
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('p.Name', $search);
+            $this->db->or_like('ps.ACQ', $search);
+            $this->db->or_like('ps.BCQ', $search);
+            $this->db->group_end();
+        }
+
+        $products = $this->db->get()->result();
+        $result = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data" => $products
+        );
+    
         return $result;
     }
     public function reduceProductionStock($tunnel,$g,$bg){

@@ -141,6 +141,7 @@ $route['update-load-for-sell']="Sell/updateloadForSale";
 $route['sell-detail/(:num)']="Sell/detail/$1";
 $route['sell-edit-detail/(:num)']="Sell/editSell/$1";
 $route['Production-stock']="Production/stocks";
+$route['Production-stock-list']="Production/stocksList";
 $route['sell-gate-pass/(:num)']="Sell/getPass/$1";
 $route['sell-bill-detail/(:num)']="Sell/sellBillDetail/$1";
 $route['bill-detail-invoice']="Sell/billDetailInvoice";
