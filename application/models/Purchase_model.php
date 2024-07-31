@@ -37,10 +37,11 @@ class Purchase_model extends CI_Model
         $rate_ =implode(',', $data['rate']);
         $pdate= $data['pdate'];
         $ex= $data['gt'];
+
         $paid=$data['pa'];
         $sql = 'INSERT INTO `purchasesdetail` (`bno`,`product_id`, `Supplier_id`, `quantity`, `rate`, `fu_price`, `amount`, `paid_amount`,`Date`, `expenses`, `total_amount`) 
         VALUES ("'.$bno.'","'.$pro.'","'.$sup.'", "'.$Q.'", "'.$rate_.'","'.$finaValue.'","'.$total_amount.'","'.$paid.'","'.$pdate.'","'.$c_.'","'.$ex.'")';
-      
+    //   dd($sql);
        $this->db->query($sql);
         $pid =$this->db->insert_id();
         foreach ($data['qty'] as $key => $quantity) {

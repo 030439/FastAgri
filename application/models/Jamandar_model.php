@@ -420,6 +420,7 @@ class Jamandar_model extends CI_Model {
         $rate=$this->getRate();
         $labor=$data['labour'];
         $j=$data['jamandar'];
+        $ldate=$data['ldate'];
         $rate=$rate[0]->amount;
         $total_amount=$rate*$labor;
         $record=[
@@ -427,6 +428,7 @@ class Jamandar_model extends CI_Model {
             'jamandar'=>$j,
             'lq'=>$labor,
             'rate'=>$rate,
+            'ldate'=>$ldate,
             'total_amount'=>$total_amount
         ];
         $idate=date("Y-m-d");
@@ -437,7 +439,7 @@ class Jamandar_model extends CI_Model {
                 'expense_type'=>"Labour",
                 'eid'=>$insert_id,
                 'amount'=>$total_amount,
-                'edate'=>$idate,
+                'edate'=>$ldate,
                 'pid'=>0
             ];
              $this->db->insert('tunnel_expense', $expense);
@@ -453,7 +455,7 @@ class Jamandar_model extends CI_Model {
                 $jarr=[
                     'jid'=>$j,
                     'amount'=>$jamount,
-                    'date_'=>$idate
+                    'date_'=>$ldate
                 ];
                 $this->addJamandari($jarr);
                 $amount+=$jamount;

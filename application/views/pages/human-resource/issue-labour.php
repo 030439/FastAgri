@@ -2,7 +2,7 @@
     <h4 class="text-[20px] font-bold text-heading mb-9">Issue Labour</h4>
     <form action="labour-issue" method="post">
         <div class="grid grid-cols-12 gap-x-5">
-            <div class="lg:col-span-4 md:col-span-6 col-span-12">
+            <div class="lg:col-span-3 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Select Jamadar</h5>
                     <div class="cashier-select-field-style">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="lg:col-span-4 md:col-span-6 col-span-12">
+            <div class="lg:col-span-3 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Select Tunnel </h5>
                     <div class="cashier-select-field-style">
@@ -30,13 +30,24 @@
                     </div>
                 </div>
             </div>
-            <div class="lg:col-span-4 md:col-span-6 col-span-12">
+            <div class="lg:col-span-3 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3"> Enter no of labour</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
                             <input type="number" name="labour" min="1" placeholder="  Enter no of labour">
                             <?php validator('labour')?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-3 md:col-span-6 col-span-12">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3"> Date</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="date" name="ldate">
+                            <?php validator('ldate')?>
                         </div>
                     </div>
                 </div>

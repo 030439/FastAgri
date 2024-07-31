@@ -93,6 +93,7 @@ class Hr extends CI_Controller {
 		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
 		$this->form_validation->set_rules('jamandar', 'jamandar', 'required');
 		$this->form_validation->set_rules('labour', 'labour', 'required');
+		$this->form_validation->set_rules('ldate', 'ldate', 'required');
         if ($this->form_validation->run() == FALSE) {
 			$data['jamandars']=$this->Common_model->getAll('jamandars');
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
