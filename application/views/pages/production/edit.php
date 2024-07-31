@@ -66,7 +66,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Product</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" readonly value="<?= productName_($data['production']->CropId)?>" placeholder=" Product" name="product" id="production-product">
+                            <input type="text" readonly value="<?= productName_(productIdByCrop($data['production']->CropId));?>" placeholder=" Product" name="product" id="production-product">
                         </div>
                     </div>
                 </div>

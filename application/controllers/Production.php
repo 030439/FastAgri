@@ -45,6 +45,7 @@ class Production extends CI_Controller {
 		//$date=date('Y-m-d');
 		//$data['production']=$this->Stock_model->getProduction($date);
 		$data['production']=$this->Stock_model->getProductionById($id);
+
 		$this->load->view('layout/parts',['page'=>"pages/production/edit",'data'=>$data]);
 	}
 	public function dailyProductionReports(){

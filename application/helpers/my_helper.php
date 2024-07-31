@@ -99,6 +99,28 @@ if (!function_exists('productByTunnelName')) {
         return;
     }
 }
+if (!function_exists('CropName_')) {
+    function productIdByCrop($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query
+        $query = $CI->db->query("SELECT pid as crop FROM crops WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['crop'];
+        } else {
+            return 0;
+        }
+        return;
+    }
+
+}
 if (!function_exists('productName_')) {
     function productName_($id)
     {
