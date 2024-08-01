@@ -27,6 +27,10 @@ class Hr extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 	   }
 	}
+	public function getLabourRate(){
+		$data=$this->Jamandar_model->getRate();
+		echo $data['0']->amount;
+	}
 	public function updateRate(){
 		$this->form_validation->set_rules('rate', 'rate', 'required');
         if ($this->form_validation->run() == FALSE) {
@@ -57,6 +61,7 @@ class Hr extends CI_Controller {
 		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
 		$this->form_validation->set_rules('jamandar', 'jamandar', 'required');
 		$this->form_validation->set_rules('labour', 'labour', 'required');
+		$this->form_validation->set_rules('deduction', 'deduction', 'required');
         if ($this->form_validation->run() == FALSE) {
 			$this->issuedLabourEdit($id);
         } else {
@@ -94,6 +99,7 @@ class Hr extends CI_Controller {
 		$this->form_validation->set_rules('jamandar', 'jamandar', 'required');
 		$this->form_validation->set_rules('labour', 'labour', 'required');
 		$this->form_validation->set_rules('ldate', 'ldate', 'required');
+		$this->form_validation->set_rules('deduction', 'deduction', 'required');
         if ($this->form_validation->run() == FALSE) {
 			$data['jamandars']=$this->Common_model->getAll('jamandars');
 		$data['tunnels']=$this->Common_model->getAll('tunnels');

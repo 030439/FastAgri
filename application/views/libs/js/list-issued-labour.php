@@ -18,6 +18,7 @@ $('#user-list').DataTable({
                   { "data": "jamander" },
                   { "data": "lq" },
                   { "data": "rate" },
+                  { "data": "deduction" },
                   { "data": "total_amount" },
                   { "data": "create_at" },
                   { // Actions column
@@ -40,7 +41,7 @@ $('#user-list').DataTable({
                     });
 
                     // Update footer
-                    $(api.column(4).footer()).html(total.toFixed(2));
+                    $(api.column(5).footer()).html(total.toFixed(2));
                 }
       });
     </script>

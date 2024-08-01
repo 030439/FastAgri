@@ -16,6 +16,7 @@
                             <th>Jamandar</th>
                             <th>Labour Quantity</th>
                             <th>Rate</th>
+                            <th>Deduction</th>
                             <th>Total Amount</th>
                             <th>Date-Time</th>
                         </tr>
@@ -23,9 +24,10 @@
                     <tfoot>
                         <tr>
                             <th colspan="3"></th>
+                            <th></th>
                             <th >Total</th>
                             <th id="total-net"></th>
-                            <th></th>
+                            
                         </tr>
                     </tfoot>
                 </table>

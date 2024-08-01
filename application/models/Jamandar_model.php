@@ -73,6 +73,7 @@ class Jamandar_model extends CI_Model {
             i.`id` AS issue_stock_id,
             i.`create_at`,
             i.`total_amount`,
+             i.`deduction`,
             i.`rate`,
             i.`lq`,
             j.`name` AS jamander,
@@ -421,14 +422,16 @@ class Jamandar_model extends CI_Model {
         $labor=$data['labour'];
         $j=$data['jamandar'];
         $ldate=$data['ldate'];
+        $deduction=$data['deduction'];
         $rate=$rate[0]->amount;
-        $total_amount=$rate*$labor;
+        $total_amount=$rate*$labor-$deduction;
         $record=[
             'tunnel'=>$data['tunnel'],
             'jamandar'=>$j,
             'lq'=>$labor,
             'rate'=>$rate,
             'ldate'=>$ldate,
+            'deduction'=>$deduction,
             'total_amount'=>$total_amount
         ];
         $idate=date("Y-m-d");
@@ -483,8 +486,9 @@ class Jamandar_model extends CI_Model {
         $rate=$this->getRate();
         $labor=$data['labour'];
         $j=$data['jamandar'];
+        $deduction=$data['deduction'];
         $rate=$rate[0]->amount;
-        $total_amount=$rate*$labor;
+        $total_amount=$rate*$labor-$deduction;
         $udate=date("y-m-d h i s");
         $first=$this->jamandarAmountByIssuedLabourId($id);
         
@@ -496,6 +500,7 @@ class Jamandar_model extends CI_Model {
             'jamandar'=>$j,
             'lq'=>$labor,
             'rate'=>$rate,
+            'deduction'=>$deduction,
             'total_amount'=>$total_amount,
             'update_at'=>$udate
         ];
