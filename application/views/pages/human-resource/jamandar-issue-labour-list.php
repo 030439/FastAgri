@@ -40,19 +40,21 @@
                             <th>Tunnel/Jamandari</th>
                             <th>Labour Quantity</th>
                             <th>Rate</th>
+                            <th>Deduction</th>
                             <th>Credit</th>
                             <th>Debit</th>
                             <th>Running Balance</th>
                         </tr>
                     </thead>
-                    <!-- <tfoot>
+                    <tfoot>
                         <tr>
-                            <th colspan="2"></th>
+                            <th colspan="3"></th>
                             <th >Total</th>
                             <th id="total-net"></th>
                             <th></th>
+                            <th></th>
                         </tr>
-                    </tfoot> -->
+                    </tfoot>
                 </table>
             </div>
         </div>
