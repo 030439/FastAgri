@@ -123,6 +123,7 @@ $route['list-jamandars']="Jamandar/listing";
 $route['issued-jamandar-labour']="Jamandar/issuedJamandarLabour";
 //labour
 $route['labour-rate']='hr/labourRate';
+$route['getLabourRate']="hr/getLabourRate";
 $route['add-rate']='hr/updateRate';
 $route['labour-issue']='hr/labourIssue';
 $route['issued-labour-list']='hr/labourList';

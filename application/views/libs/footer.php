@@ -45,6 +45,23 @@
 <script src="assets/js/moment.js"></script>
 
  <script>
+   function getTotalAmountForLabour(input) {
+            // Get the number of labours from the input
+            var numberOfLabours = input.value;
+
+            // Check if the input is a valid number
+            if (!isNaN(numberOfLabours) && numberOfLabours > 0) {
+                // Assuming the rate per labour is fixed, e.g., 100
+               var ratePerLabour= labourRate();
+                // Calculate the total amount
+                var totalAmount = numberOfLabours * ratePerLabour;
+
+                // Display the total amount
+                $('#issue-labour-total-amount').val(totalAmount);
+            } else {
+              $('#issue-labour-total-amount').val("");
+            }
+        }
  $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
  $(function() {
   
@@ -160,6 +177,18 @@ function toggleCheckedAll(checkbox) {
             });
         }
     });
+    function labourRate(filterValue) {
+            $.ajax({
+                url: 'labourRate', // Backend script to handle filtering
+                method: 'POST',
+                success: function(res) {
+                    return res;
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
 </script>
 
  <script>

@@ -1,6 +1,6 @@
 <script>
     var tid=$("#product-ledger-id").val();
-$('#user-list').DataTable({
+    var table=$('#user-list').DataTable({
     responsive: true,
     buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
     "processing": true,
@@ -9,6 +9,10 @@ $('#user-list').DataTable({
           "ajax": {
               url : "<?php echo base_url(); ?>product/productLederList/"+tid,
               type : 'post',
+              data: function(d) {
+                d.startDate = $('#start-date').val();
+                d.endDate = $('#end-date').val();
+              },
               error: function(xhr, error, thrown) {
               alert('Error: ' + xhr.responseText);
           }
@@ -37,4 +41,7 @@ $('#user-list').DataTable({
                   
               ]
       });
+      $('#filter').on('click', function() {
+            table.ajax.reload();
+        });
     </script>
