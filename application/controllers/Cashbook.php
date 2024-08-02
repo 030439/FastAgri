@@ -7,6 +7,9 @@ class Cashbook extends CI_Controller {
         parent::__construct();
         $this->load->model('Customer_model');
         $this->load->model('Cashbook_model');
+		$this->load->model('Employee_model');
+		$this->load->model('Jamandar_model');
+		$this->load->model('ShareHolder_model');
         $this->load->library('form_validation');
 		if (!is_authorized()) {
 			redirect('auth/login');
@@ -14,7 +17,49 @@ class Cashbook extends CI_Controller {
     }
 	public function add()
 	{
-		$data= $this->Customer_model->getCustomers();
+		$this->load->view('layout/parts',['page'=>"pages/cashbook/add"]);
+	}
+	public function editCash($id)
+	{
+		$data= $this->Cashbook_model->getCashRecord($id);
+		foreach($data as $d){
+			if($d['cash_s']=="cash-in"){
+                if($d['case_sT']=="customer"){
+					$page="customer";
+					$data['cutomers']= $this->Customer_model->customerDetailInfo();
+                }
+                elseif ($d['case_sT']=="shareholder") {
+					$page="shareholder";
+					$data['shareholders']= $this->ShareHolder_model->getshareholders();
+                }
+            }elseif($d['cash_s']=="cash-out"){
+                if($d['case_sT']=="supplier"){
+					$page="shareholder";
+                }
+                elseif ($d['case_sT']=="shareholder") {
+					$page="shareholder";
+					$data['shareholders']= $this->ShareHolder_model->getshareholders();
+                }
+                elseif ($d['case_sT']=="pay") {
+					$page="employee-pay";
+					$data['employees']= $this->Employee_model->getEmployees();
+                }
+				elseif ($d['case_sT']=="advance") {
+					$page="employee-advance";
+					$data['employees']= $this->Employee_model->getEmployees();
+                }
+                elseif ($d['case_sT']=="jamandari") {
+					$page="shareholder";
+                }
+                elseif ($d['case_sT']=="jamandariAdvance") {
+					$page="shareholder";
+					$data['jamandars']=$this->Jamandar_model->getAll();
+                }
+                elseif ($d['case_sT']=="expense") {
+					$page="shareholder";
+                }
+            }
+		}
 		$this->load->view('layout/parts',['page'=>"pages/cashbook/add"]);
 	}
 	public function cashFlow(){

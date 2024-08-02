@@ -10,6 +10,14 @@ class Cashbook_model extends CI_Model {
     public function addAccountHead($data){
         return $this->db->insert('account_head', $data);
     }
+    public function getCashRecord($id) {
+        $this->db->select('c.*');
+        $this->db->from('cash_in_out c');
+        $this->db->WHERE('c.id',$id);
+        $cash = $this->db->get()->result_array();
+        return $cash;
+    }
+
     public function cashbookList() {
         $this->db->select('c.*,a.amount as famount');
         $this->db->from('cash_in_out c');
