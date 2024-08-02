@@ -618,7 +618,45 @@ class Cashbook_model extends CI_Model {
         $all = $this->db->get('tunnels')->result();
         return $all[0]->TName;
     }
+    public function Updatebalance($first_amount,$data, $id) {
+        // Validate the input data
+        // Get the last record from the 'availableamount' table
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('availableamount');
     
+        if ($query->num_rows() == 0) {
+            // No records found, assuming initial balance is 0
+            $last_amount = 0;
+        } else {
+            $last_record = $query->row();
+            $last_amount = $last_record->amount;
+        }
+    
+        // Calculate the new amount based on the cash type
+        if ($cash == 'cash-in') {
+            $amount = $last_amount + $data['amount']-$first_amount;
+        } elseif ($cash == 'cash-out') {
+            $amount = $last_amount - $data['amount']+$first_amount;
+        }
+    
+        // Prepare the data to be inserted
+        $arr = [
+            'cash_id'   => $id,
+            'cash_type' => $cash,
+            'amount'    => $amount
+        ];
+    
+        // Insert the new record into the 'availableamount' table
+        $this->where('cash_id',$id);
+        $updated=$this->db->update('availableamount', $arr);
+        if ($updated) {
+            return true; // Insert successful
+        } else {
+            return false; // Insert failed
+        }
+    }
+
     public function balance($data, $id) {
         // Validate the input data
         if (!isset($data['cash_s']) || !in_array($data['cash_s'], ['cash-in', 'cash-out']) || !isset($data['amount']) || !is_numeric($data['amount'])) {
