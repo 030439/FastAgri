@@ -175,6 +175,13 @@ if (!function_exists('getIssueProQty')) {
         }
     }
 }
+function is_qual($a,$b){
+    if($a==$b){
+        echo "selected";
+    }else{
+        echo " ";
+    }
+}
 if (!function_exists('getLabourQty')) {
     function getLabourQty($tid, $eid)
     {
