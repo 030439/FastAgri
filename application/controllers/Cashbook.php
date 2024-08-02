@@ -9,6 +9,7 @@ class Cashbook extends CI_Controller {
         $this->load->model('Cashbook_model');
 		$this->load->model('Employee_model');
 		$this->load->model('Jamandar_model');
+		$this->load->model('Supplier_model');
 		$this->load->model('ShareHolder_model');
         $this->load->library('form_validation');
 		if (!is_authorized()) {
@@ -34,10 +35,11 @@ class Cashbook extends CI_Controller {
                 }
             }elseif($d['cash_s']=="cash-out"){
                 if($d['case_sT']=="supplier"){
-					$page="shareholder";
+					$page="supplier";
+					$data['suplliers']=$this->Supplier_model->getSuppliers();
                 }
                 elseif ($d['case_sT']=="shareholder") {
-					$page="shareholder";
+					$page="shareholder-out";
 					$data['shareholders']= $this->ShareHolder_model->getshareholders();
                 }
                 elseif ($d['case_sT']=="pay") {
@@ -49,18 +51,19 @@ class Cashbook extends CI_Controller {
 					$data['employees']= $this->Employee_model->getEmployees();
                 }
                 elseif ($d['case_sT']=="jamandari") {
-					$page="shareholder";
+					$page="jamandar-pay";
+					$data['jamandars']=$this->Jamandar_model->getAll();
                 }
                 elseif ($d['case_sT']=="jamandariAdvance") {
-					$page="shareholder";
+					$page="jamandar-advance";
 					$data['jamandars']=$this->Jamandar_model->getAll();
                 }
                 elseif ($d['case_sT']=="expense") {
-					$page="shareholder";
+					$page="expense";
                 }
             }
 		}
-		$this->load->view('layout/parts',['page'=>"pages/cashbook/add"]);
+		$this->load->view('layout/parts',['page'=>"pages/cashbook/".$page,'data'=>$data]);
 	}
 	public function cashFlow(){
 			try{
