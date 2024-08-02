@@ -68,7 +68,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3"> Deduction</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" name="deduction" min="1" value="<?php echo $data['labour']->deduction;?>" placeholder="  Enter deduction">
+                            <input type="number" name="deduction" value="0" min="0" value="<?php echo $data['labour']->deduction;?>" placeholder="  Enter deduction">
                             <?php validator('deduction')?>
                         </div>
                     </div>

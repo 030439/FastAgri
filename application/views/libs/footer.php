@@ -503,7 +503,8 @@ function toggleCheckedAll(checkbox) {
         { value: 'pay', text: 'Salary' },
         { value: 'advance', text: 'Employee-Advance' },
         { value: 'expense', text: 'Expense' },
-        { value: 'jamandari', text: 'Jamandar' }
+        { value: 'jamandari', text: 'Jamandar' },
+        { value: 'jamandariAdvance', text: 'Jamandar-advance' }
         ];
         $.each(options, function(index, option) {
             $('#cash-selection-type').append($('<option>', option));
@@ -566,6 +567,10 @@ function toggleCheckedAll(checkbox) {
           $("#narration-field").show();
         }
         else if(cst=="jamandari"){
+          jamandariAccount();
+          $("#narration-field").show();
+        }
+        else if(cst=="jamandariAdvance"){
           jamandariAccount();
           $("#narration-field").show();
         }

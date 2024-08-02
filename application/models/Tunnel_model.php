@@ -294,10 +294,12 @@ class Tunnel_model extends CI_Model
         $result = $query->result_array(); 
         $total=0;
         if($result){
-            $amounts= explode(',',$result[0]['NetAmount']);
-            foreach($amounts as $a=>$amount){
-                $total+=$amount;
-            }
+                if($result[0]['NetAmount']){
+                    $amounts= explode(',',$result[0]['NetAmount']);
+                    foreach($amounts as $a=>$amount){
+                        $total+=$amount;
+                    }
+                }
         }
         return $total;
     }
@@ -663,7 +665,7 @@ $newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity']
         );
         return $response;
     }
-    public function tunnelLedger($id,$draw,$startDate, $endDate, $start, $length, $search = '')
+    public function tunnelLedger($id,$draw,$startDate, $endDate, $start, $length, $search)
     {
         $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
             SELECT e.id FROM tunnel_expense e WHERE e.tunnel_id = ?

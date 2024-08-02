@@ -92,7 +92,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Rate</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" oninput="calculateTotal_()" min="0" placeholder="Rate" name="rate[]">
+                        <input type="text" oninput="calculateTotal_()" min="0" placeholder="Rate" name="rate[]">
                         <?php validator('rate[]')?>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                         
                         for (var i = 0; i < qtyInputs.length; i++) {
                             var qtyValue = parseInt(qtyInputs[i].value);
-                            var rateValue = parseInt(rateInputs[i].value);
+                            var rateValue = parseFloat(rateInputs[i].value);
                             
                             if (!isNaN(qtyValue) && !isNaN(rateValue)) {
                                 totalAmount += qtyValue * rateValue;
@@ -202,7 +202,7 @@
                             <h5 class="text-[15px] text-heading font-semibold mb-3">Grand Total </h5>
                             <div class="cashier-input-field-style">
                                 <div class="single-input-field w-full">
-                                    <input id="grand-total" type="number" min="0" placeholder="Grand Total"  name='gt'>
+                                    <input id="grand-total" type="text" min="0" placeholder="Grand Total"  name='gt'>
                                     <?php validator('gt')?>
                                 </div>
                             </div>

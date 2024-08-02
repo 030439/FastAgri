@@ -131,6 +131,9 @@ class Cashbook_model extends CI_Model {
                 } elseif ($d['case_sT'] == "jamandari") {
                     $cash[$c]['narration'] = $this->jamandarName($d['cash_sP']);
                     $cash[$c]['name'] = "Jamandar";
+                } elseif ($d['case_sT'] == "jamandariAdvance") {
+                    $cash[$c]['narration'] = $this->jamandarName($d['cash_sP']);
+                    $cash[$c]['name'] = "Jamandar Advance";
                 } elseif ($d['case_sT'] == "expense") {
                     $cash[$c]['name'] = $this->accountHeadName($d['cash_sP']);
                 }
@@ -378,6 +381,9 @@ class Cashbook_model extends CI_Model {
                 $this->shareHolderCashOut($data);
             }
             elseif($data['cash-selection-type']=="jamandari"){
+                $this->JamandarCashOut($data);
+            }
+            elseif($data['cash-selection-type']=="jamandariAdvance"){
                 $this->JamandarCashOut($data);
             }
             elseif($data['cash-selection-type']=="pay"){

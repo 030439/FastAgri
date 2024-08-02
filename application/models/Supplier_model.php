@@ -385,7 +385,7 @@ class Supplier_model extends CI_Model {
         return $response; 
    }
    public function getSuppliers(){
-      $this->db->select('s.id as id,s.Name,sd.opening as opening');
+      $this->db->select('s.id as id,s.Name,sd.closing as closing');
       $this->db->from('suppliers s');
       $this->db->join('supplier_detail sd', 's.id = sd.sid');
       $products = $this->db->get()->result();

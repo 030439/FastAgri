@@ -46,7 +46,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3"> Enter no of labour</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" name="labour" min="1" onkeyup="getTotalAmountForLabour(this)" placeholder="  Enter no of labour">
+                            <input type="number" name="labour" min="1" onkeyup="getTotalAmountForLabour(this)" >
                             <?php validator('labour')?>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3"> Deduction</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" name="deduction" min="1" placeholder="  Enter deduction">
+                            <input type="number" name="deduction" min="0" value="0" placeholder="Enter deduction">
                             <?php validator('deduction')?>
                         </div>
                     </div>

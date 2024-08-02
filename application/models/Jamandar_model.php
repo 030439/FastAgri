@@ -207,6 +207,8 @@ class Jamandar_model extends CI_Model {
             
                 WHERE
                     `c`.`case_sT` = 'jamandari'
+                     Or
+                    `c`.`case_sT` = 'jamandariAdvance'
                 AND 
                     `c`.`cash_sP` = $id
             ) AS combined_data,
@@ -218,13 +220,18 @@ class Jamandar_model extends CI_Model {
         $result = $query->result_array();
         foreach($result as $c=>$res){
             if(!empty($res['issue_stock_id'])){
-                $result[$c]['date_']=$res['create_at'];
+                $result[$c]['date_']=getOnlyDate($res['create_at']);
             }elseif(empty($res['issue_stock_id']) && !empty($res['jamandari']) ){
-                $result[$c]['date_']=$res['jdate'];
+                $result[$c]['date_']=getOnlyDate($res['jdate']);
                 $result[$c]['TName']="Jamandari";
+                $result[$c]['total_amount']=$res['jamandari'];
+            }
+            elseif(!empty($res['pay_id'])){
+                $result[$c]['date_']=getOnlyDate($res['cdate']);
+                $result[$c]['TName']=$res['type'];
             }
             else{
-                $result[$c]['date_']=$res['cdate'];
+                $result[$c]['date_']=getOnlyDate($res['cdate']);
             }
         }
         $response = array(

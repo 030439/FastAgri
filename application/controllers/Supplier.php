@@ -62,7 +62,7 @@ class Supplier extends CI_Controller {
 		$html.='<option value="default" selected disabled>Select an option</option>';
 		foreach($data as $d){
 			$html.="<option value='$d->id'>";
-			$html.=$d->Name.' - '.$d->opening;
+			$html.=$d->Name.' - '.$d->closing;
 			$html.="</option>";
 		}
 		echo $html;

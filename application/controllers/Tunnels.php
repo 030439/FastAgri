@@ -153,7 +153,7 @@ class Tunnels extends CI_Controller{
             $startDate = $this->input->post('startDate');
 			$endDate = $this->input->post('endDate');
             
-			$res=$this->Tunnel_model->tunnelLedger($id,$startDate, $endDate,$draw, $start, $length, $search);
+			$res=$this->Tunnel_model->tunnelLedger($id,$draw,$startDate, $endDate, $start, $length, $search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

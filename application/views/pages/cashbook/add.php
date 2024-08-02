@@ -99,8 +99,8 @@ label {
                 <div class="cashier-select-field mb-5 select-list">
                     <div class="cashier-select-field-style block select-options" id="select-"  name="select-tunnel">
                     <div class="col-md-4">
-                        <div class="wrapper">
-                        <a class="form-control toggle-next ellipsis">Select Tunnel </a>
+                        <div class="wrapper" style="background-color:#f6f6f6;min-height:50px;margin-top:35px;border-radius:5px">
+                        <a class="form-control toggle-next ellipsis" style="margin:10px">Click to Select Tunnel </a>
                         <div class="checkboxes" id="Lorems">
                             <label class="apply-selection">
                             <input type="checkbox" value="" class="ajax-link" />
