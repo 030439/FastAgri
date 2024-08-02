@@ -182,6 +182,9 @@ function is_qual($a,$b){
         echo " ";
     }
 }
+function set_value($val){
+    echo "value=$val";
+}
 if (!function_exists('getLabourQty')) {
     function getLabourQty($tid, $eid)
     {

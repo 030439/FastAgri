@@ -167,6 +167,7 @@ $route['dailyProductionReports']="Production/dailyProductionReports";
 $route['cashbook']="Cashbook/add";
 $route['cashbook-pay']="Cashbook/cashbookPay";
 $route['cashbook/edit/(:num)']="Cashbook/editCash/$1";
+$route['update-cashbook-pay']="Cashbook/updateCashbookPay";
 $route['OtherExpense']="AccountHeads/OtherExpense";
 $route['addAccountHead']="AccountHeads/addAccountHead";
 $route['cashbook/print/(:num)']="Cashbook/printSlip/$1";

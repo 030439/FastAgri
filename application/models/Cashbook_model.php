@@ -17,6 +17,65 @@ class Cashbook_model extends CI_Model {
         $cash = $this->db->get()->result_array();
         return $cash;
     }
+    public function updateCashbookPay($id,$data) {
+        $arr=[
+            'cash_sP'  =>$data['cash-selection-party'],
+            'amount'  =>$data['amount'],
+            'narration'   => $data['narration'],
+        ];
+        $old=$this->getCashRecord($id);
+        $first_amount=$old[0]['amount'];
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update('cash_in_out', $arr);
+        $id_ = $this->db->insert_id();
+        $this->Updatebalance($first_amount,$arr,$id_);
+
+        if($data['cash-selection']=='cash-in'){
+            // $this->debit($data);
+            if($data['cash-selection-type']=='customer'){
+                $this->customerCashIn($data);
+            }
+            elseif($data['cash-selection-type']=="shareholder"){
+                $this->shareHolderCashIn($data);
+            }
+        }
+        else{
+            // $this->credit($data);
+            if($data['cash-selection-type']=='supplier'){
+                $this->SupplierCashOut($data);
+            }
+            elseif($data['cash-selection-type']=="shareholder"){
+                $this->shareHolderCashOut($data);
+            }
+            elseif($data['cash-selection-type']=="jamandari"){
+                $this->JamandarCashOut($data);
+            }
+            elseif($data['cash-selection-type']=="jamandariAdvance"){
+                $this->JamandarCashOut($data);
+            }
+            elseif($data['cash-selection-type']=="pay"){
+                $this->SalaryGiven($data);
+            }
+             elseif($data['cash-selection-type']=="advance"){
+                $this->employeeAdvance($data);
+            }
+            elseif($data['cash-selection-type']=="expense"){
+                $this->Expense($data);
+            }
+        }
+        $this->db->trans_complete(); // Complete Transaction
+        
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return $id_;
+        } 
+    }
 
     public function cashbookList() {
         $this->db->select('c.*,a.amount as famount');
@@ -559,6 +618,7 @@ class Cashbook_model extends CI_Model {
         $all = $this->db->get('tunnels')->result();
         return $all[0]->TName;
     }
+    
     public function balance($data, $id) {
         // Validate the input data
         if (!isset($data['cash_s']) || !in_array($data['cash_s'], ['cash-in', 'cash-out']) || !isset($data['amount']) || !is_numeric($data['amount'])) {

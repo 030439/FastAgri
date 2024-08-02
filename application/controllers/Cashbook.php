@@ -22,8 +22,8 @@ class Cashbook extends CI_Controller {
 	}
 	public function editCash($id)
 	{
-		$data= $this->Cashbook_model->getCashRecord($id);
-		foreach($data as $d){
+		$data['record']= $this->Cashbook_model->getCashRecord($id);
+		foreach($data['record'] as $d){
 			if($d['cash_s']=="cash-in"){
                 if($d['case_sT']=="customer"){
 					$page="customer";
@@ -65,6 +65,22 @@ class Cashbook extends CI_Controller {
 		}
 		$this->load->view('layout/parts',['page'=>"pages/cashbook/".$page,'data'=>$data]);
 	}
+	public function updateCashbookPay() {
+        $data = $this->input->post(NULL, TRUE);
+		$id=$data['id'];
+        $this->form_validation->set_rules('cash-selection-party', 'Cash Selection Party', 'required');
+        $this->form_validation->set_rules('amount', 'Amount ', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $this->editCash($id);
+        }
+		 else {
+            $data = $this->input->post(NULL, TRUE);
+		
+           $res= $this->Cashbook_model->updateCashbookPay($id,$data);
+		$this->response($res,'report',"Data Updated Successfully");
+		
+        }
+    }
 	public function cashFlow(){
 			try{
 				$draw = intval($this->input->post("draw"));
