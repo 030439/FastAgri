@@ -801,10 +801,22 @@ $newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity']
                     $result[$c]['amount'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "EXP"){
-                    $result[$c]['head']   = $this->accountHeadName($re['epid']);
-                    $result[$c]['qty_']    = 0;
-                    $result[$c]['rate_']   = 0;
+                    $res[$c]['head']   = $this->accountHeadName($re['pid']);
+                    $res[$c]['qty']    = 0;
+                    $res[$c]['rate']   = 0;
                     $result[$c]['amount'] = $re['eamount'];
+                }
+                elseif($re['expense_type'] == "EMP"){
+                    $res[$c]['head']   = employeeName_($re['pid']);
+                    $res[$c]['qty']    = 0;
+                    $res[$c]['rate']   = 0;
+                    $result[$c]['amount'] = $re['eamount'];
+                }
+                elseif($re['expense_type'] == "ADV"){
+                    $res[$c]['head']   = employeeName_($re['pid']);
+                    $res[$c]['qty']    = 0;
+                    $result[$c]['amount'] = $re['eamount'];
+                    $res[$c]['rate']   = 0;
                 }
                  else {
                     $lb = getLabourQty($id, $re['eid_']);

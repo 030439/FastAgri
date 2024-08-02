@@ -61,7 +61,8 @@ $(document).ready(function() {
             {
                 "data": "id",
                 "render": function(data, type, row) {
-                    return '<div style="display:flex"><a class="dropdown-menu-item edit" href="cashbook/invoice/' + data + '"><span>Print</span></a>';
+                    return '<div style="display:flex"><a class="btn-design btn-detail" href="cashbook/invoice/' + data + '"><span>Print</span></a>'+
+                    '<a class="btn-design btn-edit" href="cashbook/edit/' + row.id + '"><span>Edit</span></a></div>';
                 }
             }
         ]

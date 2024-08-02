@@ -166,6 +166,7 @@ $route['dailyProductionReports']="Production/dailyProductionReports";
 //cash book
 $route['cashbook']="Cashbook/add";
 $route['cashbook-pay']="Cashbook/cashbookPay";
+$route['cashbook/edit/(:num)']="Cashbook/editCash/$1";
 $route['OtherExpense']="AccountHeads/OtherExpense";
 $route['addAccountHead']="AccountHeads/addAccountHead";
 $route['cashbook/print/(:num)']="Cashbook/printSlip/$1";
@@ -173,6 +174,7 @@ $route['cash-flow']="Cashbook/cashFlow";
 $route['daily-expenses']="Report/dailyExpense";
 $route['expense-listing']="Report/dailyExpenseListing";
 $route['add/expense']="Report/addExpense";
+
 
 //assets
 $route['asset/add']="AccountHeads/addAsset";
