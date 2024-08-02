@@ -24,43 +24,44 @@ class Cashbook_model extends CI_Model {
             'narration'   => $data['narration'],
         ];
         $old=$this->getCashRecord($id);
+        $firstPerson=$old[0]['cash_sP'];
         $first_amount=$old[0]['amount'];
+        $cash=$old[0]['cash_s'];
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->update('cash_in_out', $arr);
-        $id_ = $this->db->insert_id();
-        $this->Updatebalance($first_amount,$arr,$id_);
-
-        if($data['cash-selection']=='cash-in'){
+        
+        $is_updated=$this->Updatebalance($first_amount,$cash,$arr,$id);
+        if($cash=='cash-in'){
             // $this->debit($data);
-            if($data['cash-selection-type']=='customer'){
+            if($data['record']=='customer'){
                 $this->customerCashIn($data);
             }
-            elseif($data['cash-selection-type']=="shareholder"){
+            elseif($data['record']=="shareholder"){
                 $this->shareHolderCashIn($data);
             }
         }
         else{
             // $this->credit($data);
-            if($data['cash-selection-type']=='supplier'){
+            if($data['record']=='supplier'){
                 $this->SupplierCashOut($data);
             }
-            elseif($data['cash-selection-type']=="shareholder"){
+            elseif($data['record']=="shareholder"){
                 $this->shareHolderCashOut($data);
             }
-            elseif($data['cash-selection-type']=="jamandari"){
+            elseif($data['record']=="jamandari"){
                 $this->JamandarCashOut($data);
             }
-            elseif($data['cash-selection-type']=="jamandariAdvance"){
-                $this->JamandarCashOut($data);
+            elseif($data['record']=="jadvance"){
+                $this->JamandarCashOutUpdate($firstPerson,$first_amount,$data);
             }
-            elseif($data['cash-selection-type']=="pay"){
+            elseif($data['record']=="pay"){
                 $this->SalaryGiven($data);
             }
-             elseif($data['cash-selection-type']=="advance"){
+             elseif($data['record']=="advance"){
                 $this->employeeAdvance($data);
             }
-            elseif($data['cash-selection-type']=="expense"){
+            elseif($data['record']=="expense"){
                 $this->Expense($data);
             }
         }
@@ -73,7 +74,7 @@ class Cashbook_model extends CI_Model {
         } else {
             // Transaction succeeded
             $this->db->trans_commit(); // Commit changes
-            return $id_;
+            return $id;
         } 
     }
 
@@ -568,6 +569,19 @@ class Cashbook_model extends CI_Model {
         $this->db->where('jamandar_id', $customerId);
         return $this->db->update('jamandartotal');
     }
+    public function JamandarCashOutUpdate($firstPerson,$first_amount,$data){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+
+        $this->db->set('payable', 'payable + ' . $this->db->escape($first_amount), FALSE);
+        $this->db->where('jamandar_id', $firstPerson) up;
+        $updated=$this->db->update('jamandartotal');
+        if($updated){
+            $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
+            $this->db->where('jamandar_id', $customerId);
+            return $this->db->update('jamandartotal');
+        }
+    }
     public function Expense($data){
         $arr=[
             'head'        => $data['cash-selection-party'],
@@ -618,15 +632,13 @@ class Cashbook_model extends CI_Model {
         $all = $this->db->get('tunnels')->result();
         return $all[0]->TName;
     }
-    public function Updatebalance($first_amount,$data, $id) {
-        // Validate the input data
-        // Get the last record from the 'availableamount' table
+    public function Updatebalance($first_amount,$cash,$data, $id) {
+
         $this->db->order_by('id', 'DESC');
         $this->db->limit(1);
         $query = $this->db->get('availableamount');
     
         if ($query->num_rows() == 0) {
-            // No records found, assuming initial balance is 0
             $last_amount = 0;
         } else {
             $last_record = $query->row();
@@ -646,14 +658,15 @@ class Cashbook_model extends CI_Model {
             'cash_type' => $cash,
             'amount'    => $amount
         ];
-    
-        // Insert the new record into the 'availableamount' table
-        $this->where('cash_id',$id);
-        $updated=$this->db->update('availableamount', $arr);
-        if ($updated) {
-            return true; // Insert successful
-        } else {
-            return false; // Insert failed
+        $deleted=$this->db->delete('availableamount', ['cash_id' => $id]);
+        if($deleted){
+            if ($this->db->insert('availableamount', $arr)) {
+                return true; // Insert successful
+            } else {
+                return false; // Insert failed
+            }
+        }else{
+            return false;
         }
     }
 
