@@ -47,7 +47,7 @@ class Cashbook_model extends CI_Model {
         else{
             // $this->credit($data);
             if($data['record']=='supplier'){
-                $this->SupplierCashOut($data);
+                $this->UpdateSupplierCashOut($firstPerson,$first_amount,$data);
             }
             elseif($data['record']=="shareholder"){
                 $this->shareHolderCashOut($data);
@@ -503,6 +503,28 @@ class Cashbook_model extends CI_Model {
         $this->db->set('closing', 'closing - ' . $this->db->escape($amount), FALSE);
         $this->db->where('sid', $customerId);
         return $this->db->update('supplier_detail');
+    }
+    public function UpdateSupplierCashOut($firstPerson,$first_amount,$data){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+        $this->db->trans_start();
+        $this->db->set('closing', 'closing + ' . $this->db->escape($first_amount), FALSE);
+        $this->db->where('sid', $firstPerson);
+        $update=$this->db->update('supplier_detail');
+        if($update){
+            $this->db->set('closing', 'closing - ' . $this->db->escape($amount), FALSE);
+            $this->db->where('sid', $customerId);
+            $this->db->update('supplier_detail');
+        }
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return true;
+        } 
     }
     public function SalaryGiven($data){
         $this->db->trans_start();
