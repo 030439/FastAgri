@@ -2,54 +2,27 @@
     <h4 class="text-[20px] font-bold text-heading mb-9">Cashbook Entry</h4>
     <form action="cashbook-pay" method="POST">
     <div class="grid grid-cols-12 gap-x-5">
-           <div class="lg:col-span-4 md:col-span-6 col-span-12">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Cash</h5>
-                    <div class="cashier-select-field-style">
-                        <select id="cash-selection" class="block" name="cash-selection" style="display: none;">
-                            <option selected="" disabled="" value="default">Select cash </option>
-                            <option value="cash-in">Cash In</option>
-                            <option value="cash-out">Cash Out</option>
-                            <?php
-                        if(!empty($data)):
-                            foreach($data['designation'] as $de):
-                        ?>
-                            <option value="<?= $de->id;?>"><?php ShowVal($de->name);?></option>
-                            <?php endforeach; endif;?>
-                        </select>
-                        <?php validator('designation_id')?>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lg:col-span-4 md:col-span-6 col-span-12">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Cash Selection Type</h5>
-                    <div class="cashier-select-field-style">
-                        <select id="cash-selection-type" class="block" name="cash-selection-type">
-                        </select>
-                        <?php validator('designation_id')?>
-                    </div>
-                </div>
-            </div>
+          
             <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Cash Selection Party</h5>
                     <div class="cashier-select-field-style">
                         <select id="cash-selection-party" class="block" name="cash-selection-party">
-                       
+                        <?php foreach($data['employees'] as $employee):?>
+                        <option <?php is_qual($employee->id,$data['record'][0]['cash_sP']); echo " "; set_value($employee->id);?>><?php echo $employee->Name;?></option>
+                        <?php endforeach;?>
                         </select>
-                        <?php validator('designation_id')?>
+                        <?php validator('cash-selection-party')?>
                     </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="narration-field" style="display:none">
+            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="narration-field">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Naration</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" name="narration" placeholder="Narration">
+                        <input type="text" name="narration" <?php set_value($data['record'][0]['narration']);?> placeholder="Narration">
                         </div>
                     </div>
                 </div>
@@ -95,7 +68,7 @@ label {
 }
 </style>
             
-            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field" style="display:none">
+            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field">
                 <div class="cashier-select-field mb-5 select-list">
                     <div class="cashier-select-field-style block select-options" id="select-"  name="select-tunnel">
                     <div class="col-md-4">
@@ -108,7 +81,13 @@ label {
                             </label>
                             
                             <div class="inner-wrap" id="select-tunnel">
-                            
+                            <?php
+                            foreach($data['tunnels'] as $tunnel){?>
+
+                                  <input type="checkbox" name="select-tunnel[]" value="'.$tunnel->id.'" class="ckkBox val" />
+                                 <?php echo $tunnel->TName;?></span>
+                                </label><br>
+                            <?php }?>
                             </div>
                         </div>
                         </div>

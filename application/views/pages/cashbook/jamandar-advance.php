@@ -13,7 +13,7 @@
                         <option <?php is_qual($jamanadar->id,$data['record'][0]['cash_sP']); echo " "; set_value($jamanadar->id);?>><?php echo $jamanadar->name;?></option>
                         <?php endforeach;?>
                         </select>
-                        <?php validator('designation_id')?>
+                        <?php validator('cash-selection-party')?>
                     </div>
                 </div>
             </div>

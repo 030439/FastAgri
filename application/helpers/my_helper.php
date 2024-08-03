@@ -182,6 +182,9 @@ function is_qual($a,$b){
         echo " ";
     }
 }
+function isSalaryAppliedOnThisTunnel($eid,$data){
+
+}
 function set_value($val){
     echo "value=$val";
 }

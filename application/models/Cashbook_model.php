@@ -260,6 +260,10 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['pname']=$this->jamandarName($d['cash_sP']);
                     $cash[$c]['current_amount']=$this->JamandarCurrentAmount($d['cash_sP']);
                 }
+                elseif($d['case_sT']=="jamandariAdvance"){
+                    $cash[$c]['pname']=$this->jamandarName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->JamandarCurrentAmount($d['cash_sP']);
+                }
                 elseif ($d['case_sT']=="expense") {
                     $cash[$c]['pname']=$this->accountHeadName($d['cash_sP']);
                     $cash[$c]['current_amount']="-";
@@ -306,6 +310,10 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['name']="Share Holder";
                 }
                 elseif ($d['case_sT']=="jamandari") {
+                    $cash[$c]['narration']=$this->jamandarName($d['cash_sP']);
+                    $cash[$c]['name']="Jamandar";
+                }
+                elseif($d['case_sT']=="jamandariAdvance"){
                     $cash[$c]['narration']=$this->jamandarName($d['cash_sP']);
                     $cash[$c]['name']="Jamandar";
                 }
@@ -574,7 +582,7 @@ class Cashbook_model extends CI_Model {
         $customerId = $data['cash-selection-party'];
 
         $this->db->set('payable', 'payable + ' . $this->db->escape($first_amount), FALSE);
-        $this->db->where('jamandar_id', $firstPerson) up;
+        $this->db->where('jamandar_id', $firstPerson);
         $updated=$this->db->update('jamandartotal');
         if($updated){
             $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);

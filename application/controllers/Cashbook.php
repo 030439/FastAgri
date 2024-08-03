@@ -10,6 +10,7 @@ class Cashbook extends CI_Controller {
 		$this->load->model('Employee_model');
 		$this->load->model('Jamandar_model');
 		$this->load->model('Supplier_model');
+		$this->load->model('Common_model');
 		$this->load->model('ShareHolder_model');
         $this->load->library('form_validation');
 		if (!is_authorized()) {
@@ -23,6 +24,7 @@ class Cashbook extends CI_Controller {
 	public function editCash($id)
 	{
 		$data['record']= $this->Cashbook_model->getCashRecord($id);
+		//dd($data['record']);
 		foreach($data['record'] as $d){
 			if($d['cash_s']=="cash-in"){
                 if($d['case_sT']=="customer"){
@@ -44,6 +46,7 @@ class Cashbook extends CI_Controller {
                 }
                 elseif ($d['case_sT']=="pay") {
 					$page="employee-pay";
+					$data['tunnels']=$this->Common_model->getAll('tunnels');
 					$data['employees']= $this->Employee_model->getEmployees();
                 }
 				elseif ($d['case_sT']=="advance") {
