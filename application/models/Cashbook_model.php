@@ -18,15 +18,18 @@ class Cashbook_model extends CI_Model {
         return $cash;
     }
     public function updateCashbookPay($id,$data) {
+        $old=$this->getCashRecord($id);
+        $firstPerson=$old[0]['cash_sP'];
+        $first_amount=$old[0]['amount'];
+        $old_date=$old[0]['cdate'];
+        $cash=$old[0]['cash_s'];
+
         $arr=[
+            'cash_s' =>$cash,
             'cash_sP'  =>$data['cash-selection-party'],
             'amount'  =>$data['amount'],
             'narration'   => $data['narration'],
         ];
-        $old=$this->getCashRecord($id);
-        $firstPerson=$old[0]['cash_sP'];
-        $first_amount=$old[0]['amount'];
-        $cash=$old[0]['cash_s'];
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->update('cash_in_out', $arr);
@@ -56,7 +59,7 @@ class Cashbook_model extends CI_Model {
                 $this->JamandarCashOutUpdate($firstPerson,$first_amount,$data);
             }
             elseif($data['record']=="pay"){
-                $this->SalaryGiven($data);
+                $this->UpdateGivenSalary($firstPerson,$first_amount,$data,$old_date);
             }
              elseif($data['record']=="advance"){
                 $this->employeeAdvance($data);
@@ -502,6 +505,7 @@ class Cashbook_model extends CI_Model {
         return $this->db->update('supplier_detail');
     }
     public function SalaryGiven($data){
+        $this->db->trans_start();
         $amount = $data['amount'];
         $customerId = $data['cash-selection-party'];
         $date=date("y-m-d");
@@ -514,17 +518,70 @@ class Cashbook_model extends CI_Model {
         $allTunnel=count($tunnels);
         $perTunnel=$data['amount']/$allTunnel;
 
-            foreach($tunnels as $tunnel){
-                    $expense=[
-                        'tunnel_id'=>$tunnel,
-                        'expense_type'=>'EMP',
-                        'eid'=>$customerId,
-                        'amount'=>$perTunnel,
-                        'edate'=>$date,
-                        'pid'=>$customerId
-                    ];
-                    $res=$this->db->insert('tunnel_expense', $expense);
-            }
+        foreach($tunnels as $tunnel){
+                $expense=[
+                    'tunnel_id'=>$tunnel,
+                    'expense_type'=>'EMP',
+                    'eid'=>$customerId,
+                    'amount'=>$perTunnel,
+                    'edate'=>$date,
+                    'pid'=>$customerId
+                ];
+                $res=$this->db->insert('tunnel_expense', $expense);
+        }
+        $this->db->trans_complete(); // Complete Transaction
+
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return true;
+        } 
+    }
+    public function UpdateGivenSalary($firstPerson,$first_amount,$data,$old_date){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+        // $date=date("y-m-d");
+        $this->db->trans_start();
+        $this->db->set('payable', 'payable + ' . $this->db->escape($first_amount), FALSE);
+        $this->db->where('id', $firstPerson);
+        $updated=$this->db->update('employees');
+        if($updated){
+            $this->db->set('payable', 'payable -' . $this->db->escape($amount), FALSE);
+            $this->db->where('id', $customerId);
+            $this->db->update('employees'); 
+            $tunnels=$data['select-tunnel'];
+            $all=$this->getAllTunnels();
+            $allTunnel=count($tunnels);
+            $perTunnel=$data['amount']/$allTunnel;
+                foreach($tunnels as $tunnel){
+
+                    $this->db->delete('tunnel_expense', ['tunnel_id' => $tunnel,'eid'=>$firstPerson,'edate'=>$old_date]);
+                        $expense=[
+                            'tunnel_id'=>$tunnel,
+                            'expense_type'=>'EMP',
+                            'eid'=>$customerId,
+                            'amount'=>$perTunnel,
+                            'edate'=>$old_date,
+                            'pid'=>$customerId
+                        ];
+                        $res=$this->db->insert('tunnel_expense', $expense);
+                } 
+            $this->db->trans_complete(); // Complete Transaction
+
+            if ($this->db->trans_status() === FALSE) {
+                // Transaction failed, handle the error
+                $this->db->trans_rollback(); // Roll back changes
+                return false;
+            } else {
+                // Transaction succeeded
+                $this->db->trans_commit(); // Commit changes
+                return true;
+            } 
+        }
     }
     public function employeeAdvance($data){
         $amount = $data['amount'];

@@ -1,6 +1,8 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
     <h4 class="text-[20px] font-bold text-heading mb-9">Cashbook Entry</h4>
-    <form action="cashbook-pay" method="POST">
+    <form action="update-cashbook-pay" method="POST">
+    <input type="hidden" name="record" value="pay">
+    <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">
     <div class="grid grid-cols-12 gap-x-5">
           
             <div class="lg:col-span-4 md:col-span-6 col-span-12">
@@ -57,7 +59,6 @@ label {
 
 .checkboxes {
   margin: 0;
-  display: none;
   border: 1px solid #ccc;
   border-top: 0;
 }
@@ -68,7 +69,36 @@ label {
 }
 </style>
             
-            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field">
+            
+
+
+            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="e-amount" style="display:none">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Payable Amount</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="text" readonly id="e-pay" name="e-amount" placeholder="Payable Amount">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        <div class="lg:col-span-4 md:col-span-6 col-span-12">
+            <div class="cashier-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Amount</h5>
+                <div class="cashier-input-field-style">
+                    <div class="single-input-field w-full">
+                    <input type="number" name="amount" <?php set_value($data['record'][0]['amount']);?> placeholder="amount">
+                        <?php if (form_error('amount')): ?>
+                        <div class="error-message" ><?= form_error('amount'); ?></div>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field">
                 <div class="cashier-select-field mb-5 select-list">
                     <div class="cashier-select-field-style block select-options" id="select-"  name="select-tunnel">
                     <div class="col-md-4">
@@ -84,7 +114,7 @@ label {
                             <?php
                             foreach($data['tunnels'] as $tunnel){?>
 
-                                  <input type="checkbox" name="select-tunnel[]" value="'.$tunnel->id.'" class="ckkBox val" />
+                                  <input type="checkbox" name="select-tunnel[]" <?php if(isSalaryAppliedOnThisTunnel($data['record'][0]['cash_sP'],$data['record'][0]['cdate'],$tunnel->id)){echo "checked ";}else{echo "error";} set_value($tunnel->id);?> class="ckkBox val" />
                                  <?php echo $tunnel->TName;?></span>
                                 </label><br>
                             <?php }?>
@@ -95,42 +125,6 @@ label {
                     </div>
                 </div>
             </div>
-
-
-            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="e-amount" style="display:none">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Payable Amount</h5>
-                    <div class="cashier-input-field-style">
-                        <div class="single-input-field w-full">
-                            <input type="text" readonly id="e-pay" name="e-amount" placeholder="Payable Amount">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="e-installment" style="display:none">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Installment</h5>
-                    <div class="cashier-input-field-style">
-                        <div class="single-input-field w-full">
-                            <input type="number" name="installment" value="0" >
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
-            <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Amount</h5>
-                <div class="cashier-input-field-style">
-                    <div class="single-input-field w-full">
-                        <input type="number" name="amount" placeholder="amount">
-                        <?php if (form_error('amount')): ?>
-                        <div class="error-message" ><?= form_error('amount'); ?></div>
-                        <?php endif ?>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="col-span-12">
             <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
                 <button class="btn-primary" type="submit">Add Now</button>
