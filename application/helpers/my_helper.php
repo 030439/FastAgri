@@ -182,8 +182,17 @@ function is_qual($a,$b){
         echo " ";
     }
 }
-function isSalaryAppliedOnThisTunnel($eid,$data){
-
+function isSalaryAppliedOnThisTunnel($eid,$date,$tunnel){
+    // tunnel_expense
+    $CI =& get_instance();
+    $CI->load->database();
+    $query = $CI->db->query("SELECT e.id FROM tunnel_expense e WHERE e.tunnel_id = ? AND e.eid = ? AND e.edate=?", array($tunnel,$date, $eid));
+    $result = $query->row_array();
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
 }
 function set_value($val){
     echo "value=$val";
