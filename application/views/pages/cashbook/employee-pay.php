@@ -1,5 +1,5 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Update Employee Cashbook Entry</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9">Update Employee Pay Cashbook Entry</h4>
     <form action="update-cashbook-pay" method="POST">
     <input type="hidden" name="record" value="pay">
     <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">
@@ -99,32 +99,28 @@ label {
             </div>
         </div>
         <div class="lg:col-span-4 md:col-span-6 col-span-12" id="tunnel-field">
-                <div class="cashier-select-field mb-5 select-list">
-                    <div class="cashier-select-field-style block select-options" id="select-"  name="select-tunnel">
-                    <div class="col-md-4">
-                        <div class="wrapper" style="background-color:#f6f6f6;min-height:50px;margin-top:35px;border-radius:5px">
-                        <a class="form-control toggle-next ellipsis" style="margin:10px">Click to Select Tunnel </a>
-                        <div class="checkboxes" id="Lorems">
-                            <label class="apply-selection">
-                            <input type="checkbox" value="" class="ajax-link" />
-                            &#x2714; apply selection
-                            </label>
-                            
-                            <div class="inner-wrap" id="select-tunnel">
-                            <?php
-                            foreach($data['tunnels'] as $tunnel){?>
+            <div class="cashier-select-field mb-5 select-list">
+                <div class="col-md-4">
+                    <div class="wrapper" style="background-color:#f6f6f6;min-height:50px;margin-top:35px;border-radius:5px">
+                 
+                    <div class="checkboxes" id="Lorems">
+                       
+                        
+                        <div class="inner-wrap" id="select-tunnel">
+                        <?php
+                        foreach($data['tunnels'] as $tunnel){?>
 
-                                  <input type="checkbox" name="select-tunnel[]" <?php if(isSalaryAppliedOnThisTunnel($data['record'][0]['cash_sP'],$data['record'][0]['cdate'],$tunnel->id)){echo "checked ";}else{echo "error";} set_value($tunnel->id);?> class="ckkBox val" />
-                                 <?php echo $tunnel->TName;?></span>
-                                </label><br>
-                            <?php }?>
-                            </div>
-                        </div>
+                                <input type="checkbox" name="select-tunnel[]" <?php if(isSalaryAppliedOnThisTunnel($data['record'][0]['cash_sP'],$data['record'][0]['cdate'],$tunnel->id)){echo "checked ";} set_value($tunnel->id);?> class="ckkBox val" />
+                                <?php echo $tunnel->TName;?></span>
+                            </label><br>
+                        <?php }?>
                         </div>
                     </div>
                     </div>
                 </div>
+                </div>
             </div>
+        </div>
         <div class="col-span-12">
             <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
                 <button class="btn-primary" type="submit">Add Now</button>

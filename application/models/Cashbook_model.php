@@ -49,8 +49,8 @@ class Cashbook_model extends CI_Model {
             if($data['record']=='supplier'){
                 $this->UpdateSupplierCashOut($firstPerson,$first_amount,$data);
             }
-            elseif($data['record']=="shareholder"){
-                $this->shareHolderCashOut($data);
+            elseif($data['record']=="shareholderOut"){
+                $this->UpdateshareHolderCashOut($firstPerson,$first_amount,$data,$old_date);
             }
             elseif($data['record']=="jamandari"){
                 $this->JamandarCashOut($data);
@@ -700,7 +700,6 @@ class Cashbook_model extends CI_Model {
                         $all=$this->getAllTunnels();
                         $allTunnel=count($tunnels);
                         $perTunnel=$data['amount']/$allTunnel;
-                
                         foreach($tunnels as $tunnel){
                                 $expense=[
                                     'tunnel_id'=>$tunnel,
@@ -712,6 +711,8 @@ class Cashbook_model extends CI_Model {
                                 ];
                                 $res=$this->db->insert('tunnel_expense', $expense);
                         }
+                    }else{
+                        return false;
                     }
                 }
                 $this->db->trans_complete(); // Complete Transaction
@@ -753,7 +754,6 @@ class Cashbook_model extends CI_Model {
                 $ok=true;
             }
         }
-        return $ok;
         $this->db->trans_complete(); // Complete Transaction
 
         if ($this->db->trans_status() === FALSE) {
@@ -927,6 +927,7 @@ class Cashbook_model extends CI_Model {
     //     return $this->db->update('availableamount');
     // }
     public function shareHolderCashOut($data){
+        $this->db->trans_start();
         $amount = $data['amount'];
         $sh = $data['cash-selection-party'];
         $this->db->set('balance', 'balance - ' . $this->db->escape($amount), FALSE);
@@ -942,9 +943,59 @@ class Cashbook_model extends CI_Model {
             'amount'   => $amount, 
             'balance'=>$b,
         ];
-        return $this->db->insert('shareholders_pays', $arr);
+        $ok= $this->db->insert('shareholders_pays', $arr);
         }
+        $this->db->trans_complete(); // Complete Transaction
+
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return $ok;
+        } 
     }
+
+    public function UpdateshareHolderCashOut($firstPerson,$first_amount,$data,$old_date){
+        $this->db->trans_start();
+        $amount = $data['amount'];
+        $sh = $data['cash-selection-party'];
+        $this->db->set('balance', 'balance + ' . $this->db->escape($first_amount), FALSE);
+        $this->db->where('id', $firstPerson);
+        $fupdated=$this->db->update('shareholders');
+        if($fupdated){
+            $this->db->set('balance', 'balance - ' . $this->db->escape($amount), FALSE);
+            $this->db->where('id', $sh);
+            $res=$this->db->update('shareholders');
+            if($res){
+                $deleted=$this->db->delete('shareholders_pays', ['sid' => $firstPerson,'pay_date'=>$pdate]);
+                $this->db->where('id', $sh);
+                $all = $this->db->get('shareholders')->result_array();
+                $b=$all[0]['balance'];
+            $arr=[
+                'sid'      => $sh,
+                'pay_type' => $data['cash-selection'],
+                'amount'   => $amount, 
+                'balance'=>$b,
+            ];
+            $ok= $this->db->insert('shareholders_pays', $arr);
+            }
+        }
+        $this->db->trans_complete(); // Complete Transaction
+
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return $ok;
+        } 
+    }
+
 
     public function shareHolderCashIn($data){
         $amount = $data['amount'];

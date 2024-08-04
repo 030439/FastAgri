@@ -1,5 +1,5 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Update Cashbook Record</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9">Update Jamandar Advance Cashbook Record</h4>
     <form action="update-cashbook-pay" method="POST">
     <div class="grid grid-cols-12 gap-x-5">
         <input type="hidden" name="record" value="jadvance">

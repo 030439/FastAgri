@@ -1,6 +1,9 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
     <h4 class="text-[20px] font-bold text-heading mb-9">Cashbook Entry</h4>
-    <form action="cashbook-pay" method="POST">
+    <form action="update-cashbook-pay" method="POST">
+    <input type="hidden" name="record" value="shareholderOut">
+    <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">
+
     <div class="grid grid-cols-12 gap-x-5">
            <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
