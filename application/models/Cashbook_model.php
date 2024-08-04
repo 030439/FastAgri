@@ -441,7 +441,6 @@ class Cashbook_model extends CI_Model {
         $this->db->insert('cash_in_out', $arr);
         $id_ = $this->db->insert_id();
         $this->balance($arr,$id_);
-
         if($data['cash-selection']=='cash-in'){
             // $this->debit($data);
             if($data['cash-selection-type']=='customer'){
@@ -970,7 +969,7 @@ class Cashbook_model extends CI_Model {
             $this->db->where('id', $sh);
             $res=$this->db->update('shareholders');
             if($res){
-                $deleted=$this->db->delete('shareholders_pays', ['sid' => $firstPerson,'pay_date'=>$pdate]);
+                $deleted=$this->db->delete('shareholders_pays', ['sid' => $firstPerson,'pay_date'=> $old_date,'amount'=>$first_amount]);
                 $this->db->where('id', $sh);
                 $all = $this->db->get('shareholders')->result_array();
                 $b=$all[0]['balance'];

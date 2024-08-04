@@ -4,45 +4,18 @@
     <input type="hidden" name="record" value="shareholderOut">
     <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">
 
-    <div class="grid grid-cols-12 gap-x-5">
-           <div class="lg:col-span-4 md:col-span-6 col-span-12">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Cash</h5>
-                    <div class="cashier-select-field-style">
-                        <select id="cash-selection" class="block" name="cash-selection" style="display: none;">
-                            <option selected="" disabled="" value="default">Select cash </option>
-                            <option value="cash-in">Cash In</option>
-                            <option value="cash-out">Cash Out</option>
-                            <?php
-                        if(!empty($data)):
-                            foreach($data['designation'] as $de):
-                        ?>
-                            <option value="<?= $de->id;?>"><?php ShowVal($de->name);?></option>
-                            <?php endforeach; endif;?>
-                        </select>
-                        <?php validator('designation_id')?>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-12 gap-x-5">
 
-            <div class="lg:col-span-4 md:col-span-6 col-span-12">
-                <div class="cashier-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Cash Selection Type</h5>
-                    <div class="cashier-select-field-style">
-                        <select id="cash-selection-type" class="block" name="cash-selection-type">
-                        </select>
-                        <?php validator('designation_id')?>
-                    </div>
-                </div>
-            </div>
             <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Cash Selection Party</h5>
                     <div class="cashier-select-field-style">
-                        <select id="cash-selection-party" class="block" name="cash-selection-party">
-                       
+                         <select id="cash-selection-party" class="block" name="cash-selection-party">
+                       <?php foreach($data['shareholders'] as $shareholder):?>
+                        <option <?php is_qual($shareholder->id,$data['record'][0]['cash_sP']); echo " "; set_value($shareholder->id);?>><?php echo $shareholder->Name;?></option>
+                        <?php endforeach;?>
                         </select>
-                        <?php validator('designation_id')?>
+                        <?php validator('cash-selection-party')?>
                     </div>
                 </div>
             </div>
