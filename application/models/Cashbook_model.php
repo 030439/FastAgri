@@ -677,51 +677,94 @@ class Cashbook_model extends CI_Model {
             $res=$this->db->update('employees');
             if($res){
                 $deleted=$this->db->delete('employee_loan', ['employee_id' => $customerId,'date_'=>$old_date]);
-                if($deleted){
-                    $this->db->insert('employee_loan', $data_);
-                    $eid = $this->db->insert_id();
-                    $employee = $this->db->get_where('loans', ['employee_id' => $customerId])->row();
-                    $loan=$employee->loan;
-                    $loan+=$data['amount'];
-                    // $installment_=$employee->load;
-                    $installment_=$data['installment'];
-                    $loan=[
-                        'loan'=>$loan,
-                        'installment'=>$installment_
-                    ];
-                    $this->db->where('employee_id', $customerId);
-                    $this->db->update('loans', $loan);
-                    
-                    $tunnels=$data['select-tunnel'];
-                    $all=$this->getAllTunnels();
-                    $allTunnel=count($tunnels);
-                    $perTunnel=$data['amount']/$allTunnel;
-            
-                    foreach($tunnels as $tunnel){
-                            $expense=[
-                                'tunnel_id'=>$tunnel,
-                                'expense_type'=>'ADV',
-                                'eid'=>$eid,
-                                'amount'=>$perTunnel,
-                                'edate'=>$date_,
-                                'pid'=>$customerId
-                            ];
-                            $res=$this->db->insert('tunnel_expense', $expense);
+                if($deleted)
+                {
+                    $firstRemoved=$this->employeeAdvanceRecordUpdation($firstPerson,$first_amount,$data,$old_date);
+                    if($firstRemoved)
+                    {
+                        $this->db->insert('employee_loan', $data_);
+                        $eid = $this->db->insert_id();
+                        $employee = $this->db->get_where('loans', ['employee_id' => $customerId])->row();
+                        $loan=$employee->loan;
+                        $loan+=$data['amount'];
+                        // $installment_=$employee->load;
+                        $installment_=$data['installment'];
+                        $loan=[
+                            'loan'=>$loan,
+                            'installment'=>$installment_
+                        ];
+                        $this->db->where('employee_id', $customerId);
+                        $this->db->update('loans', $loan);
+                        
+                        $tunnels=$data['select-tunnel'];
+                        $all=$this->getAllTunnels();
+                        $allTunnel=count($tunnels);
+                        $perTunnel=$data['amount']/$allTunnel;
+                
+                        foreach($tunnels as $tunnel){
+                                $expense=[
+                                    'tunnel_id'=>$tunnel,
+                                    'expense_type'=>'ADV',
+                                    'eid'=>$eid,
+                                    'amount'=>$perTunnel,
+                                    'edate'=>$date_,
+                                    'pid'=>$customerId
+                                ];
+                                $res=$this->db->insert('tunnel_expense', $expense);
+                        }
                     }
                 }
-                    $this->db->trans_complete(); // Complete Transaction
-    
-                    if ($this->db->trans_status() === FALSE) {
-                        // Transaction failed, handle the error
-                        $this->db->trans_rollback(); // Roll back changes
-                        return false;
-                    } else {
-                        // Transaction succeeded
-                        $this->db->trans_commit(); // Commit changes
-                        return true;
-                    } 
+                $this->db->trans_complete(); // Complete Transaction
+
+                if ($this->db->trans_status() === FALSE) {
+                    // Transaction failed, handle the error
+                    $this->db->trans_rollback(); // Roll back changes
+                    return false;
+                } else {
+                    // Transaction succeeded
+                    $this->db->trans_commit(); // Commit changes
+                    return true;
+                } 
             }
         }
+    }
+    function employeeAdvanceRecordUpdation($firstPerson,$first_amount,$data,$old_date){
+        $ok=false;
+        $this->db->trans_start();
+        $employee = $this->db->get_where('loans', ['employee_id' => $firstPerson])->row();
+        $loan=$employee->loan;
+        $loan-=$first_amount;
+        // $installment_=$employee->load;
+        $installment_=$data['installment'];
+        $loan=[
+            'loan'=>$loan
+        ];
+        $this->db->where('employee_id', $firstPerson);
+        $this->db->update('loans', $loan);
+        
+        $tunnels=$data['select-tunnel'];
+        $all=$this->getAllTunnels();
+        $allTunnel=count($tunnels);
+        $perTunnel=$first_amount/$allTunnel;
+
+        foreach($tunnels as $tunnel){
+            $deleted=$this->db->delete('tunnel_expense', ['eid' => $firstPerson,'edate'=>$old_date,'amount'=>$perTunnel]);
+            if($deleted){
+                $ok=true;
+            }
+        }
+        return $ok;
+        $this->db->trans_complete(); // Complete Transaction
+
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return $ok;
+        } 
     }
     public function JamandarCashOut($data){
         $amount = $data['amount'];
