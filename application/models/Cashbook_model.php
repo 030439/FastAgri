@@ -41,7 +41,7 @@ class Cashbook_model extends CI_Model {
                 $this->customerCashIn($data);
             }
             elseif($data['record']=="shareholder"){
-                $this->shareHolderCashIn($data);
+                $this->UpdateshareHolderCashIn($firstPerson,$first_amount,$data,$old_date,$cash);
             }
         }
         else{
@@ -50,7 +50,7 @@ class Cashbook_model extends CI_Model {
                 $this->UpdateSupplierCashOut($firstPerson,$first_amount,$data);
             }
             elseif($data['record']=="shareholderOut"){
-                $this->UpdateshareHolderCashOut($firstPerson,$first_amount,$data,$old_date);
+                $this->UpdateshareHolderCashOut($firstPerson,$first_amount,$data,$old_date,$cash);
             }
             elseif($data['record']=="jamandari"){
                 $this->JamandarCashOut($data);
@@ -957,7 +957,7 @@ class Cashbook_model extends CI_Model {
         } 
     }
 
-    public function UpdateshareHolderCashOut($firstPerson,$first_amount,$data,$old_date){
+    public function UpdateshareHolderCashOut($firstPerson,$first_amount,$data,$old_date,$cash){
         $this->db->trans_start();
         $amount = $data['amount'];
         $sh = $data['cash-selection-party'];
@@ -975,7 +975,7 @@ class Cashbook_model extends CI_Model {
                 $b=$all[0]['balance'];
             $arr=[
                 'sid'      => $sh,
-                'pay_type' => $data['cash-selection'],
+                'pay_type' => $cash,
                 'amount'   => $amount, 
                 'balance'=>$b,
             ];
@@ -995,7 +995,43 @@ class Cashbook_model extends CI_Model {
         } 
     }
 
+    public function UpdateshareHolderCashIn($firstPerson,$first_amount,$data,$old_date,$cash){
+        $this->db->trans_start();
+        $amount = $data['amount'];
+        $sh = $data['cash-selection-party'];
+        $this->db->set('balance', 'balance - ' . $this->db->escape($first_amount), FALSE);
+        $this->db->where('id', $firstPerson);
+        $fupdated=$this->db->update('shareholders');
+        if($fupdated){
+            $this->db->set('balance', 'balance + ' . $this->db->escape($amount), FALSE);
+            $this->db->where('id', $sh);
+            $res=$this->db->update('shareholders');
+            if($res){
+                $deleted=$this->db->delete('shareholders_pays', ['sid' => $firstPerson,'pay_date'=> $old_date,'amount'=>$first_amount]);
+                $this->db->where('id', $sh);
+                $all = $this->db->get('shareholders')->result_array();
+                $b=$all[0]['balance'];
+            $arr=[
+                'sid'      => $sh,
+                'pay_type' => $cash,
+                'amount'   => $amount, 
+                'balance'=>$b,
+            ];
+            $ok= $this->db->insert('shareholders_pays', $arr);
+            }
+        }
+        $this->db->trans_complete(); // Complete Transaction
 
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return $ok;
+        } 
+    }
     public function shareHolderCashIn($data){
         $amount = $data['amount'];
         $sh = $data['cash-selection-party'];
