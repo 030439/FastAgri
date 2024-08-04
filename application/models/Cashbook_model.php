@@ -62,7 +62,7 @@ class Cashbook_model extends CI_Model {
                 $this->UpdateGivenSalary($firstPerson,$first_amount,$data,$old_date);
             }
              elseif($data['record']=="advance"){
-                $this->employeeAdvance($data);
+                $this->UpdateemployeeAdvance($firstPerson,$first_amount,$data,$old_date);
             }
             elseif($data['record']=="expense"){
                 $this->Expense($data);
@@ -610,6 +610,7 @@ class Cashbook_model extends CI_Model {
         $customerId = $data['cash-selection-party'];
         $installment=$data['installment'];
         $date_=date('y-m-d');
+        $this->db->trans_start();
         $data_=['employee_id'=>$customerId,'employee_type'=>1,'amount'=>$amount,'installment'=>$installment,'date_'=>$date_];
 
         $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
@@ -619,16 +620,16 @@ class Cashbook_model extends CI_Model {
             $this->db->insert('employee_loan', $data_);
             $eid = $this->db->insert_id();
             $employee = $this->db->get_where('loans', ['employee_id' => $customerId])->row();
-            $loan=$employee->load;
+            $loan=$employee->loan;
             $loan+=$data['amount'];
-            $installment_=$employee->load;
-            $installment_+=$data['installment'];
+           // $installment_=$employee->load;
+            $installment_=$data['installment'];
             $loan=[
                 'loan'=>$loan,
                 'installment'=>$installment_
             ];
             $this->db->where('employee_id', $customerId);
-            return $this->db->update('loans', $loan);
+            $this->db->update('loans', $loan);
             
             $tunnels=$data['select-tunnel'];
             $all=$this->getAllTunnels();
@@ -646,6 +647,80 @@ class Cashbook_model extends CI_Model {
                         ];
                         $res=$this->db->insert('tunnel_expense', $expense);
                 }
+                $this->db->trans_complete(); // Complete Transaction
+
+                if ($this->db->trans_status() === FALSE) {
+                    // Transaction failed, handle the error
+                    $this->db->trans_rollback(); // Roll back changes
+                    return false;
+                } else {
+                    // Transaction succeeded
+                    $this->db->trans_commit(); // Commit changes
+                    return true;
+                } 
+        }
+    }
+    public function UpdateemployeeAdvance($firstPerson,$first_amount,$data,$old_date){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+        $installment=$data['installment'];
+        $date_=date('y-m-d');
+        $this->db->trans_start();
+        $data_=['employee_id'=>$customerId,'employee_type'=>1,'amount'=>$amount,'installment'=>$installment,'date_'=>$date_];
+
+        $this->db->set('payable', 'payable + ' . $this->db->escape($first_amount), FALSE);
+        $this->db->where('id', $firstPerson);
+        $fupdated=$this->db->update('employees');
+        if($fupdated){
+            $this->db->set('payable', 'payable - ' . $this->db->escape($amount), FALSE);
+            $this->db->where('id', $customerId);
+            $res=$this->db->update('employees');
+            if($res){
+                $deleted=$this->db->delete('employee_loan', ['employee_id' => $customerId,'date_'=>$old_date]);
+                if($deleted){
+                    $this->db->insert('employee_loan', $data_);
+                    $eid = $this->db->insert_id();
+                    $employee = $this->db->get_where('loans', ['employee_id' => $customerId])->row();
+                    $loan=$employee->loan;
+                    $loan+=$data['amount'];
+                    // $installment_=$employee->load;
+                    $installment_=$data['installment'];
+                    $loan=[
+                        'loan'=>$loan,
+                        'installment'=>$installment_
+                    ];
+                    $this->db->where('employee_id', $customerId);
+                    $this->db->update('loans', $loan);
+                    
+                    $tunnels=$data['select-tunnel'];
+                    $all=$this->getAllTunnels();
+                    $allTunnel=count($tunnels);
+                    $perTunnel=$data['amount']/$allTunnel;
+            
+                    foreach($tunnels as $tunnel){
+                            $expense=[
+                                'tunnel_id'=>$tunnel,
+                                'expense_type'=>'ADV',
+                                'eid'=>$eid,
+                                'amount'=>$perTunnel,
+                                'edate'=>$date_,
+                                'pid'=>$customerId
+                            ];
+                            $res=$this->db->insert('tunnel_expense', $expense);
+                    }
+                }
+                    $this->db->trans_complete(); // Complete Transaction
+    
+                    if ($this->db->trans_status() === FALSE) {
+                        // Transaction failed, handle the error
+                        $this->db->trans_rollback(); // Roll back changes
+                        return false;
+                    } else {
+                        // Transaction succeeded
+                        $this->db->trans_commit(); // Commit changes
+                        return true;
+                    } 
+            }
         }
     }
     public function JamandarCashOut($data){

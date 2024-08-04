@@ -103,6 +103,7 @@ $route['getEmployeeById']="Employee/getEmployeePayById";
 $route['employee/edit/(:num)']="Employee/employeEdit/$1";
 $route['update-employee']="Employee/updateEmployee";
 $route['getEmployeesList']="Employee/getEmployeesList";
+$route['getEmployeeInstallment']="Employee/getEmployeeInstallment";
 $route['employee-loan-listing']="Employee/employeeLoanListing";
 $route['employee/ledger/(:num)']="Employee/employeeLedger/$1";
 $route['employee-ledger/(:num)']="Employee/employeeLedgerListing/$1";

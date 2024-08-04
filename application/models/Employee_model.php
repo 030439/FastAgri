@@ -195,6 +195,7 @@ class Employee_model extends CI_Model {
         $customer = $this->db->get_where('customers', ['id' => $id])->row();
         return $customer;
     }
+   
     public function getEmployeeById($id) {
         $customer = $this->db->get_where('employees', ['id' => $id])->row();
         return $customer;

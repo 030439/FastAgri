@@ -51,6 +51,7 @@ class Cashbook extends CI_Controller {
                 }
 				elseif ($d['case_sT']=="advance") {
 					$page="employee-advance";
+					$data['tunnels']=$this->Common_model->getAll('tunnels');
 					$data['employees']= $this->Employee_model->getEmployees();
                 }
                 elseif ($d['case_sT']=="jamandari") {

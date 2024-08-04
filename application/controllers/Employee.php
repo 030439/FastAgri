@@ -146,6 +146,11 @@ class Employee extends CI_Controller {
 		$id=$this->input->post('id');
 		echo $this->Employee_model->getEmployeePayById($id);
 	}
+	public function getEmployeeInstallment(){
+		$id=$this->input->post('id');
+
+		echo getEmployeeInstallment($id);
+	}
 	public function employeEdit($id){
 		try{
 			$data['employee']=$this->Employee_model->getEmployeeById($id);

@@ -469,6 +469,16 @@ function toggleCheckedAll(checkbox) {
         }
       });
     }
+    function getEmployeeInstallment(id){
+      $.ajax({
+        url: "getEmployeeInstallment",
+        method: 'post',
+        data:{id:id},
+        success: function(ins){
+           $("#ins-amount").val(ins);
+        }
+      });
+    }
     function getJamandariById(id){
       $.ajax({
         url: "getJamandariById",
@@ -586,6 +596,9 @@ function toggleCheckedAll(checkbox) {
           getEmployeeById(cstp);
           $("#e-amount").show();
         }
+        if(cst=="advance"){
+          getEmployeeInstallment(cstp);
+        }
         else if(cst=="jamandari"){
           getJamandariById(cstp);
           $("#e-amount").show();
@@ -594,5 +607,6 @@ function toggleCheckedAll(checkbox) {
           alert("cash out");
         }
       }
+     
     });
 </script>

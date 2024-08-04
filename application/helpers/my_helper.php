@@ -217,7 +217,13 @@ if (!function_exists('getLabourQty')) {
         }
     }
 }
-
+ function getEmployeeInstallment($id) {
+    $CI =& get_instance();
+    $CI->load->database();
+    $query = $CI->db->query("SELECT installment FROM loans  WHERE employee_id = ?", array($id));
+    $result = $query->result_array();
+    return $result[0]['installment'];
+}
 if (!function_exists('jamandarName')) {
     function jamandarName($id)
     {

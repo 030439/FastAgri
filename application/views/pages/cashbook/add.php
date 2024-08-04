@@ -133,7 +133,7 @@ label {
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Installment</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" name="installment" value="0" >
+                            <input type="number" name="installment" id="ins-amount" value="0" >
                         </div>
                     </div>
                 </div>
