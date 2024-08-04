@@ -582,6 +582,7 @@ function toggleCheckedAll(checkbox) {
         }
         else if(cst=="jamandariAdvance"){
           jamandariAccount();
+          $("#e-installment").show();
           $("#narration-field").show();
         }
       }

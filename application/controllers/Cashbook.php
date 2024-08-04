@@ -64,6 +64,8 @@ class Cashbook extends CI_Controller {
                 }
                 elseif ($d['case_sT']=="expense") {
 					$page="expense";
+					$data['heads']=$this->Cashbook_model->getAccountHead();
+					$data['tunnels']=$this->Common_model->getAll('tunnels');
                 }
             }
 		}
