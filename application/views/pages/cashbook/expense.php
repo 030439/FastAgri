@@ -1,5 +1,5 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Update Employee Pay Cashbook Entry</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9">Update Expense Pay Cashbook Entry</h4>
     <form action="update-cashbook-pay" method="POST">
     <input type="hidden" name="record" value="expense">
     <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">

@@ -22,7 +22,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3"> Name</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input value="<?php echo set_value('name'); ?>" type="text" placeholder="" name="name">
+                        <input type="text" placeholder="Enter Tunnel name" name="name" >
                         <?php validator('name')?>
                     </div>
                 </div>

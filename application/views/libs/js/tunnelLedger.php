@@ -40,15 +40,15 @@
                     }, 
                   // { "data": "edate" },
               ],
-              "footerCallback": function ( row, data, start, end, display ) {
-            var api = this.api();
-            var totalBalance = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
-                return a + (parseFloat(b) || 0);
-            }, 0);
+        //       "footerCallback": function ( row, data, start, end, display ) {
+        //     var api = this.api();
+        //     var totalBalance = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
+        //         return a + (parseFloat(b) || 0);
+        //     }, 0);
 
-            // Update footer
-            $(api.column(4).footer()).html(totalBalance.toFixed(2));
-        }
+        //     // Update footer
+        //     $(api.column(4).footer()).html(totalBalance.toFixed(2));
+        // }
       });
       $('#filter').on('click', function() {
                 table.ajax.reload();

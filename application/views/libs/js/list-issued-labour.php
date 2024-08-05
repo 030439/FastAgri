@@ -20,7 +20,7 @@ $('#user-list').DataTable({
                   { "data": "rate" },
                   { "data": "deduction" },
                   { "data": "total_amount" },
-                  { "data": "create_at" },
+                  { "data": "ldate" },
                   { // Actions column
                      "data": "issue_stock_id",
                         "render": function(data, type, row) {

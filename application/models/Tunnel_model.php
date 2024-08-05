@@ -630,9 +630,9 @@ class Tunnel_model extends CI_Model
             $amounts = explode(',', $record['amount']);
             $GradeId = explode(',', $record['GradeId']);
             $NetAmount = explode(',', $record['NetAmount']);
- $fre = explode(',', $record['fre']);
-$commission = explode(',', $record['commission']);
-$Labour = explode(',', $record['Labour']);
+            $fre = explode(',', $record['fre']);
+            $commission = explode(',', $record['commission']);
+            $Labour = explode(',', $record['Labour']);
             
             // Determine the maximum length to iterate through
             $maxLength = max(count($quantities), count($rates), count($amounts));
@@ -807,13 +807,13 @@ $newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity']
                     $result[$c]['amount'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "EMP"){
-                    $res[$c]['head']   = employeeName_($re['pid']);
+                    $res[$c]['head']   = employeeName_($re['eid_']);
                     $res[$c]['qty']    = 0;
                     $res[$c]['rate']   = 0;
                     $result[$c]['amount'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "ADV"){
-                    $res[$c]['head']   = employeeName_($re['pid']);
+                    $res[$c]['head']   = employeeName_($re['eid_']);
                     $res[$c]['qty']    = 0;
                     $result[$c]['amount'] = $re['eamount'];
                     $res[$c]['rate']   = 0;

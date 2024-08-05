@@ -940,13 +940,11 @@ class Cashbook_model extends CI_Model {
         $all=$this->getAllTunnels();
         $allTunnel=count($tunnels);
         $perTunnel=$data['amount']/$allTunnel;
-
-        // if($tunnels==0){
             foreach($tunnels as $tunnel){
                     $expense=[
                         'tunnel_id'=>$tunnel,
                         'expense_type'=>'EXP',
-                        'eid'=>$eid,
+                        'eid'=>$data['cash-selection-party'],
                         'amount'=>$perTunnel,
                         'edate'=>$date,
                         'pid'=>$data['cash-selection-party']

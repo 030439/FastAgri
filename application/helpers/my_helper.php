@@ -157,22 +157,28 @@ if (!function_exists('getIssueProQty')) {
 
         // Fetch the result as an associative array
         $result = $query->result_array();
-        $result=$result[0];
-        if(!empty($result['product_id'])){
-            $product_ids = explode(',', $result['product_id']);
-            $rates = explode(',', $result['rate']);
-            foreach ($product_ids as $index => $product_id) {
-                if($pid==$product_id){
-                    $result['price']=$rates[$index];
+      $result = isset($result[0]) ? $result[0] : 0;
+
+        if($result!=0){
+            if(!empty($result['product_id'])){
+                $product_ids = explode(',', $result['product_id']);
+                $rates = explode(',', $result['rate']);
+                foreach ($product_ids as $index => $product_id) {
+                    if($pid==$product_id){
+                        $result['price']=$rates[$index];
+                    }
                 }
             }
-        }
-        // Check if result is not empty
-        if ($result) {
+            if ($result) {
             return $result;
         } else {
             return "Product not found";
         }
+        }
+        else{
+            return 0;
+        }
+        // Check if result is not empty
     }
 }
 function is_qual($a,$b){
