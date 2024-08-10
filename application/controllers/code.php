@@ -630,9 +630,9 @@ class Tunnel_model extends CI_Model
             $amounts = explode(',', $record['amount']);
             $GradeId = explode(',', $record['GradeId']);
             $NetAmount = explode(',', $record['NetAmount']);
-            $fre = explode(',', $record['fre']);
-            $commission = explode(',', $record['commission']);
-            $Labour = explode(',', $record['Labour']);
+ $fre = explode(',', $record['fre']);
+$commission = explode(',', $record['commission']);
+$Labour = explode(',', $record['Labour']);
             
             // Determine the maximum length to iterate through
             $maxLength = max(count($quantities), count($rates), count($amounts));
@@ -644,7 +644,7 @@ class Tunnel_model extends CI_Model
                // $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
 $newRecord['Labour'] = number_format($Labour[$i] ?? $Labour[0]*$newRecord['Quantity'],2);
 $newRecord['commission'] = number_format($commission[$i] ?? $commission[0]*$newRecord['Quantity'],2);
-$newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity'],2);
+$newRecord['fre'] = $Freight[$i] ?? $fre[0]*$newRecord['Quantity'];
                 $newRecord['amount'] = $amounts[$i] ?? $amounts[0];
  $newRecord['NetAmount']= number_format($newRecord['amount']- $newRecord['Labour']-$newRecord['commission']-$newRecord['fre'],2);
                 $grade=$GradeId[$i] ?? $GradeId[0];
@@ -801,22 +801,22 @@ $newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity']
                     $result[$c]['amount'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "EXP"){
-                    $result[$c]['head']   = $this->accountHeadName($re['epid']);
-                    $result[$c]['qty_'] =  0;
-                    $result[$c]['rate_']   = 0;
+                    $res[$c]['head']   = $this->accountHeadName($re['pid']);
+                    $res[$c]['qty']    = 0;
+                    $res[$c]['rate']   = 0;
                     $result[$c]['amount'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "EMP"){
-                    $result[$c]['head']   = employeeName_($re['epid']);
-                    $result[$c]['qty_']    = 0;
-                    $result[$c]['rate_']   = 0;
+                    $res[$c]['head']   = employeeName_($re['pid']);
+                    $res[$c]['qty']    = 0;
+                    $res[$c]['rate']   = 0;
                     $result[$c]['amount'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "ADV"){
-                    $result[$c]['head']   = employeeName_($re['epid']);
-                    $result[$c]['qty_']    = 0;
+                    $res[$c]['head']   = employeeName_($re['pid']);
+                    $res[$c]['qty']    = 0;
                     $result[$c]['amount'] = $re['eamount'];
-                    $result[$c]['rate_']   = 0;
+                    $res[$c]['rate']   = 0;
                 }
                  else {
                     $lb = getLabourQty($id, $re['eid_']);
