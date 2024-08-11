@@ -379,11 +379,10 @@ LIMIT $start, $length;
 
     }
     
-    public  function jamandari($jid){
-        $date=date("Y-m-d");
+    public  function jamandari($jid,$ldate){
         $this->db->select('amount');
         $this->db->where('jid', $jid);
-        $this->db->where('date_', $date);
+        $this->db->where('date_', $ldate);
         $query = $this->db->get('jamandari');
         $result=$query->result();
         if($result){
@@ -452,61 +451,65 @@ LIMIT $start, $length;
     }
     public function issuelabour($data){
         
-        $rate=$this->getRate();
+       
         $counter=count($data['tunnel']);
-        dd($counter);
-        for()
-        $labor=$data['labour'];
-        $j=$data['jamandar'];
-        $ldate=$data['ldate'];
-        $deduction=$data['deduction'];
-        $rate=$rate[0]->amount;
-        $total_amount=$rate*$labor-$deduction;
-        $record=[
-            'tunnel'=>$data['tunnel'],
-            'jamandar'=>$j,
-            'lq'=>$labor,
-            'rate'=>$rate,
-            'ldate'=>$ldate,
-            'deduction'=>$deduction,
-            'total_amount'=>$total_amount
-        ];
-        $idate=date("Y-m-d");
-        if($this->db->insert('issuelabour', $record)){
-            $insert_id = $this->db->insert_id();
-            $expense=[
-                'tunnel_id'=>$data['tunnel'],
-                'expense_type'=>"Labour",
-                'eid'=>$insert_id,
-                'amount'=>$total_amount,
-                'edate'=>$ldate,
-                'pid'=>0
+     
+        for($C=0;$C<$counter;$C++){
+            $rate=$this->getRate();
+            $labor=$data['labour'][$C];
+            $j=$data['jamandar'];
+            $ldate=$data['ldate'];
+            $deduction=$data['deduction'][$C];
+            $rate=$rate[0]->amount;
+            $total_amount=$rate*$labor-$deduction;
+            $record=[
+                'tunnel'=>$data['tunnel'][$C],
+                'jamandar'=>$j,
+                'lq'=>$labor,
+                'rate'=>$rate,
+                'ldate'=>$ldate,
+                'deduction'=>$deduction,
+                'total_amount'=>$total_amount
             ];
-             $this->db->insert('tunnel_expense', $expense);
-            $this->db->select('payable');
-            $this->db->where('jamandar_id', $j);
-            $query = $this->db->get('jamandartotal');
-            $result=$query->result();
-            $last=$result[0]->payable;
-            $amount=$last+$total_amount;
-            $out=$this->jamandari($data['jamandar']);
-            if(!$out){
-                $jamount=$this->jamandariAmount($data['jamandar']);
-                $jarr=[
-                    'jid'=>$j,
-                    'amount'=>$jamount,
-                    'date_'=>$ldate
+            $idate=date("Y-m-d");
+            $ok=false;
+            if($this->db->insert('issuelabour', $record)){
+                $insert_id = $this->db->insert_id();
+                $expense=[
+                    'tunnel_id'=>$data['tunnel'][$C],
+                    'expense_type'=>"Labour",
+                    'eid'=>$insert_id,
+                    'amount'=>$total_amount,
+                    'edate'=>$ldate,
+                    'pid'=>0
                 ];
-                $this->addJamandari($jarr);
-                $amount+=$jamount;
+                $this->db->insert('tunnel_expense', $expense);
+                $this->db->select('payable');
+                $this->db->where('jamandar_id', $j);
+                $query = $this->db->get('jamandartotal');
+                $result=$query->result();
+                $last=$result[0]->payable;
+                $amount=$last+$total_amount;
+                $out=$this->jamandari($data['jamandar'],$ldate);
+                if(!$out){
+                    $jamount=$this->jamandariAmount($data['jamandar']);
+                    $jarr=[
+                        'jid'=>$j,
+                        'amount'=>$jamount,
+                        'date_'=>$ldate
+                    ];
+                    $this->addJamandari($jarr);
+                    $amount+=$jamount;
+                }
+                $sql = "UPDATE jamandartotal SET payable = ? WHERE jamandar_id = ?";
+                 $this->db->query($sql, array($amount, $j));
+                 $ok=true;
             }
-            $sql = "UPDATE jamandartotal SET payable = ? WHERE jamandar_id = ?";
-            return $this->db->query($sql, array($amount, $j));
+            else{
+            $ok= false;
+            }
         }
-        else{
-           return false;
-        }
-        
+        return $ok;
      
     }
     public function deductJamandarPay($j,$amount){
@@ -573,7 +576,7 @@ LIMIT $start, $length;
                 $result=$query->result();
                 $last=$result[0]->payable;
                 $amount=$last+$total_amount;
-                $out=$this->jamandari($data['jamandar']);
+                $out=$this->jamandari($data['jamandar'],$ldate);
                 if(!$out){
                     $jamount=$this->jamandariAmount($data['jamandar']);
                     $jarr=[

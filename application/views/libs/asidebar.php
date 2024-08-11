@@ -115,6 +115,9 @@
                         <li>
                             <a href="supplier" >Suppliers</a>
                         </li>
+                        <li>
+                            <a href="direct-parties" >Direct Parties</a>
+                        </li>
                         </ul>
                     </li>
                     <li>
@@ -192,17 +195,11 @@
                             <li><a href="category"> Employee Category</a></li>
                             <li><a href="designation"> Employee Designation</a></li>
                             <li><a href="issued-labour-list">Issued Labour List</a></li>
-                            <li><a href="javascript:void(0)" class="has-arrow">PayRoll</a>
-                                <ul class="mm-collapse">
-                                    <!-- <li><a href="payroll/add">Add payroll</a></li> -->
-                                    <li><a href="payroll/generate">Generate payroll</a></li>
-                                    <li><a href="payroll">Genterative List PayRoll</a></li>
-                                </ul>
+                            <li>
+                            <a href="payroll">Genterative List PayRoll</a>
                             </li>
-                             <li><a href="javascript:void(0)" class="has-arrow">jamandars</a>
-                                <ul class="mm-collapse">
-                                    <li><a href="jamandars">Jamandars List </a></li>
-                                </ul>
+                             <li>
+                             <a href="jamandars">Jamandars List </a>
                             </li>
                             <li><a href="javascript:void(0)" class="has-arrow">Advance/Loan</a>
                                 <ul class="mm-collapse">

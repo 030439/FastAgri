@@ -1,5 +1,5 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Issue Labour</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9" style="text-align:center">Issue Labour</h4>
     <form action="labour-issue" method="post">
         <div class="grid grid-cols-12 gap-x-5">
             <div class="lg:col-span-6 md:col-span-6 col-span-12">
@@ -48,7 +48,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Enter no of labour</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                    <input type="number" name="labour[]" id="labour-1" min="1" onkeyup="getTotalAmountForLabour(this)">
+                    <input type="number" name="labour[]" id="labour-1" min="1" onkeyup="getTotalAmountForLabours(this)">
                         <?php validator('labour')?>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ function addNewRecord() {
     const newLabourInputs = newSection.querySelectorAll('input[name="labour[]"]');
     newLabourInputs.forEach(input => {
         input.addEventListener('keyup', function() {
-            getTotalAmountForLabour(this);
+            getTotalAmountForLabours(this);
         });
     });
 
