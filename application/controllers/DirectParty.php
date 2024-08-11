@@ -6,6 +6,7 @@ class DirectParty extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('Customer_model');
+        $this->load->model('Direct_model');
         $this->load->library('form_validation');
 		if (!is_authorized()) {
 			redirect('auth/login');
@@ -106,18 +107,17 @@ class DirectParty extends CI_Controller {
         $this->form_validation->set_rules('Name', 'Name', 'required');
         $this->form_validation->set_rules('contact', 'Phone', 'required');
         $this->form_validation->set_rules('address', 'Address', 'required');
-        $this->form_validation->set_rules('company', 'Company ', 'required');
         $this->form_validation->set_rules('cnic', 'CNIC', 'required');
         if ($this->form_validation->run() == FALSE) {
 			
-			$this->load->view('layout/parts',['page'=>"pages/customer/add-customer"]);
+			$this->load->view('layout/parts',['page'=>"pages/direct/add-party"]);
         }
 		 else {
             // XSS cleaning for input data
             $data = $this->input->post(NULL, TRUE);
 		
-           $res= $this->Customer_model->createCustomer($data);
-		   $this->response($res,'customer',"Data Inserted Successfully");
+           $res= $this->Direct_model->createDirect($data);
+		   $this->response($res,'direct-parties',"Data Inserted Successfully");
         }
     }
 	public function response($res,$route,$msg){

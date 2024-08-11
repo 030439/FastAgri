@@ -43,6 +43,8 @@ $route['customer-detail/(:num)']="customer/customerDetailList/$1";
 $route['customer/customerDetailListing/(:num)']="customer/customerDetailListing/$1";
 //direct parties
 $route['direct-parties'] = 'directparty/index';
+$route['direct/create'] = 'directparty/add';
+$route['direct/save'] = 'directparty/create';
 //supplier
 $route['fetch-suppliers']="Supplier/fetchAll";
 $route['supplier/edit/(:num)']="Supplier/supplierEdit/$1";

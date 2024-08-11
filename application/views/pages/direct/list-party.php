@@ -2,8 +2,8 @@
     <div class="cashier-managesale-area bg-white p-7 pt-5 custom-shadow rounded-lg mb-5">
         <div style="display:flex">
             <div class="cashier-managesale-top-btn default-light-theme">
-                <button class="mb-1" onclick="document.location='customer/create'">
-                    <i class="fa-light fa-plus"></i> Add Customer
+                <button class="mb-1" onclick="document.location='direct/create'">
+                    <i class="fa-light fa-plus"></i> Add Direct Party
                 </button>
             </div>
             <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403">Customer List</span></h4>
