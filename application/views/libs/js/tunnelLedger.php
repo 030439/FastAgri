@@ -33,7 +33,7 @@
                             if(data=="Sell"){
                                 linker="sell-detail/"+row.entry_id;
                             }else{
-                              linker="report/"+row.entry_id;
+                              linker="report/";
                             }
                             return '<a href='+linker+' style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">Detail</a> ';
                         }

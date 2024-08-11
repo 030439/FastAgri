@@ -279,7 +279,12 @@ class Tunnel_model extends CI_Model
         $query = $this->db->query("
         SELECT 
         s.`id` AS sid,
-        sd.`NetAmount`
+        sd.`NetAmount`,
+        sd.`Amount`,
+        sd.`Freight`,
+        sd.`commission`,
+        sd.`Labour`,
+        sd.`Quantity`
         FROM 
         `sells` AS s
         JOIN 
@@ -291,15 +296,23 @@ class Tunnel_model extends CI_Model
         JOIN 
         `grades` AS g ON g.`id` = sd.`GradeId`
         WHERE t.`id` =$id");
-        $result = $query->result_array(); 
+        $result = $query->result_array();
         $total=0;
+        $count_=count($result);
         if($result){
-                if($result[0]['NetAmount']){
-                    $amounts= explode(',',$result[0]['NetAmount']);
+            for($counter=0;$counter<$count_;$counter++){
+                if($result[$counter]['NetAmount']){
+                    $Labours= explode(',',$result[$counter]['Labour']);
+                    $qts= explode(',',$result[$counter]['Quantity']);
+                    $commissions= explode(',',$result[$counter]['commission']);
+                    $Freights= explode(',',$result[$counter]['Freight']);
+                    $amounts= explode(',',$result[$counter]['Amount']);
                     foreach($amounts as $a=>$amount){
-                        $total+=$amount;
+                        $famount=($amount-($Freights[$a]*$qts[$a])-($Labours[$a]*$qts[$a])-($commissions[$a]*$qts[$a]));
+                        $total+=$famount;
                     }
                 }
+            }
         }
         return $total;
     }
@@ -401,11 +414,13 @@ class Tunnel_model extends CI_Model
         // Process each record for additional data
         foreach ($res as $c => $re) {
             if ($re['expense_type'] == "issueStockPurchase") {
+                
                 $pq = getIssueProQty($id, $re['pid']);
                 $res[$c]['head'] = productName_($re['pid']);
                 $res[$c]['qty'] = $pq['qty'];
                 $res[$c]['rate'] = $re['amount'];
                 $res[$c]['amount'] = $pq['qty'] * $re['amount'];
+
             } elseif ($re['expense_type'] == "Jamandari") {
                 $pq = getIssueProQty($id, $re['pid'], $re['edate']);
                 $res[$c]['head'] = jamandarName($re['pid']);
@@ -470,8 +485,8 @@ class Tunnel_model extends CI_Model
                 $pq=getIssueProQty($id, $re->pid);
                 $res[$c]->head   = productName_($re->pid);
                 $res[$c]->qty    = $pq['qty'];
-                $res[$c]->rate   = $re->amount;
-                $res[$c]->amount = $pq['qty']*$re->amount;
+                $res[$c]->rate   = $pq['price'];
+                $res[$c]->amount = $pq['qty']*$pq['price'];
             }
             elseif($re->expense_type == "Jamandari"){
                 $res[$c]->head   = jamandarName($re->pid);
@@ -642,11 +657,17 @@ class Tunnel_model extends CI_Model
                 $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
                 $newRecord['Rate'] = $rates[$i] ?? $rates[0];
                // $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
-$newRecord['Labour'] = number_format($Labour[$i] ?? $Labour[0]*$newRecord['Quantity'],2);
-$newRecord['commission'] = number_format($commission[$i] ?? $commission[0]*$newRecord['Quantity'],2);
-$newRecord['fre'] = number_format($Freight[$i] ?? $fre[0]*$newRecord['Quantity'],2);
-                $newRecord['amount'] = $amounts[$i] ?? $amounts[0];
- $newRecord['NetAmount']= number_format($newRecord['amount']- $newRecord['Labour']-$newRecord['commission']-$newRecord['fre'],2);
+               $a_=$amounts[$i] ?? $amounts[0];
+               $l_=$Labour[0]*$newRecord['Quantity'];
+               $c_=$commission[0]*$newRecord['Quantity'];
+               $f_=$fre[0]*$newRecord['Quantity'];
+               $D_=$l_+$c_+$f_;
+               $n_=$a_-$D_;
+$newRecord['Labour'] = number_format( $l_,2);
+$newRecord['commission'] = number_format($c_,2);
+$newRecord['fre'] =  number_format($f_,2);
+$newRecord['amount'] = $a_;
+ $newRecord['NetAmount']= number_format($n_,2);
                 $grade=$GradeId[$i] ?? $GradeId[0];
                 if($grade==1){
                     $newRecord['GradeId'] = "A";

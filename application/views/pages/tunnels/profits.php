@@ -28,6 +28,7 @@
                     <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
                         <thead>
                             <tr>
+                            <th>Sell Date</th>
                                 <th>Customer</th>
                                 <th>Grade</th>
                                 <th>Quantity</th>
@@ -37,7 +38,7 @@
  <th>Commission</th>
  <th>Freight</th>
                                 <th>Net Amount</th>
-                                <th>Sell Date</th>
+                                
                             </tr>
                         </thead>
                         <tfoot>

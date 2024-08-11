@@ -6,10 +6,15 @@
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3"> Name</h5>
                     <div class="cashier-input-field-style">
-                        <div class="single-input-field w-full">
-                            <input type="text" value="<?php echo set_value('name'); ?>"name="name">
-                            <?php validator('name')?>
-                        </div>
+                    <div class="single-input-field w-full">
+    <input type="text" name="name" value="<?php echo set_value('name'); ?>">
+    <?php if (isset($validation) && $validation->hasError('name')): ?>
+        <div class="text-red-500 text-sm mt-2">
+            <?php echo $validation->getError('name'); ?>
+        </div>
+    <?php endif; ?>
+</div>
+
                     </div>
                 </div>
             </div>

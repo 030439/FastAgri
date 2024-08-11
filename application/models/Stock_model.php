@@ -624,15 +624,17 @@ class Stock_model extends CI_Model {
              'Quantity'=>$qty,
              'i_date'=>$data['issueDate']
             ];
-        if($this->db->insert('issuestock', $new)){
-           if($this->tunnelExpense($pqid,$data['tunnel'],$data['product'],$qty,$data['issueDate'])){
+            $this->db->insert('issuestock', $new);
+            $lid =$this->db->insert_id();
+        if($lid>0){
+           if($this->tunnelExpense($lid,$pqid,$data['tunnel'],$data['product'],$qty,$data['issueDate'])){
             return true;
            }
            return false;
         }
         return ;
     }
-    public function tunnelExpense($pqid,$tunnel,$pro,$qty,$idate){
+    public function tunnelExpense($id,$pqid,$tunnel,$pro,$qty,$idate){
         $query = $this->db->query("SELECT product_id,fu_price From purchasesdetail WHERE id=$pqid");
         $result = $query->result();
         $product_ids=explode(",",$result[0]->product_id);
@@ -641,6 +643,7 @@ class Stock_model extends CI_Model {
             if($pid==$pro){
                 $amount= $fu_price[$c];
                 $expense=[
+                    'is_id'=>$id,
                     'tunnel_id'=>$tunnel,
                     'expense_type'=>"issueStockPurchase",
                     'eid'=>$pqid,

@@ -152,12 +152,13 @@ if (!function_exists('getIssueProQty')) {
         // Execute the query with proper binding
         $query = $CI->db->query("SELECT i.Quantity as qty,pd.fu_price as rate, pd.product_id
         FROM issuestock i
-        join purchasesdetail pd ON pd.id
+        join purchasesdetail pd ON pd.id =i.PqId
+        join tunnel_expense ON tunnel_expense.is_id=i.id
         WHERE i.tunnel_id = ? AND i.pid = ? ", array($tid,$pid));
 
         // Fetch the result as an associative array
-        $result = $query->result_array();
-      $result = isset($result[0]) ? $result[0] : 0;
+        $results = $query->result_array();
+      $result = isset($results[0]) ? $results[0] : $results;
 
         if($result!=0){
             if(!empty($result['product_id'])){
@@ -200,7 +201,7 @@ function isSalaryAppliedOnThisTunnel($eid,$date,$tunnel){
         return false;
     }
 }
-function set_value($val){
+function set_values($val){
     echo "value=$val";
 }
 if (!function_exists('getLabourQty')) {
@@ -392,8 +393,12 @@ function convertNumberToWords($number) {
 
     $string = $fraction = null;
 
-    if (strpos($number, '.') !== false) {
-        list($number, $fraction) = explode('.', $number);
+    // Explicitly handling floating point numbers as strings
+    if (strpos((string)$number, '.') !== false) {
+        list($integerPart, $fraction) = explode('.', (string)$number);
+        $number = (int)$integerPart;
+    } else {
+        $number = (int)$number;
     }
 
     switch (true) {
@@ -409,7 +414,7 @@ function convertNumberToWords($number) {
             }
             break;
         case $number < 1000:
-            $hundreds = $number / 100;
+            $hundreds = (int)($number / 100);
             $remainder = $number % 100;
             $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
             if ($remainder) {
@@ -428,17 +433,20 @@ function convertNumberToWords($number) {
             break;
     }
 
-    if (null !== $fraction && is_numeric($fraction)) {
+    // Handling the fractional part separately
+    if ($fraction !== null && is_numeric($fraction)) {
         $string .= $decimal;
+        $fraction = str_pad($fraction, strlen($fraction), '0', STR_PAD_RIGHT); // Ensure the fraction is processed as a string
         $words = [];
-        foreach (str_split((string) $fraction) as $number) {
-            $words[] = $dictionary[$number];
+        foreach (str_split($fraction) as $digit) {
+            $words[] = $dictionary[$digit];
         }
         $string .= implode(' ', $words);
     }
 
     return $string;
 }
+
 
 ?>
 

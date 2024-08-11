@@ -347,6 +347,7 @@ class Employee_model extends CI_Model {
                     `cash_in_out` `c`
             
                 WHERE
+                  `c`.`cash_sP` = $id AND
                     `c`.`case_sT` = 'advance'
                 Or
                     `c`.`case_sT` = 'pay'

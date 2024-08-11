@@ -20,6 +20,7 @@
           }
           },        
            "columns": [
+                { "data": "selldate" },
                 { "data": "customer" },
                 { "data": "grade" },
                 { "data": "Quantity" },
@@ -29,7 +30,7 @@
                 { "data": "commission" },
                 { "data": "fre" },
                 { "data": "NetAmount" },
-                { "data": "selldate" },
+               
               ],
               "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api();

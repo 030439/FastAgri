@@ -120,7 +120,20 @@ class Jamandar_model extends CI_Model {
     }
     public function issuedJamandarLabour($id,$draw,$start, $length,$search){
         $this->db->where('jamandar', $id);
-        $totalRecords = $this->db->count_all_results('issuelabour');
+        $totalRecords_1 = $this->db->count_all_results('issuelabour');
+        $query = $this->db->query("
+        SELECT *
+        FROM 
+        `cash_in_out` AS c WHERE
+        `c`.`case_sT` = 'jamandari'
+         Or
+        `c`.`case_sT` = 'jamandariAdvance'
+         AND 
+        `c`.`cash_sP` = $id
+        ");
+        $resultC = $query->result_array();
+        $totalRecords_2=count($resultC);
+        $totalRecords=$totalRecords_1+$totalRecords_2;
         $query = $this->db->query("
         SELECT
                 issue_stock_id,
