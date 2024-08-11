@@ -135,100 +135,109 @@ class Jamandar_model extends CI_Model {
         $totalRecords_2=count($resultC);
         $totalRecords=$totalRecords_1+$totalRecords_2;
         $query = $this->db->query("
-        SELECT
-                issue_stock_id,
-                create_at,
-                total_amount,
-                rate,
-                lq,
-                jamander,
-                TName,
-                deduction,
-                jamandari,
-                jdate,
-                pay_id,
-               type,
-               amount_,
-                 cdate,
-                @running_balance := @running_balance +(
-                    IFNULL(total_amount, 0) - IFNULL(amount_, 0)+  IFNULL(jamandari, 0)
-                ) AS running_balance
-            FROM
-                (
-                SELECT
-                    i.`id` AS issue_stock_id,
-                    i.`create_at`,
-                    i.`total_amount`,
-                    i.`rate`,
-                    i.`lq`,
-                    j.`name` AS jamander,
-                    t.`TName`,
-                    i.`deduction`,
-                    NULL AS jamandari,
-                    NULL AS jdate,
-                    NULL AS pay_id,
-                    NULL AS type,
-                    NULL AS  amount_,
-                    NULL AS  cdate
-
-                FROM 
-                    `issuelabour` AS i
-                    JOIN 
-                    `jamandars` AS j ON i.`jamandar` = j.`id`
-                    JOIN 
-                    `tunnels` AS t ON i.`tunnel` = t.`id`
-                    WHERE j.id=$id
-                UNION ALL
-
-                SELECT
-                    NULL AS issue_stock_id,
-                    NULL AS create_at,
-                    NULL AS total_amount,
-                    NULL AS rate,
-                    NULL AS lq,
-                    NULL AS jamander,
-                    NULL AS TName,
-                    NULL AS deduction,
-                    ja.amount as jamandari,
-                    ja.date_ as jdate,
-                    NULL AS pay_id,
-                    NULL AS type,
-                    NULL AS  amount_,
-                    NULL AS  cdate
-
-                FROM 
-                    `jamandari`AS ja
-                    WHERE ja.jid=$id
-                UNION ALL
-            SELECT 
-                    NULL AS issue_stock_id,
-                    NULL AS create_at,
-                    NULL AS total_amount,
-                    NULL AS rate,
-                    NULL AS lq,
-                    NULL AS jamander,
-                    NULL AS TName,
-                    NULL AS deduction,
-                    NULL AS jamandari,
-                    NULL AS jdate,
-                    c.id AS pay_id,
-                    c.case_sT AS type,
-                    c.amount AS amount_,
-                    c.created_at as cdate
-            FROM
-                    `cash_in_out` `c`
+       WITH RunningBalance AS (
+    SELECT
+        issue_stock_id,
+        create_at,
+        total_amount,
+        rate,
+        lq,
+        jamander,
+        TName,
+        deduction,
+        jamandari,
+        jdate,
+        pay_id,
+        type,
+        amount_,
+        cdate,
+        creater,
+        @running_balance := @running_balance + (
+            IFNULL(total_amount, 0) - IFNULL(amount_, 0) + IFNULL(jamandari, 0)
+        ) AS running_balance
+    FROM
+        (
+            SELECT
+                i.`id` AS issue_stock_id,
+                i.`create_at`,
+                i.`total_amount`,
+                i.`rate`,
+                i.`lq`,
+                j.`name` AS jamander,
+                t.`TName`,
+                i.`deduction`,
+                i.`create_at` AS creater,
+                NULL AS jamandari,
+                NULL AS jdate,
+                NULL AS pay_id,
+                NULL AS type,
+                NULL AS amount_,
+                NULL AS cdate
+            FROM 
+                `issuelabour` AS i
+            JOIN 
+                `jamandars` AS j ON i.`jamandar` = j.`id`
+            JOIN 
+                `tunnels` AS t ON i.`tunnel` = t.`id`
+            WHERE 
+                j.id = $id
             
-                WHERE
-                    `c`.`case_sT` = 'jamandari'
-                     Or
-                    `c`.`case_sT` = 'jamandariAdvance'
-                AND 
-                    `c`.`cash_sP` = $id
-            ) AS combined_data,
-            (SELECT @running_balance := 0) AS rb
-            ORDER BY
-                cdate ASC
-        LIMIT $start, $length
+            UNION ALL
+            
+            SELECT
+                NULL AS issue_stock_id,
+                NULL AS create_at,
+                NULL AS total_amount,
+                NULL AS rate,
+                NULL AS lq,
+                NULL AS jamander,
+                NULL AS TName,
+                NULL AS deduction,
+                ja.create_at AS creater,
+                ja.amount AS jamandari,
+                ja.date_ AS jdate,
+                NULL AS pay_id,
+                NULL AS type,
+                NULL AS amount_,
+                NULL AS cdate
+            FROM 
+                `jamandari` AS ja
+            WHERE 
+                ja.jid = $id
+            
+            UNION ALL
+            
+            SELECT 
+                NULL AS issue_stock_id,
+                NULL AS create_at,
+                NULL AS total_amount,
+                NULL AS rate,
+                NULL AS lq,
+                NULL AS jamander,
+                NULL AS TName,
+                NULL AS deduction,
+                c.`created_at`  AS creater,
+                NULL AS jamandari,
+                NULL AS jdate,
+                c.id AS pay_id,
+                c.case_sT AS type,
+                c.amount AS amount_,
+                c.created_at AS cdate
+            FROM
+                `cash_in_out` `c`
+            WHERE
+                (`c`.`case_sT` = 'jamandari' OR `c`.`case_sT` = 'jamandariAdvance')
+                AND `c`.`cash_sP` = $id
+        ) AS combined_data,
+        (SELECT @running_balance := 0) AS rb
+    ORDER BY
+        creater ASC
+)
+SELECT *
+FROM RunningBalance
+ORDER BY creater DESC
+LIMIT $start, $length;
+
         ");
         $result = $query->result_array();
         foreach($result as $c=>$res){

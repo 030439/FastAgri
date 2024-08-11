@@ -297,66 +297,68 @@ class Employee_model extends CI_Model {
         
     
         $Q="
+WITH RunningBalance AS (
+    SELECT
+        total,
+        additon,
+        deduction,
+        net,
+        pay_month,
+        pay_id,
+        type,
+        pay,
+        pdate,
+        cdate,
+        creater,
+        @running_balance := @running_balance + (IFNULL(net, 0) - IFNULL(pay, 0)) AS running_balance
+    FROM
+        (
             SELECT
-                total,
-                additon,
-                deduction,
-                net,
-                pay_month,
-                pay_id,
-                type,
-                pay,
-                pdate,
-                cdate,
-                @running_balance := @running_balance +(
-                    IFNULL(net, 0) - IFNULL(pay, 0)
-                ) AS running_balance
+                p.total AS total,
+                p.additon,
+                p.deduction,
+                p.net,
+                p.date_ AS pay_month,
+                p.created_at AS pdate,
+                p.created_at AS creater,
+                NULL AS pay_id,
+                NULL AS type,
+                NULL AS pay,
+                NULL AS cdate
             FROM
-                (
-                SELECT
-                    p.total as total,
-                    p.additon,
-                    p.deduction,
-                    p.net,
-                    p.date_ as pay_month,
-                    p.created_at as pdate,
-                    NULL AS pay_id,
-                    NULL AS type,
-                    NULL AS pay,
-                    NULL AS cdate
-
-                FROM
-                    `pays` `p`
-                JOIN `employees` `e` ON
-                    `e`.`id` = `p`.`employee_id`
-                WHERE
-                    `e`.`id` = $id
-                UNION ALL
-            SELECT 
-                    NULL AS total,
-                    NULL AS additon,
-                    NULL AS deduction,
-                    NULL AS net,
-                    NULL AS pay_month,
-                    NULL AS pdate,
-                    c.id AS pay_id,
-                    c.case_sT AS type,
-                    c.amount AS pay,
-                    c.created_at as cdate
-            FROM
-                    `cash_in_out` `c`
+                `pays` `p`
+            JOIN `employees` `e` ON
+                `e`.`id` = `p`.`employee_id`
+            WHERE
+                `e`.`id` = $id
             
-                WHERE
-                  `c`.`cash_sP` = $id AND
-                    `c`.`case_sT` = 'advance'
-                Or
-                    `c`.`case_sT` = 'pay'
-                AND 
-                    `c`.`cash_sP` = $id
-            ) AS combined_data,
-            (SELECT @running_balance := 0) AS rb
-            ORDER BY
-                cdate,pdate ASC
+            UNION ALL
+            
+            SELECT 
+                NULL AS total,
+                NULL AS additon,
+                NULL AS deduction,
+                NULL AS net,
+                NULL AS pay_month,
+                NULL AS pdate,
+                c.created_at AS creater,
+                c.id AS pay_id,
+                c.case_sT AS type,
+                c.amount AS pay,
+                c.created_at AS cdate
+            FROM
+                `cash_in_out` `c`
+            WHERE
+                `c`.`cash_sP` = $id
+                AND (`c`.`case_sT` = 'advance' OR `c`.`case_sT` = 'pay')
+        ) AS combined_data,
+        (SELECT @running_balance := 0) AS rb
+    ORDER BY
+        creater ASC
+)
+SELECT *
+FROM RunningBalance
+ORDER BY creater DESC
         ";
         if (!empty($search)) {
             $Q .= "

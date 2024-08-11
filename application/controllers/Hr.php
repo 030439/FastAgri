@@ -98,17 +98,29 @@ class Hr extends CI_Controller {
 		$this->form_validation->set_rules('jamandar', 'jamandar', 'required');
 		$this->form_validation->set_rules('labour', 'labour', 'required');
 		$this->form_validation->set_rules('ldate', 'ldate', 'required');
+		$tunnels=$this->input->post('tunnel[]');
         if ($this->form_validation->run() == FALSE) {
 			$data['jamandars']=$this->Common_model->getAll('jamandars');
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/human-resource/issue-labour",'data'=>$data]);
         } else {
-            // XSS cleaning for input data
-            $data = $this->input->post(NULL, TRUE);
-            $data = ($data);
-            $res=$this->Jamandar_model->issuelabour($data);
-			response($res,'issued-labour-list' ,"Data Update Successfully");
+			if ($this->hasDuplicates($tunnels)) {
+				// Return error response if duplicates found
+				$this->session->set_flashdata('error', 'Duplicate tunnels are not allowed.');
+				$data['jamandars'] = $this->Common_model->getAll('jamandars');
+				$data['tunnels'] = $this->Common_model->getAll('tunnels');
+				$this->load->view('layout/parts', ['page' => "pages/human-resource/issue-labour", 'data' => $data]);
+			} else {
+				// XSS cleaning for input data
+				$data = $this->input->post(NULL, TRUE);
+				$data = ($data);
+				$res = $this->Jamandar_model->issuelabour($data);
+				response($res, 'issued-labour-list', "Data Update Successfully");
+			}
         }
+	}
+	private function hasDuplicates($array) {
+		return count($array) !== count(array_unique($array));
 	}
 	public function labourList(){
 		$data=$this->Jamandar_model->labourList();
