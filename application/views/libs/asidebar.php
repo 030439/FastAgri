@@ -196,7 +196,7 @@
                             <li><a href="designation"> Employee Designation</a></li>
                             <li><a href="issued-labour-list">Issued Labour List</a></li>
                             <li>
-                            <a href="payroll">Genterative List PayRoll</a>
+                            <a href="payroll">PayRoll List</a>
                             </li>
                              <li>
                              <a href="jamandars">Jamandars List </a>
