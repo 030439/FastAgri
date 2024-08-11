@@ -47,6 +47,10 @@
  <script>
    function getTotalAmountForLabour(input) {
             // Get the number of labours from the input
+            var id = input.id;
+
+            // Extract the number from the ID
+            var numberAfterHyphen = id.split('-')[1] || '';
             var numberOfLabours = input.value;
 
             // Check if the input is a valid number
@@ -57,7 +61,7 @@
                     method: 'POST',
                     success: function(res) {
                       var totalAmount = numberOfLabours * res;
-                      $('#issue-labour-total-amount').val(totalAmount);
+                      $('#issue-'+numberAfterHyphen).val(totalAmount);
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
@@ -66,7 +70,7 @@
 
                 // Display the total amount
             } else {
-              $('#issue-labour-total-amount').val("");
+              $('#issue-'+numberAfterHyphen).val("");
             }
         }
  $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });

@@ -59,7 +59,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Total Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                    <input type="number" id="issue-labour-total-amount-1" readonly>
+                    <input type="number" id="issue-1" readonly>
                     </div>
                 </div>
             </div>
@@ -106,11 +106,10 @@ function addNewRecord() {
         select.selectedIndex = 0; // Reset select options to default
     });
 
-    // Update IDs and onkeyup attribute in the cloned section
+    // Update IDs in the cloned section
     newSection.querySelectorAll('input').forEach(input => {
         const oldId = input.id;
         input.id = oldId.split('-')[0] + '-' + formCount;
-        input.setAttribute('onkeyup', 'getTotalAmountForLabour(this)');
     });
 
     newSection.querySelectorAll('select').forEach(select => {
@@ -118,22 +117,19 @@ function addNewRecord() {
         select.id = oldId.split('-')[0] + '-' + formCount;
     });
 
+    // Attach the onkeyup event listener to the newly cloned input fields
+    const newLabourInputs = newSection.querySelectorAll('input[name="labour[]"]');
+    newLabourInputs.forEach(input => {
+        input.addEventListener('keyup', function() {
+            getTotalAmountForLabour(this);
+        });
+    });
+
     // Append the new section after the last form section
     document.getElementById('form-wrapper').appendChild(newSection);
 }
 
-function getTotalAmountForLabour(input) {
-    // Example function logic; adjust as needed
-    let totalAmount = 0;
-    const labourInputs = document.querySelectorAll('input[name="labour[]"]');
-    labourInputs.forEach(labourInput => {
-        const value = parseFloat(labourInput.value) || 0;
-        totalAmount += value * 100; // Assuming a fixed rate per labour unit
-    });
-    document.querySelectorAll('input[id^="issue-labour-total-amount-"]').forEach(totalInput => {
-        totalInput.value = totalAmount.toFixed(2);
-    });
-}
+
 </script>
 
             <div class="col-span-12">

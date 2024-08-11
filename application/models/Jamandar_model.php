@@ -451,7 +451,11 @@ LIMIT $start, $length;
          return ;
     }
     public function issuelabour($data){
+        
         $rate=$this->getRate();
+        $counter=count($data['tunnel']);
+        dd($counter);
+        for()
         $labor=$data['labour'];
         $j=$data['jamandar'];
         $ldate=$data['ldate'];
