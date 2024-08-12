@@ -41,7 +41,7 @@ class DirectParty extends CI_Controller {
             $search = $this->input->post('search')['value'];
 			$startDate = $this->input->post('startDate');
 			$endDate = $this->input->post('endDate');
-			$res=$this->Customer_model->get_customer_ledger($id,$startDate, $endDate,$draw,$start, $length ,$search);
+			$res=$this->Direct_model->get_customer_ledger($id,$startDate, $endDate,$draw,$start, $length ,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());

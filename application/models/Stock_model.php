@@ -645,10 +645,13 @@ class Stock_model extends CI_Model {
         $this->updateStock($data['product'],$qty);
         $this->db->query("Update purchaseqty SET RemainingQuantity=$remaning WHERE purchase_id=$pqid");
        }
+       $rate_=pqrate($pqid,$data['product']);
+            $total_=$rate_*$qty;
        $new=['PqId'=>$pqid,
              'direct_id'=>$data['person'],
              'pid'=>$data['product'],
              'Quantity'=>$qty,
+             'amount'=>$total_,
              'i_date'=>$data['issueDate']
             ];
             $this->db->insert('directissue', $new);

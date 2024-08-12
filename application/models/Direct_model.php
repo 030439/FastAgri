@@ -59,58 +59,69 @@ class Direct_model extends CI_Model {
     
         // Main query with search and pagination
         $query = $this->db->query("
-            SELECT 
-                s_id,
+            SELECT
+                sid,
                 cid,
                 amount,
                 sell_created_at,
                 pay_created_at,
                 total_amount,
-                created,
-
-                @running_balance := @running_balance + (IFNULL(total_amount, 0) - IFNULL(amount, 0) - IFNULL(expences, 0)-IFNULL(labour, 0)-IFNULL(freight, 0)) AS running_balance
-            FROM (
-            SELECT 
-            i.id AS sid,
-            i.PqId,
-            i.pid,
-            i.Quantity,
-            i.i_date,
-            p.Name AS product_name,
-            i.created_at  AS creater
-          
-            e.Name AS employee
-            FROM directissue i
-            join products p ON i.pid = p.id;
-            join direct e ON e.id = i.direct_id
-                WHERE 
-                    e. = ?
-                
+                creater,
+                @running_balance := @running_balance +(
+                    IFNULL(total_amount, 0) - IFNULL(amount, 0)
+                ) AS running_balance
+            FROM
+                (
+                SELECT
+                    i.id AS sid,
+                    i.PqId AS pqId,
+                    i.pid AS pid,
+                    i.Quantity AS Quantity,
+                    i.amount as total_amount,
+                    i.i_date AS i_date,
+                    p.Name AS product_name,
+                    i.created_at AS sell_created_at,
+                    i.created_at AS creater,
+                    NULL AS cid,
+                    NULL AS amount,
+                    NULL AS pay_created_at
+                FROM
+                    directissue i
+                JOIN products p ON
+                    i.pid = p.id
+                JOIN direct e ON
+                    e.id = i.direct_id
+                WHERE
+                    e.id = ?
                 UNION ALL
-                
-                SELECT 
-                    NULL AS s_id,
-NULL AS labour,
-
-NULL AS expences,
-NULL AS freight,
-                    t.id AS cid,
-                    t.amount,
-                    NULL AS sell_created_at,
-                    t.created_at AS pay_created_at,
+            SELECT NULL AS
+                sid,
+                NULL AS pqId,
+                NULL AS pid,
+                NULL AS Quantity,
                     NULL AS total_amount,
-                    t.created_at AS created
-                FROM 
-                    cash_in_out t
-                WHERE 
-                    t.cash_sP = ?
-                    AND t.case_sT = 'customer'
-            ) AS combined_data, (SELECT @running_balance := 0) AS rb
-            $search_clause $date_filter
-            ORDER BY 
-                created ASC
-            LIMIT ? OFFSET ?
-        ", array($customer_id, $customer_id, $length, $start));
+                NULL AS i_date,
+                NULL AS product_name,
+                    NULL AS sell_created_at,
+                t.created_at AS creater,
+                t.id as cid,
+                t.amount as amount,
+                t.created_at as pay_created_at
+            FROM
+                cash_in_out t
+            WHERE
+                t.cash_sP = ? AND t.case_sT = 'direct'
+            ) AS combined_data,
+            (
+            SELECT
+                @running_balance := 0
+            ) AS rb
+
+                        $search_clause $date_filter
+                        ORDER BY
+                creater ASC
+                        LIMIT ? OFFSET ?
+                    ", array($customer_id, $customer_id, $length, $start));
     
         $result = $query->result();
     
@@ -122,7 +133,7 @@ NULL AS freight,
                     'type' => "Sell",
                     'id' => $row->s_id,
                     'date' => $this->dater($row->sell_created_at),
-                    'total_amount' => $row->total_amount-$row->labour-$row->freight-$row->expences,
+                    'total_amount' => $row->total_amount,
                     'amount' => $row->amount,
                     'running_balance' => $row->running_balance,
                 ];
@@ -131,7 +142,7 @@ NULL AS freight,
                     'type' => "Receive",
                     'id' => $row->cid,
                     'date' => $this->dater($row->pay_created_at),
-                     'total_amount' => $row->total_amount-$row->labour-$row->freight-$row->expences,
+                     'total_amount' => $row->total_amount,
                     'amount' => $row->amount,
                     'running_balance' => $row->running_balance,
                 ];

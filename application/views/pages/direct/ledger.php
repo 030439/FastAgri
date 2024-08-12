@@ -6,7 +6,7 @@
                     Customer List
                 </button>
             </div>
-            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403"><?php echo customerName($id);?> Ledger</span></h4>
+            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403"><?php echo partyName($id);?> Ledger</span></h4>
         </div>
         <div style="float:right">
                 <label for="start-date">Start Date:</label>
@@ -47,4 +47,4 @@
         </div>
     </div>
 </div>
-<?php $file="customer-ledger.php";?>
+<?php $file="direct-ledger.php";?>
