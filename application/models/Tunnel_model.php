@@ -284,6 +284,7 @@ class Tunnel_model extends CI_Model
         sd.`Freight`,
         sd.`commission`,
         sd.`Labour`,
+        sd.`tunnel` as tt,
         sd.`Quantity`
         FROM 
         `sells` AS s
@@ -294,26 +295,38 @@ class Tunnel_model extends CI_Model
         JOIN 
         `tunnels` AS t ON t.`id` = sd.`tunnel`
         JOIN 
-        `grades` AS g ON g.`id` = sd.`GradeId`
-        WHERE t.`id` =$id");
+        `grades` AS g ON g.`id` = sd.`GradeId`");
         $result = $query->result_array();
         $total=0;
         $count_=count($result);
-        if($result){
+        if($result)
+        {
+        
             for($counter=0;$counter<$count_;$counter++){
+
                 if($result[$counter]['NetAmount']){
                     $Labours= explode(',',$result[$counter]['Labour']);
                     $qts= explode(',',$result[$counter]['Quantity']);
                     $commissions= explode(',',$result[$counter]['commission']);
                     $Freights= explode(',',$result[$counter]['Freight']);
                     $amounts= explode(',',$result[$counter]['Amount']);
-                    foreach($amounts as $a=>$amount){
-                        $famount=($amount-($Freights[$a]*$qts[$a])-($Labours[$a]*$qts[$a])-($commissions[$a]*$qts[$a]));
-                        $total+=$famount;
+                    $t_= explode(',',$result[$counter]['tt']);
+                    foreach($t_ as $_t){
+                        if($_t==$id){
+                            foreach($amounts as $a=>$amount){
+
+                                if($t_[$a]==$id)
+                                {
+                                $famount=($amount-($Freights[$a]*$qts[$a])-($Labours[$a]*$qts[$a])-($commissions[$a]*$qts[$a]));
+                                $total+=$famount;
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
+        
         return $total;
     }
     public function tunnelJsList($draw, $start, $length,$search=""){
@@ -595,7 +608,8 @@ class Tunnel_model extends CI_Model
         sd.`Freight` AS fre,
         sd.`commission`,
         sd.`Labour`,
-        sd.`amount`,
+        sd.`Amount` as  amount,
+         sd.`tunnel` as tt,
         c.`Name` AS customer,
         t.`id` AS tid,
         sd.`GradeId`,
@@ -618,7 +632,7 @@ class Tunnel_model extends CI_Model
         //     $this->db->or_like('t.TName', $search);
         //     $this->db->group_end();
         // }
-        $sql.="WHERE t.`id` = $id";
+       // $sql.="WHERE t.`id` = $id";
     if (!empty($startDate) && !empty($endDate)) {
         $sql.=' AND s.selldate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
     }
@@ -648,34 +662,38 @@ class Tunnel_model extends CI_Model
             $fre = explode(',', $record['fre']);
             $commission = explode(',', $record['commission']);
             $Labour = explode(',', $record['Labour']);
+            $t_ = explode(',', $record['tt']);
             
             // Determine the maximum length to iterate through
             $maxLength = max(count($quantities), count($rates), count($amounts));
             
             for ($i = 0; $i < $maxLength; $i++) {
-                $newRecord = $record;
-                $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
-                $newRecord['Rate'] = $rates[$i] ?? $rates[0];
-               // $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
-               $a_=$amounts[$i] ?? $amounts[0];
-               $l_=$Labour[0]*$newRecord['Quantity'];
-               $c_=$commission[0]*$newRecord['Quantity'];
-               $f_=$fre[0]*$newRecord['Quantity'];
-               $D_=$l_+$c_+$f_;
-               $n_=$a_-$D_;
-$newRecord['Labour'] = number_format( $l_,2);
-$newRecord['commission'] = number_format($c_,2);
-$newRecord['fre'] =  number_format($f_,2);
-$newRecord['amount'] = $a_;
- $newRecord['NetAmount']= number_format($n_,2);
-                $grade=$GradeId[$i] ?? $GradeId[0];
-                if($grade==1){
+                if($t_[$i]==$id)
+                {
+                    $newRecord = $record;
+                    $newRecord['Quantity'] = $quantities[$i] ?? $quantities[0];
+                    $newRecord['Rate'] = $rates[$i] ?? $rates[0];
+                    // $newRecord['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
+                    $a_=$amounts[$i] ?? $amounts[0];
+                    $l_=$Labour[0]*$newRecord['Quantity'];
+                    $c_=$commission[0]*$newRecord['Quantity'];
+                    $f_=$fre[0]*$newRecord['Quantity'];
+                    $D_=$l_+$c_+$f_;
+                    $n_=$a_-$D_;
+                    $newRecord['Labour'] = number_format( $l_,2);
+                    $newRecord['commission'] = number_format($c_,2);
+                    $newRecord['fre'] =  number_format($f_,2);
+                    $newRecord['amount'] = $a_;
+                    $newRecord['NetAmount']= number_format($n_,2);
+                    $grade=$GradeId[$i] ?? $GradeId[0];
+                    if($grade==1){
                     $newRecord['GradeId'] = "A";
-                }
-                else{
+                    }
+                    else{
                     $newRecord['GradeId'] = "B";
+                    }
+                    $newData[] = $newRecord;
                 }
-                $newData[] = $newRecord;
             }
         }
         $response = array(
@@ -697,113 +715,110 @@ $newRecord['amount'] = $a_;
 
         $Q="
             SELECT
-            eid_,
-            expense_type,
-            eamount,
-            epid,
-            edate,
-            ecreated
-            sid,
-            sid_,
-            selldate,
-            total_amount,
-            labour,
-            freight,
-            expences,
-            sdID,
-            grade,
-            Quantity,
-            Rate,
-            NetAmount,
-            amount,
-            customer,
-            GradeId
-        FROM
-            (
-            SELECT
-                e.`eid` as eid_,
-                e.`expense_type`,
-                e.`amount` AS eamount,
-                e.`pid` AS epid,
-                e.`edate`,
-                e.`created_at` AS ecreated,
-                NULL AS sid,
-                NULL AS sid_,
-                NULL AS selldate,
-                NULL AS total_amount,
-                NULL AS labour,
-                NULL AS freight,
-                NULL AS expences,
-                NULL AS sdID,
-                NULL AS grade,
-                NULL AS Quantity,
-                NULL AS Rate,
-                NULL AS NetAmount,
-                NULL AS amount,
-                NULL AS customer,
-                NULL AS GradeId
-            FROM
-                `tunnel_expense` AS e
-            JOIN `tunnels` AS t
-            ON
-                t.`id` = e.`tunnel_id`
-            WHERE
-                t.`id` = $id
-            UNION ALL
-        SELECT NULL AS
-            expense_type,
-            NULL AS eid_,
-            NULL AS eamount,
-            NULL AS epid,
-            NULL AS edate,
-            NULL AS created_at,
-            s.`id` AS sid,
-            sd.`SellId` AS sid_,
-            s.`selldate`,
-            s.`total_amount`,
-            s.`labour`,
-            s.`freight`,
-            s.`expences`,
-            sd.`id` AS sdID,
-            g.`Name` AS grade,
-            sd.`Quantity`,
-            sd.`Rate`,
-            sd.`NetAmount`,
-            sd.`amount`,
-            c.`Name` AS customer,
-            sd.`GradeId`
-        FROM
-            `sells` AS s
-        JOIN `customers` AS c
-        ON
-            c.`id` = s.`customer`
-        JOIN `selldetails` AS sd
-        ON
-            sd.`SellId` = s.`id`
-        JOIN `tunnels` AS t
-        ON
-            t.`id` = sd.`tunnel`
-        JOIN `grades` AS g
-        ON
-            g.`id` = sd.`GradeId`";
-        $Q.="
-        WHERE
-            t.`id` = $id
-        ) AS combined_data";
-         
-        if (!empty($startDate) && !empty($endDate)) {
-            $Q.='AND s.edate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
-        }
-         $Q.="
-        ORDER BY
-            edate,
-            ecreated ASC
-        ";
-        $Q .= " LIMIT $start, $length";
+    eid_,
+    expense_type,
+    eamount,
+    epid,
+    edate,
+    ecreated,
+    sid,
+    sid_,
+    selldate,
+    total_amount,
+    labour,
+    freight,
+    expences,
+    sdID,
+    grade,
+    Quantity,
+    Rate,
+    tt,
+    NetAmount,
+    amount,
+    customer,
+    GradeId
+FROM
+    (
+    SELECT
+        e.`eid` as eid_,
+        e.`expense_type`,
+        e.`amount` AS eamount,
+        e.`pid` AS epid,
+        e.`edate`,
+        e.`created_at` AS ecreated,
+        NULL AS tt,
+        NULL AS sid,
+        NULL AS sid_,
+        NULL AS selldate,
+        NULL AS total_amount,
+        NULL AS labour,
+        NULL AS freight,
+        NULL AS expences,
+        NULL AS sdID,
+        NULL AS grade,
+        NULL AS Quantity,
+        NULL AS Rate,
+        NULL AS NetAmount,
+        NULL AS amount,
+        NULL AS customer,
+        NULL AS GradeId
+    FROM
+        `tunnel_expense` AS e
+    JOIN `tunnels` AS t
+    ON t.`id` = e.`tunnel_id`
+    WHERE t.`id` = $id
+    
+    UNION ALL
+    
+    SELECT
+        NULL AS eid_,
+        NULL AS expense_type,
+        NULL AS eamount,
+        NULL AS epid,
+        NULL AS edate,
+        NULL AS ecreated,
+        sd.tunnel as tt,
+        s.`id` AS sid,
+        sd.`SellId` AS sid_,
+        s.`selldate`,
+        s.`total_amount`,
+        s.`labour`,
+        s.`freight`,
+        s.`expences`,
+        sd.`id` AS sdID,
+        g.`Name` AS grade,
+        sd.`Quantity`,
+        sd.`Rate`,
+        sd.`NetAmount`,
+        sd.`amount`,
+        c.`Name` AS customer,
+        sd.`GradeId`
+    FROM
+        `sells` AS s
+    JOIN `customers` AS c
+    ON c.`id` = s.`customer`
+    JOIN `selldetails` AS sd
+    ON sd.`SellId` = s.`id`
+     JOIN 
+        `tunnels` AS t ON t.`id` = sd.`tunnel`
+    JOIN `grades` AS g
+    ON g.`id` = sd.`GradeId`
+    WHERE 1=1
+    ) AS combined_data
+ORDER BY
+    edate,
+    ecreated ASC
+LIMIT $start, $length;
+";
         $query = $this->db->query($Q);
         $result = $query->result_array();
         $newData = [];
+        
         foreach ($result as $c => $re) {
+            if($re['tt']){
+            $t_ = explode(',', $re['tt']);
+            }
+
             if($re['eid_']){
                 $result[$c]['entry_id'] = $re['eid_'];
                 $result[$c]['type']=$re['expense_type'];
@@ -849,10 +864,8 @@ $newRecord['amount'] = $a_;
             }
             else
             {
-                $result[$c]['type']='Sell';
-                $result[$c]['entryDate'] = $re['selldate'];
-                $result[$c]['entry_id'] = $re['sid_'];
-                $result[$c]['head']=$re['customer'];
+                
+                
                 $quantities = explode(',', $re['Quantity']);
                 $rates = explode(',', $re['Rate']);
                 $amounts = explode(',', $re['amount']);
@@ -863,7 +876,12 @@ $newRecord['amount'] = $a_;
                 $maxLength = max(count($quantities), count($rates), count($amounts));
                 
                 for ($i = 0; $i < $maxLength; $i++) {
+                    if($t_[$i]==$id){
                     $newRecord = $re;
+                    $result[$c]['type']='Sell';
+                    $result[$c]['entryDate'] = $re['selldate'];
+                    $result[$c]['entry_id'] = $re['sid_'];
+                    $result[$c]['head']=$re['customer'];
                     $result[$c]['qty_'] = $quantities[$i] ?? $quantities[0];
                     $result[$c]['rate_'] = $rates[$i] ?? $rates[0];
                     $result[$c]['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
@@ -876,6 +894,7 @@ $newRecord['amount'] = $a_;
                         $result[$c]['GradeId'] = "B";
                     }
                     $newData[] = $newRecord;
+                }
                 }
             }
         }

@@ -51,9 +51,9 @@ class Direct_model extends CI_Model {
     
         // Fetch the total records count
         $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
-            SELECT s.id FROM sells s WHERE s.customer = ?
+            SELECT s.id FROM directissue s WHERE s.direct_id = ?
             UNION ALL
-            SELECT t.id FROM cash_in_out t WHERE t.cash_sP = ? AND t.case_sT = 'customer'
+            SELECT t.id FROM cash_in_out t WHERE t.cash_sP = ? AND t.case_sT = 'direct'
         ) AS total_records", array($customer_id, $customer_id));
         $total_records = $total_query->row()->total;
     

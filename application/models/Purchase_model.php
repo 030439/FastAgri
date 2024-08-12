@@ -71,6 +71,7 @@ class Purchase_model extends CI_Model
                 $purchaseSeed=['pid'=>$pid,'qty'=>$purchase['RemainingQuantity'],'quality'=>$data['quality']];
                   $this->db->insert('purchaseseeddetail', $purchaseSeed);
             }
+            unset($purchase);
         }
         $this->db->trans_complete(); // Complete Transaction
         

@@ -1216,7 +1216,7 @@ class Stock_model extends CI_Model {
 
     public function productLedgerDetail($id,$startDate, $endDate,$draw,$start , $length,$search){
         $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
-            SELECT pD.id FROM purchaseqty pD WHERE pd.product_id = ?
+            SELECT pd.id FROM purchaseqty pd WHERE pd.product_id = ?
             UNION ALL
             SELECT i.id FROM issuestock i WHERE i.pid = ?
         ) AS total_records", array($id, $id));
