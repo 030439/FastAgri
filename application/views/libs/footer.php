@@ -478,6 +478,16 @@ function toggleCheckedAll(checkbox) {
         }
       });
     }
+    function getDirects(){
+      $.ajax({
+        url: "getDirects",
+        method: 'post',
+        success: function(sresult){
+           $("#cash-selection-party").html(sresult);
+           $('#cash-selection-party').css('display', 'block');
+        }
+      });
+    }
     function jamandariAccount(){
       $.ajax({
         url: "jamandariAccount",
@@ -570,8 +580,8 @@ function toggleCheckedAll(checkbox) {
           $("#narration-field").show();
         }
         else if(cst=="direct"){
-          directPay();
-          alert("cash out");
+          getDirects();
+          $("#narration-field").show();
         }
       }
       else if(cashtype=="cash-out"){

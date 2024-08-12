@@ -93,8 +93,9 @@
                             <li><a href="stock/productList">Product List </a></li>
                             <!-- <li><a href="stock/seeds">Seed List</a></li>
                             <li><a href="stock">Product Stock List</a></li> -->
-                            <li><a href="stock/issue">Issue Stock</a></li>
+                            <!-- <li><a href="stock/issue">Issue Stock</a></li> -->
                             <li><a href="stock/listissue">List Issue Stock</a></li>
+                            <li><a href="stock/directlistissue">Direct Sale</a></li>
                         </ul>
                     </li>
 

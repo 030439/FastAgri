@@ -271,6 +271,46 @@ if (!function_exists('customerName')) {
         }
     }
 }
+if (!function_exists('getPartyTotal')) {
+    function getPartyTotal($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  c.closing as closing  FROM direct_detail c WHERE cid = $id");
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['closing'];
+        } else {
+            return "data not found";
+        }
+    }
+}
+if (!function_exists('partyName')) {
+    function partyName($id)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+
+        // Execute the query with proper binding
+        $query = $CI->db->query("SELECT  c.Name as cname  FROM direct c WHERE id = ?", array($id));
+
+        // Fetch the result as an associative array
+        $result = $query->row_array();
+
+        // Check if result is not empty
+        if ($result) {
+            return $result['cname'];
+        } else {
+            return "data not found";
+        }
+    }
+}
 if (!function_exists('supplierName_')) {
     function supplierName_($id)
     {

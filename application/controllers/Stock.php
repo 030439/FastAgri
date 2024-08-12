@@ -162,6 +162,13 @@ class Stock extends CI_Controller {
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/stock/issue-stock",'data'=>$data]);
 	}
+	public function direct()
+	{
+		$data['employees']=$this->Common_model->getAll('direct');
+		$data['products']=$this->Common_model->getAll('products');//$this->Stock_model->getStockProduct();
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$this->load->view('layout/parts',['page'=>"pages/direct/issue-stock",'data'=>$data]);
+	}
 	public function issueProduct(){
 		$data = $this->input->post(NULL, TRUE);
 		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
@@ -184,11 +191,53 @@ class Stock extends CI_Controller {
 			$this->response($res,'stock/listissue' ,"Data Update Successfully");
         }
 	}
+	public function dirextIssueProduct(){
+		$data = $this->input->post(NULL, TRUE);
+        $this->form_validation->set_rules('issueDate', 'issueDate', 'required');
+		$this->form_validation->set_rules('product', 'product', 'required');
+        $this->form_validation->set_rules('pqid', 'pqid', 'required');
+		$this->form_validation->set_rules('qty', 'qty', 'required');
+		$this->form_validation->set_rules('person', 'Employee', 'required');
+		$this->form_validation->set_rules('issueDate', 'Issue date', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['employees']=$this->Common_model->getAll('direct');
+			$data['products']=$this->Common_model->getAll('products');//$this->Stock_model->getStockProduct();
+			$data['tunnels']=$this->Common_model->getAll('tunnels');
+			$this->load->view('layout/parts',['page'=>"pages/direct/issue-stock",'data'=>$data]);
+        } else {
+            // XSS cleaning for input data
+            $data = $this->input->post(NULL, TRUE);
+            $res=$this->Stock_model->dirextIssueProduct($data);
+			$this->response($res,'stock/directlistissue' ,"Data Update Successfully");
+        }
+	}
 	public function listissue()
 	{
 		//$data=$this->Stock_model->issueList();
 		$data=[];
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-issue-stock",'data'=>$data]);
+	}
+	public function directlistissue()
+	{
+		//$data=$this->Stock_model->issueList();
+		$data=[];
+		$this->load->view('layout/parts',['page'=>"pages/direct/list-issue-stock",'data'=>$data]);
+	}
+	public function directIssueStockJs(){
+		try{
+			$draw = intval($this->input->post("draw"));
+			$start = intval($this->input->post("start"));
+			$length = intval($this->input->post("length"));
+            $search = $this->input->post('search')['value'];
+			$startDate = $this->input->post('startDate');
+			$endDate = $this->input->post('endDate');
+			$data=$this->Stock_model->directissueList($startDate, $endDate,$draw,$start, $length,$search);
+			echo jsonOutPut($data);
+		} catch (Exception $e) {
+			log_message('error', $e->getMessage());
+			show_error('An unexpected error occurred. Please try again later.');
+		}
 	}
 	public function issueStockJs(){
 		try{

@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Customer_model extends CI_Model {
+class Direct_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->load->database();
         $this->load->library('form_validation');
     }
-    public function getCustomers() {
-        $customers = $this->db->get('customers')->result();
+    public function getDirects() {
+        $customers = $this->db->get('direct')->result();
         return $customers;
     }
     public function get_customer_ledger($customer_id,$startDate, $endDate, $draw, $start, $length, $search) {
@@ -67,27 +67,24 @@ class Customer_model extends CI_Model {
                 pay_created_at,
                 total_amount,
                 created,
-                labour,
 
-                expences,
-                freight,
                 @running_balance := @running_balance + (IFNULL(total_amount, 0) - IFNULL(amount, 0) - IFNULL(expences, 0)-IFNULL(labour, 0)-IFNULL(freight, 0)) AS running_balance
-                FROM (
-                SELECT 
-                s.id AS s_id, 
-                s.labour ,
-                s.expences,
-                s.freight,
-                    NULL AS cid,
-                    NULL AS amount,
-                    s.created_at AS sell_created_at,
-                    NULL AS pay_created_at,
-                    s.total_amount,
-                    s.created_at AS created
-                FROM 
-                    sells s
+            FROM (
+            SELECT 
+            i.id AS sid,
+            i.PqId,
+            i.pid,
+            i.Quantity,
+            i.i_date,
+            p.Name AS product_name,
+            i.created_at  AS creater
+          
+            e.Name AS employee
+            FROM directissue i
+            join products p ON i.pid = p.id;
+            join direct e ON e.id = i.direct_id
                 WHERE 
-                    s.customer = ?
+                    e. = ?
                 
                 UNION ALL
                 
@@ -157,18 +154,17 @@ NULL AS freight,
             return "-";
         }
     }
-    public function customersList($draw, $start, $length, $search = '') {
+    public function directList($draw, $start, $length, $search = '') {
         // Get total records count
-        $totalRecords = $this->db->count_all('customers');
+        $totalRecords = $this->db->count_all('direct');
     
         // Query to fetch data with search if provided
         $this->db->select('*');
-        $this->db->from('customers');
+        $this->db->from('direct');
         if (!empty($search)) {
             $this->db->group_start();
             $this->db->like('id', $search);
             $this->db->or_like('Name', $search);
-            $this->db->or_like('company', $search);
             $this->db->or_like('contact', $search);
             $this->db->or_like('cnic', $search);
             $this->db->or_like('Address', $search);
@@ -191,8 +187,8 @@ NULL AS freight,
         return $response;
     }
     
-    public function createCustomer($data) {
-        $customer=$this->db->insert('customers', $data);
+    public function createDirect($data) {
+        $customer=$this->db->insert('direct', $data);
         $ok=false;
         if($customer){
             $cid = $this->db->insert_id();
@@ -201,7 +197,7 @@ NULL AS freight,
                'opening'  => 0,
                'closing'  => 0
             ];
-            if($this->db->insert('customer_detail', $cdata)){
+            if($this->db->insert('direct_detail', $cdata)){
                $ok=true;
             }
         }
@@ -209,7 +205,7 @@ NULL AS freight,
     }
 
     public function getcustomerById($id) {
-        $customer = $this->db->get_where('customers', ['id' => $id])->row();
+        $customer = $this->db->get_where('direct', ['id' => $id])->row();
         return $customer;
     }
 
@@ -217,7 +213,7 @@ NULL AS freight,
     $date=date("y-m-d h i s");
     $data['updated_at']=$date;
       $this->db->where('id', $id);
-       return  $this->db->update('customers', $data);
+       return  $this->db->update('direct', $data);
     }
 
     public function deletecustomer($id) {
@@ -277,7 +273,7 @@ NULL AS freight,
                 ];
                 $newResult[] = $newRow;
             }
-        }
+        } 
         return $newResult;
     }
     public function customerDetailListing($id,$startDate, $endDate, $draw, $start, $length, $search = ''){

@@ -188,6 +188,10 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['narration'] = $this->ShareHolderName($d['cash_sP']);
                     $cash[$c]['name'] = "Share Holder";
                 }
+                elseif ($d['case_sT'] == "direct") {
+                    $cash[$c]['narration'] =partyName($d['cash_sP']);
+                    $cash[$c]['name'] = "Direct Party";
+                }
             } elseif ($d['cash_s'] == "cash-out") {
                 $debit += $d['amount'];
                 if ($d['case_sT'] == "supplier") {
@@ -245,6 +249,10 @@ class Cashbook_model extends CI_Model {
                 elseif ($d['case_sT']=="shareholder") {
                     $cash[$c]['pname']=$this->ShareHolderName($d['cash_sP']);
                     $cash[$c]['current_amount']=$this->ShareHolderCurrentAmount($d['cash_sP']);
+                }
+                elseif ($d['case_sT']=="direct") {
+                    $cash[$c]['pname']=partyName($d['cash_sP']);
+                    $cash[$c]['current_amount']=getPartyTotal($d['cash_sP']);
                 }
             }elseif($d['cash_s']=="cash-out"){
                 if($d['case_sT']=="supplier"){
@@ -479,6 +487,9 @@ class Cashbook_model extends CI_Model {
             }
             elseif($data['cash-selection-type']=="shareholder"){
                 $this->shareHolderCashIn($data);
+            }
+            elseif($data['cash-selection-type']=="direct"){
+                $this->directParty($data);
             }
         }
         else{
@@ -1159,6 +1170,13 @@ class Cashbook_model extends CI_Model {
             $this->db->trans_commit(); // Commit changes
             return $ok;
         } 
+    }
+    public function directParty($data){
+        $amount = $data['amount'];
+        $sh = $data['cash-selection-party'];
+        $this->db->set('closing', 'closing - ' . $this->db->escape($amount), FALSE);
+        $this->db->where('cid', $sh);
+        return $this->db->update('direct_detail');
     }
     public function shareHolderCashIn($data){
         $amount = $data['amount'];

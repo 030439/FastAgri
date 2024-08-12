@@ -634,6 +634,35 @@ class Stock_model extends CI_Model {
         }
         return ;
     }
+    public function dirextIssueProduct($data){
+        $pqid=$data['pqid'];
+        $qty=$data['qty'];
+        $query = $this->db->query("SELECT * From purchaseqty WHERE purchase_id=$pqid");
+       if ($query) {
+        $result = $query->result();
+
+        $remaning=$result[0]->RemainingQuantity-$qty;
+        $this->updateStock($data['product'],$qty);
+        $this->db->query("Update purchaseqty SET RemainingQuantity=$remaning WHERE purchase_id=$pqid");
+       }
+       $new=['PqId'=>$pqid,
+             'direct_id'=>$data['person'],
+             'pid'=>$data['product'],
+             'Quantity'=>$qty,
+             'i_date'=>$data['issueDate']
+            ];
+            $this->db->insert('directissue', $new);
+            $lid =$this->db->insert_id();
+        if($lid>0){
+            $rate_=pqrate($pqid,$data['product']);
+            $total_=$rate_*$qty;
+            $this->db->set('closing', 'closing + ' . $this->db->escape($total_), FALSE);
+            $this->db->where('cid', $data['person']);
+            $ok=$this->db->update('direct_detail');
+             return true;
+        }
+        return ;
+    }
     public function tunnelExpense($id,$pqid,$tunnel,$pro,$qty,$idate){
         $query = $this->db->query("SELECT product_id,fu_price From purchasesdetail WHERE id=$pqid");
         $result = $query->result();
@@ -845,7 +874,121 @@ class Stock_model extends CI_Model {
     
         return $response;
     }
+    public function directissueList($startDate, $endDate,$draw, $start, $length, $search = '') {
+        // Get total records count
+        $totalRecords = $this->db->count_all('issuestock');
     
+        // Construct the base query with joins
+        $this->db->select('
+            i.id AS issue_stock_id,
+            i.PqId,
+            i.pid,
+            i.Quantity,
+            i.i_date,
+            p.Name AS product_name,
+          
+            e.Name AS employee
+        ');
+        $this->db->from('directissue i');
+        $this->db->join('products p', 'i.pid = p.id');
+        $this->db->join('direct e', 'e.id = i.direct_id');
+    
+        // Apply search filter if provided
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('i.id', $search);
+            $this->db->or_like('p.Name', $search);
+            $this->db->or_like('e.Name', $search);
+            $this->db->group_end();
+        }
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('i.i_dat BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
+        }
+        // Apply pagination and ordering
+        $this->db->order_by('i.id', 'DESC');
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        $new=[];
+        foreach($result as $i=> $re){
+            $arr_=pqrate($re['PqId'],$re['pid']);
+            $new[$i]['employee']=$re['employee'];
+            $new[$i]['product_name']=$re['product_name'];
+            $new[$i]['Quantity']=$re['Quantity'];
+            $new[$i]['i_date']=$re['i_date'];
+            $new[$i]['pqrate']=pqrate($re['PqId'],$re['pid']);
+            $new[$i]['total']=$re['Quantity']*pqrate($re['PqId'],$re['pid']);
+        }
+    
+       // dd($new);
+        // Prepare the final output
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+            "data" => $new
+        );
+    
+        return $response;
+    }
+    public function directissueListId($id,$startDate, $endDate,$draw, $start, $length, $search = '') {
+        // Get total records count
+        $totalRecords = $this->db->count_all('directissue');
+    
+        // Construct the base query with joins
+        $this->db->select('
+            i.id AS issue_stock_id,
+            i.PqId,
+            i.pid,
+            i.Quantity,
+            i.i_date,
+            p.Name AS product_name,
+          
+            e.Name AS employee
+        ');
+        $this->db->from('directissue i');
+        $this->db->join('products p', 'i.pid = p.id');
+        $this->db->join('direct e', 'e.id = i.direct_id');
+    
+        // Apply search filter if provided
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('i.id', $search);
+            $this->db->or_like('p.Name', $search);
+            $this->db->or_like('e.Name', $search);
+            $this->db->group_end();
+        }
+        if (!empty($startDate) && !empty($endDate)) {
+            $this->db->where('i.i_dat BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
+        }
+        // Apply pagination and ordering
+        $this->db->order_by('i.direct_id', $id);
+        $this->db->order_by('i.id', 'DESC');
+        $this->db->limit($length, $start);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        $new=[];
+        foreach($result as $i=> $re){
+            $arr_=pqrate($re['PqId'],$re['pid']);
+            $new[$i]['employee']=$re['employee'];
+            $new[$i]['product_name']=$re['product_name'];
+            $new[$i]['Quantity']=$re['Quantity'];
+            $new[$i]['i_date']=$re['i_date'];
+            $new[$i]['pqrate']=pqrate($re['PqId'],$re['pid']);
+            $new[$i]['total']=$re['Quantity']*pqrate($re['PqId'],$re['pid']);
+        }
+    
+       // dd($new);
+        // Prepare the final output
+        $response = array(
+            "draw" => intval($draw),
+            "recordsTotal" => intval($totalRecords),
+            "recordsFiltered" => intval($totalRecords),  // Update this if server-side filtering is applied
+            "data" => $new
+        );
+    
+        return $response;
+    }
     public function getSeed(){
         $crops = $this->db->get('crops')->result();
         return $crops;

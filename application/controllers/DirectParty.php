@@ -8,13 +8,13 @@ class DirectParty extends CI_Controller {
         $this->load->model('Customer_model');
         $this->load->model('Direct_model');
         $this->load->library('form_validation');
+        $this->load->model('Stock_model');
 		if (!is_authorized()) {
 			redirect('auth/login');
 		}
     }
 	public function index()
 	{
-		// $data= $this->Customer_model->getCustomers();
 		$this->load->view('layout/parts',['page'=>"pages/direct/list-party"]);
 	}
 	public function listing(){
@@ -23,7 +23,7 @@ class DirectParty extends CI_Controller {
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res=$this->Customer_model->customersList($draw,$start, $length ,$search);
+			$res=$this->Direct_model->directList($draw,$start, $length ,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -31,7 +31,7 @@ class DirectParty extends CI_Controller {
 		}
 	}
 	public function customerLedger($id){
-        $this->load->view('layout/parts',['page'=>"pages/customer/ledger",'id'=>$id]);
+        $this->load->view('layout/parts',['page'=>"pages/direct/ledger",'id'=>$id]);
 	}
 	public function customerLedgerList($id){
 		try{
@@ -59,7 +59,20 @@ class DirectParty extends CI_Controller {
 		}
 		echo $html;
 	}
-	public function customerDetailListing($id){
+    public function getDirects(){
+        $data= $this->Direct_model->getDirects();
+        $html="";
+		$html.='<option value="default" selected disabled>Select an option</option>';
+		foreach($data as $d){
+			$html.="<option value='$d->id'>";
+			$html.=$d->Name . "  - ";
+            $html.= getPartyTotal($d->id);
+			$html.="</option>";
+		}
+		echo $html;
+    }
+    
+	public function directIssueStockJs($id){
 		//$id=$this->input->post('id');
 		try{
 			$draw = intval($this->input->post("draw"));
@@ -68,7 +81,8 @@ class DirectParty extends CI_Controller {
             $search = $this->input->post('search')['value'];
 			$startDate = $this->input->post('startDate');
 			$endDate = $this->input->post('endDate');
-			$res=$this->Customer_model->customerDetailListing($id,$startDate, $endDate,$draw,$start, $length ,$search);
+            $res=$this->Stock_model->directissueList($startDate, $endDate,$draw,$start, $length,$search);
+			//$res=$this->Stock_model->directissueListId($id,$startDate, $endDate,$draw,$start, $length ,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -78,7 +92,7 @@ class DirectParty extends CI_Controller {
 	public function customerDetail($id){
 		try {
 			$data=$this->Customer_model->customerDetail($id);
-			$this->load->view('layout/parts',['page'=>"pages/customer/detail",'data'=>$data,'id'=>$id]);
+			$this->load->view('layout/parts',['page'=>"pages/direct/detail",'data'=>$data,'id'=>$id]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
@@ -130,32 +144,31 @@ class DirectParty extends CI_Controller {
             redirect($route);
 		   }
 	}
-	public function customerEdit($id){
+	public function directEdit($id){
 		try {
-			$data=$this->Customer_model->getcustomerById($id);
-			$this->load->view('layout/parts',['page'=>"pages/customer/edit",'data'=>$data]);
+			$data=$this->Direct_model->getcustomerById($id);
+			$this->load->view('layout/parts',['page'=>"pages/direct/edit",'data'=>$data]);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
 	}
-	public function updateCustomer() {
+	public function updateDirect() {
 		$id=$this->input->post('id');
         $this->form_validation->set_rules('Name', 'Name', 'required');
         $this->form_validation->set_rules('contact', 'Phone', 'required');
         $this->form_validation->set_rules('address', 'Address', 'required');
-        $this->form_validation->set_rules('company', 'Company ', 'required');
         $this->form_validation->set_rules('cnic', 'CNIC', 'required');
         if ($this->form_validation->run() == FALSE) {
 			
-			$this->customerEdit($id);
+			$this->directEdit($id);
         }
 		 else {
             // XSS cleaning for input data
             $data = $this->input->post(NULL, TRUE);
 		
-           $res= $this->Customer_model->updatecustomer($id,$data);
-		   $this->response($res,'customer',"Data Updated Successfully");
+           $res= $this->Direct_model->updatecustomer($id,$data);
+		   $this->response($res,'direct-parties',"Data Updated Successfully");
         }
     }
 }

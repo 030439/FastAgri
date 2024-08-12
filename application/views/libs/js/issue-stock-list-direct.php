@@ -7,7 +7,7 @@
       dom: 'Bfrtip',
          
           "ajax": {
-              url : "<?php echo base_url(); ?>stock/issueStockJs",
+              url : "<?php echo base_url(); ?>stock/directIssueStockJs",
               type : 'post',
               data: function(d) {
                         d.startDate = $('#start-date').val();
@@ -19,11 +19,11 @@
           
           },         
            "columns": [
-                  { "data": "TName" },
                   { "data": "employee" },
                   { "data": "product_name" },
                   { "data": "Quantity" },
                   { "data": "pqrate" },
+                  { "data": "total" },
                   { "data": "i_date" },
                   
               ]

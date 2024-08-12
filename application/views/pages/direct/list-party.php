@@ -6,7 +6,7 @@
                     <i class="fa-light fa-plus"></i> Add Direct Party
                 </button>
             </div>
-            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403">Customer List</span></h4>
+            <h4 class="text-[20px] font-bold text-heading" style="width:60%;text-align:center;"><span style="border-bottom: 5px solid #ffc403">Direct Party List</span></h4>
         </div>
 
         <div class="cashier-salereturns-table-area">
@@ -15,7 +15,6 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Company</th>
                             <th>Contact No</th>
                             <th>CNIC</th>
                             <th>Address</th>
@@ -27,4 +26,4 @@
         </div>
     </div>
 </div>
-<?php $file="customer-list.php";?>
+<?php $file="direct-list.php";?>
