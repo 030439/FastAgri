@@ -609,13 +609,14 @@ class Stock_model extends CI_Model {
     public function issueProduct($data){
         $pqid=$data['pqid'];
         $qty=$data['qty'];
-        $query = $this->db->query("SELECT * From purchaseqty WHERE purchase_id=$pqid");
+        $pid_=$data['product'];
+        $query = $this->db->query("SELECT * From purchaseqty WHERE purchase_id=$pqid AND product_id=$pid_");
        if ($query) {
         $result = $query->result();
 
         $remaning=$result[0]->RemainingQuantity-$qty;
         $this->updateStock($data['product'],$qty);
-        $this->db->query("Update purchaseqty SET RemainingQuantity=$remaning WHERE purchase_id=$pqid");
+        $this->db->query("Update purchaseqty SET RemainingQuantity=$remaning WHERE purchase_id=$pqid  AND product_id=$pid_");
        }
        $new=['PqId'=>$pqid,
              'empoyee_id'=>$data['person'],

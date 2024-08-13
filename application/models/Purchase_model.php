@@ -45,6 +45,7 @@ class Purchase_model extends CI_Model
        $this->db->query($sql);
         $pid =$this->db->insert_id();
         foreach ($data['qty'] as $key => $quantity) {
+            $purchase=[];
             $purchase['purchase_id'] = $pid;
             $purchase['product_id'] = intval($data['product'][$key]);
             $purchase['RemainingQuantity'] = $data['qty'][$key];
