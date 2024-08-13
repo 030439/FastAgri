@@ -25,11 +25,11 @@ header {
   border-bottom: 1px solid #ccc;
 }
 
-.logo {
+/* .logo {
   position: absolute;
   top: 10px;
   left: 10px;
-}
+} */
 
 .logo img {
   width: 100px;
@@ -122,10 +122,10 @@ body {
 </head>
 <body>
   <header>
-    <div class="logo">
+    <!-- <div class="logo">
       <img src="<?php echo base_url()?>assets/img/logo/logo-fatf.png" alt="Company Logo">
-    </div>
-    <h1>فاسٹ ایگری ٹنل فارم</h1>
+    </div> -->
+    <h1> <img style="margin:0px 15px -28px 0px; height:80px" src="<?php echo base_url()?>assets/img/logo/logo-fatf.png" alt="Company Logo">فاسٹ ایگری ٹنل فارم</h1>
     <address>
       <p>Main Piyaro Lund Road To TandoAllahyar</p>
       <p>Sindh, Pakistan</p>
