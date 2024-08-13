@@ -121,7 +121,9 @@ public function updateSupplier($s,$b){
 }
 function getPurchaseList($startDate, $endDate,$draw, $start, $length, $search){
     $totalRecords = $this->db->count_all_results('purchasesdetail');
-        $this->db->select('purchasesdetail.id,purchasesdetail.total_amount,purchasesdetail.amount,purchasesdetail.paid_amount,purchasesdetail.expenses,purchasesdetail.created_at as pdate, suppliers.Name as supplier_name');
+        $this->db->select('purchasesdetail.id,purchasesdetail.total_amount,
+        purchasesdetail.amount,purchasesdetail.paid_amount,purchasesdetail.expenses,
+        purchasesdetail.Date as pdate, suppliers.Name as supplier_name');
         $this->db->from('purchasesdetail');
         $this->db->join('suppliers', 'purchasesdetail.Supplier_id = suppliers.id');
         if (!empty($search)) {
@@ -154,6 +156,15 @@ function getPurchaseList($startDate, $endDate,$draw, $start, $length, $search){
         );
     
         return $shareholders;
+}
+public function getRemainingQty($pqid,$pid){
+    $this->db->select('pq.RemainingQuantity');
+    $this->db->from('purchaseqty pq');
+    $this->db->where('pq.purchase_id',$pqid);
+    $this->db->where('pq.product_id',$pid);
+    $query = $this->db->get();
+    $results = $query->result_array();
+    return $results[0]['RemainingQuantity'];
 }
 public function getPurchaseDetail($id,$draw, $start, $length, $search) {
     // Calculate total records
@@ -199,7 +210,7 @@ public function getPurchaseDetail($id,$draw, $start, $length, $search) {
                 'product_name' => productName_($product_id),
                 'purchased_quantity' => $purchased_quantities[$index],
                 'purchase_product_id' => $row['purchase_product_id'],
-                'RemainingQuantity' => $row['RemainingQuantity'],
+                'RemainingQuantity' =>$this->getRemainingQty($id,$product_id), // $row['RemainingQuantity'],
                 'supplier_name' => $row['supplier_name'],
                 'supplier_company' => $row['supplier_company'],
                 'rate' => $purchased_rates[$index],

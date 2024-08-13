@@ -159,7 +159,7 @@ class Jamandar_model extends CI_Model {
         (
             SELECT
                 i.`id` AS issue_stock_id,
-                i.`create_at`,
+                i.`ldate` as create_at,
                 i.`total_amount`,
                 i.`rate`,
                 i.`lq`,
@@ -222,7 +222,7 @@ class Jamandar_model extends CI_Model {
                 c.id AS pay_id,
                 c.case_sT AS type,
                 c.amount AS amount_,
-                c.created_at AS cdate
+                c.cdate AS cdate
             FROM
                 `cash_in_out` `c`
             WHERE
