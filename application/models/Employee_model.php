@@ -41,7 +41,7 @@ class Employee_model extends CI_Model {
         $this->db->join('loans', 'employees.id = loans.employee_id', 'left');
         $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
         $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
-        $this->db->where('employeecategory.id', 1);
+       
         // $this->db->limit($limit, $offset);
         $stocks = $this->db->get()->result();
         return $stocks; 

@@ -41,6 +41,7 @@
                             <th>Quantity</th>
                             <th>Rate</th>
                             <th>Issued Date</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                 </table> 
