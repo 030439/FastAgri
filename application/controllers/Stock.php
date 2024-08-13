@@ -19,6 +19,13 @@ class Stock extends CI_Controller {
 		$data=$this->Stock_model->getStockProductList();
 		$this->load->view('layout/parts',['page'=>"pages/stock/list-stock",'data'=>$data]);
 	}
+	public function issueEdit($id){
+		$data['stocks']=$this->Stock_model->issueEdit($id);
+		$data['employees']=$this->Common_model->getAll('employees');
+		$data['products']=$this->Common_model->getAll('products');//$this->Stock_model->getStockProduct();
+		$data['tunnels']=$this->Common_model->getAll('tunnels');
+		$this->load->view('layout/parts',['page'=>"pages/stock/edit-issue-stock",'data'=>$data]);
+	}
 	public function productListJs(){
 		try{
 			$draw = intval($this->input->post("draw"));

@@ -15,6 +15,13 @@ class Stock_model extends CI_Model {
         $products = $this->db->get()->result();
         return $products[0];
     }
+    function issueEdit($id){
+        $this->db->select('*');
+        $this->db->from('issuestock');
+        $this->db->where('id',$id);
+        $products = $this->db->get()->result();
+        return $products[0];
+    }
     function getProductionById($id){
         $this->db->select('*');
         $this->db->from('productions');
@@ -858,6 +865,7 @@ class Stock_model extends CI_Model {
         $new=[];
         foreach($result as $i=> $re){
             $arr_=pqrate($re['PqId'],$re['pid']);
+            $new[$i]['issue_stock_id']=$re['issue_stock_id'];
             $new[$i]['TName']=$re['TName'];
             $new[$i]['employee']=$re['employee'];
             $new[$i]['product_name']=$re['product_name'];

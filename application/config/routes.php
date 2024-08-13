@@ -83,6 +83,8 @@ $route['purchased/seed-list-js']='purchase/purchasedSeedListJS';
 $route['unit/create'] = "Unit/create"; //purchase form view 
 $route['units/list'] = "Unit/index"; //purchase form view
 //Stock
+$route['stock/issue-edit/(:num)']="Stock/issueEdit/$1";
+$route['update-issue-product']="Stock/updateIssueProduct";
 $route['stock/add']='Stock/add';
 $route['add-seed']='Stock/seedAdd';
 $route['stock/seeds']="Stock/seedList";

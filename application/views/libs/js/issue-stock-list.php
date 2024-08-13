@@ -29,7 +29,7 @@
                      "data": "issue_stock_id",
                         "render": function(data, type, row) {
                             
-                            return '<div style="display:flex"><a class="btn-design btn-edit" href="stock/edit/'+data+'"><span>Edit</span></div>';
+                            return '<div style="display:flex"><a class="btn-design btn-edit" href="stock/issue-edit/'+data+'"><span>Edit</span></div>';
                         }
                                       
                   }
