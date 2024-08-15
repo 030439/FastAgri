@@ -613,6 +613,81 @@ class Stock_model extends CI_Model {
         $stocks = $this->db->get()->result();
         return $stocks; 
     }
+    public function getPurchaseQty($pqid,$pid){
+        $this->db->select('p.quantity, p.product_id as pro');
+    $this->db->from('purchasesdetail p');
+    $this->db->WHERE('p.id',$pqid);
+    $query = $this->db->get();
+    $data = $query->result_array();
+    $qts = explode(',', $data[0]['quantity']);
+    $product_ids = explode(',', $data[0]['pro']);
+        foreach ($product_ids as $index => $product_id) {
+            if($product_id==$pid){
+                return $qts[$index];
+            }
+        }
+    return false;
+    }
+    public function updateIssueQty($remainingQty,$pqid,$pid_){
+ 
+
+        $data=['RemainingQuantity'=>$remainingQty];
+        $this->db->where('purchase_id', $pqid);
+        $this->db->where('product_id', $pid_);
+        $res=$this->db->update('purchaseqty', $data);
+        return $res?$res:false;
+    }
+    
+    public function updateIssueProduct($id,$data){
+        $this->db->trans_start(); // Start Transaction
+        $error=[];
+        $issue=$this->issueEdit($id);
+        $pqid=$data['pqid'];
+        $qty=$data['qty'];
+        $pid_=$data['product'];
+        $query = $this->db->query("SELECT * From purchaseqty WHERE purchase_id=$pqid AND product_id=$pid_");
+       if ($query) {
+        $result = $query->result();
+        $pqty= $this->getPurchaseQty($pqid,$pid_);
+     
+        $remainingQty=$result[0]->RemainingQuantity;
+        $restoredQty = $remainingQty + $issue->Quantity;
+        $newRemainingQty = $restoredQty - $qty;
+        if ($newRemainingQty < 0) {
+            $error=["error1"=>"Error: New issued quantity exceeds remaining quantity."];
+        }
+        $res=$this->updateIssueQty($newRemainingQty,$pqid,$pid_);
+       
+        if($res){
+            $this->issueupdateStock($data['product'],$qty,$issue->Quantity);
+        }else{ $error=["error2"=>"Stock Error"];}
+       }
+       $new=['PqId'=>$pqid,
+             'empoyee_id'=>$data['person'],
+             'tunnel_id'=>$data['tunnel'],
+             'pid'=>$data['product'],
+             'Quantity'=>$qty,
+             'i_date'=>$data['issueDate']
+            ];
+            $this->db->where('id',$id);
+            $ok=$this->db->update('issuestock', $new);
+        if($ok){
+          $ok=$this->updatetunnelExpense($id,$pqid,$data['tunnel'],$data['product'],$qty,$data['issueDate']);
+          
+          $error=["error3"=>"Tunnel Expense Error"];
+        }
+        $this->db->trans_complete(); // Complete Transaction
+        
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return $error;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return true;
+        } 
+    }
     public function issueProduct($data){
         $pqid=$data['pqid'];
         $qty=$data['qty'];
@@ -696,10 +771,44 @@ class Stock_model extends CI_Model {
         }
         return ;
     }
+    public function updatetunnelExpense($id,$pqid,$tunnel,$pro,$qty,$idate){
+        $query = $this->db->query("SELECT product_id,fu_price From purchasesdetail WHERE id=$pqid");
+        $result = $query->result();
+        $product_ids=explode(",",$result[0]->product_id);
+        $fu_price=explode(",",$result[0]->fu_price);
+        foreach($product_ids as $c=>$pid){
+            if($pid==$pro){
+                $amount= $fu_price[$c];
+                $expense=[
+                    'is_id'=>$id,
+                    'tunnel_id'=>$tunnel,
+                    'expense_type'=>"issueStockPurchase",
+                    'eid'=>$pqid,
+                    'amount'=>$amount,
+                    'edate'=>$idate,
+                    'pid'=>$pro,
+                ];
+
+                
+                $this->db->where('is_id', $id);
+                return $this->db->update('tunnel_expense', $expense);
+            }
+        }
+        return ;
+    }
     public function updateStock($pro,$qty){
         $this->db->set('qunatity', 'qunatity - ' . $this->db->escape($qty), FALSE);
         $this->db->where('pid', $pro);
         return $this->db->update('stocks');
+    }
+    public function issueupdateStock($pro,$qty,$old_qty){
+        $this->db->set('qunatity', 'qunatity + ' . $this->db->escape($qty), FALSE);
+        $this->db->where('pid', $pro);
+        $res=$this->db->update('stocks');
+        if($res){
+            $ok=$this->updateStock($pro,$qty);
+        }
+        return $ok?true:false;
     }
 
     public function tunnelsExpensesList($draw, $start, $length, $search = '') {
@@ -1308,7 +1417,7 @@ class Stock_model extends CI_Model {
                 INNER JOIN `products` `p` ON
                     `pd`.`product_id` = `p`.`id`
                 LEFT JOIN `purchaseqty` `pq` ON
-                    `pd`.`id` = `pq`.`purchase_id` AND `pd`.`product_id` = `pq`.`product_id`
+                    `pd`.`id` = `pq`.`purchase_id`
                 WHERE
                     `pq`.`product_id` = $id
             ) AS combined_data,

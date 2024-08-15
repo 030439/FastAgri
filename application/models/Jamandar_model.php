@@ -455,11 +455,12 @@ LIMIT $start, $length;
         $counter=count($data['tunnel']);
      
         for($C=0;$C<$counter;$C++){
+            $deduction_=$data['deduction'][$C]?$data['deduction'][$C]:0;
             $rate=$this->getRate();
             $labor=$data['labour'][$C];
             $j=$data['jamandar'];
             $ldate=$data['ldate'];
-            $deduction=$data['deduction'][$C];
+            $deduction=$deduction_;
             $rate=$rate[0]->amount;
             $total_amount=$rate*$labor-$deduction;
             $record=[
@@ -488,7 +489,8 @@ LIMIT $start, $length;
                 $this->db->where('jamandar_id', $j);
                 $query = $this->db->get('jamandartotal');
                 $result=$query->result();
-                $last=$result[0]->payable;
+
+                $last=$result[0]->payable?$result[0]->payable:$result->payable;
                 $amount=$last+$total_amount;
                 $out=$this->jamandari($data['jamandar'],$ldate);
                 if(!$out){

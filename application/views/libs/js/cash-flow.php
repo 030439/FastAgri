@@ -29,12 +29,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            {
-                "data": "created_at",
-                "render": function(data, type, full, meta) {
-                    return moment(data).format('YYYY-MM-DD');
-                }
-            },
+            { "data": "cdate" },
             { "data": "name" },
             { "data": "narration" },
             {

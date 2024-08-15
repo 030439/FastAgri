@@ -26,6 +26,26 @@ class Stock extends CI_Controller {
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/stock/edit-issue-stock",'data'=>$data]);
 	}
+	public function updateIssueProduct(){
+		
+		$data = $this->input->post(NULL, TRUE);
+		$id=$data['id'];
+		$this->form_validation->set_rules('tunnel', 'tunnel', 'required');
+        $this->form_validation->set_rules('issueDate', 'issueDate', 'required');
+		$this->form_validation->set_rules('product', 'product', 'required');
+        $this->form_validation->set_rules('pqid', 'pqid', 'required');
+		$this->form_validation->set_rules('qty', 'qty', 'required');
+		$this->form_validation->set_rules('person', 'Employee', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+			$this->issueEdit($id);
+        } else {
+            // XSS cleaning for input data
+            $data = $this->input->post(NULL, TRUE);
+            $res=$this->Stock_model->updateIssueProduct($id,$data);
+			$this->response($res,'stock/listissue' ,"Data Updated Successfully");
+        }
+	}
 	public function productListJs(){
 		try{
 			$draw = intval($this->input->post("draw"));

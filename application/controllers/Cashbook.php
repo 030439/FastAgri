@@ -127,6 +127,7 @@ class Cashbook extends CI_Controller {
         $this->form_validation->set_rules('cash-selection-type', 'Cash Selection Type', 'required');
         $this->form_validation->set_rules('cash-selection-party', 'Cash Selection Party', 'required');
         $this->form_validation->set_rules('amount', 'Amount ', 'required');
+		$this->form_validation->set_rules('cdate', 'cdate ', 'required');
         if ($this->form_validation->run() == FALSE) {
             
             $this->load->view('layout/parts',['page'=>"pages/cashbook/add"]);

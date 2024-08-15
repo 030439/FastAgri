@@ -164,7 +164,7 @@ class Cashbook_model extends CI_Model {
         $filteredRecords = $this->db->count_all_results('', FALSE);
     
         // Order by id in descending order
-        $this->db->order_by('c.id', 'DESC');
+        $this->db->order_by('c.cdate', 'DESC');
     
         // Limit the results for pagination
         $this->db->limit($length, $start);
@@ -474,6 +474,7 @@ class Cashbook_model extends CI_Model {
             'cash_sP'  =>$data['cash-selection-party'],
             'amount'  =>$data['amount'],
             'narration'   => $data['narration'],
+            'cdate'    =>$data['cdate']
         ];
       
         $this->db->trans_start();
