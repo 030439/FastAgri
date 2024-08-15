@@ -21,7 +21,7 @@
                                 <th>Fasal/Crop</th>
                                 <th>Covered Area</th>
                                 <th>Swing Date</th>
-                                <th>Expenses | Profit | Status | Edit | Ledger</th>
+                                <th>Expenses | Profit | Status | Ledger</th>
                             </tr>
                         </thead>
                     </table> 

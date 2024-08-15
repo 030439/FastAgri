@@ -36,6 +36,8 @@
                         <th>Rate</th>
                         <th>Quantity</th>
                         <th>Amount</th>
+                        <!-- <th>Debit</th>
+                        <th>Credit</th> -->
                         <th>Date</th>
                         <th>Detail</th>
                     </tr>
