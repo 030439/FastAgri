@@ -732,6 +732,9 @@ class Tunnel_model extends CI_Model
     sdID,
     grade,
     Quantity,
+    lbr,
+    fr,
+    cc,
     Rate,
     tt,
     NetAmount,
@@ -758,6 +761,9 @@ FROM
         NULL AS sdID,
         NULL AS grade,
         NULL AS Quantity,
+        NULL AS lbr,
+        NULL AS fr,
+        NULL AS cc,
         NULL AS Rate,
         NULL AS NetAmount,
         NULL AS amount,
@@ -789,7 +795,10 @@ FROM
         sd.`id` AS sdID,
         g.`Name` AS grade,
         sd.`Quantity`,
-        sd.`Rate`,
+        sd.`Labour` as lbr,
+        sd.`Freight` as fr,
+        sd.`commission` as cc,
+         sd.`Rate` as Rate,
         sd.`NetAmount`,
         sd.`amount`,
         c.`Name` AS customer,
@@ -814,13 +823,16 @@ LIMIT $start, $length;
         $query = $this->db->query($Q);
         $result = $query->result_array();
         $newData = [];
-        
+        $running['running']=0;
+        $debit=0;
+        $credit=0;
         foreach ($result as $c => $re) {
             if($re['tt']){
             $t_ = explode(',', $re['tt']);
             }
 
             if($re['eid_']){
+                $result[$c]['debit'] = 0;
                 $result[$c]['entry_id'] = $re['eid_'];
                 $result[$c]['type']=$re['expense_type'];
                 $result[$c]['entryDate'] = $re['edate'];
@@ -830,29 +842,34 @@ LIMIT $start, $length;
                     $result[$c]['qty_'] = $pq['qty'];
                     $result[$c]['rate_'] = $re['eamount'];
                     $result[$c]['amount'] = $pq['qty'] * $re['eamount'];
+                    $result[$c]['credit'] = $pq['qty'] * $re['eamount'];
                 } elseif ($re['expense_type'] == "Jamandari") {
                     $pq = getIssueProQty($id, $re['epid'], $re['edate']);
                     $result[$c]['head'] = jamandarName($re['epid']);
                     $result[$c]['qty_'] = 1;
                     $result[$c]['rate_'] = 0;
                     $result[$c]['amount'] = $re['eamount'];
+                    $result[$c]['credit'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "EXP"){
                     $result[$c]['head']   = $this->accountHeadName($re['epid']);
                     $result[$c]['qty_'] =  0;
                     $result[$c]['rate_']   = 0;
                     $result[$c]['amount'] = $re['eamount'];
+                    $result[$c]['credit'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "EMP"){
                     $result[$c]['head']   = employeeName_($re['epid']);
                     $result[$c]['qty_']    = 0;
                     $result[$c]['rate_']   = 0;
                     $result[$c]['amount'] = $re['eamount'];
+                    $result[$c]['credit'] = $re['eamount'];
                 }
                 elseif($re['expense_type'] == "ADV"){
                     $result[$c]['head']   = employeeName_($re['epid']);
                     $result[$c]['qty_']    = 0;
                     $result[$c]['amount'] = $re['eamount'];
+                    $result[$c]['credit'] = $re['eamount'];
                     $result[$c]['rate_']   = 0;
                 }
                  else {
@@ -861,7 +878,10 @@ LIMIT $start, $length;
                     $result[$c]['qty_'] = $lb['qty'];
                     $result[$c]['rate_'] = $lb['rate'];
                     $result[$c]['amount'] = $re['eamount'];
+                    $result[$c]['credit'] = $re['eamount'];
                 }
+                $credit=$result[$c]['credit'];
+                $result[$c]['running']=$running['running']-$credit;
             }
             else
             {
@@ -872,20 +892,32 @@ LIMIT $start, $length;
                 $amounts = explode(',', $re['amount']);
                 $GradeId = explode(',', $re['GradeId']);
                 $NetAmount = explode(',', $re['NetAmount']);
+                $commissions = explode(',', $re['cc']);
+                $labours = explode(',', $re['lbr']);
+                $freights = explode(',', $re['fr']);
                 
                 // Determine the maximum length to iterate through
-                $maxLength = max(count($quantities), count($rates), count($amounts));
+                $maxLength = max(count($quantities), count($rates), count($amounts),count($commissions),count($labours),count($freights));
                 
                 for ($i = 0; $i < $maxLength; $i++) {
+                    $result[$c]['credit']=0;
                     if($t_[$i]==$id){
+
+                        $l_=$labours[$i]*$quantities[$i];
+                        $c_=$commissions[$i]*$quantities[$i];
+                        $f_=$freights[$i]*$quantities[$i];
+                        $D_=$l_+$c_+$f_;
+                        $n_=$amounts[$i]-$D_;
+
                     $newRecord = $re;
+                    
                     $result[$c]['type']='Sell';
                     $result[$c]['entryDate'] = $re['selldate'];
                     $result[$c]['entry_id'] = $re['sid_'];
                     $result[$c]['head']=$re['customer'];
                     $result[$c]['qty_'] = $quantities[$i] ?? $quantities[0];
                     $result[$c]['rate_'] = $rates[$i] ?? $rates[0];
-                    $result[$c]['NetAmount'] = $NetAmount[$i] ?? $NetAmount[0];
+                    $result[$c]['debit'] = $n_;
                     $result[$c]['amount'] = $amounts[$i] ?? $amounts[0];
                     $grade=$GradeId[$i] ?? $GradeId[0];
                     if($grade==1){
@@ -897,7 +929,10 @@ LIMIT $start, $length;
                     $newData[] = $newRecord;
                 }
                 }
+                $debit=$result[$c]['debit'];
+                $result[$c]['running']=$running['running']+$debit;
             }
+            $running['running'] = $result[$c]['running'];
         }
         $response = array(
             "draw" => intval($draw),

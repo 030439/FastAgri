@@ -31,14 +31,15 @@
             <table id="user-list"  class="table table-bordered borderd table-striped display table-hover">
                 <thead>
                     <tr>
+                        <th>Date</th>
                         <th>Sell/Expense</th>
                         <th>Product/Employee/Customer</th>
                         <th>Rate</th>
                         <th>Quantity</th>
                         <th>Amount</th>
-                        <!-- <th>Debit</th>
-                        <th>Credit</th> -->
-                        <th>Date</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Running</th>
                         <th>Detail</th>
                     </tr>
                 </thead>

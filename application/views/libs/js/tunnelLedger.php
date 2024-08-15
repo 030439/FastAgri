@@ -20,12 +20,15 @@
           }
           },        
            "columns": [
+                  { "data": "entryDate" },
                   { "data": "type" },
                   { "data": "head" },
                   { "data": "rate_" },
                   { "data": "qty_" },
                   { "data": "amount" },
-                  { "data": "entryDate" },
+                  { "data": "credit" },
+                  { "data": "debit" },
+                  { "data": "running" },
                   { 
                         "data": "type",
                         "render": function(data, type, row) {
