@@ -705,7 +705,7 @@ class Tunnel_model extends CI_Model
         );
         return $response;
     }
-    public function tunnelLedger($id,$draw,$startDate, $endDate, $start, $length, $search)
+    public function tunnelLedger($id,$draw,$startDate, $endDate, $start, $length, $searchTerm)
     {
         $total_query = $this->db->query("SELECT COUNT(*) as total FROM (
             SELECT e.id FROM tunnel_expense e WHERE e.tunnel_id = ?
@@ -815,11 +815,20 @@ FROM
     ON g.`id` = sd.`GradeId`
     WHERE 1=1
     ) AS combined_data
-ORDER BY
-    edate,
-    ecreated ASC
-LIMIT $start, $length;
 ";
+    if (!empty($startDate) && !empty($endDate)) {
+        $Q.=' WHERE  ecreated BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
+    }
+    if (!empty($searchTerm)) {
+        $conditions[] = '(expense_type LIKE "%' . $searchTerm . '%" OR amount LIKE "%' . $searchTerm . '%" OR Rate LIKE "%' . $searchTerm . '%" OR customer LIKE "%' . $searchTerm . '%")';
+    }
+    if (!empty($conditions)) {
+        $Q .= ' AND ' . implode(' AND ', $conditions);
+    }
+    // Apply pagination
+    $Q .= "ORDER BY
+    edate,
+    ecreated ASC LIMIT $start, $length";
         $query = $this->db->query($Q);
         $result = $query->result_array();
         $newData = [];
