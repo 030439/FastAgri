@@ -75,6 +75,7 @@ class Customer_model extends CI_Model {
      dQuantity,
     dtotal_amount,
    di_date,
+   did,
      dproduct_name,
    dsell_created_at,
     @running_balance := @running_balance +(

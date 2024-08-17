@@ -1357,9 +1357,16 @@ class Stock_model extends CI_Model {
                 pcreated,
                 total_amount,
                 purchaseQ,
+                 dpqId,customer,
+    dpid,
+     dQuantity,
+    dtotal_amount,
+   di_date,
+   did,
+     dproduct_name,
                 issueQ,
                 @running_balance := @running_balance +(
-                    IFNULL(purchased_quantity, 0) - IFNULL(quantity, 0)
+                    IFNULL(purchased_quantity, 0) - IFNULL(quantity, 0)-IFNULL(dQuantity, 0)
                 ) AS running_balance
             FROM
                 (
@@ -1371,6 +1378,17 @@ class Stock_model extends CI_Model {
                     i.i_date as issueQ,
                     t.TName as tname,
                     e.Name as employee,
+                     NULL AS did,
+            NULL AS dpqId,
+            NULL AS dpid,
+            NULL AS dQuantity,
+            NULL AS dtotal_amount,
+            NULL AS di_date,
+            NULL AS dproduct_name,
+            NULL AS dsell_created_at,
+            i.created_at as creater,
+
+            NULL AS customer,
                     NULL AS purchase_detail_id,
                     NULL AS purchased_quantity,
                     NULL AS supplier_name,
@@ -1392,6 +1410,49 @@ class Stock_model extends CI_Model {
                 WHERE
                     `i`.`pid` = $id
                 UNION ALL
+                
+
+
+
+             SELECT
+              NULL AS issue_stock_id,
+                    NULL AS pqid,
+                    NULL AS quantity,
+                    NULL AS i_date,
+                    NULL AS issueQ,
+                    NULL AS  tname,
+                    NULL AS employee,
+
+                    i.id AS did,
+                    i.PqId AS dpqId,
+                    i.pid AS dpid,
+                    i.Quantity AS dQuantity,
+                    i.amount AS dtotal_amount,
+                    i.i_date AS di_date,
+                    p.Name AS dproduct_name,
+                    i.created_at AS dsell_created_at,
+                    i.created_at AS creater,
+                    e.Name as customer,
+                    
+                     NULL AS purchase_detail_id,
+                    NULL AS purchased_quantity,
+                    NULL AS supplier_name,
+                    NULL AS rate,
+                    NULL AS amount,
+                    NULL AS pcreated,
+                    NULL AS total_amount,
+                    NULL AS product_id,
+                    NULL AS purchaseQ
+            FROM
+            directissue i
+            JOIN products p ON
+            i.pid = p.id
+            JOIN customers e ON
+            e.id = i.direct_id
+            WHERE
+            i.pid =  $id
+             UNION ALL
+
             SELECT 
                     NULL AS issue_stock_id,
                     NULL AS pqid,
@@ -1400,7 +1461,16 @@ class Stock_model extends CI_Model {
                     NULL AS issueQ,
                     NULL AS  tname,
                     NULL AS employee,
-                    
+                     NULL AS did,
+            NULL AS dpqId,
+            NULL AS dpid,
+            NULL AS dQuantity,
+            NULL AS dtotal_amount,
+            NULL AS di_date,
+            NULL AS dproduct_name,
+            NULL AS dsell_created_at,
+            pd.created_at as  creater,
+                    NULL AS customer,
                     pd.id as purchase_detail_id,
                     pd.quantity as purchased_quantity,
                     s.Name AS supplier_name,
@@ -1423,7 +1493,7 @@ class Stock_model extends CI_Model {
             ) AS combined_data,
              (SELECT @running_balance := 0) AS rb
             ORDER BY
-                i_date,pcreated ASC;
+                creater DESC;
             ");
             $query = $this->db->query($sql);
             $results = $query->result_array();
@@ -1441,7 +1511,22 @@ class Stock_model extends CI_Model {
                     $final[$c]['rate']=$result['rate'];
                     $final[$c]['amount']=$result['amount'];
                     $final[$c]['running_balance']=$result['running_balance'];
-                }else{
+                }
+                elseif($result['did']){
+
+                    $final[$c]['type']="Direct-Sale";
+                    $final[$c]['detail']=" ";
+                    $final[$c]['quantity']=$result['dQuantity'];
+                    $final[$c]['date_']=$result['di_date'];
+                    $final[$c]['tname']="-";
+                    $final[$c]['employeeOrSupplier']=$result['customer'];
+                    //$final[$c]['purchased_quantity']=$result['purchased_quantity'];
+                   // $final[$c]['supplier_name']=$result['supplier_name'];
+                    $final[$c]['rate']= pqrate($result['dpqId'],$result['dpid']);
+                    $final[$c]['amount']=$result['dtotal_amount'];
+                    $final[$c]['running_balance']=$result['running_balance'];
+                }
+                else{
                     $final[$c]['type']="purchase";
                     $final[$c]['detail']=$result['purchase_detail_id'];
                    // $final[$c]['quantity']=$result['quantity'];
@@ -1463,18 +1548,42 @@ class Stock_model extends CI_Model {
             );
             return $response;
     }
-    public function getPQ($pid,$quantities,$pids){
-        $purchased_quantities = explode(',',$quantities);
-        $product_ids = explode(',',$pids);
+    public function getPQ($pid, $quantities, $pids){
+        // If $quantities and $pids are passed as strings, split them into arrays.
+        if (is_array($quantities)) {
+            $purchased_quantities = explode(',', $quantities);
+        } else {
+            $purchased_quantities[0] = $quantities;
+        }
+        
+        if (is_array($pids)) {
+            $product_ids = explode(',', $pids);
+        } else {
+            $product_ids[0] = $pids;
+        }
+        
         foreach ($product_ids as $index => $product_id) {
-            if($product_id==$pid){
+            if ($product_id == $pid) {
                 return $purchased_quantities[$index];
             }
         }
+        return null; // If the product ID is not found
     }
+    
     public function getPRate($pid,$quantities,$pids){
-        $purchased_quantities = explode(',',$quantities);
-        $product_ids = explode(',',$pids);
+        if (is_array($quantities)) {
+            $purchased_quantities = explode(',', $quantities);
+        } else {
+            $purchased_quantities[0] = $quantities;
+        }
+        
+        if (is_array($pids)) {
+            $product_ids = explode(',', $pids);
+        } else {
+            $product_ids[0] = $pids;
+        }
+
+
         foreach ($product_ids as $index => $product_id) {
             if($product_id==$pid){
                 return $purchased_quantities[$index];
