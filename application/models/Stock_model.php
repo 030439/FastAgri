@@ -730,7 +730,7 @@ class Stock_model extends CI_Model {
        }
        $rate_=pqrate($pqid,$data['product']);
             $total_=$rate_*$qty;
-       $new=['PqId'=>$pqid,
+              $new=['PqId'=>$pqid,
              'direct_id'=>$data['person'],
              'pid'=>$data['product'],
              'Quantity'=>$qty,
@@ -744,7 +744,7 @@ class Stock_model extends CI_Model {
             $total_=$rate_*$qty;
             $this->db->set('closing', 'closing + ' . $this->db->escape($total_), FALSE);
             $this->db->where('cid', $data['person']);
-            $ok=$this->db->update('direct_detail');
+            $ok=$this->db->update('customer_detail');
              return true;
         }
         return ;
@@ -1012,7 +1012,7 @@ class Stock_model extends CI_Model {
         ');
         $this->db->from('directissue i');
         $this->db->join('products p', 'i.pid = p.id');
-        $this->db->join('direct e', 'e.id = i.direct_id');
+        $this->db->join('customers e', 'e.id = i.direct_id');
     
         // Apply search filter if provided
         if (!empty($search)) {

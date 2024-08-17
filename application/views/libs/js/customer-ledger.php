@@ -30,8 +30,11 @@
                           var linker='';
                             if(data=="Sell"){
                                 linker="sell-detail/"+row.id;
-                            }else{
-                              linker="cashbook/invoice/"+row.id;
+                            }else if(data=="Direct"){
+                                return '<a href='+linker+' style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">Detail</a> ';
+                            }
+                            else{
+                              linker="direct/invoice/"+row.id;
                             }
                             return '<a href='+linker+' style="background-color:#86af49;padding:3px 5px;color:#fff" class="btn btn-primary">Detail</a> ';
                         }

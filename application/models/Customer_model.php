@@ -59,52 +59,118 @@ class Customer_model extends CI_Model {
     
         // Main query with search and pagination
         $query = $this->db->query("
-            SELECT 
-                s_id,
-                cid,
-                amount,
-                sell_created_at,
-                pay_created_at,
-                total_amount,
-                created,
-                labour,
-
-                expences,
-                freight,
-                @running_balance := @running_balance + (IFNULL(total_amount, 0) - IFNULL(amount, 0) - IFNULL(expences, 0)-IFNULL(labour, 0)-IFNULL(freight, 0)) AS running_balance
-                FROM (
-                SELECT 
-                s.id AS s_id, 
-                s.labour ,
-                s.expences,
-                s.freight,
-                    NULL AS cid,
-                    NULL AS amount,
-                    s.created_at AS sell_created_at,
-                    NULL AS pay_created_at,
-                    s.total_amount,
-                    s.created_at AS created
-                FROM 
-                    sells s
-                WHERE 
+           SELECT
+    s_id,
+    cid,
+    amount,
+    sell_created_at,
+    pay_created_at,
+    total_amount,
+    created,
+    labour,
+    expences,
+    freight,
+      dpqId,
+    dpid,
+     dQuantity,
+    dtotal_amount,
+   di_date,
+     dproduct_name,
+   dsell_created_at,
+    @running_balance := @running_balance +(
+        IFNULL(total_amount, 0) - IFNULL(amount, 0) - IFNULL(expences, 0) - IFNULL(labour, 0) - IFNULL(freight, 0)+IFNULL(dtotal_amount, 0)
+        ) AS running_balance
+    FROM
+        (
+        SELECT NULL AS
+            did,
+            NULL AS dpqId,
+            NULL AS dpid,
+            NULL AS dQuantity,
+            NULL AS dtotal_amount,
+            NULL AS di_date,
+            NULL AS dproduct_name,
+            NULL AS dsell_created_at,
+            NULL AS creater,
+            s.id AS s_id,
+            s.labour,
+            s.expences,
+            s.freight,
+            NULL AS cid,
+            NULL AS amount,
+            s.created_at AS sell_created_at,
+            NULL AS pay_created_at,
+            s.total_amount,
+            s.created_at AS created
+        FROM
+            sells s
+        WHERE
+ 
                     s.customer = ?
                 
                 UNION ALL
-                
-                SELECT 
-                    NULL AS s_id,
-NULL AS labour,
 
-NULL AS expences,
-NULL AS freight,
-                    t.id AS cid,
-                    t.amount,
-                    NULL AS sell_created_at,
-                    t.created_at AS pay_created_at,
-                    NULL AS total_amount,
-                    t.created_at AS created
-                FROM 
-                    cash_in_out t
+
+
+
+
+             SELECT
+        i.id AS did,
+        i.PqId AS dpqId,
+        i.pid AS dpid,
+        i.Quantity AS dQuantity,
+        i.amount AS dtotal_amount,
+        i.i_date AS di_date,
+        p.Name AS dproduct_name,
+        i.created_at AS dsell_created_at,
+        i.created_at AS creater,
+       NULL AS s_id,
+       NULL AS labour,
+     NULL AS expences,
+        NULL AS freight,
+        NULL AS cid,
+        NULL AS amount,
+      NULL AS sell_created_at,
+        NULL AS pay_created_at,
+       NULL AS total_amount,
+      NULL AS  created
+    FROM
+        directissue i
+    JOIN products p ON
+        i.pid = p.id
+    JOIN customers e ON
+        e.id = i.direct_id
+                WHERE
+                    i.direct_id = ?
+                
+                UNION ALL
+
+
+
+                
+               SELECT NULL AS
+    did,
+    NULL AS dpqId,
+    NULL AS dpid,
+    NULL AS dQuantity,
+    NULL AS dtotal_amount,
+    NULL AS di_date,
+    NULL AS dproduct_name,
+    NULL AS dsell_created_at,
+    NULL AS creater,
+    NULL AS s_id,
+    NULL AS labour,
+    NULL AS expences,
+    NULL AS freight,
+    t.id AS cid,
+    t.amount,
+    NULL AS sell_created_at,
+    t.created_at AS pay_created_at,
+    NULL AS total_amount,
+    t.created_at AS created
+FROM
+    cash_in_out t
+
                 WHERE 
                     t.cash_sP = ?
                     AND t.case_sT = 'customer'
@@ -113,7 +179,7 @@ NULL AS freight,
             ORDER BY 
                 created ASC
             LIMIT ? OFFSET ?
-        ", array($customer_id, $customer_id, $length, $start));
+        ", array($customer_id, $customer_id,$customer_id, $length, $start));
     
         $result = $query->result();
     
@@ -129,7 +195,18 @@ NULL AS freight,
                     'amount' => $row->amount,
                     'running_balance' => $row->running_balance,
                 ];
-            } else {
+            }
+            elseif($row->dtotal_amount) {
+                $arr[] = [
+                    'type' => "Direct",
+                    'id' => $row->did,
+                    'date' => $this->dater($row->dsell_created_at),
+                    'total_amount' => $row->dtotal_amount,
+                    'amount' => $row->amount,
+                    'running_balance' => $row->running_balance,
+                ];
+            }
+             else {
                 $arr[] = [
                     'type' => "Receive",
                     'id' => $row->cid,

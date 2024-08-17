@@ -191,7 +191,7 @@ class Stock extends CI_Controller {
 	}
 	public function direct()
 	{
-		$data['employees']=$this->Common_model->getAll('direct');
+		$data['employees']=$this->Common_model->getAll('customers');
 		$data['products']=$this->Common_model->getAll('products');//$this->Stock_model->getStockProduct();
 		$data['tunnels']=$this->Common_model->getAll('tunnels');
 		$this->load->view('layout/parts',['page'=>"pages/direct/issue-stock",'data'=>$data]);
@@ -228,7 +228,7 @@ class Stock extends CI_Controller {
 		$this->form_validation->set_rules('issueDate', 'Issue date', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $data['employees']=$this->Common_model->getAll('direct');
+            $data['employees']=$this->Common_model->getAll('customers');
 			$data['products']=$this->Common_model->getAll('products');//$this->Stock_model->getStockProduct();
 			$data['tunnels']=$this->Common_model->getAll('tunnels');
 			$this->load->view('layout/parts',['page'=>"pages/direct/issue-stock",'data'=>$data]);
