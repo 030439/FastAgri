@@ -19,22 +19,23 @@
           }
           },        
            "columns": [
+            { "data": "edate" },
                   { "data": "expense_type" },
                   { "data": "head" },
                   { "data": "rate" },
                   { "data": "qty" },
                   { "data": "amount" },
-                  { "data": "edate" },
+                
                   // { "data": "edate" },
               ],
               "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api();
-            var totalBalance = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
+            var totalBalance = api.column(5, { page: 'current'} ).data().reduce(function(a, b) {
                 return a + (parseFloat(b) || 0);
             }, 0);
 
             // Update footer
-            $(api.column(4).footer()).html(totalBalance.toFixed(2));
+            $(api.column(5).footer()).html(totalBalance.toFixed(2));
         }
       });
       $('#filter').on('click', function() {

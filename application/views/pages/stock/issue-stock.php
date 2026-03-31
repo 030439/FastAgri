@@ -7,7 +7,8 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Tunnel Name</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" name="tunnel" >
-                            <option selected="" disabled="" value="default">Tunnel Name</option>
+                            <option selected="" disabled="" value="default">Select Tunnels </option>
+                            <option selected value="0">All Tunnels</option>
                             <?php 
                                 if(!empty($data['tunnels'])):
                                 foreach($data['tunnels'] as $t):    

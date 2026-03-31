@@ -19,7 +19,7 @@
           }
           },        
            "columns": [
-                  { "data": "type" },
+                //   { "data": "type" },
                   { "data": "date" },
                   { "data": "amount" },
                   { "data": "total_amount" },

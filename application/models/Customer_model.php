@@ -62,6 +62,7 @@ class Customer_model extends CI_Model {
            SELECT
     s_id,
     cid,
+    cash_s,
     amount,
     sell_created_at,
     pay_created_at,
@@ -98,6 +99,7 @@ class Customer_model extends CI_Model {
             s.expences,
             s.freight,
             NULL AS cid,
+            NULL AS cash_s,
             NULL AS amount,
             s.created_at AS sell_created_at,
             NULL AS pay_created_at,
@@ -130,11 +132,12 @@ class Customer_model extends CI_Model {
      NULL AS expences,
         NULL AS freight,
         NULL AS cid,
+        NULL AS cash_s,
         NULL AS amount,
       NULL AS sell_created_at,
         NULL AS pay_created_at,
        NULL AS total_amount,
-      NULL AS  created
+     i.created_at AS  created
     FROM
         directissue i
     JOIN products p ON
@@ -164,6 +167,7 @@ class Customer_model extends CI_Model {
     NULL AS expences,
     NULL AS freight,
     t.id AS cid,
+    t.cash_s,
     t.amount,
     NULL AS sell_created_at,
     t.created_at AS pay_created_at,
@@ -185,39 +189,73 @@ FROM
         $result = $query->result();
     
         // Process the result to format it for DataTables
-        $arr = [];
-        foreach ($result as $row) {
-            if ($row->total_amount) {
-                $arr[] = [
-                    'type' => "Sell",
-                    'id' => $row->s_id,
-                    'date' => $this->dater($row->sell_created_at),
-                    'total_amount' => $row->total_amount-$row->labour-$row->freight-$row->expences,
-                    'amount' => $row->amount,
-                    'running_balance' => $row->running_balance,
-                ];
-            }
-            elseif($row->dtotal_amount) {
-                $arr[] = [
-                    'type' => "Direct",
-                    'id' => $row->did,
-                    'date' => $this->dater($row->dsell_created_at),
-                    'total_amount' => $row->dtotal_amount,
-                    'amount' => $row->amount,
-                    'running_balance' => $row->running_balance,
-                ];
-            }
-             else {
-                $arr[] = [
-                    'type' => "Receive",
-                    'id' => $row->cid,
-                    'date' => $this->dater($row->pay_created_at),
-                     'total_amount' => $row->total_amount-$row->labour-$row->freight-$row->expences,
-                    'amount' => $row->amount,
-                    'running_balance' => $row->running_balance,
-                ];
-            }
+       
+
+       $arr = [];
+$running_balance = 0;
+
+foreach ($result as $c => $row) {
+    $credit = 0;
+    $debit = 0;
+
+    // Sell Transaction
+    if (isset($row->total_amount)) {
+        $credit = $row->total_amount - $row->labour - $row->freight - $row->expences;
+        $running_balance += $credit;
+
+        $arr[] = [
+            'type' => "Sell",
+            'id' => $row->s_id,
+            'date' => $this->dater($row->sell_created_at),
+            'total_amount' => $credit,
+            'amount' => $row->amount,
+            'running_balance' => $running_balance,
+        ];
+    }
+    // Direct Transaction
+    elseif (isset($row->dtotal_amount)) {
+        $credit = $row->dtotal_amount;
+        $running_balance += $credit;
+
+        $arr[] = [
+            'type' => "Direct",
+            'id' => $row->did,
+            'date' => $this->dater($row->dsell_created_at),
+            'total_amount' => $credit,
+            'amount' => $row->amount,
+            'running_balance' => $running_balance,
+        ];
+    }
+    // Cash In Transaction
+    elseif ($row->cash_s == "cash-in") {
+        $debit = $row->amount;
+        $running_balance -= $debit;
+
+        $arr[] = [
+            'type' => "Receive",
+            'id' => $row->cid,
+            'date' => $this->dater($row->pay_created_at),
+            'total_amount' => $row->total_amount - $row->labour - $row->freight - $row->expences,
+            'amount' => $row->amount,
+            'running_balance' => $running_balance,
+        ];
+    }
+    // Payment Transaction
+    elseif ($row->cash_s == "cash-out") {
+          $credit = $row->amount;
+            $running_balance += $credit;
+    
+            $arr[] = [
+                'type' => "Payment",
+                'id' => $row->did,
+                'date' => $this->dater($row->pay_created_at),
+                'total_amount' => $credit,
+                'amount' => 0,
+                'running_balance' => $running_balance,
+            ];
         }
+}
+
     
         $response = array(
             "draw" => intval($draw),
@@ -578,7 +616,7 @@ FROM
             return $products[0]->Name;
     }
     public function customerDetailInfo(){
-            $this->db->select('c.id as id,c.Name,d.opening as opening');
+            $this->db->select('c.id as id,c.Name,d.closing as opening');
             $this->db->from('customers c');
             $this->db->join('customer_detail d', 'c.id = d.cid');
             $products = $this->db->get()->result();

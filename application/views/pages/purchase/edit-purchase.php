@@ -13,9 +13,10 @@
             </button>
            
         </div>
-        <h4 style="border-bottom:5px solid #ffc403" class="text-[20px] font-bold text-heading mb-9" style="">Create Purchase</h4>
+        <h4 style="border-bottom:5px solid #ffc403" class="text-[20px] font-bold text-heading mb-9" style="">Edit Purchase</h4>
     </div>
-    <form action="create-purchase" method="POST">
+    <form action="update-purchase" method="POST" style="margin-bottom:30px">
+        <input type="hidden" name="id" <?php set_values($data['purchase']['pid']);?>>
     <div class="grid grid-cols-12 gap-x-5">
         <div class="lg:col-span-2 md:col-span-6 col-span-12 ">
             <div class="cashier-select-field mb-5">
@@ -24,7 +25,7 @@
                     <select class="block" style="display: none;" name="supplier">
                         <option selected="selected" disabled="disabled">Select Supplier</option>
                         <?php if(!empty($data['suppliers'])):foreach($data['suppliers'] as $supplier):?>
-                        <option <?php if($supplier->id==$data['purchase']->Supplier_id){echo "selected";}?> value="<?php ShowVal($supplier->id);?>"><?php ShowVal($supplier->Name);?></option>
+                        <option <?php if($supplier->id==$data['purchase']['Supplier_id']){echo "selected";}?> value="<?php ShowVal($supplier->id);?>"><?php ShowVal($supplier->Name);?></option>
                         <?php endforeach; endif;?>
                     </select>
                     <?php validator('supplier')?>
@@ -36,7 +37,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Bill Number </h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="text"  value="<?php echo $data['purchase']->bno; ?>"  name='bno'>
+                        <input type="text"  value="<?php echo $data['purchase']['bno']; ?>"  name='bno'>
                         <?php validator('bno')?>
                     </div>
                 </div>
@@ -47,7 +48,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Select Date</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="date"  value="<?php echo  $data['purchase']->Date;?>"  name='pdate'>
+                        <input type="date"  value="<?php echo  $data['purchase']['Date'];?>"  name='pdate'>
                         <?php validator('pdate')?>
                     </div>
                 </div>
@@ -55,56 +56,53 @@
         </div>
     </div>
 
-
         <div class="grid grid-cols-12 gap-x-5"  style="align-items: center;">
+            
+<?php foreach($data['purchase']['product_ids'] as $key=> $pro):?>
             <div class="lg:col-span-4 md:col-span-6 col-span-12" id="addproduct">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Product</h5>
                     <div class="cashier-select-field-style">
                         <select class="block" style="display: none;" name="product[]">
                         <option selected="selected" disabled="disabled">Select Product</option>
-                            <?php if(!empty($data['products'])):foreach($data['products'] as $product):?>
-                            <option value="<?php ShowVal($product->id);?>"><?php ShowVal($product->Name);?></option>
+                            <?php if(!empty($data['products'])):foreach($data['products'] as $product):
+                                ?>
+                            <option <?php echo  is_qual_($product->id,$pro);?> value="<?php ShowVal($product->id);?>"><?php ShowVal($product->Name);?></option>
                             <?php endforeach; endif;?>
                         </select>
                         <?php validator('product[]')?>
                     </div>
                 </div>
             </div>
-
-
-
             <div class="lg:col-span-4 md:col-span-6 col-span-12" id="addQty">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Quantity</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="number" min="0" oninput="calculateTotal_()" placeholder="Quantity" name="qty[]">
+                            <input <?php set_values($data['purchase']['qunatity'][$key]);?> type="number" min="0" oninput="calculateTotal_()" placeholder="Quantity" name="qty[]">
                             <?php validator('qty[]')?>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-        <div class="lg:col-span-3 md:col-span-6 col-span-12" id="addRate">
-            <div class="cashier-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Rate</h5>
-                <div class="cashier-input-field-style">
-                    <div class="single-input-field w-full">
-                        <input type="number" oninput="calculateTotal_()" min="0" placeholder="Rate" name="rate[]">
-                        <?php validator('rate[]')?>
+            <div class="lg:col-span-3 md:col-span-6 col-span-12" id="addRate">
+                <div class="cashier-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Rate</h5>
+                    <div class="cashier-input-field-style">
+                        <div class="single-input-field w-full">
+                            <input type="number" <?php set_values($data['purchase']['rate'][$key]);?> oninput="calculateTotal_()" min="0" placeholder="Rate" name="rate[]">
+                            <?php validator('rate[]')?>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-                <div id="clickableDiv" style="margin-top: 8px;cursor:pointer;" class=" h-10 w-10 leading-[38px] border border-grayBorder border-solid text-center inline-block rounded-[3px] text-bodyText short">
+               
+               
+            <?php endforeach;?>
+            <div id="clickableDiv" style="margin-top: 8px;cursor:pointer;" class=" h-10 w-10 leading-[38px] border border-grayBorder border-solid text-center inline-block rounded-[3px] text-bodyText short">
                     <i class="fal fa-plus"></i>
                 </div>
-
-
-
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
                             var clickableDiv = document.getElementById("clickableDiv");
@@ -148,22 +146,6 @@
                                 clickableDiv.parentNode.insertBefore(deleteButton, ratediv.nextSibling);
                             });
                         });
-                    //     document.addEventListener("DOMContentLoaded", function() {
-                    //     var clickableDiv = document.getElementById("clickableDiv");
-
-                    //     clickableDiv.addEventListener("click", function() {
-                    //         // Get quantity and rate values
-                    //         var qtyValue = document.querySelector("input[name='qty[]']").value;
-                    //         var rateValue = document.querySelector("input[name='rate[]']").value;
-
-                    //         // Calculate total amount
-                    //         var totalAmount = parseInt(qtyValue) * parseInt(rateValue);
-
-                    //         // Display total amount in console
-                    //         alert(totalAmount);
-                    //         console.log("Total Amount:", totalAmount);
-                    //     });
-                    // });
                     function calculateTotal_(){
                         var qtyInputs = document.querySelectorAll("input[name='qty[]']");
                         var rateInputs = document.querySelectorAll("input[name='rate[]']");
@@ -186,12 +168,12 @@
                     </script>
 
 
-                    <div class="lg:col-span-4 md:col-span-6 col-span-12">
+                    <div class="lg:col-span-4 md:col-span-6 col-span-12" >
                         <div class="cashier-select-field mb-5">
                             <h5 class="text-[15px] text-heading font-semibold mb-3">Transport Charges</h5>
                             <div class="cashier-input-field-style">
                                 <div class="single-input-field w-full">
-                                    <input oninput="calculateTotal_()" id="transportation" type="number" min="0" placeholder="Charges" value="0"  name='charges'>
+                                    <input oninput="calculateTotal_()" id="transportation" type="number" min="0" placeholder="Charges" <?php set_values($data['purchase']['expenses']);?> name='charges'>
                                     <?php validator('rate[]')?>
                                 </div>
                             </div>
@@ -202,7 +184,7 @@
                             <h5 class="text-[15px] text-heading font-semibold mb-3">Grand Total </h5>
                             <div class="cashier-input-field-style">
                                 <div class="single-input-field w-full">
-                                    <input id="grand-total" type="number" min="0" placeholder="Grand Total"  name='gt'>
+                                    <input id="grand-total" <?php set_values($data['purchase']['total_amount']);?> type="number" min="0" placeholder="Grand Total"  name='gt'>
                                     <?php validator('gt')?>
                                 </div>
                             </div>
@@ -213,7 +195,7 @@
                             <h5 class="text-[15px] text-heading font-semibold mb-3">Paid  Amount </h5>
                             <div class="cashier-input-field-style">
                                 <div class="single-input-field w-full">
-                                    <input type="number" min="0" placeholder="Paid Amount"  value="0" name='pa'>
+                                    <input type="number" min="0" placeholder="Paid Amount"  <?php set_values($data['purchase']['paid']);?> name='pa'>
                                     <?php validator('pa')?>
                                 </div>
                             </div>
@@ -222,9 +204,10 @@
 
             <div class="col-span-12">
                 <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
-                    <button class="btn-primary" type="submit">Create Purchase</button>
+                    <button class="btn-primary" type="submit">Update Purchase</button>
                 </div>
             </div>
         </div>
     <form>
 </div>
+<p style="margin-bottom:50px"></p>

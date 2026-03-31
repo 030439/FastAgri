@@ -165,6 +165,7 @@ class Tunnel_model extends CI_Model
         $shareholders_dict = [];
         $shareholders_ids=[];
         $shareholders_name=[];
+        $tids=[];
         foreach ($shareholders as $shareholder) {
             $shareholders_ids[]=$shareholder->id;
             $shareholders_name[]=$shareholder->Name;
@@ -172,6 +173,7 @@ class Tunnel_model extends CI_Model
         }
     
         foreach ($tunnels as $n => $tunnel) {
+            $tids[$n]=$tunnel->id;
             $name[$n] = $tunnel->TName;
             $acer[$n] = $tunnel->CoveredArea;
             $expense[$n] = $this->tunnelExpensesSummary($tunnel->id);
@@ -196,6 +198,7 @@ class Tunnel_model extends CI_Model
         }
     
         $arr = [
+            'tids'    =>$tids,
             'tunnel'       => $name,
             'acer'         => $acer,
             'sale'         => $profit,
@@ -374,7 +377,7 @@ class Tunnel_model extends CI_Model
         return $stocks[0]->id; 
     }
 
-    public function getunnelsExpenseList($id,$startDate, $endDate,$draw, $start, $length, $search = '') {
+    public function getunnelsExpenseList($order,$id,$startDate, $endDate,$draw, $start, $length, $search = '') {
         // Get total records count
         $this->db->from('tunnel_expense AS e');
         $this->db->join('tunnels AS t', 't.id = e.tunnel_id');
@@ -411,15 +414,16 @@ class Tunnel_model extends CI_Model
         }
     
         // Apply ordering
-        if (!empty($order)) {
-            $column = $order[0]['column'];
-            $dir = $order[0]['dir'];
-            $columns = ['e.id', 'e.expense_type', 'e.amount', 'e.edate', 't.TName'];
-            $this->db->order_by($columns[$column], $dir);
-        } else {
-            $this->db->order_by('e.id', 'ASC');
-        }
-    
+        // if (!empty($order)) {
+        //     $column = $order[0]['column'];
+        //     $dir = $order[0]['dir'];
+        //     $columns = ['e.id', 'e.expense_type', 'e.amount', 'e.edate', 't.TName'];
+        //     $this->db->order_by('e.id', $order);
+        //    // $this->db->order_by($columns[$column], $dir);
+        // } else {
+        //     $this->db->order_by('e.id', $order);
+        // }
+     $this->db->order_by('e.id', $order);
         // Apply pagination
         $this->db->limit($length, $start);
         $query = $this->db->get();
@@ -634,18 +638,29 @@ class Tunnel_model extends CI_Model
         //     $this->db->group_end();
         // }
        // $sql.="WHERE t.`id` = $id";
-    if (!empty($startDate) && !empty($endDate)) {
-        $sql.=' AND s.selldate BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
-    }
-    if (!empty($searchTerm)) {
-        $conditions[] = '(c.Name LIKE "%' . $searchTerm . '%" OR g.Name LIKE "%' . $searchTerm . '%" OR s.selldate LIKE "%' . $searchTerm . '%" OR sd.Quantity LIKE "%' . $searchTerm . '%")';
-    }
-    if (!empty($conditions)) {
-        $sql .= ' AND ' . implode(' AND ', $conditions);
-    }
+    $conditions = [];
+        if (!empty($searchTerm)) {
+            
+            $conditions[] = "(
+                customer LIKE '%$searchTerm%' 
+                OR g.Name LIKE '%$searchTerm%' 
+                OR selldate LIKE '%$searchTerm%' 
+                OR Quantity LIKE '%$searchTerm%'
+                OR amount LIKE '%$searchTerm%'
+
+            )";
+        }
+        if (!empty($startDate) && !empty($endDate)) {
+            $conditions[] = "ecreated BETWEEN '$startDate' AND '$endDate'";
+        }
+        
+        // Add conditions dynamically
+        if (!empty($conditions)) {
+            $sql.= " WHERE " . implode(' AND ', $conditions);
+        }
+   
     // Apply pagination
     $sql .= " LIMIT $start, $length";
-
     // Execute the query
     $query = $this->db->query($sql);
     
@@ -654,6 +669,7 @@ class Tunnel_model extends CI_Model
         $newData = [];
 
         foreach ($result as $record) {
+            if(!empty($record['Labour'])){
             // Split comma-separated values
             $quantities = explode(',', $record['Quantity']);
             $rates = explode(',', $record['Rate']);
@@ -685,7 +701,7 @@ class Tunnel_model extends CI_Model
                     $newRecord['commission'] = number_format($c_,2);
                     $newRecord['fre'] =  number_format($f_,2);
                     $newRecord['amount'] = $a_;
-                    $newRecord['NetAmount']= number_format($n_,2);
+                    $newRecord['NetAmount']= $n_;
                     $grade=$GradeId[$i] ?? $GradeId[0];
                     if($grade==1){
                     $newRecord['GradeId'] = "A";
@@ -696,6 +712,7 @@ class Tunnel_model extends CI_Model
                     $newData[] = $newRecord;
                 }
             }
+        }
         }
         $response = array(
             "draw" => intval($draw),
@@ -716,131 +733,145 @@ class Tunnel_model extends CI_Model
 
         $Q="
             SELECT
-    eid_,
-    expense_type,
-    eamount,
-    epid,
-    edate,
-    ecreated,
-    sid,
-    sid_,
-    selldate,
-    total_amount,
-    labour,
-    freight,
-    expences,
-    sdID,
-    grade,
-    Quantity,
-    lbr,
-    fr,
-    cc,
-    Rate,
-    tt,
-    NetAmount,
-    amount,
-    customer,
-    GradeId
-FROM
-    (
-    SELECT
-        e.`eid` as eid_,
-        e.`expense_type`,
-        e.`amount` AS eamount,
-        e.`pid` AS epid,
-        e.`edate`,
-        e.`created_at` AS ecreated,
-        NULL AS tt,
-        NULL AS sid,
-        NULL AS sid_,
-        NULL AS selldate,
-        NULL AS total_amount,
-        NULL AS labour,
-        NULL AS freight,
-        NULL AS expences,
-        NULL AS sdID,
-        NULL AS grade,
-        NULL AS Quantity,
-        NULL AS lbr,
-        NULL AS fr,
-        NULL AS cc,
-        NULL AS Rate,
-        NULL AS NetAmount,
-        NULL AS amount,
-        NULL AS customer,
-        NULL AS GradeId
-    FROM
-        `tunnel_expense` AS e
-    JOIN `tunnels` AS t
-    ON t.`id` = e.`tunnel_id`
-    WHERE t.`id` = $id
-    
-    UNION ALL
-    
-    SELECT
-        NULL AS eid_,
-        NULL AS expense_type,
-        NULL AS eamount,
-        NULL AS epid,
-        NULL AS edate,
-        NULL AS ecreated,
-        sd.tunnel as tt,
-        s.`id` AS sid,
-        sd.`SellId` AS sid_,
-        s.`selldate`,
-        s.`total_amount`,
-        s.`labour`,
-        s.`freight`,
-        s.`expences`,
-        sd.`id` AS sdID,
-        g.`Name` AS grade,
-        sd.`Quantity`,
-        sd.`Labour` as lbr,
-        sd.`Freight` as fr,
-        sd.`commission` as cc,
-         sd.`Rate` as Rate,
-        sd.`NetAmount`,
-        sd.`amount`,
-        c.`Name` AS customer,
-        sd.`GradeId`
-    FROM
-        `sells` AS s
-    JOIN `customers` AS c
-    ON c.`id` = s.`customer`
-    JOIN `selldetails` AS sd
-    ON sd.`SellId` = s.`id`
-     JOIN 
-        `tunnels` AS t ON t.`id` = sd.`tunnel`
-    JOIN `grades` AS g
-    ON g.`id` = sd.`GradeId`
-    WHERE 1=1
-    ) AS combined_data
-";
-    if (!empty($startDate) && !empty($endDate)) {
-        $Q.=' WHERE  ecreated BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
-    }
-    if (!empty($searchTerm)) {
-        $conditions[] = '(expense_type LIKE "%' . $searchTerm . '%" OR amount LIKE "%' . $searchTerm . '%" OR Rate LIKE "%' . $searchTerm . '%" OR customer LIKE "%' . $searchTerm . '%")';
-    }
-    if (!empty($conditions)) {
-        $Q .= ' AND ' . implode(' AND ', $conditions);
-    }
+            eid_,
+            expense_type,
+            eamount,
+            epid,
+            edate,
+            ecreated,
+            sid,
+            sid_,
+            selldate,
+            total_amount,
+            labour,
+            freight,
+            expences,
+            sdID,
+            grade,
+            Quantity,
+            lbr,
+            fr,
+            cc,
+            Rate,
+            tt,
+            NetAmount,
+            amount,
+            customer,
+            GradeId
+        FROM
+            (
+            SELECT
+                e.`eid` as eid_,
+                e.`expense_type`,
+                e.`amount` AS eamount,
+                e.`pid` AS epid,
+                e.`edate`,
+                e.`created_at` AS ecreated,
+                NULL AS tt,
+                NULL AS sid,
+                NULL AS sid_,
+                NULL AS selldate,
+                NULL AS total_amount,
+                NULL AS labour,
+                NULL AS freight,
+                NULL AS expences,
+                NULL AS sdID,
+                NULL AS grade,
+                NULL AS Quantity,
+                NULL AS lbr,
+                NULL AS fr,
+                NULL AS cc,
+                NULL AS Rate,
+                NULL AS NetAmount,
+                NULL AS amount,
+                NULL AS customer,
+                NULL AS GradeId
+            FROM
+                `tunnel_expense` AS e
+            JOIN `tunnels` AS t
+            ON t.`id` = e.`tunnel_id`
+            WHERE t.`id` = $id
+            
+            UNION ALL
+            
+            SELECT
+                NULL AS eid_,
+                NULL AS expense_type,
+                NULL AS eamount,
+                NULL AS epid,
+                NULL AS edate,
+                NULL AS ecreated,
+                sd.tunnel as tt,
+                s.`id` AS sid,
+                sd.`SellId` AS sid_,
+                s.`selldate`,
+                s.`total_amount`,
+                s.`labour`,
+                s.`freight`,
+                s.`expences`,
+                sd.`id` AS sdID,
+                g.`Name` AS grade,
+                sd.`Quantity`,
+                sd.`Labour` as lbr,
+                sd.`Freight` as fr,
+                sd.`commission` as cc,
+                sd.`Rate` as Rate,
+                sd.`NetAmount`,
+                sd.`amount`,
+                c.`Name` AS customer,
+                sd.`GradeId`
+            FROM
+                `sells` AS s
+            JOIN `customers` AS c
+            ON c.`id` = s.`customer`
+            JOIN `selldetails` AS sd
+            ON sd.`SellId` = s.`id`
+            JOIN 
+                `tunnels` AS t ON t.`id` = sd.`tunnel`
+            JOIN `grades` AS g
+            ON g.`id` = sd.`GradeId`
+            WHERE 1=1
+            ) AS combined_data
+        ";
+        $conditions = [];
+        if (!empty($searchTerm)) {
+            $conditions[] = "(
+                expense_type LIKE '%$searchTerm%' 
+                OR amount LIKE '%$searchTerm%' 
+                OR Rate LIKE '%$searchTerm%' 
+                OR customer LIKE '%$searchTerm%'
+            )";
+        }
+        if (!empty($startDate) && !empty($endDate)) {
+            $conditions[] = "ecreated BETWEEN '$startDate' AND '$endDate'";
+        }
+        
+        // Add conditions dynamically
+        if (!empty($conditions)) {
+            $Q .= " WHERE " . implode(' AND ', $conditions);
+        }
+   
     // Apply pagination
-    $Q .= "ORDER BY
-    edate,
-    ecreated ASC LIMIT $start, $length";
+        $Q .= "ORDER BY
+        edate,
+        ecreated ASC LIMIT $start, $length";
+        // dd($Q);
         $query = $this->db->query($Q);
-        $result = $query->result_array();
+        $result_ = $query->result_array();
         $newData = [];
         $running['running']=0;
         $debit=0;
         $credit=0;
-        foreach ($result as $c => $re) {
+        $result=[];
+        $c=0;
+        foreach ($result_ as $c_ => $re) {
+        
             if($re['tt']){
             $t_ = explode(',', $re['tt']);
             }
 
             if($re['eid_']){
+               
                 $result[$c]['debit'] = 0;
                 $result[$c]['entry_id'] = $re['eid_'];
                 $result[$c]['type']=$re['expense_type'];
@@ -891,11 +922,14 @@ FROM
                 }
                 $credit=$result[$c]['credit'];
                 $result[$c]['running']=$running['running']-$credit;
+                $running['running'] = $result[$c]['running'];
+                $c++;
             }
             else
             {
-                
-                
+             
+                if(!empty($re['lbr'])){
+                 
                 $quantities = explode(',', $re['Quantity']);
                 $rates = explode(',', $re['Rate']);
                 $amounts = explode(',', $re['amount']);
@@ -909,39 +943,48 @@ FROM
                 $maxLength = max(count($quantities), count($rates), count($amounts),count($commissions),count($labours),count($freights));
                 
                 for ($i = 0; $i < $maxLength; $i++) {
-                    $result[$c]['credit']=0;
+                    // dd($maxLength);
+                    
                     if($t_[$i]==$id){
-
+                       
+                       
+                        $result[$c]['credit']=0;
                         $l_=$labours[$i]*$quantities[$i];
                         $c_=$commissions[$i]*$quantities[$i];
                         $f_=$freights[$i]*$quantities[$i];
                         $D_=$l_+$c_+$f_;
                         $n_=$amounts[$i]-$D_;
+                        $newRecord = $re;
+                        $result[$c]['type']='Sell';
+                        $result[$c]['entryDate'] = $re['selldate'];
+                        $result[$c]['entry_id'] = $re['sid_'];
+                        $result[$c]['head']=$re['customer'];
+                        $result[$c]['qty_'] = $quantities[$i] ?? $quantities[0];
+                        $result[$c]['rate_'] = $rates[$i] ?? $rates[0];
+                        $result[$c]['debit'] = $n_;
+                        $result[$c]['amount'] = $amounts[$i] ?? $amounts[0];
+                     
+                        $grade=$GradeId[$i] ?? $GradeId[0];
+                        if($grade==1){
+                            $result[$c]['GradeId'] = "A";
+                        }
+                        else{
+                            $result[$c]['GradeId'] = "B";
+                        }
+                        $newData[] = $newRecord;
+                        $debit=$result[$c]['debit'];
+                        $result[$c]['running']=$running['running']+$debit;
+                        $running['running'] = $result[$c]['running'];
+                        $c++;
+                    }
+                }
 
-                    $newRecord = $re;
-                    
-                    $result[$c]['type']='Sell';
-                    $result[$c]['entryDate'] = $re['selldate'];
-                    $result[$c]['entry_id'] = $re['sid_'];
-                    $result[$c]['head']=$re['customer'];
-                    $result[$c]['qty_'] = $quantities[$i] ?? $quantities[0];
-                    $result[$c]['rate_'] = $rates[$i] ?? $rates[0];
-                    $result[$c]['debit'] = $n_;
-                    $result[$c]['amount'] = $amounts[$i] ?? $amounts[0];
-                    $grade=$GradeId[$i] ?? $GradeId[0];
-                    if($grade==1){
-                        $result[$c]['GradeId'] = "A";
-                    }
-                    else{
-                        $result[$c]['GradeId'] = "B";
-                    }
-                    $newData[] = $newRecord;
-                }
-                }
-                $debit=$result[$c]['debit'];
-                $result[$c]['running']=$running['running']+$debit;
             }
-            $running['running'] = $result[$c]['running'];
+            
+            }
+            //$running['running']=$running['running'];
+            // $running['running'] = $result[$c]['running'];
+            // dd($result);
         }
         $response = array(
             "draw" => intval($draw),

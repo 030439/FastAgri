@@ -28,8 +28,7 @@ $('#user-list').DataTable({
                                 statusName="Close";
                                 color_="#FFC403";
                             }
-                            return '<a href="direct/detail/'+row.id+'" class="btn-design btn-exp">Detail</a>'+
-                            '<a style="background-color:'+color_+';" class="btn-design">'+statusName+'</a>'+
+                            return '<a style="background-color:'+color_+';" class="btn-design">'+statusName+'</a>'+
                             '<a  href="direct/edit/'+row.id+'" class="btn-design btn-edit">Edit</a>'+
                             '<a  href="direct/ledger/'+row.id+'" class="btn-design btn-ledger">Ledger</a> ';
                         }
@@ -37,4 +36,6 @@ $('#user-list').DataTable({
                   
               ]
       });
+    //   '<a href="direct/detail/'+row.id+'" class="btn-design btn-exp">Detail</a>'+
     </script>
+    

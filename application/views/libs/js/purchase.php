@@ -33,25 +33,25 @@
                                       
                   }
               ],
-              "footerCallback": function ( row, data, start, end, display ) {
-            var api = this.api();
-            var amount = api.column(2, { page: 'current'} ).data().reduce(function(a, b) {
-                return a + (parseFloat(b) || 0);
-            }, 0);
-            var exp = api.column(3, { page: 'current'} ).data().reduce(function(a, b) {
-                return a + (parseFloat(b) || 0);
-            }, 0);
-            var paid = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
-                return a + (parseFloat(b) || 0);
-            }, 0);
-            var totalBalance = api.column(5, { page: 'current'} ).data().reduce(function(a, b) {
-                return a + (parseFloat(b) || 0);
-            }, 0);
-            $(api.column(2).footer()).html(amount.toFixed(2));
-            $(api.column(3).footer()).html(exp.toFixed(2));
-            $(api.column(4).footer()).html(paid.toFixed(2));
-            $(api.column(5).footer()).html(totalBalance.toFixed(2));
-        }
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api();
+                var amount = api.column(2, { page: 'current'} ).data().reduce(function(a, b) {
+                    return a + (parseFloat(b) || 0);
+                }, 0);
+                var exp = api.column(3, { page: 'current'} ).data().reduce(function(a, b) {
+                    return a + (parseFloat(b) || 0);
+                }, 0);
+                var paid = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
+                    return a + (parseFloat(b) || 0);
+                }, 0);
+                var totalBalance = api.column(5, { page: 'current'} ).data().reduce(function(a, b) {
+                    return a + (parseFloat(b) || 0);
+                }, 0);
+                $(api.column(2).footer()).html(amount.toFixed(2));
+                $(api.column(3).footer()).html(exp.toFixed(2));
+                $(api.column(4).footer()).html(paid.toFixed(2));
+                $(api.column(5).footer()).html(totalBalance.toFixed(2));
+            }
       });
       $('#filter').on('click', function() {
             table.ajax.reload();

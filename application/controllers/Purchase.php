@@ -143,6 +143,37 @@ class Purchase extends CI_Controller {
 			show_error('An unexpected error occurred. Please try again later.');
 	   }
 	}
+	public function updatePurchase(){
+		try {
+			$id=$this->input->post('id');
+			$this->form_validation->set_rules('qty[]', 'Quantity', 'required');
+			$this->form_validation->set_rules('product[]', 'Product ', 'required');
+			$this->form_validation->set_rules('rate[]', 'Rate ', 'required');
+			$this->form_validation->set_rules('supplier', 'Supplier ', 'required');
+			$this->form_validation->set_rules('pdate', 'Date ', 'required');
+			$this->form_validation->set_rules('charges', 'Charges ', 'required');
+			$this->form_validation->set_rules('bno', 'Bill Number ', 'required');
+			$this->form_validation->set_rules('pa', 'Bill Number ', 'required');
+			if ($this->form_validation->run() == FALSE) {
+				$this->edit($id);
+			}
+			 else {
+				$data = $this->input->post(NULL, TRUE);
+			   $res= $this->Purchase_model->updatePurchase($id,$data);
+			   if($res){
+				response($res,'purchase',"Data Updated Successfully");
+			   }
+			   else{
+				response($res,'purchase',"Something went Wrong");
+			   }
+			  
+			}
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            show_error('An unexpected error occurred. Please try again later.');
+        }
+       
+    }
 	public function purchaseSeedFrom()
 	{
 		try{

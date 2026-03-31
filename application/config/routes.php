@@ -72,6 +72,7 @@ $route['purchase/add'] = "purchase/add"; //purchase form view
 $route['purchase/edit/(:num)'] = "purchase/edit/$1"; //purchase form edit
 $route['purchase'] = "purchase/index"; //purchase list
 $route['create-purchase'] = "purchase/save"; //purchase form data submission
+$route['update-purchase']="purchase/updatePurchase";
 $route['purchase-seed']='purchase/purchaseSeedFrom';
 $route['seed-purchase']='purchase/purchaseSeed';
 $route['seed-purchase/edit/(:num)']="purchase/seedPurchaseEdit/$1";

@@ -26,11 +26,9 @@
                         <div class="col-span-12 xxl:col-span-12 xl:col-span-12">
                             <div class="invention-quickreport-area pl-0.5">
                                 <div class="cashier-quickview-area p-7 pt-5 pb-2 bg-white rounded-lg mb-5">
-                                    <div
-                                        class="cashier-dashboard-supplier-header flex flex-wrap items-center justify-between mb-6 m-0.5">
+                                    <div class="cashier-dashboard-supplier-header flex flex-wrap items-center justify-between mb-6 m-0.5">
                                         
-                                    <div
-                                        class="cashier-quickview-wrapper flex items-center justify-between gap-x-5 maxXs:gap-x-0">
+                                    <div class="cashier-quickview-wrapper flex items-center justify-between gap-x-5 maxXs:gap-x-0">
                                         <div class="cashier-quickview bg-[#EEF0F8] mb-5 rounded-lg">
                                             <a href="#" class="p-[30px] inline-block">
                                                 <div class="cashier-quickview-box">
@@ -44,6 +42,8 @@
                                                         Tunnels</span>
                                                 </div>
                                             </a>
+
+                                            
                                         </div>
 
                                         <div class="cashier-quickview bg-[#F8F0E7] mb-5 rounded-lg">

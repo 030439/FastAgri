@@ -1,10 +1,10 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Update Jamandar Advance Cashbook Record</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9">Update Customer Cashbook Entry</h4>
     <form action="update-cashbook-pay" method="POST">
     <div class="grid grid-cols-12 gap-x-5">
-        <input type="hidden" name="record" value="jamandar">
-        <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">
-        <div class="lg:col-span-4 md:col-span-6 col-span-12">
+    <input type="hidden" name="record" value="customerpay">
+    <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">
+    <div class="lg:col-span-4 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Select Date</h5>
                 <div class="cashier-input-field-style">
@@ -20,31 +20,32 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Cash Selection Party</h5>
                     <div class="cashier-select-field-style">
                         <select id="cash-selection-party" class="block" name="cash-selection-party">
-                       <?php foreach($data['jamandars'] as $jamanadar):?>
-                        <option <?php is_qual($jamanadar->id,$data['record'][0]['cash_sP']); echo " "; set_values($jamanadar->id);?>><?php echo $jamanadar->name;?></option>
-                        <?php endforeach;?>
+                            <?php foreach($data['cutomers'] as $customer):?>
+                            <option <?php if($customer->id==$data['record'][0]['cash_sP']){echo "selected";}?> value="<?php echo $customer->id;?>"><?php echo $customer->Name;?></option>
+                            <?php endforeach;?>
                         </select>
-                        <?php validator('cash-selection-party')?>
+                        <?php validator('designation_id')?>
                     </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-4 md:col-span-6 col-span-12" id="narration-field">
+            <!-- <div class="lg:col-span-4 md:col-span-6 col-span-12" id="narration-field" style="display:none">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Naration</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                            <input type="text" name="narration" <?php set_values($data['record'][0]['narration']);?> placeholder="Narration">
+                            <input type="text" name="narration" placeholder="Narration">
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
         <div class="lg:col-span-4 md:col-span-6 col-span-12">
             <div class="cashier-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                        <input type="number" name="amount" <?php set_values($data['record'][0]['amount']);?> placeholder="amount">
+                    <input type="number" name="amount" value="<?php echo $data['record'][0]['amount'];?>" placeholder="amount">
                         <?php if (form_error('amount')): ?>
                         <div class="error-message" ><?= form_error('amount'); ?></div>
                         <?php endif ?>
@@ -54,7 +55,7 @@
         </div>
         <div class="col-span-12">
             <div class="cashier-managesale-top-btn default-light-theme pt-2.5">
-                <button class="btn-primary" type="submit">Add Now</button>
+                <button class="btn-primary" type="submit">Update Now</button>
             </div>
         </div>
     </div>

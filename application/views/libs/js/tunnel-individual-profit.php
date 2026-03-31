@@ -37,13 +37,20 @@
             var totalBalance = api.column(4, { page: 'current'} ).data().reduce(function(a, b) {
                 return a + (parseFloat(b) || 0);
             }, 0);
-            var totalNet = api.column(5, { page: 'current'} ).data().reduce(function(a, b) {
+            var totalqty = api.column(3, { page: 'current'} ).data().reduce(function(a, b) {
+                return a + (parseInt(b) || 0);
+            }, 0);
+            var totalamo = api.column(5, { page: 'current'} ).data().reduce(function(a, b) {
+                return a + (parseInt(b) || 0);
+            }, 0);
+            var totalNet = api.column(9, { page: 'current'} ).data().reduce(function(a, b) {
                 return a + (parseFloat(b) || 0);
             }, 0);
 
             // Update footer
-            $(api.column(4).footer()).html(totalBalance.toFixed(2));
-            $(api.column(5).footer()).html(totalNet.toFixed(2));
+            $(api.column(3).footer()).html(totalqty.toFixed(2));
+            $(api.column(5).footer()).html(totalamo.toFixed(2));
+            $(api.column(9).footer()).html(totalNet.toFixed(2));
         }
       });
       $('#filter').on('click', function() {

@@ -134,7 +134,7 @@ body {
   </header>
   <div class="invoice-info">
     <div class="date">
-      <p>Date:  <?php $new_date_format = date('Y-m-d', strtotime($data[0]['created_at'])); echo $new_date_format;?></p>
+      <p>Date:  <?php $new_date_format = date('Y-m-d', strtotime($data[0]['cdate'])); echo $new_date_format;?></p>
       <p><?php echo $data['0']['pname'];?></p>
     </div>
     <div class="voucher-no">

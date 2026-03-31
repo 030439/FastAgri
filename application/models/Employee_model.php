@@ -255,7 +255,7 @@ class Employee_model extends CI_Model {
         $this->db->join('employees', 'employees.id = pays.employee_id', 'left');
         $this->db->join('designations', 'employees.designation_id = designations.id', 'left');
         $this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
-        $this->db->where('employeecategory.id', 1);
+        // $this->db->where('employeecategory.id', 1);
 
         if (!empty($search)) {
             $this->db->group_start();

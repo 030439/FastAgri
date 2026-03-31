@@ -13,6 +13,15 @@ if (!function_exists('validator')) {
     }
 }
 
+function getInvoiceDateById($id){
+    $CI =& get_instance();
+        $CI->load->database();
+        $stockWithRate = array();
+        $query = $CI->db->query("SELECT cdate as edate FROM cash_in_out  WHERE id = '".$id."'");
+        $result = $query->row_array();
+        echo $result['edate'];
+        return;
+}
 
 if (!function_exists('response')) {
     function response($result, $route, $success_msg, $error_msg = 'Something went wrong.')
@@ -62,6 +71,7 @@ function dd($data){
     die;
 }
 
+
 if (!function_exists('pqrate')) {
     function pqrate($pqid, $pid)
     {
@@ -87,16 +97,52 @@ if (!function_exists('pqrate')) {
 
 if (!function_exists('productByTunnelName')) {
     function productByTunnelName($name)
-
     {
         $CI =& get_instance();
         $CI->load->database();
-
         $stockWithRate = array();
         $query = $CI->db->query("SELECT crops.FasalName as crop FROM tunnels join crops ON crops.pid=tunnels.product__id WHERE tunnels.TName = '".$name."'");
         $result = $query->row_array();
         echo $result['crop'];
         return;
+    }
+}
+if (!function_exists('tunnelProductUnit')) {
+    function tunnelProductUnit($t)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+        $stockWithRate = array();
+        $query = $CI->db->query("SELECT units.Name as crop 
+        FROM tunnels join crops ON crops.pid=tunnels.product__id 
+        join products ON products.id=tunnels.product__id 
+        join units ON units.id=products.unit_id 
+        WHERE tunnels.id = '".$t."'");
+        $result = $query->row_array();
+        echo $result['crop'];
+        return;
+    }
+}
+if (!function_exists('getTuunelProductions')) {
+    function getTuunelProductions($t)
+    {
+        $CI =& get_instance();
+        $CI->load->database();
+        $stockWithRate = array();
+        $query = $CI->db->query("SELECT UnitId,Quantity 
+        FROM productions
+        WHERE TunnelId = '".$t."'");
+
+        $result = $query->result_array();
+        $total_procution=0;
+        foreach($result as $res){
+            if($res['UnitId']==13){
+                $total_procution+=$res['Quantity']*9;
+            }else{
+                $total_procution+=$res['Quantity']*10;
+            }
+        }
+        return $total_procution>0?$total_procution/40:$total_procution;
     }
 }
 if (!function_exists('CropName_')) {
@@ -222,6 +268,13 @@ if (!function_exists('gettIssueProQty')) {
     }
 }
 function is_qual($a,$b){
+    if($a==$b){
+        echo "selected";
+    }else{
+        echo " ";
+    }
+}
+function is_qual_($a,$b){
     if($a==$b){
         echo "selected";
     }else{

@@ -537,7 +537,7 @@ function toggleCheckedAll(checkbox) {
         { value: '', text: 'Select Selection Type' },
         { value: 'customer', text: 'Customer' },
         { value: 'shareholder', text: 'Shareholder' },
-        { value: 'direct', text: 'Direct' }
+        // { value: 'direct', text: 'Direct' }
         ];
         $.each(options, function(index, option) {
             $('#cash-selection-type').append($('<option>', option));
@@ -548,12 +548,14 @@ function toggleCheckedAll(checkbox) {
         var options = [
         { value: '', text: 'Select Selection Type' },
         { value: 'supplier', text: 'Supplier' },
+        { value: 'customer', text: 'Customer' },
         { value: 'shareholder', text: 'Share Holder' },
         { value: 'pay', text: 'Salary' },
         { value: 'advance', text: 'Employee-Advance' },
         { value: 'expense', text: 'Expense' },
         { value: 'jamandari', text: 'Jamandar' },
-        { value: 'jamandariAdvance', text: 'Jamandar-advance' }
+        { value: 'jamandariAdvance', text: 'Jamandar-advance' },
+        { value: 'direct', text: 'Direct' }
         ];
         $.each(options, function(index, option) {
             $('#cash-selection-type').append($('<option>', option));
@@ -588,6 +590,9 @@ function toggleCheckedAll(checkbox) {
         if(cst=="supplier"){
           getSuppliers();
           $("#narration-field").show();
+        }
+        else if(cst=="customer"){
+          getcustomers();
         }
         else if(cst==""){
           $("#cash-selection-party").html("");
@@ -624,6 +629,10 @@ function toggleCheckedAll(checkbox) {
           $("#e-installment").show();
           $("#narration-field").show();
         }
+        else if(cst=="direct"){
+          getDirects();
+          $("#narration-field").show();
+        }
       }
     });
     
@@ -643,9 +652,9 @@ function toggleCheckedAll(checkbox) {
           getJamandariById(cstp);
           $("#e-amount").show();
         }
-        else if(cst=="direct"){
-          alert("cash out");
-        }
+        // else if(cst=="direct"){
+        //   alert("cash out");
+        // }
       }
      
     });

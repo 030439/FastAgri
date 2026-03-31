@@ -22,7 +22,7 @@
                 <table id="user-list" class="table display table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Sell/Receive</th>
+                            <!-- <th>Sell/Receive</th> -->
                             <th>Date</th>
                             <th> Credit</th>
                             <th> Debit</th>

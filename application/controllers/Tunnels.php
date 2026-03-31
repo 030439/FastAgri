@@ -134,7 +134,13 @@ class Tunnels extends CI_Controller{
             $search = $this->input->post('search')['value'];
             $startDate = $this->input->post('startDate');
 			$endDate = $this->input->post('endDate');
-			$res=$this->Tunnel_model->getunnelsExpenseList($id,$startDate, $endDate,$draw,$start, $length,$search);
+            $order = intval($this->input->post("order"));
+				if($order==0){
+					$order="asc";
+				}else{
+					$order="Desc";
+				}
+			$res=$this->Tunnel_model->getunnelsExpenseList($order,$id,$startDate, $endDate,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
@@ -154,12 +160,14 @@ class Tunnels extends CI_Controller{
 			$endDate = $this->input->post('endDate');
             
 			$res=$this->Tunnel_model->tunnelLedger($id,$draw,$startDate, $endDate, $start, $length, $search);
+            // dd($res);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}
     }
+    
     public function getunnelsProfitList($id){
        // $id=$this->input->post('id');
         try{

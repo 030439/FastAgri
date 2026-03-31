@@ -46,6 +46,13 @@
         width: 16%;
         min-width: 110px;
     }
+    h5{
+        font-size:17px !important;
+    }
+    span{
+        font-size: 15px !important;
+        font-weight:600 !important;
+    }
 }
 </style>
         <div class="cashier-salereturns-table-area" style="overflow:scroll">
@@ -71,6 +78,9 @@
                         <div class="cashier-salereturns-table-dateP">
                             <h5>Net Amount</h5>
                         </div>
+                        <div class="cashier-salereturns-table-dateP">
+                            <h5>Usher</h5>
+                        </div>
                         <?php if(!empty($data['snames'])):foreach($data['snames'] as $name):?>
                             <div class="cashier-salereturns-table-dateP">
                                 <h5><?php echo $name;?></h5>
@@ -86,7 +96,18 @@
                             <span><?php echo $data['acer'][$no];?></span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
-                            <span>10</span>
+                            <span>
+                                <?php
+                                
+                                 $string=getTuunelProductions($data['tids'][$no]);
+                                 if($string>0){
+                                    $totalAvg=($string)/intval($data['acer'][$no]);
+                                 }else{
+                                    $totalAvg=$string;
+                                 }
+                                 echo $totalAvg;
+                                ?>
+                            </span>
                         </div>
                         <div class="cashier-salereturns-table-dateP">
                             <span><?php echo intval($data['sale'][$no]);?></span>
@@ -96,6 +117,18 @@
                         </div>
                         <div class="cashier-salereturns-table-dateP">
                         <span><?php echo intval($data['net'][$no]);?></span>
+                        </div>
+                        <div class="cashier-salereturns-table-dateP">
+                            <span>
+                                <?php 
+                                    
+
+                                    $percentage = 10;
+                                    $totalWidth = intval($data['net'][$no]);
+                                    $new_width = ($percentage / 100) * $totalWidth;
+                                    echo $new_width;
+                                ?>
+                            </span>
                         </div>
                         <?php if(!empty($data['shareholders'])):foreach($data['shareholders'] as $sid):?>
                             <div class="cashier-salereturns-table-dateP">

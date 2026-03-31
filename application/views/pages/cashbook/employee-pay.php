@@ -4,14 +4,24 @@
     <input type="hidden" name="record" value="pay">
     <input type="hidden" name="id" value="<?php echo $data['record'][0]['id'];?>">
     <div class="grid grid-cols-12 gap-x-5">
-          
+    <div class="lg:col-span-4 md:col-span-6 col-span-12">
+            <div class="cashier-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Select Date</h5>
+                <div class="cashier-input-field-style">
+                    <div class="single-input-field w-full">
+                        <input type="date"  value="<?php echo $data['record'][0]['cdate'] ?>"  name='cdate'>
+                        <?php validator('cdate')?>
+                    </div>
+                </div>
+            </div>
+        </div>
             <div class="lg:col-span-4 md:col-span-6 col-span-12">
                 <div class="cashier-select-field mb-5">
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Cash Selection Party</h5>
                     <div class="cashier-select-field-style">
                         <select id="cash-selection-party" class="block" name="cash-selection-party">
                         <?php foreach($data['employees'] as $employee):?>
-                        <option <?php is_qual($employee->id,$data['record'][0]['cash_sP']); echo " "; set_value($employee->id);?>><?php echo $employee->Name;?></option>
+                        <option <?php is_qual($employee->id,$data['record'][0]['cash_sP']); echo " "; set_values($employee->id);?>><?php echo $employee->Name;?></option>
                         <?php endforeach;?>
                         </select>
                         <?php validator('cash-selection-party')?>
@@ -24,7 +34,7 @@
                     <h5 class="text-[15px] text-heading font-semibold mb-3">Naration</h5>
                     <div class="cashier-input-field-style">
                         <div class="single-input-field w-full">
-                        <input type="text" name="narration" <?php set_value($data['record'][0]['narration']);?> placeholder="Narration">
+                        <input type="text" name="narration" <?php set_values($data['record'][0]['narration']);?> placeholder="Narration">
                         </div>
                     </div>
                 </div>
@@ -90,7 +100,7 @@ label {
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Amount</h5>
                 <div class="cashier-input-field-style">
                     <div class="single-input-field w-full">
-                    <input type="number" name="amount" <?php set_value($data['record'][0]['amount']);?> placeholder="amount">
+                    <input type="number" name="amount" <?php set_values($data['record'][0]['amount']);?> placeholder="amount">
                         <?php if (form_error('amount')): ?>
                         <div class="error-message" ><?= form_error('amount'); ?></div>
                         <?php endif ?>
@@ -110,7 +120,7 @@ label {
                         <?php
                         foreach($data['tunnels'] as $tunnel){?>
 
-                                <input type="checkbox" name="select-tunnel[]" <?php if(isSalaryAppliedOnThisTunnel($data['record'][0]['cash_sP'],$data['record'][0]['cdate'],$tunnel->id)){echo "checked ";} set_value($tunnel->id);?> class="ckkBox val" />
+                                <input type="checkbox" name="select-tunnel[]" <?php if(isSalaryAppliedOnThisTunnel($data['record'][0]['cash_sP'],$data['record'][0]['cdate'],$tunnel->id)){echo "checked ";} set_values($tunnel->id);?> class="ckkBox val" />
                                 <?php echo $tunnel->TName;?></span>
                             </label><br>
                         <?php }?>

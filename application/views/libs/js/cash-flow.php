@@ -3,6 +3,7 @@ $(document).ready(function() {
     
     var table = $('#user-list').DataTable({
         responsive: true,
+        "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
         buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
         "processing": true,
         "serverSide": true,
@@ -14,6 +15,7 @@ $(document).ready(function() {
                         d.startDate = $('#start-date').val();
                         d.endDate = $('#end-date').val();
                     },
+                    
             error: function(xhr, error, thrown) {
                 alert('Error: ' + xhr.responseText);
             }
@@ -52,7 +54,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            { "data": "famount" },
+            { "data": "running_balance" },
             {
                 "data": "id",
                 "render": function(data, type, row) {

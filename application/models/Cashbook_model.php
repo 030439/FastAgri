@@ -29,6 +29,7 @@ class Cashbook_model extends CI_Model {
             'cash_sP'  =>$data['cash-selection-party'],
             'amount'  =>$data['amount'],
             'narration'   => $data['narration'],
+            'cdate'=>$data['cdate']
         ];
         $this->db->trans_start();
         $this->db->where('id', $id);
@@ -49,6 +50,9 @@ class Cashbook_model extends CI_Model {
             if($data['record']=='supplier'){
                 $this->UpdateSupplierCashOut($firstPerson,$first_amount,$data);
             }
+            if($data['record']=='customerpay'){
+                $this->UpdatecustomerCashOut($firstPerson,$first_amount,$data);
+            }
             elseif($data['record']=="shareholderOut"){
                 $this->UpdateshareHolderCashOut($firstPerson,$first_amount,$data,$old_date,$cash);
             }
@@ -65,7 +69,7 @@ class Cashbook_model extends CI_Model {
                 $this->UpdateemployeeAdvance($firstPerson,$first_amount,$data,$old_date);
             }
             elseif($data['record']=="expense"){
-                $this->updateExpense($$firstPerson,$first_amount,$data,$old_date);
+                $this->updateExpense($firstPerson,$first_amount,$data,$old_date);
             }
         }
         $this->db->trans_complete(); // Complete Transaction
@@ -136,51 +140,84 @@ class Cashbook_model extends CI_Model {
         $cash[0]['cashIn']=$debit;
         return $cash;
     }
-    public function cashbookList_($startDate, $endDate,$draw, $start = 0, $length = 10, $search = '') {
-        // Get the total number of records
+    public function cashbookList_(
+        $order,
+        $startDate,
+        $endDate,
+        $draw,
+        $start = 0,
+        $length = 10,
+        $search = ''
+    ) {
+        // Get the total number of records (no changes here)
         $this->db->from('cash_in_out');
         $totalRecords = $this->db->count_all_results();
     
-        // Create the query with query builder
-        $this->db->select('c.*, a.amount as famount');
-        $this->db->from('cash_in_out c');
-        $this->db->join('availableamount a', 'c.id = a.cash_id');
+        // Build the base query with the CTE
+        $sql = "
+            WITH RunningBalance AS (
+                SELECT
+                    c.id,
+                    c.cash_s,
+                    c.case_sT,
+                    c.narration,
+                    c.cash_sP,
+                    c.cdate,
+                    c.created_at,
+                    c.amount,
+                    @running_balance := @running_balance + 
+                        CASE 
+                            WHEN c.cash_s = 'cash-in' THEN c.amount
+                            WHEN c.cash_s = 'cash-out' THEN -c.amount
+                        END AS running_balance
+                FROM
+                    (SELECT @running_balance := 0) AS init, -- Initialize running balance
+                    cash_in_out c
+                JOIN 
+                    availableamount a ON c.id = a.cash_id
+                WHERE 1=1
+        ";
     
-        // Apply search filter if any
+          // Apply search filter if any
         if (!empty($search)) {
-            $this->db->group_start();
-            $this->db->like('c.id', $search);
-            $this->db->or_like('c.cash_s', $search);
-            $this->db->or_like('c.case_sT', $search);
-            $this->db->or_like('c.narration', $search);
-            $this->db->or_like('a.amount', $search);
-            $this->db->group_end();
+              $sql .= "AND (c.id LIKE '%" . $this->db->escape_like_str($search) . "%'
+               OR c.cash_s LIKE '%" . $this->db->escape_like_str($search) . "%'
+               OR c.case_sT LIKE '%" . $this->db->escape_like_str($search) . "%'
+               OR c.narration LIKE '%" . $this->db->escape_like_str($search) . "%'
+                OR a.amount LIKE '%" . $this->db->escape_like_str($search) . "%')";
         }
+        
         if (!empty($startDate) && !empty($endDate)) {
-            $this->db->where('c.cdate BETWEEN "' . $startDate . '" AND "' . $endDate . '"');
+            $sql .= " AND c.cdate BETWEEN '" . $startDate . "' AND '" . $endDate . "'";
         }
-    
-        // Get the filtered records count
-        $filteredRecords = $this->db->count_all_results('', FALSE);
-    
-        // Order by id in descending order
-        $this->db->order_by('c.cdate', 'DESC');
-    
-        // Limit the results for pagination
-        $this->db->limit($length, $start);
-    
-        // Execute the query
-        $query = $this->db->get();
+        
+        $sql .= "
+                    ORDER BY c.created_at DESC
+            )
+        SELECT *,
+            (SELECT SUM(amount) FROM RunningBalance WHERE cash_s = 'cash-in' ) as cashIn ,
+        (SELECT SUM(amount) FROM RunningBalance WHERE cash_s = 'cash-out' ) as cashOut
+        FROM RunningBalance
+            ORDER BY created_at DESC
+        ";
+            
+        // Get the filtered records count (before limiting)
+       $filteredRecordsQuery = $this->db->query($sql);
+        $filteredRecords = $filteredRecordsQuery->num_rows();
+        
+        // Add limit for pagination
+        if($length!=-1){
+          $sql .= " LIMIT {$start}, {$length}";
+        }
+       
+        // Execute the final query
+        $query = $this->db->query($sql);
         $cash = $query->result_array();
     
-        // Process the results
-        $debit = 0;
-        $credit = 0;
-        $balance = 0;
+        
+        // Process the results (only name and narration)
         foreach ($cash as $c => $d) {
-            $balance = $d['famount'];
             if ($d['cash_s'] == "cash-in") {
-                $credit += $d['amount'];
                 if ($d['case_sT'] == "customer") {
                     $cash[$c]['name'] = "Cash Received";
                     $cash[$c]['narration'] = $this->customerName($d['cash_sP']);
@@ -188,20 +225,24 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['narration'] = $this->ShareHolderName($d['cash_sP']);
                     $cash[$c]['name'] = "Share Holder";
                 }
-                elseif ($d['case_sT'] == "direct") {
+                  elseif ($d['case_sT'] == "direct") {
                     $cash[$c]['narration'] =partyName($d['cash_sP']);
                     $cash[$c]['name'] = "Direct Party";
                 }
+    
+    
             } elseif ($d['cash_s'] == "cash-out") {
-                $debit += $d['amount'];
                 if ($d['case_sT'] == "supplier") {
                     $cash[$c]['name'] = $this->SupplierName($d['cash_sP']);
                     $cash[$c]['narration'] = $d['narration'];
-                } elseif ($d['case_sT'] == "shareholder") {
+                }elseif ($d['case_sT'] == "customer") {
+                    $cash[$c]['narration'] = $d["narration"];
+                    $cash[$c]['name'] = $this->customerName($d['cash_sP']);
+                }
+                elseif ($d['case_sT'] == "shareholder") {
                     $cash[$c]['narration'] = $this->ShareHolderName($d['cash_sP']);
                     $cash[$c]['name'] = "Share Holder";
                 } elseif ($d['case_sT'] == "pay") {
-                   // $cash[$c]['narration'] = $this->EmployeeName($d['cash_sP']);
                     $cash[$c]['name'] = $this->EmployeeName($d['cash_sP']);
                 } elseif ($d['case_sT'] == "jamandari") {
                     $cash[$c]['narration'] = $this->jamandarName($d['cash_sP']);
@@ -212,19 +253,26 @@ class Cashbook_model extends CI_Model {
                 } elseif ($d['case_sT'] == "expense") {
                     $cash[$c]['name'] = $this->accountHeadName($d['cash_sP']);
                 }
-                elseif ($d['case_sT']=="advance") {
-                    $cash[$c]['name']=$this->EmployeeName($d['cash_sP']);
+                 elseif ($d['case_sT']=="advance") {
+                      $cash[$c]['name']=$this->EmployeeName($d['cash_sP']);
+                }
+                   elseif ($d['case_sT'] == "direct") {
+                    $cash[$c]['narration'] =$d['narration'];
+                    $cash[$c]['name'] = partyName($d['cash_sP']);
                 }
             }
-        }
-        $cash[0]['fb'] = $balance;
-        $cash[0]['cashOut'] = $credit;
-        $cash[0]['cashIn'] = $debit;
     
-        // Prepare the final output
-        if($cash[0]['fb']==0){
-            $cash=[];
         }
+        
+       if(count($cash)>0){
+             $cash[0]['fb'] = $cash[0]['running_balance'];
+                $cash[0]['cashOut'] = $cash[0]['cashOut'];
+                 $cash[0]['cashIn'] = $cash[0]['cashIn'];
+            }
+        if(count($cash)==0){
+               $cash=[];
+           }
+        // Prepare the final output
         $response = array(
             "draw" => intval($draw),
             "recordsTotal" => intval($totalRecords),
@@ -259,6 +307,10 @@ class Cashbook_model extends CI_Model {
                     $cash[$c]['pname']=$this->SupplierName($d['cash_sP']);
                     $cash[$c]['current_amount']=$this->SupplierCurrentAmount($d['cash_sP']);
                 }
+                elseif($d['case_sT']=="customer"){
+                    $cash[$c]['pname']=$this->customerName($d['cash_sP']);
+                    $cash[$c]['current_amount']=$this->CustomerCurrentAmount($d['cash_sP']);
+                }
                 elseif ($d['case_sT']=="shareholder") {
                     $cash[$c]['pname']=$this->ShareHolderName($d['cash_sP']);
                     $cash[$c]['current_amount']=$this->ShareHolderCurrentAmount($d['cash_sP']);
@@ -281,6 +333,10 @@ class Cashbook_model extends CI_Model {
                 }
                 elseif ($d['case_sT']=="advance") {
                     $cash[$c]['pname']=$this->EmployeeName($d['cash_sP']);
+                    $cash[$c]['current_amount']="-";
+                }
+                elseif ($d['case_sT']=="direct") {
+                    $cash[$c]['pname']=  partyName($d['cash_sP']);
                     $cash[$c]['current_amount']="-";
                 }
             }
@@ -311,6 +367,10 @@ class Cashbook_model extends CI_Model {
                 if($d['case_sT']=="supplier"){
                     $cash[$c]['narration']=$this->SupplierName($d['cash_sP']);
                     $cash[$c]['name']=$d['narration'];
+                }
+                elseif($d['case_sT']=="customer"){
+                    $cash[$c]['narration']=$d['narration'];
+                    $cash[$c]['name']=$this->customerName($d['cash_sP']);
                 }
                 elseif ($d['case_sT']=="shareholder") {
                     $cash[$c]['narration']=$this->ShareHolderName($d['cash_sP']);
@@ -375,7 +435,9 @@ class Cashbook_model extends CI_Model {
         $this->db->from('suppliers');
         $this->db->WHERE('id', $id);
         $supplier = $this->db->get()->result();
-        return $supplier[0]->Name;
+        if($supplier){
+            return $supplier[0]->Name;}
+        return $supplier;
     }
     public function SupplierCurrentAmount($id){
         $this->db->select('closing');
@@ -405,7 +467,9 @@ class Cashbook_model extends CI_Model {
         $this->db->from('employees');
         $this->db->WHERE('id', $id);
         $shareholder = $this->db->get()->result();
-        return $shareholder[0]->Name;
+        if($shareholder){
+        return $shareholder[0]->Name;}
+        return $shareholder;
     }
     public function EmployeeCurrentAmount($id){
         $this->db->select('payable');
@@ -494,6 +558,9 @@ class Cashbook_model extends CI_Model {
             }
         }
         else{
+            if($data['cash-selection-type']=='customer'){
+                $this->customerCashOut($data);
+            }
             // $this->credit($data);
             if($data['cash-selection-type']=='supplier'){
                 $this->SupplierCashOut($data);
@@ -529,7 +596,14 @@ class Cashbook_model extends CI_Model {
             return $id_;
         } 
     }
+    public function customerCashOut($data){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
 
+        $this->db->set('closing', 'closing + ' . $this->db->escape($amount), FALSE);
+        $this->db->where('cid', $customerId);
+        return $this->db->update('customer_detail');
+    }
     public function customerCashIn($data){
         $amount = $data['amount'];
         $customerId = $data['cash-selection-party'];
@@ -549,6 +623,30 @@ class Cashbook_model extends CI_Model {
             $amount = $data['amount'];
             $customerId = $data['cash-selection-party'];
             $this->db->set('closing', 'closing - ' . $this->db->escape($amount), FALSE);
+            $this->db->where('cid', $customerId);
+            $this->db->update('customer_detail');
+        }
+        if ($this->db->trans_status() === FALSE) {
+            // Transaction failed, handle the error
+            $this->db->trans_rollback(); // Roll back changes
+            return false;
+        } else {
+            // Transaction succeeded
+            $this->db->trans_commit(); // Commit changes
+            return true;
+        }
+    }
+    public function UpdatecustomerCashOut($firstPerson,$first_amount,$data){
+        $amount = $data['amount'];
+        $customerId = $data['cash-selection-party'];
+        $this->db->trans_start();
+        $this->db->set('closing', 'closing - ' . $this->db->escape($first_amount), FALSE);
+        $this->db->where('cid', $firstPerson);
+        $updated=$this->db->update('customer_detail');
+        if($updated){
+            $amount = $data['amount'];
+            $customerId = $data['cash-selection-party'];
+            $this->db->set('closing', 'closing + ' . $this->db->escape($amount), FALSE);
             $this->db->where('cid', $customerId);
             $this->db->update('customer_detail');
         }

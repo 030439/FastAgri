@@ -25,6 +25,7 @@ class Cashbook extends CI_Controller {
 	{
 		$data['record']= $this->Cashbook_model->getCashRecord($id);
 		//dd($data['record']);
+		
 		foreach($data['record'] as $d){
 			if($d['cash_s']=="cash-in"){
                 if($d['case_sT']=="customer"){
@@ -36,6 +37,10 @@ class Cashbook extends CI_Controller {
 					$data['shareholders']= $this->ShareHolder_model->getshareholders();
                 }
             }elseif($d['cash_s']=="cash-out"){
+				if($d['case_sT']=="customer"){
+					$page="customer-credit";
+					$data['cutomers']= $this->Customer_model->customerDetailInfo();
+                }
                 if($d['case_sT']=="supplier"){
 					$page="supplier";
 					$data['suplliers']=$this->Supplier_model->getSuppliers();
@@ -95,7 +100,13 @@ class Cashbook extends CI_Controller {
 				$search = $this->input->post('search')['value'];
 				$startDate = $this->input->post('startDate');
 				$endDate = $this->input->post('endDate');
-				$res=$this->Cashbook_model->cashbookList_($startDate, $endDate,$draw,$start , $length ,$search);
+				$order = intval($this->input->post("order"));
+				if($order==0){
+					$order="asc";
+				}else{
+					$order="Desc";
+				}
+				$res=$this->Cashbook_model->cashbookList_($order,$startDate, $endDate,$draw,$start , $length ,$search);
 				echo jsonOutPut($res);
 			} catch (Exception $e) {
 				log_message('error', $e->getMessage());
@@ -147,7 +158,7 @@ class Cashbook extends CI_Controller {
         //           </script>";
         //     return;
         // }
-		$this->response($res,'report',"Data Inserted Successfully");
+		$this->response($res,'cashbook',"Data Inserted Successfully");
 		
         }
     }

@@ -1,4 +1,5 @@
 <script>
+    $(document).ready(function() {
 $('#user-list').DataTable({
     responsive: true,
     buttons: ['pageLength',  'excelHtml5', 'csvHtml5', 'pdfHtml5'],
@@ -44,4 +45,5 @@ $('#user-list').DataTable({
                     $(api.column(5).footer()).html(total.toFixed(2));
                 }
       });
+    });
     </script>

@@ -1,5 +1,5 @@
 <div class="cashier-addsupplier-area bg-white p-7 custom-shadow rounded-lg pt-5 mb-5">
-    <h4 class="text-[20px] font-bold text-heading mb-9">Update Customer</h4>
+    <h4 class="text-[20px] font-bold text-heading mb-9">Update Land Lease Party</h4>
     <form action="direct/update" method="POST">
     <div class="grid grid-cols-12 gap-x-5">
         <div class="lg:col-span-3 md:col-span-6 col-span-12">

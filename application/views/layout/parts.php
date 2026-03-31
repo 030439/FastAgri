@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <title>Fast Agri</title>
@@ -9,7 +8,11 @@
     <?php include(APPPATH . 'views/libs/css.php'); ?>
 
     <!-- <script src="assets/js/supplier.js"></script> -->
-   
+   <style>
+    table tr,td,th {
+        border: 1px solid lightgray;
+    }
+</style>
    
     
 </head>
@@ -25,7 +28,7 @@
                 <?php include(APPPATH . 'views/libs/header.php'); ?>
 
                 <!-- inner page  -->
-                <div class="cashier-content-area mt-[30px] px-7">
+                <div class="cashier-content-area mt-[10px] px-7">
                     <?php include(APPPATH .'views/'.$page.'.php')?>
                 </div>
                 <!-- end inner page  -->

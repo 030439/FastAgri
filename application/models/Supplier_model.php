@@ -62,7 +62,7 @@ class Supplier_model extends CI_Model {
                     pd.id as pid, 
                     NULL AS cid, 
                     NULL AS amount,
-                    pd.created_at as purchaseDate, 
+                    pd.Date as purchaseDate, 
                     NULL AS pay_created_at, 
                     pd.total_amount, 
                     pd.created_at as created 
@@ -76,7 +76,7 @@ class Supplier_model extends CI_Model {
                     co.id as cid, 
                     co.amount, 
                     NULL AS purchaseDate, 
-                    co.created_at as pay_created_at, 
+                    co.cdate as pay_created_at, 
                     NULL AS total_amount, 
                     co.created_at as created 
                 FROM 
@@ -152,6 +152,7 @@ class Supplier_model extends CI_Model {
    $this->db->join('supplier_detail', 'supplier_detail.sid = suppliers.id', 'left');
 
    // Apply search filter if provided
+   
    if (!empty($search)) {
        $this->db->group_start();
        $this->db->like('suppliers.id', $search);

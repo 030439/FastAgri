@@ -27,8 +27,28 @@
                   { "data": "qty_" },
                   { "data": "amount" },
                   { "data": "credit" },
-                  { "data": "debit" },
-                  { "data": "running" },
+                  { 
+                        "data": "debit",
+                        "render": function(data, debit, row) {
+                          if(row.debit>0){
+                            return parseFloat(row.debit).toFixed(2);
+                          }
+                          else{
+                            return row.debit;
+                          }
+                            
+                        }
+                    }, 
+                  { 
+                        "data": "running",
+                        "render": function(data, running, row) {
+                          if(row.running){
+                            return parseFloat(row.running).toFixed(2);
+                          }else{
+                            return row.running;
+                          }
+                        }
+                    }, 
                   { 
                         "data": "type",
                         "render": function(data, type, row) {

@@ -45,6 +45,7 @@ class Employee extends CI_Controller {
 		$start = $this->input->post("start") ?? 0;
 		$length = $this->input->post("length") ?? 10;
 		$draw = $this->input->post("draw") ?? 0;
+		$search=$this->input->post("search")['value'] ?? '';
 
 		$vendor = $this->input->post('vendor', TRUE);
 		$this->load->database();
@@ -60,13 +61,22 @@ class Employee extends CI_Controller {
 		$this->db->join('employeecategory', 'employees.employee_cat_id = employeecategory.id', 'left');
 		
 		// $searchValue = $this->input->get("search")['value'] ?? '';
-		// if ($searchValue) {
-		// 	$this->db->group_start();
-		// 	foreach ($this->getFieldNames() as $field) {
-		// 		$this->db->or_like($field, $searchValue);
-		// 	}
-		// 	$this->db->group_end();
+			// if (!empty($searchValue)) {
+			// 	$this->db->where('employees.Name');
+			// 	dd("SDF");
+			// 	$this->db->group_start();
+			// 	foreach ($this->getFieldNames() as $field) {
+			// 		$this->db->or_like("employees.Name", $searchValue);
+			// 	}
+			// 	$this->db->group_end();
 		// }
+
+		if (!empty($search)) {
+			$this->db->group_start();
+			$this->db->like('employees.Name', $search);
+			$this->db->or_like('designations.Name', $search);
+			$this->db->group_end();
+		}
 
 	
 
@@ -83,7 +93,7 @@ class Employee extends CI_Controller {
 		$response = array(
             "draw" => intval($draw),
             "recordsTotal" => intval($totalRows),
-            "recordsFiltered" => intval($filtered),
+            "recordsFiltered" => intval($totalRows),
             "data" => $result
         );
 		echo jsonOutPut($response);
@@ -230,13 +240,14 @@ class Employee extends CI_Controller {
 	}
 	public function employeeLoanListing(){
 		try{
-			$draw = intval($this->input->post("draw"));
-			$start = intval($this->input->post("start"));
-			$length = intval($this->input->post("length"));
-            $search = $this->input->post('search')['value'];
-			$res=$this->Employee_model->employeeLoanListing($draw,$start, $length,$search);
-			echo jsonOutPut($res);
-		} catch (Exception $e) {
+		$draw = intval($this->input->post("draw"));
+		$start = intval($this->input->post("start"));
+		$length = intval($this->input->post("length"));
+		$search = $this->input->post('search')['value'];
+		$res=$this->Employee_model->employeeLoanListing($draw,$start, $length,$search);
+		echo jsonOutPut($res);
+		}
+		catch (Exception $e) {
 			log_message('error', $e->getMessage());
 			show_error('An unexpected error occurred. Please try again later.');
 		}

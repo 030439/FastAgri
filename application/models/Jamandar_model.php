@@ -118,7 +118,7 @@ class Jamandar_model extends CI_Model {
     
         return $shareholders;
     }
-    public function issuedJamandarLabour($id,$draw,$start, $length,$search){
+    public function issuedJamandarLabour($order,$id,$draw,$start, $length,$search){
         $this->db->where('jamandar', $id);
         $totalRecords_1 = $this->db->count_all_results('issuelabour');
         $query = $this->db->query("
@@ -235,7 +235,7 @@ class Jamandar_model extends CI_Model {
 )
 SELECT *
 FROM RunningBalance
-ORDER BY creater DESC
+ORDER BY creater $order
 LIMIT $start, $length;
 
         ");
@@ -426,7 +426,7 @@ LIMIT $start, $length;
         $products = $this->db->get()->result();
         return $products[0];
     }
-    public function addJamandari($data){
+    public function addJamandari($data,$tunnels){
 
         $this->db->insert('jamandari', $data);
         $insert_id=$this->db->insert_id();
@@ -434,11 +434,12 @@ LIMIT $start, $length;
         $this->db->where('status',1);
         $query = $this->db->get('tunnels');
         $result=$query->result();
-        $total=count($result);
+
+        $total=count($tunnels);
         $per_tunnel_exp=$data['amount']/$total;
-        foreach($result as $res){
+        foreach($tunnels as $k=>$res){
             $expense=[
-                'tunnel_id'=>$res->id,
+                'tunnel_id'=>$tunnels[$k],
                 'expense_type'=>"Jamandari",
                 'eid'=>$insert_id,
                 'amount'=>$per_tunnel_exp,
@@ -450,10 +451,7 @@ LIMIT $start, $length;
          return ;
     }
     public function issuelabour($data){
-        
-       
         $counter=count($data['tunnel']);
-     
         for($C=0;$C<$counter;$C++){
             $deduction_=$data['deduction'][$C]?$data['deduction'][$C]:0;
             $rate=$this->getRate();
@@ -463,6 +461,7 @@ LIMIT $start, $length;
             $deduction=$deduction_;
             $rate=$rate[0]->amount;
             $total_amount=$rate*$labor-$deduction;
+
             $record=[
                 'tunnel'=>$data['tunnel'][$C],
                 'jamandar'=>$j,
@@ -485,6 +484,7 @@ LIMIT $start, $length;
                     'pid'=>0
                 ];
                 $this->db->insert('tunnel_expense', $expense);
+
                 $this->db->select('payable');
                 $this->db->where('jamandar_id', $j);
                 $query = $this->db->get('jamandartotal');
@@ -500,7 +500,7 @@ LIMIT $start, $length;
                         'amount'=>$jamount,
                         'date_'=>$ldate
                     ];
-                    $this->addJamandari($jarr);
+                    $this->addJamandari($jarr,$data['tunnel']);
                     $amount+=$jamount;
                 }
                 $sql = "UPDATE jamandartotal SET payable = ? WHERE jamandar_id = ?";
@@ -586,7 +586,7 @@ LIMIT $start, $length;
                         'amount'=>$jamount,
                         'date_'=>$ldate
                     ];
-                    $this->addJamandari($jarr);
+                    $this->addJamandari($jarr,$data['tunnel']);
                     $amount+=$jamount;
                 }
                 $sql = "UPDATE jamandartotal SET payable = ? WHERE jamandar_id = ?";

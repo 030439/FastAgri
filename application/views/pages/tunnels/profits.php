@@ -43,11 +43,15 @@
                         </thead>
                         <tfoot>
                     <tr>
-                        <th colspan="3"></th>
-                        <th>Total</th>
-                        <th id="total-balance"></th>
-                        <th id="total-net"></th>
+                        <th ></th>
                         <th></th>
+                        <th ></th>
+                        <th></th>
+                        <th ></th>
+                        <th></th>
+                        <th ></th>
+                        <th></th>
+                        <th>Net</th><th></th>
                     </tr>
                 </tfoot>
                     </table> 

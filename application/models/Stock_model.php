@@ -56,8 +56,25 @@ class Stock_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('purchasesdetail');
         $this->db->where('id',$id);
-        $products = $this->db->get()->result();
-        return $products[0];
+        $row = $this->db->get()->result_array();
+        $row=$row[0];
+        $quantities = explode(',', $row['quantity']);
+        $products=explode(',',$row['product_id']);
+        $rates=explode(',',$row['rate']);
+        $arr=[];
+        $arr['pid']=$id;
+        $arr['paid']=$row['paid_amount'];
+        $arr['Date']=$row['Date'];
+        $arr['bno']=$row['bno'];
+        $arr['Supplier_id']=$row['Supplier_id']; 
+        $arr['total_amount']=$row['total_amount'];
+        $arr['expenses']=$row['expenses'];
+        foreach ($quantities as $index => $quantity) {
+            $arr['qunatity'][$index]=$quantity;
+            $arr['product_ids'][$index]=$products[$index];
+            $arr['rate'][$index]=$rates[$index];
+        }
+        return $arr;
     }
     function getOnlyPro(){
         $this->db->select('products.*, units.Name as unit,crops.id as ci');
@@ -689,6 +706,7 @@ class Stock_model extends CI_Model {
         } 
     }
     public function issueProduct($data){
+    
         $pqid=$data['pqid'];
         $qty=$data['qty'];
         $pid_=$data['product'];
@@ -700,21 +718,54 @@ class Stock_model extends CI_Model {
         $this->updateStock($data['product'],$qty);
         $this->db->query("Update purchaseqty SET RemainingQuantity=$remaning WHERE purchase_id=$pqid  AND product_id=$pid_");
        }
-       $new=['PqId'=>$pqid,
-             'empoyee_id'=>$data['person'],
-             'tunnel_id'=>$data['tunnel'],
-             'pid'=>$data['product'],
-             'Quantity'=>$qty,
-             'i_date'=>$data['issueDate']
-            ];
-            $this->db->insert('issuestock', $new);
-            $lid =$this->db->insert_id();
-        if($lid>0){
-           if($this->tunnelExpense($lid,$pqid,$data['tunnel'],$data['product'],$qty,$data['issueDate'])){
-            return true;
+
+        if($data['tunnel']==0){
+            $this->db->where('status', 1);
+            $tunnels_ = $this->db->get('tunnels')->result();
+            $ok_=false;
+            $tc=count($tunnels_);
+            $qty_=$qty/$tc;
+            foreach($tunnels_ as $tunnel_){
+                $new=[
+                    'PqId'=>$pqid,
+                    'empoyee_id'=>$data['person'],
+                    'tunnel_id'=>$tunnel_->id,
+                    'pid'=>$data['product'],
+                    'Quantity'=>$qty_,
+                    'i_date'=>$data['issueDate']
+                   ];
+                   $this->db->insert('issuestock', $new);
+                   $lid =$this->db->insert_id();
+               if($lid>0){
+                  if($this->tunnelExpense($lid,$pqid,$tunnel_->id,$data['product'],$qty_,$data['issueDate'])){
+                   $ok_=true;
+                  }else{
+                    $ok_=false;
+                  }
+                  
+               }
+            }
+            return $ok_;
+
+        }else{
+            $new=[
+                'PqId'=>$pqid,
+                'empoyee_id'=>$data['person'],
+                'tunnel_id'=>$data['tunnel'],
+                'pid'=>$data['product'],
+                'Quantity'=>$qty,
+                'i_date'=>$data['issueDate']
+               ];
+               $this->db->insert('issuestock', $new);
+               $lid =$this->db->insert_id();
+           if($lid>0){
+              if($this->tunnelExpense($lid,$pqid,$data['tunnel'],$data['product'],$qty,$data['issueDate'])){
+               return true;
+              }
+              return false;
            }
-           return false;
         }
+
         return ;
     }
     public function dirextIssueProduct($data){
@@ -753,7 +804,9 @@ class Stock_model extends CI_Model {
         $query = $this->db->query("SELECT product_id,fu_price From purchasesdetail WHERE id=$pqid");
         $result = $query->result();
         $product_ids=explode(",",$result[0]->product_id);
+
         $fu_price=explode(",",$result[0]->fu_price);
+
         foreach($product_ids as $c=>$pid){
             if($pid==$pro){
                 $amount= $fu_price[$c];
@@ -1374,7 +1427,7 @@ class Stock_model extends CI_Model {
                     i.id as issue_stock_id,
                     i.pqid,
                     i.quantity,
-                    i.created_at as i_date,
+                    i.i_date as i_date,
                     i.i_date as issueQ,
                     t.TName as tname,
                     e.Name as employee,
@@ -1476,7 +1529,7 @@ class Stock_model extends CI_Model {
                     s.Name AS supplier_name,
                     pd.rate,
                     pd.amount,
-                    pd.created_at as pcreated,
+                    pd.Date as pcreated,
                     pd.total_amount,
                     pd.product_id,
                     pq.id as purchaseQ
@@ -1493,13 +1546,20 @@ class Stock_model extends CI_Model {
             ) AS combined_data,
              (SELECT @running_balance := 0) AS rb
             ORDER BY
-                creater DESC;
+                creater ASC;
             ");
             $query = $this->db->query($sql);
             $results = $query->result_array();
             $final=[];
+            $running_balance = 0;
             foreach($results as $c=> $result){
+                $credit = 0;
+                $debit = 0;
+
                 if($result['issue_stock_id']){
+                    $credit = $result['quantity'];
+                    $running_balance -= $credit;
+
                     $final[$c]['type']="issue";
                     $final[$c]['detail']=$result['issue_stock_id'];
                     $final[$c]['quantity']=$result['quantity'];
@@ -1510,10 +1570,11 @@ class Stock_model extends CI_Model {
                    // $final[$c]['supplier_name']=$result['supplier_name'];
                     $final[$c]['rate']=$result['rate'];
                     $final[$c]['amount']=$result['amount'];
-                    $final[$c]['running_balance']=$result['running_balance'];
+                    $final[$c]['running_balance']=$running_balance;
                 }
                 elseif($result['did']){
-
+                    $credit = $result['quantity'];
+                    $running_balance -= $credit;
                     $final[$c]['type']="Direct-Sale";
                     $final[$c]['detail']=" ";
                     $final[$c]['quantity']=$result['dQuantity'];
@@ -1524,20 +1585,25 @@ class Stock_model extends CI_Model {
                    // $final[$c]['supplier_name']=$result['supplier_name'];
                     $final[$c]['rate']= pqrate($result['dpqId'],$result['dpid']);
                     $final[$c]['amount']=$result['dtotal_amount'];
-                    $final[$c]['running_balance']=$result['running_balance'];
+                    $final[$c]['running_balance']=$running_balance;
                 }
                 else{
+                    $credit = $result['quantity'];
+                   
+                    $qty_=$this->getPQ($id,$result['purchased_quantity'],$result['product_id']);
+                    $rate_=$this->getPRate($id,$result['rate'],$result['product_id']);
+                    $running_balance += $qty_;
                     $final[$c]['type']="purchase";
                     $final[$c]['detail']=$result['purchase_detail_id'];
                    // $final[$c]['quantity']=$result['quantity'];
                     $final[$c]['date_']=$result['pcreated'];
                     $final[$c]['tname']="-";
                     //$final[$c]['employeeOrSupplier']=$result['employee'];
-                    $final[$c]['quantity']=$this->getPQ($id,$result['purchased_quantity'],$result['product_id']);
+                    $final[$c]['quantity']=$qty_;
                     $final[$c]['employeeOrSupplier']=$result['supplier_name'];
-                    $final[$c]['rate']=$this->getPRate($id,$result['rate'],$result['product_id']);
-                    $final[$c]['amount']=$result['amount'];
-                    $final[$c]['running_balance']=$result['running_balance'];
+                    $final[$c]['rate']=$rate_;
+                    $final[$c]['amount']=$qty_*$rate_;
+                    $final[$c]['running_balance']=$running_balance;
                 }
             }
             $response = array(
@@ -1549,46 +1615,47 @@ class Stock_model extends CI_Model {
             return $response;
     }
     public function getPQ($pid, $quantities, $pids){
-        // If $quantities and $pids are passed as strings, split them into arrays.
-        if (is_array($quantities)) {
-            $purchased_quantities = explode(',', $quantities);
-        } else {
-            $purchased_quantities[0] = $quantities;
+        if (!(is_array($quantities))) {
+            $quantities_ = $quantities;
+        }else{
+            $quantities_[0] = $quantities;
         }
+        $purchased_quantities = explode(',', $quantities_);
         
-        if (is_array($pids)) {
-            $product_ids = explode(',', $pids);
-        } else {
-            $product_ids[0] = $pids;
+        if (!(is_array($pids))) {
+            $pids_ = $pids;
+        }else{
+            $pids_[0] = $pids;
         }
-        
+        $product_ids = explode(',', $pids_);
         foreach ($product_ids as $index => $product_id) {
             if ($product_id == $pid) {
                 return $purchased_quantities[$index];
             }
         }
-        return null; // If the product ID is not found
+        echo 0; // If the product ID is not found
     }
     
     public function getPRate($pid,$quantities,$pids){
-        if (is_array($quantities)) {
-            $purchased_quantities = explode(',', $quantities);
-        } else {
-            $purchased_quantities[0] = $quantities;
+        if (!(is_array($quantities))) {
+            $quantities_ = $quantities;
+        }else{
+            $quantities_[0] = $quantities;
         }
+        $purchased_quantities = explode(',', $quantities_);
         
-        if (is_array($pids)) {
-            $product_ids = explode(',', $pids);
-        } else {
-            $product_ids[0] = $pids;
+        if (!(is_array($pids))) {
+            $pids_ = $pids;
+        }else{
+            $pids_[0] = $pids;
         }
-
-
+        $product_ids = explode(',', $pids_);
         foreach ($product_ids as $index => $product_id) {
-            if($product_id==$pid){
+            if ($product_id == $pid) {
                 return $purchased_quantities[$index];
             }
         }
+        echo 0; // If the product ID is not found
     }
     public function issueListByProduct($id,$draw, $start, $length, $search = '') {
         $totalRecords = $this->db->count_all('issuestock');

@@ -39,7 +39,13 @@ class Jamandar extends CI_Controller{
 			$start = intval($this->input->post("start"));
 			$length = intval($this->input->post("length"));
             $search = $this->input->post('search')['value'];
-			$res=$this->Jamandar_model->issuedJamandarLabour($id,$draw,$start, $length,$search);
+			$order = intval($this->input->post("order"));
+				if($order==0){
+					$order="asc";
+				}else{
+					$order="Desc";
+				}
+			$res=$this->Jamandar_model->issuedJamandarLabour($order,$id,$draw,$start, $length,$search);
 			echo jsonOutPut($res);
 		} catch (Exception $e) {
 			log_message('error', $e->getMessage());
